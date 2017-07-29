@@ -8,34 +8,24 @@ const Images = {
     }),
     
     get: {
-        movie: (item) => {
-            let args = {
-                imdb: item.ids.imdb,
-                tmdb: item.ids.tvdb
-            };
+        movie: (args) => Images.client.images.movie(args),
+        show: (args) => Images.client.images.show(args),        
+        episode: (args) => Images.client.images.episode(args)
+    },
 
-            return Images.client.images.movies(args);
-        }, 
-        show: (item) => {
-            let args = {
-                imdb: item.show.ids.imdb,
-                tvdb: item.show.ids.tvdb,
-                tmdb: item.show.ids.tmdb
-            };
-            
-            return Images.client.images.show(args);
-        }, 
-        
-        episode: (item) => {
-            let args = {
-                imdb: item.show.ids.imdb,
-                tvdb: item.show.ids.tvdb,
-                tmdb: item.show.ids.tmdb, 
-                season: item.next_episode.season,
-                episode: item.next_episode.number
-            };
-            
-            return Images.client.images.episode(args);
+    reduce: (link) => {
+        if (!link) {
+            return null;
         }
+
+        if (link.match('assets.fanart.tv')) {
+            link = link.replace('fanart.tv/fanart', 'fanart.tv/preview');
+        } else if (link.match('image.tmdb.org')) {
+            link = link.replace('w780', 'w342').replace('/original/', '/w1280/');
+        } else if (link.match('tvdb.com')) {
+            link = link.replace('banners/', 'banners/_cache/');
+        }
+
+        return link;
     }
 }

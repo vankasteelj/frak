@@ -33,20 +33,15 @@ const Trakt = {
         Collection.load();
     },
 
-    update: () => {
-        let now = Date.now();
-        Trakt.client.sync.last_activities().then(results => {
-            let activities = {
-                watchlist_changed: () => Math.max.apply(Math, [
-                    Date(results.episodes.watchlisted_at).valueOf(),
-                    Date(results.shows.watchlisted_at).valueOf(),
-                    Date(results.movies.watchlisted_at).valueOf()
-                ])(),
-                watched: () => Math.max.apply(Math, [
-                    Date(results.episodes.watched_at).valueOf(),
-                    Date(results.movies.watched_at).valueOf()
-                ])()
-            }
+    last_activities: () => {
+        return Trakt.client.sync.last_activities().then(results => {
+            return Math.max.apply(Math, [
+                new Date(results.episodes.watchlisted_at).valueOf(),
+                new Date(results.shows.watchlisted_at).valueOf(),
+                new Date(results.movies.watchlisted_at).valueOf(),
+                new Date(results.episodes.watched_at).valueOf(),
+                new Date(results.movies.watched_at).valueOf()
+            ]);
         }).catch(console.error)
     }
 }

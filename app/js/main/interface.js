@@ -47,6 +47,26 @@ const Interface = {
             })
         }
         $('#welcomeprofile').show();
-        $('#welcomeprofile .spinner').show();
+        $('#traktwelcome .spinner').show();
+    },
+
+    showMain: () => {
+        $('#traktwelcome').hide();
+        $('#collection').show();
+    },
+
+    constructMovieItem: (movie) => {
+        let item = `<div class="grid-item col-sm-6" id="${Collection.slugify(movie.title)}">`+
+            `<span class="data" style="display:none">${JSON.stringify(movie)}</span>`+
+            `<div class="fanart">`+
+                `<img class="base" src="images/placeholder.png">`+
+                `<img class="real" src="${Images.reduce(movie.images.fanart)}">`+
+                `<div class="shadow"></div>`+
+                `<div class="titles">${movie.title}</div>`+
+            `</div>`+
+            `<div class="quick-icons">seen | play | trailer | ratings</div>`+
+        `</div>`
+
+        return item;
     }
 };

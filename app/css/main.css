@@ -97,7 +97,7 @@ body {
     -webkit-user-select: none;
     -webkit-user-drag: none;
     -webkit-font-smoothing: antialiased;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 img,
@@ -211,3 +211,27 @@ input {
   top: 0;
   left: 0;
 }
+
+/* collection item */
+#collection .fanart {
+    position: relative;
+    overflow: hidden;
+}
+#collection .base {
+    width: 100%;
+}
+#collection .real {
+    width: 100%;
+    vertical-align: middle;
+    position: absolute;
+    display:block;
+    top: 0;
+    left: 0;
+}
+
+#collection .row {
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* collection END */
