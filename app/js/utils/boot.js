@@ -11,9 +11,21 @@ const Boot = {
         Update.checkUpdates();              // update
         Boot.setupTooltips();               // tooltips
         Boot.setupVersion();                // version number
+        Boot.online();                      // check if online
 
         // on app open, load file if used 'open with'
         // let file = gui.App.argv.slice(-1).pop();
+    },
+
+    // STARTUP: check if online
+    online: () => {
+        let online = window.navigator.onLine;
+        if (online) {
+            !DB.get('online') && DB.store(true, 'online') && console.log('App is online')
+        } else {
+            DB.get('online') && DB.store(false, 'online') && console.log('No internet connection')
+        }
+        setTimeout(() => {Boot.online()}, 1000);
     },
 
     // STARTUP: builds right click menu

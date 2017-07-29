@@ -33,9 +33,9 @@
     "dependencies": {
         "i18n": "0.x.x",
         "trakt.tv": "5.x.x",
-        "trakt.tv-images": "5.x.x",
         "trakt.tv-ondeck": "5.x.x",
-        "trakt.tv-matcher": "5.x.x"
+        "trakt.tv-matcher": "5.x.x",
+        "local-video-library": "0.0.x"
     },
     "devDependencies": {
         "del": "3.x.x",

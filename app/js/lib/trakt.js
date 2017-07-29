@@ -1,23 +1,12 @@
 'use strict'
 
 const Trakt = {
-    // TODO: it's ark auth keys
     client: new (require('trakt.tv'))({
-        client_id: '8f78b7f1fc36d11b7076a0263a0c0c0b3f8d0ca024df49463eb9c38e2a7f1d7d',
-        client_secret: '156ed86fbea3601c9b938293c9fd5d73859af6405ed239465357de6834a487e6',
-        debug: true,
+        client_id: Settings.apikeys.trakt_id,
+        client_secret: Settings.apikeys.trakt_secret,
         plugins: {
-            images: require('trakt.tv-images'),
             ondeck: require('trakt.tv-ondeck'),
             matcher: require('trakt.tv-matcher')
-        },
-        options: {
-            images: {
-                smallerImages: true,
-                fanartApiKey: 'dbfbe8ce76246c9981293bdf5ce766dc',
-                tvdbApiKey: '49083CB216C037D0',
-                tmdbApiKey: '27075282e39eea76bd9626ee5d3e767b'
-            }
         }
     }),
 
@@ -42,5 +31,22 @@ const Trakt = {
         DB.store(Trakt.client.export_token(), 'trakt_auth');
         Interface.traktConnected(DB.get('trakt_profile'));
         Collection.load();
+    },
+
+    update: () => {
+        let now = Date.now();
+        Trakt.client.sync.last_activities().then(results => {
+            let activities = {
+                watchlist_changed: () => Math.max.apply(Math, [
+                    Date(results.episodes.watchlisted_at).valueOf(),
+                    Date(results.shows.watchlisted_at).valueOf(),
+                    Date(results.movies.watchlisted_at).valueOf()
+                ])(),
+                watched: () => Math.max.apply(Math, [
+                    Date(results.episodes.watched_at).valueOf(),
+                    Date(results.movies.watched_at).valueOf()
+                ])()
+            }
+        }).catch(console.error)
     }
 }
