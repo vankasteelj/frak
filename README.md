@@ -1,11 +1,6 @@
-# NWJS-JQUERY boilerplate app
+# Frak
 
-Just a simple app boilerplate without framework for quick and dirty app building. Includes :
-
-- notifications
-- installer (windows/deb/tgz/macos tgz)
-- localisation
-- keyboard shortcuts
+a frakingly good media center
 
 ## Set up
 - Install dependencies, download binaries:

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
 
     <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/animations.css" />
     <link rel="stylesheet" type="text/css" href="css/themes/light.css" id="theme" />
 
     <script src="js/vendor/jquery.js" type="application/javascript"></script>
@@ -12,6 +13,7 @@
     <script src="js/vendor/jquery-scrollintoview.js" type="application/javascript"></script>
 
     <script src="js/utils/boot.js" type="application/javascript"></script>
+    <script src="js/utils/db.js" type="application/javascript"></script>
     <script src="js/utils/keyboard.js" type="application/javascript"></script>
     <script src="js/utils/localization.js" type="application/javascript"></script>
     <script src="js/utils/misc.js" type="application/javascript"></script>
@@ -19,6 +21,9 @@
     <script src="js/utils/themes.js" type="application/javascript"></script>
     <script src="js/utils/update.js" type="application/javascript"></script>
     <script src="js/main/interface.js" type="application/javascript"></script>
+
+    <script src="js/lib/trakt.js" type="application/javascript"></script>
+
     <script src="js/app.js" type="application/javascript"></script>
 
     <!-- set icon and title -->
@@ -30,61 +35,44 @@
 
 <body>
     <div id="app">
-        <h1>Hello!</h1>
-        
-        <section>
-            <p>This is an input with right click menu:</p>
-            <input type="text" value="select this text and right click">
-        </section>
-        
-        <section>
-            <p>
-                <i18n>This text can be localized:</i18n>
-            </p>
-            <input type="text" class="i18n" placeholder="this placeholder is localized too">
-        </section>
+        <section id="init">
+            <div id="traktinit">
+                <p class="">
+                    <i18n>You need a Trakt.tv account</i18n>
+                </p>
+                <img src="images/trakt-logo.png"/>
 
-        <section>
-            <p class="tooltipped i18n" title="tooltip content is localized">This is a tooltipped element</p>
-        </section>
+                <button id="traktAuth" onClick="Trakt.login()">Connect</button>
+                <input style="display:none" id="traktCode" value=""/>
 
-        <section>
-            <span>Theme: </span>
-            <select id="app-theme" selected=""></select>
-        </section>
+                <a class="createaccount" onClick="Misc.openExternal('https://trakt.tv/auth/join')">
+                    <i18n>Create an account online</i18n>
+                </a>
+            </div>
+            <div id="traktwelcome" style="display:none">
+                <p>
+                    <i18n>Connected</i18n>
+                </p>
 
-        <section>
-            <p>Keyboard shortcuts:<p>
-            <div class="keyboard">
-                <div class="shortcut">
-                    <div class="keys">
-                        <span class="key control">Ctrl</span> + <span class="key">d</span>
-                    </div>
-                    <i18n>Developer tools</i18n>
+                <div id="welcomeprofile" style="display:none">
+                    <p>
+                        <img class="avatar" href=""/>
+                        <span class="welcomemessage"></span> <span class="username"></span>
+                    </p>
                 </div>
-                <div class="shortcut">
-                    <div class="keys">
-                        <span class="key control">Ctrl</span> + <span class="key">r</span>
-                    </div>
-                    <i18n>Reload app</i18n>
+
+                <div class="spinner" style="display:none">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
                 </div>
             </div>
-        </section>
-        
-        <section>
-            <div id="notification-snack" onClick="$(this).hide()"></div>
-        
-            <button onclick="Notify.snack(i18n.__('localized notification'))">click to notify</button>
-        </section>
-        
-        <section>
-            <p>v<span class="version"></span>&nbsp;- developed by <a onClick="Misc.openExternal('https://github.com/vankasteelj')">vankasteelj (nb:click me, i'm an url)</a></p>
         </section>
     </div>
 
     <!-- code initialization -->
     <script>
         gui.start().then(() => {
+            Trakt.reconnect();
             win.show(true);
             win.focus();
         });

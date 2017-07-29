@@ -16,7 +16,7 @@ const Localization = {
             defaultLocale: Localization.detectedLocale,
             locales: Localization.availableLocales,
             directory: './app/localization',
-            updateFiles: true
+            updateFiles: false
         });
 
         // set lang to stored or detected one

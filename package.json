@@ -1,7 +1,7 @@
 {
-    "name": "Newapp",
-    "releaseName": "Newapp",
-    "description": "",
+    "name": "frakingplayer",
+    "releaseName": "Frak",
+    "description": "A frakingly good media center",
     "license": "GPL-3.0",
     "version": "0.0.0",
     "homepage": "",
@@ -17,7 +17,7 @@
     },
     "main": "app/index.html",
     "window": {
-        "title": "Newapp",
+        "title": "Frak",
         "icon": "",
         "toolbar": false,
         "frame": true,
@@ -31,7 +31,11 @@
         "url": ""
     },
     "dependencies": {
-        "i18n": "0.x.x"
+        "i18n": "0.x.x",
+        "trakt.tv": "5.x.x",
+        "trakt.tv-images": "5.x.x",
+        "trakt.tv-ondeck": "5.x.x",
+        "trakt.tv-matcher": "5.x.x"
     },
     "devDependencies": {
         "del": "3.x.x",
