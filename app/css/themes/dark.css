@@ -1,0 +1,102 @@
+/* Theme file: dark */
+
+body {
+    background: #242a31;
+    color: #fefefe;
+}
+
+#notification {
+    color: #f5f7fa;
+}
+
+#notification a {
+    color: #de5362;
+}
+
+#notification-snack {
+    background: rgba(48, 48, 48, .7);
+    color: #f5f7fa;
+    border: 1px solid #666;
+}
+
+#notification-snack:hover {
+    background: rgba(60, 60, 60, .8);
+}
+
+.dropdown a,
+.dropdown a:visited {
+    color: #de5362;
+}
+
+.dropdown dd ul {
+    background: #242a31 none repeat scroll 0 0;
+    border: 1px solid #656d78;
+    border-top: 1px solid #656d78;
+}
+
+.dropdown dd ul li a:hover {
+    background-color: #de5362;
+}
+
+.dominant {
+    background: #db4252;
+    color: #f5f7fa;
+}
+
+.dominant:hover {
+    background: #da3e4e;
+}
+
+.light {
+    background: #de5362;
+    color: #f5f7fa;
+}
+
+.light:hover {
+    background: #db4252;
+}
+
+.warning {
+    color: #da3e4e;
+}
+
+input {
+    border-color: transparent;
+}
+
+::-webkit-input-placeholder {
+    color: #a5a9b0;
+}
+
+::-moz-placeholder {
+    color: #a5a9b0;
+}
+
+:-moz-placeholder {
+    color: #a5a9b0;
+}
+
+:-ms-input-placeholder {
+    color: #a5a9b0;
+}
+
+::-webkit-scrollbar-track {
+    background: #e3e3e3;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(222, 84, 98, .8);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(222, 84, 98, .9);
+}
+
+input.warning::-webkit-input-placeholder {
+    color: #da3e4e;
+}
+
+.ui-tooltip {
+    background: rgba(50, 50, 50, .8);
+    color: #eee;
+}

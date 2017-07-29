@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/themes/light.css" id="theme" />
+
+    <script src="js/vendor/jquery.js" type="application/javascript"></script>
+    <script src="js/vendor/jquery-ui.js" type="application/javascript"></script>
+    <script src="js/vendor/jquery-scrollintoview.js" type="application/javascript"></script>
+
+    <script src="js/utils/boot.js" type="application/javascript"></script>
+    <script src="js/utils/keyboard.js" type="application/javascript"></script>
+    <script src="js/utils/localization.js" type="application/javascript"></script>
+    <script src="js/utils/misc.js" type="application/javascript"></script>
+    <script src="js/utils/notify.js" type="application/javascript"></script>
+    <script src="js/utils/themes.js" type="application/javascript"></script>
+    <script src="js/utils/update.js" type="application/javascript"></script>
+    <script src="js/main/interface.js" type="application/javascript"></script>
+    <script src="js/app.js" type="application/javascript"></script>
+
+    <!-- set icon and title -->
+    <script>
+        document.write('<link rel="icon" type="image/png" href="' + PKJSON.icon + '" />')
+        document.write('<title>' + PKJSON.releaseName + '</title>')
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Hello!</h1>
+        
+        <section>
+            <p>This is an input with right click menu:</p>
+            <input type="text" value="select this text and right click">
+        </section>
+        
+        <section>
+            <p>
+                <i18n>This text can be localized:</i18n>
+            </p>
+            <input type="text" class="i18n" placeholder="this placeholder is localized too">
+        </section>
+
+        <section>
+            <p class="tooltipped i18n" title="tooltip content is localized">This is a tooltipped element</p>
+        </section>
+
+        <section>
+            <span>Theme: </span>
+            <select id="app-theme" selected=""></select>
+        </section>
+
+        <section>
+            <p>Keyboard shortcuts:<p>
+            <div class="keyboard">
+                <div class="shortcut">
+                    <div class="keys">
+                        <span class="key control">Ctrl</span> + <span class="key">d</span>
+                    </div>
+                    <i18n>Developer tools</i18n>
+                </div>
+                <div class="shortcut">
+                    <div class="keys">
+                        <span class="key control">Ctrl</span> + <span class="key">r</span>
+                    </div>
+                    <i18n>Reload app</i18n>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <div id="notification-snack" onClick="$(this).hide()"></div>
+        
+            <button onclick="Notify.snack(i18n.__('localized notification'))">click to notify</button>
+        </section>
+        
+        <section>
+            <p>v<span class="version"></span>&nbsp;- developed by <a onClick="Misc.openExternal('https://github.com/vankasteelj')">vankasteelj (nb:click me, i'm an url)</a></p>
+        </section>
+    </div>
+
+    <!-- code initialization -->
+    <script>
+        gui.start().then(() => {
+            win.show(true);
+            win.focus();
+        });
+    </script>
+</body>
+
+</html>

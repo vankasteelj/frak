@@ -1,0 +1,50 @@
+{
+    "name": "Newapp",
+    "releaseName": "Newapp",
+    "description": "",
+    "license": "GPL-3.0",
+    "version": "0.0.0",
+    "homepage": "",
+    "releases": "",
+    "icon": "",
+    "updateEndpoint": "",
+    "scripts": {
+        "test": "gulp jshint"
+    },
+    "author": {
+        "name": "Jean van Kasteel",
+        "email": "vankasteelj@gmail.com"
+    },
+    "main": "app/index.html",
+    "window": {
+        "title": "Newapp",
+        "icon": "",
+        "toolbar": false,
+        "frame": true,
+        "show": false,
+        "width": 1024,
+        "height": 600,
+        "resizable": false
+    },
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "dependencies": {
+        "i18n": "0.x.x"
+    },
+    "devDependencies": {
+        "del": "3.x.x",
+        "gulp": "3.x.x",
+        "gulp-jshint": "2.x.x",
+        "gulp-tar": "2.x.x",
+        "gulp-gzip": "1.x.x",
+        "gulp-zip": "4.x.x",
+        "gulp-load-plugins": "1.x.x",
+        "jshint": "2.x.x",
+        "jshint-stylish": "2.x.x",
+        "nw-builder": "3.x.x",
+        "run-sequence": "2.x.x",
+        "yargs": "8.x.x"
+    }
+}
