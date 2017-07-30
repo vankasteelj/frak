@@ -98,7 +98,6 @@ body {
     -webkit-user-drag: none;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
-    background-color: #1d1d1d;
 }
 
 img,
@@ -117,15 +116,6 @@ a {
     transition: all .3s;
     text-align: center;
     border-radius: 3px;
-}
-
-.dominant {
-    font-size: 19px;
-    padding: 8px 20px;
-}
-
-.light {
-    font-size: 13px;
 }
 
 input {
@@ -192,6 +182,68 @@ input {
     display: none;
 }
 
+/* init */
+#traktinit,
+#traktwelcome {
+    width: 25%;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 95px;
+}
+
+#traktinit p,
+#traktwelcome p {
+    margin: 15px 0;
+    font-size: 14px;
+    color: #ccc;
+}
+
+#traktinit img,
+#welcomeprofile img {
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+}
+
+#init .spinner {
+    margin: 40px auto;
+}
+
+#traktinit button {
+    display: inline-block;
+    font-size: 15px;
+    color: #fafafa;
+    width: 170px;
+    height: 55px;
+    margin: 40px 0 10px 0;
+    font-weight: 600;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    background: #16a085;
+    transition: all .3s;
+}
+
+#traktinit button:hover {
+    color: #fafafa;
+    background: #138a72;
+}
+
+#traktinit input {
+    color: #1d1d1d;
+    text-align: center;
+    margin: 40px 0 10px 0;
+    font-size: 20px;
+    width: 170px;
+    height: 55px;
+}
+
+#traktinit a {
+    display: block;
+    font-size: 13px;
+}
+
+/* traktwelcome END */
+
 /* spinner */
 .spinner {
   width: 40px;
@@ -230,14 +282,12 @@ input {
 }
 
 #collection .row {
-    width: calc(100% - 15px - 60px);
+    width: calc(100% - 55px);
     position: absolute;
-    right: 15px;
+    right: 10px;
 }
 
 #collection .row > div {
-    border-bottom: solid 1px #2d2d2d;
-    border-right: solid 1px #2d2d2d;
     padding: 0;
 }
 
@@ -263,7 +313,7 @@ input {
 
 #collection .titles {
     position: absolute;
-    bottom: 10px;
+    bottom: 5px;
     left: 12px;
     right: 12px;
     height: auto;
@@ -279,7 +329,7 @@ input {
 
 #collection .titles h4 .sxe {
     background-color: #ed1c24;
-    color: #fff;
+    color: #fafafa;
     padding: 3px 5px;
 }
 
@@ -290,11 +340,18 @@ input {
     padding-left: 6px;
 }
 
+#collection .titles h4 .unseen {
+    color: #1d1d1d;
+    background-color: rgba(255,200,0,1);
+    font-weight: bold;
+    padding: 3px 5px;
+}
+
 #collection .titles h3 {
-    color: #fff;
+    color: #fafafa;
     margin-top: 3px;
     text-shadow: 0 0 20px black;
-    font-weight: bold;
+    font-family: 'Proxima Nova Semibold';
     font-size: 18px;
     padding: 10px;
     background-color: rgba(0,0,0,0.4);
@@ -309,8 +366,6 @@ input {
 
 #collection .quick-icons {
     height: 40px;
-    color: #fff;
-    background-color: #1d1d1d;
     overflow: hidden;
     white-space: nowrap;
 }
@@ -319,18 +374,108 @@ input {
     float:left;
 }
 
+#collection .actions > div {
+    height: 40px;
+    width: 40px;
+    font-size: 2.2em;
+    text-align: center;
+    vertical-align: middle;
+    padding: 5px 0;
+    transition: all .5s;
+}
+
+#collection .actions > div:hover,
+#collection .metadata > div:hover {
+    cursor: pointer;
+}
+
+#collection .actions .trailer {
+    font-size: 1.8em;
+    padding-top: 7px;
+}
+
 #collection .metadata {
     float: right;
     padding-right: 10px;
 }
 
+#collection .metadata .percentage {
+    font-size: 20px;
+    font-family: 'Proxima Nova Semibold';
+    line-height: 40px;
+}
+
+#collection .metadata .fa-heart {
+    color: #b11010;
+    font-size: 16px;
+    margin-right: 5px;
+}
+
 /* navbar */
 #navbar {
-    width: 75px;
+    width: 60px;
+    z-index: 2;
     height: 100%;
     position: fixed;
-    color: #fff;
-    border-right: solid 1px #2d2d2d;
+    transition: all .5s;
+    overflow: hidden;
+}
+
+#navbar:hover {
+    width: 150px;
+}
+
+#navbar .nav {
+    width: 100%;
+    height: 60px;
+    padding: 20px;
+    font-size: 20px;
+    color: #ccc;
+    cursor: pointer;
+    transition: all .5s;
+}
+#navbar .nav:hover {
+    color: #fafafa;
+    background-color: #333;
+}
+#navbar .nav.active {
+    color: #fafafa;
+    background-color: #444;
+}
+
+#navbar .nav .text {
+    font-size: 15px;
+    top: -16px;
+    position: relative;
+    left: 40px;
+    font-family: 'Proxima Nova';
+}
+
+#navbar .nav.settings {
+    position: absolute;
+    bottom: 0;
 }
 
 /* collection END */
+
+/* trailer popup */
+#trailer {
+    width: 100vw;
+    position: fixed;
+    height: 100%;
+    background: rgba(11,11,11,0.8);
+    z-index: 999;
+    transition: all .5s;
+}
+
+#trailer .video {
+    margin: 0 auto;
+    width: 640px;
+    position: absolute;
+    margin: 95px calc(50% - 320px);
+}
+
+#trailer .spinner {
+    position: absolute;
+    margin: 200px calc(50% - 20px);
+}

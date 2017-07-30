@@ -7,6 +7,8 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="fonts/trakt.css" />
     <link rel="stylesheet" type="text/css" href="fonts/proxima.css" />
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome.min.css" />
+
     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <link rel="stylesheet" type="text/css" href="css/animations.css" />
     <link rel="stylesheet" type="text/css" href="css/themes/dark.css" id="theme" />
@@ -17,20 +19,22 @@
     <script src="js/vendor/bootstrap.min.js" type="application/javascript"></script>
 
     <script src="js/config.js" type="application/javascript"></script>
+
     <script src="js/utils/boot.js" type="application/javascript"></script>
     <script src="js/utils/db.js" type="application/javascript"></script>
     <script src="js/utils/keyboard.js" type="application/javascript"></script>
     <script src="js/utils/localization.js" type="application/javascript"></script>
     <script src="js/utils/misc.js" type="application/javascript"></script>
     <script src="js/utils/notify.js" type="application/javascript"></script>
-    <script src="js/utils/themes.js" type="application/javascript"></script>
     <script src="js/utils/update.js" type="application/javascript"></script>
-    <script src="js/main/interface.js" type="application/javascript"></script>
 
     <script src="js/lib/trakt.js" type="application/javascript"></script>
     <script src="js/lib/local.js" type="application/javascript"></script>
     <script src="js/lib/images.js" type="application/javascript"></script>
+
+    <script src="js/main/interface.js" type="application/javascript"></script>
     <script src="js/main/collection.js" type="application/javascript"></script>
+    <script src="js/main/items.js" type="application/javascript"></script>
 
     <script src="js/app.js" type="application/javascript"></script>
 
@@ -45,10 +49,8 @@
     <div id="app">
         <section id="init">
             <div id="traktinit">
-                <p class="">
-                    <i18n>You need a Trakt.tv account</i18n>
-                </p>
                 <img src="images/trakt-logo.png"/>
+                <p><i18n>You need a Trakt.tv account</i18n></p>
 
                 <button id="traktAuth" onClick="Trakt.login()">Connect</button>
                 <input style="display:none" id="traktCode" value=""/>
@@ -58,15 +60,9 @@
                 </a>
             </div>
             <div id="traktwelcome" style="display:none">
-                <p>
-                    <i18n>Connected</i18n>
-                </p>
-
                 <div id="welcomeprofile" style="display:none">
-                    <p>
-                        <img class="avatar" href=""/>
-                        <span class="welcomemessage"></span> <span class="username"></span>
-                    </p>
+                    <img class="avatar" src="images/trakt-logo.png"/>
+                    <p><span class="welcomemessage"></span> <span class="username"></span></p>
                 </div>
 
                 <div class="spinner" style="display:none">
@@ -76,16 +72,42 @@
             </div>
         </section>
 
-        <section id="collection" style="display:none">
-            <div id="navbar">
-                <li onClick="Interface.showMovies()">Mov</li>
-                <li onClick="Interface.showShows()">TV</li>
-                <li onClick="Interface.showLocals()">Loc</li>
+        <section id="navbar" style="display:none">
+            <div class="nav movies" onClick="Interface.showMovies()">
+                <div class="fa fa-film">
+                    <div class="text"><i18n>Movies</i18n></div>
+                </div>
             </div>
-
+            <div class="nav shows active" onClick="Interface.showShows()">
+                <div class="fa fa-television">
+                    <div class="text"><i18n>Shows</i18n></div>
+                </div>
+            </div>
+            <div class="nav locals" onClick="Interface.showLocals()">
+                <div class="fa fa-folder">
+                    <div class="text"><i18n>Local</i18n></div>
+                </div>
+            </div>
+            <div class="nav settings" onClick="Interface.showSettings()">
+                <div class="fa fa-cogs">
+                    <div class="text"><i18n>Settings</i18n></div>
+                </div>
+            </div>
+            <div class="online"></div>
+        </section>
+        
+        <section id="collection" style="display:none">
             <div class="row" id="shows"></div>
             <div class="row" id="movies" style="display:none"></div>
             <div class="row" id="local" style="display:none"></div>
+        </section>
+
+        <section id="trailer" style="display:none" onClick="Interface.closeTrailer()">
+            <div class="spinner">
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+            </div>
+            <div class="video"></div>
         </section>
     </div>
 

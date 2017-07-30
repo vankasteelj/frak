@@ -6,11 +6,16 @@ const Collection = {
 
         // should trakt update?
         Trakt.last_activities().then(activities => {
-            if (activities > (DB.get('traktsync')) + 1200000) {
+            if (activities > (DB.get('traktsync') || 0) + 1200000) {
                 console.info('Fetching from remote server...')
                 Collection.get.traktcached();
-                Collection.get.traktshows();
-                Collection.get.traktmovies();
+                Promise.all([
+                    Collection.get.traktshows(),
+                    Collection.get.traktmovies()
+                ]).then((collections) => {
+                    console.log('Fetching done', collections)
+                    Collection.get.traktcached();
+                })
             } else {
                 console.info('We got cached trakt data')
                 Collection.get.traktcached();
@@ -28,9 +33,7 @@ const Collection = {
                 DB.store(Date.now(), 'traktsync');
                 DB.store(results, 'traktshows');
 
-                Collection.format.traktshows(results.shows);
-
-                return results.shows;
+                return Collection.format.traktshows(results.shows);
             }).catch(console.error)
         },
         traktmovies: () => {
@@ -43,20 +46,21 @@ const Collection = {
                 DB.store(Date.now(), 'traktsync');
                 DB.store(results, 'traktmovies');
 
-                Collection.format.traktmovies(results);
-
-                return results;
+                return Collection.format.traktmovies(results);
             }).catch(console.error)
         },
         traktcached: () => {
             let movies = DB.get('traktmoviescollection');
             let shows = DB.get('traktshowscollection');
+
+            if (!shows && !movies) return;
+
             console.log('all movies', movies);
             console.log('all shows', shows);
 
             Collection.show.movies(movies);
             Collection.show.shows(shows);
-            Interface.showMain();
+            setTimeout(() => Interface.showMain(), 1500);
         },
         local: () => {
             let collection = DB.get('locallibrary');
@@ -77,7 +81,7 @@ const Collection = {
         traktmovies: (movies) => {
             let collection = Array();
 
-            Promise.all(movies.map((movie) => {
+            return Promise.all(movies.map((movie) => {
                 movie = movie.movie;
                 return Images.get.movie({
                     imdb: movie.ids.imdb,
@@ -85,19 +89,18 @@ const Collection = {
                 }).then(images => {
                     movie.images = images;
                     collection.push(movie);
-                    console.log(images)
                     return movie;
                 });
             })).then(() => {
                 console.info('All images found for trakt movies');
                 DB.store(collection, 'traktmoviescollection');
-                console.log('all movies', collection);
+                return collection;
             }).catch(console.error);
         },
         traktshows: (shows) => {
             let collection = Array();
 
-            Promise.all(shows.map((item) => {
+            return Promise.all(shows.map((item) => {
                 return Images.get.show({
                     imdb: item.show.ids.imdb,
                     tmdb: item.show.ids.tmbd,
@@ -110,24 +113,25 @@ const Collection = {
             })).then(() => {
                 console.info('All images found for trakt shows');
                 DB.store(collection, 'traktshowscollection');
-                console.log('all shows', collection);
+                return collection;
             }).catch(console.error);
         }
     },
 
-    slugify: (title) => title.replace(/\W+/g, '-').toLowerCase(),
-    pad: (n) => (n < 10) ? ('0' + n) : n,
-
     show: {
         shows: (shows) => {
             for (let show of shows) {
-                let item = Interface.constructShowItem(show);
+                let item = Items.constructShow(show);
                 $('#collection #shows').append(item);
             }
         },
         movies: (movies) => {
             for (let movie of movies) {
-                let item = Interface.constructMovieItem(movie);
+                if (new Date(movie.released.split('-')).valueOf() > Date.now()) {
+                    console.info(`${movie.title} is not released yet, not showing`)
+                    continue;
+                }
+                let item = Items.constructMovie(movie);
                 $('#collection #movies').append(item);
             }
         }

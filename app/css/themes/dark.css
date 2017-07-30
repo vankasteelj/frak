@@ -1,5 +1,10 @@
 /* Theme file: dark */
 
+body {
+    background-color: #1d1d1d;
+    color: #fafafa;
+}
+
 #notification {
     color: #f5f7fa;
 }
@@ -16,43 +21,6 @@
 
 #notification-snack:hover {
     background: rgba(60, 60, 60, .8);
-}
-
-.dropdown a,
-.dropdown a:visited {
-    color: #de5362;
-}
-
-.dropdown dd ul {
-    background: #242a31 none repeat scroll 0 0;
-    border: 1px solid #656d78;
-    border-top: 1px solid #656d78;
-}
-
-.dropdown dd ul li a:hover {
-    background-color: #de5362;
-}
-
-.dominant {
-    background: #db4252;
-    color: #f5f7fa;
-}
-
-.dominant:hover {
-    background: #da3e4e;
-}
-
-.light {
-    background: #de5362;
-    color: #f5f7fa;
-}
-
-.light:hover {
-    background: #db4252;
-}
-
-.warning {
-    color: #da3e4e;
 }
 
 input {
@@ -76,22 +44,68 @@ input {
 }
 
 ::-webkit-scrollbar-track {
-    background: #e3e3e3;
+    background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(222, 84, 98, .8);
+    background: #eee;
+    transition: all .5s;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(222, 84, 98, .9);
-}
-
-input.warning::-webkit-input-placeholder {
-    color: #da3e4e;
+    background: #fafafa;
 }
 
 .ui-tooltip {
     background: rgba(50, 50, 50, .8);
     color: #eee;
+}
+
+#collection .row > div {
+    border-bottom: solid 1px #2d2d2d;
+    border-right: solid 1px #2d2d2d;
+}
+
+#navbar {
+    color: #fafafa;
+    border-right: solid 1px #2d2d2d;
+    background-color: #1d1d1d;
+}
+
+#collection .quick-icons {
+    color: #fafafa;
+    background-color: #1d1d1d;
+}
+
+#collection .row > div {
+    border-bottom: solid 1px #2d2d2d;
+    border-right: solid 1px #2d2d2d;
+}
+
+.actions .watched {
+    color: #8e44ad;
+    background-color: transparent;
+}
+.actions .watched.selected,
+.actions .watched:hover {
+    color: #fafafa;
+    background-color: #8e44ad;
+}
+
+.actions .play {
+    color: #aaa;
+    background-color: transparent;
+}
+.actions .play:hover {
+    color: #fafafa;
+    background-color: #555;
+}
+
+.actions .trailer {
+    color: #2b678f;
+    background-color: transparent;
+}
+.actions .trailer:hover {
+    color: #fafafa;
+    background-color: #2b678f;
 }

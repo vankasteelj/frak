@@ -1,15 +1,6 @@
 'use strict';
 
 const Interface = {
-
-    // USERINTERACTION: switch between light/dark themes
-    switchTheme: () => {
-        // switch stored setting on click
-        localStorage.theme = !localStorage || (localStorage && localStorage.theme === 'light') ? 'dark' : 'light';
-        // reload to let loadTheme do the job
-        win.reload();
-    },
-
     // USERINTERACTION: on "browse" button click, invoke hidden input action
     browse: (type) => {
         console.info('Opening File Browser');
@@ -20,7 +11,8 @@ const Interface = {
     traktLogin: (poll) => {
         Misc.openExternal(poll.verification_url);
         win.focus();
-        $('#traktAuth').hide();
+        $('#traktAuth, #traktinit a').hide();
+        $('#traktinit p').text(i18n.__('Enter the code below in your browser'));
         $('#traktCode').val(poll.user_code).show();
     },
 
@@ -53,75 +45,47 @@ const Interface = {
     showMain: () => {
         $('#traktwelcome').hide();
         $('#collection').show();
-    },
-
-    constructMovieItem: (movie) => {
-        let item = `<div class="grid-item col-sm-6" id="${Collection.slugify(movie.title)}">`+
-            `<span class="data" style="display:none">${JSON.stringify(movie)}</span>`+
-            `<div class="fanart">`+
-                `<img class="base" src="images/placeholder.png">`+
-                `<img class="real" src="${Images.reduce(movie.images.fanart)}">`+
-                `<div class="shadow"></div>`+
-                `<div class="titles">`+
-                    `<h3>${movie.title}<span class="year">${movie.year}</span></h3>`+
-                `</div>`+
-            `</div>`+
-            `<div class="quick-icons">`+
-                `<div class="actions">`+
-                    `seen | play | trailer`+
-                `</div>`+
-                `<div class="metadata">`+
-                    `ratings`+
-                `</div>`+
-            `</div>`+
-        `</div>`
-
-        return item;
-    },
-    constructShowItem: (show) => {
-        let item = `<div class="grid-item col-sm-6" id="${Collection.slugify(show.show.title)}">`+
-            `<span class="data" style="display:none">${JSON.stringify(show)}</span>`+
-            `<div class="fanart">`+
-                `<img class="base" src="images/placeholder.png">`+
-                `<img class="real" src="${Images.reduce(show.show.images.fanart)}">`+
-                `<div class="shadow"></div>`+
-                `<div class="titles">`+
-                    `<h4>`+
-                        `<span class="sxe">s${Collection.pad(show.next_episode.season)}e${Collection.pad(show.next_episode.number)}</span>`+
-                        `<span class="eptitle">${show.next_episode.title}</span>`+
-                    `</h4><br/>`+
-                    `<h3>${show.show.title}<span class="year">${show.show.year}</span></h3>`+
-                `</div>`+
-            `</div>`+
-            `<div class="quick-icons">`+
-                `<div class="actions">`+
-                    `seen | play | trailer`+
-                `</div>`+
-                `<div class="metadata">`+
-                    `ratings`+
-                `</div>`+
-            `</div>`+
-        `</div>`
-
-        return item;
+        $('#navbar').show();
     },
 
     showMovies: () => {
+        $('#navbar .nav').removeClass('active');
         $('#collection #movies').show();
         $('#collection #shows').hide();
         $('#collection #locals').hide();
+        $('#navbar .movies').addClass('active');
         window.scrollTo(0,0);
     },
     showShows: () => {
+        $('#navbar .nav').removeClass('active');
         $('#collection #shows').show();
         $('#collection #movies').hide();
         $('#collection #locals').hide();
+        $('#navbar .shows').addClass('active');
         window.scrollTo(0,0);
     },
     showLocals: () => {
+        $('#navbar .nav').removeClass('active');
         $('#collection #locals').show();
         $('#collection #shows').hide();
         $('#collection #movies').hide();
+        $('#navbar .locals').addClass('active');
         window.scrollTo(0,0);
+    },
+
+    playTrailer: (url) => {
+        let ytc = url.split('=')[1];
+        let iframe = $('<iframe>')
+            .attr('src', `http://www.youtube.com/embed/${ytc}?autoplay=1`)
+            .attr('frameborder', '0')
+            .attr('allowfullscreen', '1')
+            .css({'width': 640, 'height':360});
+
+        $('#trailer .video').append(iframe);
+        $('#trailer').show();
+    },
+    closeTrailer: () => {
+        $('#trailer').hide();
+        $('#trailer .video').html('');
     }
 };

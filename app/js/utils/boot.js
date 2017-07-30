@@ -3,7 +3,6 @@ const Boot = {
     // STARTUP: load app: ui,settings,features
     load: () => {
         Localization.setupLocalization();   // localize
-        Themes.loadTheme();                 // display theme
         Boot.setupSettings();               // setup settings popup
         Boot.checkVisible();                // nwjs window position
         Boot.setupRightClicks();            // right click menus
@@ -108,9 +107,6 @@ const Boot = {
     setupSettings: () => {
         // autoupdate
         Update.setupCheckbox();
-
-        // theme dropdown
-        Themes.setupDropdown();
 
         // lang dropdown
         Localization.setupDropdown();
