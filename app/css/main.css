@@ -98,6 +98,7 @@ body {
     -webkit-user-drag: none;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    background-color: #1d1d1d;
 }
 
 img,
@@ -132,7 +133,6 @@ input {
     border-style: solid;
     padding-left: 1px;
     padding-right: 2px;
-    font-family: 'Fira Sans', sans-serif;
     font-size: 13px;
     border-radius: 3px;
 }
@@ -230,8 +230,107 @@ input {
 }
 
 #collection .row {
-    width: 80%;
-    margin: 0 auto;
+    width: calc(100% - 15px - 60px);
+    position: absolute;
+    right: 15px;
+}
+
+#collection .row > div {
+    border-bottom: solid 1px #2d2d2d;
+    border-right: solid 1px #2d2d2d;
+    padding: 0;
+}
+
+#collection .grid-item {
+    padding: 0;
+}
+
+#collection .fanart {
+    background-color: #1d1d1d;
+    position: relative;
+    overflow: hidden;
+}
+
+#collection .shadow {
+    height: 75px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 100%);
+    background-repeat: repeat-x;
+}
+
+#collection .titles {
+    position: absolute;
+    bottom: 10px;
+    left: 12px;
+    right: 12px;
+    height: auto;
+    margin: 0;
+}
+
+#collection .titles h4 {
+    font-size: 11px;
+    display: inline-block;
+    height: auto;
+    margin: 0 5px 5px 0;
+}
+
+#collection .titles h4 .sxe {
+    background-color: #ed1c24;
+    color: #fff;
+    padding: 3px 5px;
+}
+
+#collection .titles h4 .eptitle {
+    color: #ddd;
+    background-color: rgba(0,0,0,0.4);
+    padding: 3px 5px;
+    padding-left: 6px;
+}
+
+#collection .titles h3 {
+    color: #fff;
+    margin-top: 3px;
+    text-shadow: 0 0 20px black;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.4);
+    display: inline-block;
+}
+#collection .titles h3 .year {
+    font-weight: 200;
+    font-size: 14px;
+    color: #bbb;
+    padding-left: 6px;
+}
+
+#collection .quick-icons {
+    height: 40px;
+    color: #fff;
+    background-color: #1d1d1d;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#collection .actions {
+    float:left;
+}
+
+#collection .metadata {
+    float: right;
+    padding-right: 10px;
+}
+
+/* navbar */
+#navbar {
+    width: 75px;
+    height: 100%;
+    position: fixed;
+    color: #fff;
+    border-right: solid 1px #2d2d2d;
 }
 
 /* collection END */

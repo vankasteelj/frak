@@ -115,16 +115,20 @@ const Collection = {
         }
     },
 
-    slugify: (title) => title.replace(/\W+/g, '-'),
+    slugify: (title) => title.replace(/\W+/g, '-').toLowerCase(),
+    pad: (n) => (n < 10) ? ('0' + n) : n,
 
     show: {
         shows: (shows) => {
-            
+            for (let show of shows) {
+                let item = Interface.constructShowItem(show);
+                $('#collection #shows').append(item);
+            }
         },
         movies: (movies) => {
             for (let movie of movies) {
-                let item = Interface.constructMovieItem(movie)
-                $('#collection .row').append(item);
+                let item = Interface.constructMovieItem(movie);
+                $('#collection #movies').append(item);
             }
         }
     }

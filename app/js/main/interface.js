@@ -5,7 +5,7 @@ const Interface = {
     // USERINTERACTION: switch between light/dark themes
     switchTheme: () => {
         // switch stored setting on click
-        localStorage.theme = !localStorage || (localStorage && localStorage.theme === 'dark') ? 'light' : 'dark';
+        localStorage.theme = !localStorage || (localStorage && localStorage.theme === 'light') ? 'dark' : 'light';
         // reload to let loadTheme do the job
         win.reload();
     },
@@ -62,11 +62,66 @@ const Interface = {
                 `<img class="base" src="images/placeholder.png">`+
                 `<img class="real" src="${Images.reduce(movie.images.fanart)}">`+
                 `<div class="shadow"></div>`+
-                `<div class="titles">${movie.title}</div>`+
+                `<div class="titles">`+
+                    `<h3>${movie.title}<span class="year">${movie.year}</span></h3>`+
+                `</div>`+
             `</div>`+
-            `<div class="quick-icons">seen | play | trailer | ratings</div>`+
+            `<div class="quick-icons">`+
+                `<div class="actions">`+
+                    `seen | play | trailer`+
+                `</div>`+
+                `<div class="metadata">`+
+                    `ratings`+
+                `</div>`+
+            `</div>`+
         `</div>`
 
         return item;
+    },
+    constructShowItem: (show) => {
+        let item = `<div class="grid-item col-sm-6" id="${Collection.slugify(show.show.title)}">`+
+            `<span class="data" style="display:none">${JSON.stringify(show)}</span>`+
+            `<div class="fanart">`+
+                `<img class="base" src="images/placeholder.png">`+
+                `<img class="real" src="${Images.reduce(show.show.images.fanart)}">`+
+                `<div class="shadow"></div>`+
+                `<div class="titles">`+
+                    `<h4>`+
+                        `<span class="sxe">s${Collection.pad(show.next_episode.season)}e${Collection.pad(show.next_episode.number)}</span>`+
+                        `<span class="eptitle">${show.next_episode.title}</span>`+
+                    `</h4><br/>`+
+                    `<h3>${show.show.title}<span class="year">${show.show.year}</span></h3>`+
+                `</div>`+
+            `</div>`+
+            `<div class="quick-icons">`+
+                `<div class="actions">`+
+                    `seen | play | trailer`+
+                `</div>`+
+                `<div class="metadata">`+
+                    `ratings`+
+                `</div>`+
+            `</div>`+
+        `</div>`
+
+        return item;
+    },
+
+    showMovies: () => {
+        $('#collection #movies').show();
+        $('#collection #shows').hide();
+        $('#collection #locals').hide();
+        window.scrollTo(0,0);
+    },
+    showShows: () => {
+        $('#collection #shows').show();
+        $('#collection #movies').hide();
+        $('#collection #locals').hide();
+        window.scrollTo(0,0);
+    },
+    showLocals: () => {
+        $('#collection #locals').show();
+        $('#collection #shows').hide();
+        $('#collection #movies').hide();
+        window.scrollTo(0,0);
     }
 };

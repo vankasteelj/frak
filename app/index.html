@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
 
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="fonts/trakt.css" />
+    <link rel="stylesheet" type="text/css" href="fonts/proxima.css" />
     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <link rel="stylesheet" type="text/css" href="css/animations.css" />
-    <link rel="stylesheet" type="text/css" href="css/themes/light.css" id="theme" />
+    <link rel="stylesheet" type="text/css" href="css/themes/dark.css" id="theme" />
 
     <script src="js/vendor/jquery.js" type="application/javascript"></script>
     <script src="js/vendor/jquery-ui.js" type="application/javascript"></script>
@@ -73,10 +75,17 @@
                 </div>
             </div>
         </section>
-        
+
         <section id="collection" style="display:none">
-            <div class="row">
+            <div id="navbar">
+                <li onClick="Interface.showMovies()">Mov</li>
+                <li onClick="Interface.showShows()">TV</li>
+                <li onClick="Interface.showLocals()">Loc</li>
             </div>
+
+            <div class="row" id="shows"></div>
+            <div class="row" id="movies" style="display:none"></div>
+            <div class="row" id="local" style="display:none"></div>
         </section>
     </div>
 
