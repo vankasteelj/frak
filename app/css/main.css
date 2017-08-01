@@ -264,6 +264,16 @@ input {
   left: 0;
 }
 
+#navbar .fa-spin {
+    color: rgb(0,230,255);
+    position: absolute;
+    font-size: 16px;
+    margin-top: -7px;
+    margin-left: -7px;
+    opacity: 0;
+    transition: all .5s;
+}
+
 /* collection item */
 #collection .fanart {
     position: relative;
@@ -411,8 +421,102 @@ input {
     font-size: 16px;
     margin-right: 5px;
 }
-#collection .grid-item .data {
+#collection .grid-item .data,
+#collection #locals .data {
     display:none;
+}
+
+#collection .local-item {
+    line-height: 60px;
+    font-family: 'Proxima Nova Semibold';
+}
+
+#locals {
+    display: none;
+    color: #dfdfdf;
+}
+
+#locals .local-item,
+#locals .local-item .season,
+#locals .local-item .episode {
+    transition: all .3s;
+}
+#locals .local-item:hover,
+#locals .local-item.active {
+    cursor: pointer;
+    color: #fafafa;
+    background-color: #222;
+}
+#locals .local-item.active {
+    background-color: #292929;
+}
+#locals .local-item .season {
+    color: #dfdfdf;
+    font-family: 'Proxima Nova';
+}
+#locals .local-item .season:hover,
+#locals .local-item .season.active {
+    background-color: #2f2f2f;
+    color: #fafafa
+}
+#locals .local-item .season.active {
+    background-color: #393939;
+}
+#locals .local-item .season {
+    padding-left: 40px;
+}
+
+#locals .local-item .episode {
+    margin-left: -40px;
+    padding-left: 80px;
+    color: #dfdfdf;
+    font-family: 'Proxima Nova';
+}
+#locals .local-item .episode:hover {
+    background-color: #3f3f3f;
+    color: #fafafa
+}
+
+#locals .local-item .title {
+    padding: 20px;
+    font-size: 18px;
+}
+
+#locals .local-item .seasons,
+#locals .local-item .episode {
+    display: none;
+}
+
+#locals .categories {
+    display: flex;
+    width: calc(100% - 60px);
+    right: 0;
+    position: absolute;
+}
+
+#locals .category {
+    margin: 0 auto;
+    justify-content: center;
+    text-align: center;
+    font-size: 40px;
+    height: 200px;
+    padding: 30px 60px;
+    line-height: 190px;
+    margin-top: 150px;
+    border: 1px dashed #aaa;
+    color: #bfbfbf;
+    border-radius: 40px;
+    transition: all .5s;
+    cursor: pointer;
+}
+#locals .category:hover {
+    color: #fafafa;
+    border-color: #888;
+    background-color: #333
+}
+#locals .category .text {
+    font-size: 25px;
+    margin-top: 20px;
 }
 
 /* navbar */

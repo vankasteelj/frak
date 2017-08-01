@@ -70,6 +70,8 @@ const Interface = {
         $('#collection #shows').hide();
         $('#collection #movies').hide();
         $('#navbar .locals').addClass('active');
+        $('#locals .categories').show();
+        $('#locals .items').hide();
         window.scrollTo(0,0);
     },
 
@@ -87,5 +89,34 @@ const Interface = {
     closeTrailer: () => {
         $('#trailer').hide();
         $('#trailer .video').html('');
+    },
+
+    locals: {
+        showSeasons: (id) => {
+            let opened = $(`#${id}`).hasClass('active');
+            console.log('showSeason - was open:', opened)
+
+            $('#locals .local-item').removeClass('active');
+            $('#locals .seasons').hide();
+
+            if (opened) return;
+            $(`#${id}`).addClass('active');
+            $(`#${id} .seasons`).show();
+        },
+        showEpisodes: (id, s) => {
+            event.stopPropagation();
+            let opened = $(`#${id} .s${s}`).hasClass('active');
+
+            $(`#${id} .season`).removeClass('active');
+            $(`#${id} .episode`).hide();
+
+            if (opened) return;
+            $(`#${id} .s${s}`).addClass('active');
+            $(`#${id} .s${s} .episode`).show();
+        },
+        show: (cl) => {
+            $(`#locals .${cl}`).show();
+            $('#locals .categories').hide();
+        }
     }
 };

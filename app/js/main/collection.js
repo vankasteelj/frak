@@ -27,6 +27,7 @@ const Collection = {
 
     get: {
         traktshows: () => {
+            $('#navbar .movies .fa-spin').css('opacity', 1);
             return Trakt.client.ondeck.getAll().then(results => {
                 console.info('Trakt.tv - "show watchlist" collection recieved');
 
@@ -37,6 +38,7 @@ const Collection = {
             }).catch(console.error)
         },
         traktmovies: () => {
+            $('#navbar .shows .fa-spin').css('opacity', 1);
             return Trakt.client.sync.watchlist.get({
                 extended: 'full',
                 type: 'movies'
@@ -62,14 +64,17 @@ const Collection = {
         local: () => {
             let collection = DB.get('locallibrary');
 
+            if (!collection) $('#navbar .locals .fa-spin').css('opacity', 1);
+
             let method = collection ? 'update' : 'scan';
-            return Local[method](collection).then(results => {
+            Local[method](collection).then(results => {
                 console.info('Local library collection recieved');
-                console.log(results);
+                //console.log(results);
 
                 DB.store(results, 'locallibrary');
+                $('#navbar .locals .fa-spin').css('opacity', 0);
 
-                return results;
+                Collection.format.locals(results);
             }).catch(console.error)
         }
     },
@@ -102,6 +107,7 @@ const Collection = {
                 });
 
                 DB.store(collection, 'traktmoviescollection');
+                $('#navbar .movies .fa-spin').css('opacity', 0);
                 return collection;
             }).catch(console.error);
         },
@@ -133,19 +139,46 @@ const Collection = {
                 });
 
                 DB.store(collection, 'traktshowscollection');
+                $('#navbar .shows .fa-spin').css('opacity', 0);
                 return collection;
             }).catch(console.error);
+        },
+
+        locals: (items) => {
+            let collection = Local.buildVideoLibrary(items);
+
+            let alphabetical = (a, b) => {
+                let c = (a.title && b.title) ? 'title' : 'filename';
+                if (a[c] < b[c]) return -1
+                if (a[c] > b[c]) return 1;
+                return 0;
+            }
+
+            if (collection.movies) {
+                let movies = collection.movies.sort(alphabetical);
+                Collection.show.locals.movies(movies);
+            }
+            if (collection.shows) {
+                let shows = collection.shows.sort(alphabetical);
+                Collection.show.locals.shows(shows);
+            }
+            if (collection.unmatched) {
+                let unmatched = collection.unmatched.sort(alphabetical);
+                Collection.show.locals.unmatched(unmatched);
+            }
         }
     },
 
     show: {
         shows: (shows) => {
+            $('#collection #shows').html('');
             for (let show of shows) {
                 let item = Items.constructShow(show);
                 $('#collection #shows').append(item);
             }
         },
         movies: (movies) => {
+            $('#collection #movies').html('');
             for (let movie of movies) {
                 if (new Date(movie.movie.released.split('-')).valueOf() > Date.now()) {
                     console.info(`${movie.movie.title} is not released yet, not showing`)
@@ -153,6 +186,32 @@ const Collection = {
                 }
                 let item = Items.constructMovie(movie);
                 $('#collection #movies').append(item);
+            }
+        },
+        locals: {
+            movies: (movies) => {
+                $('#collection #locals .movies .row').html('');
+                $('#collection #locals .categories .movies').show();
+                for (let movie of movies) {
+                    let item = Items.constructLocalMovie(movie);
+                    $('#collection #locals .movies .row').append(item);
+                }
+            },
+            shows: (shows) => {
+                $('#collection #locals .shows .row').html('');
+                $('#collection #locals .categories .shows').show();
+                for (let show of shows) {
+                    let item = Items.constructLocalShow(show);
+                    $('#collection #locals .shows .row').append(item);
+                }
+            },
+            unmatched: (unmatched) => {
+                $('#collection #locals .unmatched .row').html('');
+                $('#collection #locals .categories .unmatched').show();
+                for (let unmatch of unmatched) {
+                    let item = Items.constructLocalUnmatched(unmatch);
+                    $('#collection #locals .unmatched .row').append(item);
+                }
             }
         }
     }

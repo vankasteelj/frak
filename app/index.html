@@ -74,16 +74,19 @@
 
         <section id="navbar" style="display:none">
             <div class="nav movies" onClick="Interface.showMovies()">
+                <div class="fa fa-spin fa-refresh"></div>
                 <div class="fa fa-film">
                     <div class="text"><i18n>Movies</i18n></div>
                 </div>
             </div>
             <div class="nav shows active" onClick="Interface.showShows()">
+                <div class="fa fa-spin fa-refresh"></div>
                 <div class="fa fa-television">
                     <div class="text"><i18n>Shows</i18n></div>
                 </div>
             </div>
             <div class="nav locals" onClick="Interface.showLocals()">
+                <div class="fa fa-spin fa-refresh"></div>
                 <div class="fa fa-folder">
                     <div class="text"><i18n>Local</i18n></div>
                 </div>
@@ -99,7 +102,36 @@
         <section id="collection" style="display:none">
             <div class="row" id="shows"></div>
             <div class="row" id="movies" style="display:none"></div>
-            <div class="row" id="local" style="display:none"></div>
+
+            <div id="locals" style="display:none">
+                <div class="categories">
+                    <div class="category movies" onClick="Interface.locals.show('movies')">
+                        <div class="fa fa-film">
+                            <div class="text"><i18n>Movies</i18n></div>
+                        </div>
+                    </div>
+                    <div class="category shows" onClick="Interface.locals.show('shows')">
+                        <div class="fa fa-television">
+                            <div class="text"><i18n>Shows</i18n></div>
+                        </div>
+                    </div>
+                    <div class="category unmatched" onClick="Interface.locals.show('unmatched')">
+                        <div class="fa fa-file-o">
+                            <div class="text"><i18n>Other</i18n></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="items movies" style="display:none">
+                    <div class="row"></div>
+                </div>
+                <div class="items shows" style="display:none">
+                    <div class="row"></div>
+                </div>
+                <div class="items unmatched" style="display:none">
+                    <div class="row"></div>
+                </div>
+            </div>
         </section>
 
         <section id="trailer" style="display:none" onClick="Interface.closeTrailer()">
@@ -109,6 +141,8 @@
             </div>
             <div class="video"></div>
         </section>
+
+        <div id="notification-snack" onClick="$(this).hide()"></div>
     </div>
 
     <!-- code initialization -->

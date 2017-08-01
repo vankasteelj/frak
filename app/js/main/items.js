@@ -22,7 +22,7 @@ const Items = {
     constructMovie: (movie) => {
         let d = {
             image: Images.reduce(movie.movie.images.fanart) || movie.movie.images.poster,
-            id: Items.slugify(movie.movie.title),
+            id: Items.slugify(movie.movie.title) + '-trakt',
             data: JSON.stringify(movie),
             rating: Items.percentage(movie.movie.rating)
         }
@@ -60,7 +60,7 @@ const Items = {
     constructShow: (show) => {
         let d = {
             image: Images.reduce(show.show.images.fanart) || show.show.images.poster,
-            id: Items.slugify(show.show.title),
+            id: Items.slugify(show.show.title) + '-trakt',
             sxe: `s${Items.pad(show.next_episode.season)}e${Items.pad(show.next_episode.number)}`,
             data: JSON.stringify(show),
             rating: Items.percentage(show.show.rating)
@@ -99,6 +99,60 @@ const Items = {
             !show.show.trailer && $(`#${d.id} .trailer`).hide();
             !(show.unseen - 1) && $(`#${d.id} .unseen`).hide();
         });
+
+        return item;
+    },
+    constructLocalMovie: (movie) => {
+        let d = {
+            id: movie.path,
+            data: JSON.stringify(movie)
+        }
+
+        let item = `<div class="local-item" id="${d.id}">`+
+            `<span class="data">${d.data}</span>`+
+            `<span class="title">${movie.metadata.movie.title}</span>`+
+        `</div>`;
+
+        return item;
+    },
+    constructLocalUnmatched: (file) => {
+        let d = {
+            id: file.path,
+            data: JSON.stringify(file)
+        }
+
+        let item = `<div class="local-item" id="${d.id}">`+
+            `<span class="data">${d.data}</span>`+
+            `<span class="title">${file.filename}</span>`+
+        `</div>`;
+
+        return item;
+    },
+    constructLocalShow: (show) => {
+        let d = {
+            id: Items.slugify(show.title) + '-local'
+        };
+
+        let seasons = function () {
+            let str = String();
+
+            for (let s in show.seasons) {
+                str += `<div class="season s${s}" onClick="Interface.locals.showEpisodes('${d.id}', ${s})"><span class="title">${i18n.__('Season %s',s)}</span>`;
+                for (let e in show.seasons[s].episodes) {
+                    let sxe = `S${Items.pad(s)}E${Items.pad(e)}`;
+                    let title = show.seasons[s].episodes[e].metadata.episode.title;
+                    str += `<div class="episode e${e}" id="${show.seasons[s].episodes[e].path}" onClick="event.stopPropagation()"><span class="data">${JSON.stringify(show.seasons[s].episodes[e])}</span><span class="e-title">${sxe} - ${title}</span></div>`;
+                }
+                str += `</div>`;
+            }
+
+            return str;
+        }();
+
+        let item = `<div class="local-item" id="${d.id}" onClick="Interface.locals.showSeasons('${d.id}')">`+
+            `<span class="title">${show.title}</span>`+
+            `<div class="seasons">${seasons}</div>`+
+        `</div>`;
 
         return item;
     }
