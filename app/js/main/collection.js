@@ -55,9 +55,6 @@ const Collection = {
 
             if (!shows && !movies) return;
 
-            console.log('all movies', movies);
-            console.log('all shows', shows);
-
             Collection.show.movies(movies);
             Collection.show.shows(shows);
             setTimeout(() => Interface.showMain(), 1500);
@@ -82,17 +79,28 @@ const Collection = {
             let collection = Array();
 
             return Promise.all(movies.map((movie) => {
-                movie = movie.movie;
                 return Images.get.movie({
-                    imdb: movie.ids.imdb,
-                    tmdb: movie.ids.tmdb
+                    imdb: movie.movie.ids.imdb,
+                    tmdb: movie.movie.ids.tmdb
                 }).then(images => {
-                    movie.images = images;
+                    movie.movie.images = images;
                     collection.push(movie);
                     return movie;
                 });
             })).then(() => {
                 console.info('All images found for trakt movies');
+
+                // sort
+                collection = collection.sort(function(a, b){
+                    if(a.listed_at > b.listed_at) {
+                        return -1;
+                    }
+                    if(a.listed_at < b.listed_at) {
+                        return 1;
+                    }
+                    return 0;
+                });
+
                 DB.store(collection, 'traktmoviescollection');
                 return collection;
             }).catch(console.error);
@@ -112,6 +120,18 @@ const Collection = {
                 });
             })).then(() => {
                 console.info('All images found for trakt shows');
+
+                // sort
+                collection = shows.sort(function(a, b){
+                    if(a.next_episode.first_aired > b.next_episode.first_aired) {
+                        return -1;
+                    }
+                    if(a.next_episode.first_aired < b.next_episode.first_aired) {
+                        return 1;
+                    }
+                    return 0;
+                });
+
                 DB.store(collection, 'traktshowscollection');
                 return collection;
             }).catch(console.error);
@@ -127,8 +147,8 @@ const Collection = {
         },
         movies: (movies) => {
             for (let movie of movies) {
-                if (new Date(movie.released.split('-')).valueOf() > Date.now()) {
-                    console.info(`${movie.title} is not released yet, not showing`)
+                if (new Date(movie.movie.released.split('-')).valueOf() > Date.now()) {
+                    console.info(`${movie.movie.title} is not released yet, not showing`)
                     continue;
                 }
                 let item = Items.constructMovie(movie);

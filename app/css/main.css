@@ -268,6 +268,13 @@ input {
 #collection .fanart {
     position: relative;
     overflow: hidden;
+    background-size: cover;
+    background-position: 50%;
+    background-color: #1d1d1d;
+}
+#collection .fanart img {
+    opacity: 0;
+    transition: all .5s;
 }
 #collection .base {
     width: 100%;
@@ -293,12 +300,6 @@ input {
 
 #collection .grid-item {
     padding: 0;
-}
-
-#collection .fanart {
-    background-color: #1d1d1d;
-    position: relative;
-    overflow: hidden;
 }
 
 #collection .shadow {
@@ -409,6 +410,9 @@ input {
     color: #b11010;
     font-size: 16px;
     margin-right: 5px;
+}
+#collection .grid-item .data {
+    display:none;
 }
 
 /* navbar */

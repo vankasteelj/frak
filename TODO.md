@@ -1,0 +1,9 @@
+- update app from cached should notify an update is ongoing + it currently duplicates the items
+- keyboard shortcuts
+- settings
+- local library
+- stream view + pop MPV player
+- seen/unseed button
+- a ttl for images calls, some take ages
+- item: allow resort
+- items: allow col-sm-3, 6 and 12 (maybe computation can calc more sizes?)
