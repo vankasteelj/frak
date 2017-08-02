@@ -52,6 +52,6 @@ gui.App.on('open', (cmd) => {
     }
 
     if (file) {
-        console.log('opened from file', file);
+        console.info('Opened from file', file);
     }
 });

@@ -94,7 +94,6 @@ const Interface = {
     locals: {
         showSeasons: (id) => {
             let opened = $(`#${id}`).hasClass('active');
-            console.log('showSeason - was open:', opened)
 
             $('#locals .local-item').removeClass('active');
             $('#locals .seasons').hide();

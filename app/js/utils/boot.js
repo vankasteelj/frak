@@ -20,9 +20,9 @@ const Boot = {
     online: () => {
         let online = window.navigator.onLine;
         if (online) {
-            !DB.get('online') && DB.store(true, 'online') && console.log('App is online')
+            !DB.get('online') && DB.store(true, 'online') && console.info('App is online')
         } else {
-            DB.get('online') && DB.store(false, 'online') && console.log('No internet connection')
+            DB.get('online') && DB.store(false, 'online') && console.info('No internet connection')
         }
         setTimeout(() => {Boot.online()}, 1000);
     },

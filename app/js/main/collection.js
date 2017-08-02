@@ -13,7 +13,7 @@ const Collection = {
                     Collection.get.traktshows(),
                     Collection.get.traktmovies()
                 ]).then((collections) => {
-                    console.log('Fetching done', collections)
+                    //console.log('Fetching done', collections)
                     Collection.get.traktcached();
                 })
             } else {
@@ -69,7 +69,6 @@ const Collection = {
             let method = collection ? 'update' : 'scan';
             Local[method](collection).then(results => {
                 console.info('Local library collection recieved');
-                //console.log(results);
 
                 DB.store(results, 'locallibrary');
                 $('#navbar .locals .fa-spin').css('opacity', 0);

@@ -1,7 +1,7 @@
 'use strict'
 
 const Local = {
-    client: new (require('local-video-library'))(Settings.apikeys.trakt_id, (DB.get('local_paths') || ['E:\\TEST'/*process.env.HOME*/])),
+    client: new (require('local-video-library'))(Settings.apikeys.trakt_id, (DB.get('local_paths') || [process.env.HOME])),
     
     scan: () => {
         console.info('Scanning local drive')
@@ -64,7 +64,7 @@ const Local = {
                 library.unmatched.push(file);
             }
         }
-        console.log(library)
+
         return library;
     }
 }
