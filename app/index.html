@@ -104,6 +104,11 @@
             <div class="row" id="movies" style="display:none"></div>
 
             <div id="locals" style="display:none">
+                <div class="refreshing">
+                    <div class="fa fa-spin fa-refresh"></div>
+                    <i18n>Updating...</i18n>
+                </div>
+
                 <div class="categories">
                     <div class="category movies" onClick="Interface.locals.show('movies')">
                         <div class="fa fa-film">
@@ -155,6 +160,25 @@
                         <button class="reload" onClick="Trakt.reload()">
                             <i18n>Reload</i18n>
                         </button>
+                    </div>
+                </div>
+            </div>
+            <div class="setting locals">
+                <div class="title">Local library</div>
+                <div class="option">
+                    <div class="text">
+                        <i18n>Search paths</i18n>
+                    </div>
+                    <div class="action">
+                        <div class="pathbox">
+                            <div class="paths"></div>
+                            <button onClick="Interface.addLocalPath()">
+                                <i18n>Add</i18n>
+                            </button>
+                            <button onClick="Interface.removeLocalPath()">
+                                <i18n>Remove</i18n>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

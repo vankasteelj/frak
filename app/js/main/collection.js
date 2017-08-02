@@ -67,11 +67,14 @@ const Collection = {
             if (!collection) $('#navbar .locals .fa-spin').css('opacity', 1);
 
             let method = collection ? 'update' : 'scan';
+            method == 'update' && $('#locals .refreshing').show() && Collection.format.locals(DB.get('locallibrary'));
+
             Local[method](collection).then(results => {
                 console.info('Local library collection recieved');
 
                 DB.store(results, 'locallibrary');
                 $('#navbar .locals .fa-spin').css('opacity', 0);
+                $('#locals .refreshing').hide();
 
                 Collection.format.locals(results);
             }).catch(console.error)

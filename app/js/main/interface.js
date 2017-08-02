@@ -139,5 +139,12 @@ const Interface = {
             $(`#locals .${cl}`).show();
             $('#locals .categories').hide();
         }
+    },
+
+    addLocalPath: () => {
+        
+    },
+    removeLocalPath: () => {
+        
     }
 };

@@ -1,7 +1,7 @@
 'use strict'
 
 const Local = {
-    client: new (require('local-video-library'))(Settings.apikeys.trakt_id, (DB.get('local_paths') || [process.env.HOME])),
+    client: new (require('local-video-library'))(Settings.apikeys.trakt_id, [process.env.HOME]),
     
     scan: () => {
         console.info('Scanning local drive')
@@ -15,6 +15,16 @@ const Local = {
 
     updatePaths: (paths) => {
         Local.client.parser.options.paths = paths;
+        DB.store(paths, 'local_paths');
+    },
+
+    setupPaths: () => {
+        let paths = DB.get('local_paths');
+        if (!paths) paths = [process.env.HOME];
+
+        Local.updatePaths(paths);
+
+        return Promise.resolve(paths);
     },
 
     buildVideoLibrary: (files) => {
