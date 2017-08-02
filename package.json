@@ -4,9 +4,9 @@
     "description": "A frakingly good media center",
     "license": "GPL-3.0",
     "version": "0.0.0",
-    "homepage": "",
+    "homepage": "https://github.com/vankasteelj/frak",
     "releases": "",
-    "icon": "",
+    "icon": "app/images/frak-logo.ico",
     "updateEndpoint": "",
     "scripts": {
         "test": "gulp jshint"
@@ -28,7 +28,7 @@
     },
     "repository": {
         "type": "git",
-        "url": ""
+        "url": "https://github.com/vankasteelj/frak"
     },
     "dependencies": {
         "i18n": "0.x.x",
