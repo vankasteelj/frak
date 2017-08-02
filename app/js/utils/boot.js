@@ -110,5 +110,8 @@ const Boot = {
 
         // lang dropdown
         Localization.setupDropdown();
+
+        // username
+        $('#settings .trakt .username').text(DB.get('trakt_profile').username);
     }
 };

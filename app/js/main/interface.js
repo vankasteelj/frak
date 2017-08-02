@@ -42,39 +42,57 @@ const Interface = {
         $('#traktwelcome .spinner').show();
     },
 
+    // AUTO: from welcome page
     showMain: () => {
         $('#traktwelcome').hide();
         $('#collection').show();
         $('#navbar').show();
     },
 
+    // USER INTERACTION: click navbar
     showMovies: () => {
         $('#navbar .nav').removeClass('active');
         $('#collection #movies').show();
         $('#collection #shows').hide();
         $('#collection #locals').hide();
+        $('#settings').hide();
         $('#navbar .movies').addClass('active');
         window.scrollTo(0,0);
     },
+    // USER INTERACTION: click navbar
     showShows: () => {
         $('#navbar .nav').removeClass('active');
         $('#collection #shows').show();
         $('#collection #movies').hide();
         $('#collection #locals').hide();
+        $('#settings').hide();
         $('#navbar .shows').addClass('active');
         window.scrollTo(0,0);
     },
+    // USER INTERACTION: click navbar
     showLocals: () => {
         $('#navbar .nav').removeClass('active');
         $('#collection #locals').show();
         $('#collection #shows').hide();
         $('#collection #movies').hide();
+        $('#settings').hide();
         $('#navbar .locals').addClass('active');
         $('#locals .categories').show();
         $('#locals .items').hide();
         window.scrollTo(0,0);
     },
+    // USER INTERACTION: click navbar
+    showSettings: () => {
+        $('#navbar .nav').removeClass('active');
+        $('#settings').show();
+        $('#collection #shows').hide();
+        $('#collection #locals').hide();
+        $('#collection #movies').hide();
+        $('#navbar .settings').addClass('active');
+        window.scrollTo(0,0);
+    },
 
+    // USER INTERACTION: click trailer item button
     playTrailer: (url) => {
         let ytc = url.split('=')[1];
         let iframe = $('<iframe>')
@@ -86,12 +104,14 @@ const Interface = {
         $('#trailer .video').append(iframe);
         $('#trailer').show();
     },
+    // USER INTERACTION: click out of the trailer popup
     closeTrailer: () => {
         $('#trailer').hide();
         $('#trailer .video').html('');
     },
 
     locals: {
+        // USER INTERACTION: click show
         showSeasons: (id) => {
             let opened = $(`#${id}`).hasClass('active');
 
@@ -102,6 +122,7 @@ const Interface = {
             $(`#${id}`).addClass('active');
             $(`#${id} .seasons`).show();
         },
+        // USER INTERACTION: click season
         showEpisodes: (id, s) => {
             event.stopPropagation();
             let opened = $(`#${id} .s${s}`).hasClass('active');
@@ -113,6 +134,7 @@ const Interface = {
             $(`#${id} .s${s}`).addClass('active');
             $(`#${id} .s${s} .episode`).show();
         },
+        // USER INTERACTION: click one of the local categories
         show: (cl) => {
             $(`#locals .${cl}`).show();
             $('#locals .categories').hide();

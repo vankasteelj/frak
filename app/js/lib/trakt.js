@@ -23,7 +23,19 @@ const Trakt = {
             console.info('Opening trakt.tv auth url');
             Interface.traktLogin(poll);
             return Trakt.client.poll_access(poll);
-        }).then(Trakt.connected).catch(console.error)
+        }).then(Trakt.connected).catch(console.error);
+    },
+
+    disconnect: () => {
+        delete localStorage.trakt_auth;
+        delete localStorage.traktmovies;
+        delete localStorage.traktmoviescollection;
+        delete localStorage.traktshows;
+        delete localStorage.traktshowscollection;
+        delete localStorage.traktsync;
+        delete localStorage.trakt_profile;
+
+        win.reload();
     },
 
     connected: (info) => {
@@ -43,5 +55,21 @@ const Trakt = {
                 new Date(results.movies.watched_at).valueOf()
             ]);
         }).catch(console.error)
+    },
+
+    reload: () => {
+        delete localStorage.traktmovies;
+        delete localStorage.traktmoviescollection;
+        delete localStorage.traktshows;
+        delete localStorage.traktshowscollection;
+        delete localStorage.traktsync;
+
+        Promise.all([
+            Collection.get.traktshows(),
+            Collection.get.traktmovies()
+        ]).then((collections) => {
+            //console.log('Fetching done', collections)
+            Collection.get.traktcached();
+        })
     }
 }

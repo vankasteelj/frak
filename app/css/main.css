@@ -573,7 +573,7 @@ input {
     position: fixed;
     height: 100%;
     background: rgba(11,11,11,0.8);
-    z-index: 999;
+    z-index: 998;
     transition: all .5s;
 }
 
@@ -588,3 +588,62 @@ input {
     position: absolute;
     margin: 200px calc(50% - 20px);
 }
+
+/* Settings */
+#settings {
+    position: absolute;
+    right: 0px;
+    width: calc(100% - 60px);
+    height: 100vh;
+}
+
+#settings .setting {
+    width: 50%;
+    border-bottom: 1px solid #2f2f2f;
+    margin: 20px auto;
+}
+
+#settings .title {
+    font-size: 18px;
+    margin-left: -100px;
+    line-height: 60px;
+    position: absolute;
+    font-family: 'Proxima Nova Semibold';
+}
+
+#settings .option {
+    height: 60px;
+}
+
+#settings .text {
+    display: inline;
+    line-height: 60px;
+    float: left;
+    color: #efefef;
+}
+
+#settings .action {
+    display: inline;
+    line-height: 60px;
+    float: right;
+}
+
+#settings .action button {
+    height: 40px;
+    line-height: 40px;
+    width: 150px;
+    background: #16a085;
+    border: 0px;
+    border-radius: 5px;
+    color: #fafafa;
+    transition: all .3s
+}
+#settings .action button:hover {
+    color: #fafafa;
+    background: #2b678f;
+}
+
+#settings .action button.disconnect:hover {
+    background: #b11010;
+}
+/* Settings END */

@@ -134,6 +134,32 @@
             </div>
         </section>
 
+        <section id="settings" style="display:none">
+            <div class="setting trakt">
+                <div class="title">Trakt.tv</div>
+                <div class="option">
+                    <div class="text">
+                        <i18n>Your are connected as</i18n> <span class="username"></span>
+                    </div>
+                    <div class="action">
+                        <button class="disconnect" onClick="Trakt.disconnect()">
+                            <i18n>Disconnect</i18n>
+                        </button>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="text">
+                        <i18n>Force a reload</i18n>
+                    </div>
+                    <div class="action">
+                        <button class="reload" onClick="Trakt.reload()">
+                            <i18n>Reload</i18n>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="trailer" style="display:none" onClick="Interface.closeTrailer()">
             <div class="spinner">
                 <div class="double-bounce1"></div>

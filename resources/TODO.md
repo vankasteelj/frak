@@ -1,6 +1,6 @@
 - keyboard shortcuts
-- settings
 - stream view + pop MPV player
+- locals: while it loads, no display
 - seen/unseed button
 - item: allow resort
 - items: allow col-sm-3, 6 and 12 (maybe computation can calc more sizes?)
