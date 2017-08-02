@@ -1,5 +1,5 @@
 'use strict'
-let TEST = {};
+
 const Local = {
     client: new (require('local-video-library'))(Settings.apikeys.trakt_id, (DB.get('local_paths') || ['E:\\TEST'/*process.env.HOME*/])),
     
@@ -64,7 +64,7 @@ const Local = {
                 library.unmatched.push(file);
             }
         }
-        TEST = library;
+        console.log(library)
         return library;
     }
 }

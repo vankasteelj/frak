@@ -18,7 +18,7 @@
     "main": "app/index.html",
     "window": {
         "title": "Frak",
-        "icon": "",
+        "icon": "app/images/frak-logo.png",
         "toolbar": false,
         "frame": true,
         "show": false,

@@ -515,7 +515,8 @@ input {
     background-color: #333
 }
 #locals .category .text {
-    font-size: 25px;
+    font-size: 18px;
+    font-family: 'Proxima Nova';
     margin-top: 20px;
 }
 
