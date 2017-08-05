@@ -461,6 +461,10 @@ input {
     font-size: 18px;
 }
 
+#locals .local-item .season .title {
+    font-size: 16px;
+}
+
 #locals .local-item .seasons,
 #locals .local-item .episode {
     display: none;

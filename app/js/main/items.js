@@ -132,7 +132,7 @@ const Items = {
     },
     constructLocalShow: (show) => {
         let d = {
-            id: Items.slugify(show.title) + '-local'
+            id: Items.slugify(show.metadata.title) + '-local'
         };
 
         let seasons = function () {
@@ -140,10 +140,16 @@ const Items = {
 
             for (let s in show.seasons) {
                 str += `<div class="season s${s}" onClick="Interface.locals.showEpisodes('${d.id}', ${s})"><span class="title">${i18n.__('Season %s',s)}</span>`;
+
                 for (let e in show.seasons[s].episodes) {
                     let sxe = `S${Items.pad(s)}E${Items.pad(e)}`;
                     let title = show.seasons[s].episodes[e].metadata.episode.title;
-                    str += `<div class="episode e${e}" onClick="Details.localEpisode(this)" id="${Items.slugify(show.seasons[s].episodes[e].path)}" onClick="event.stopPropagation()"><span class="data">${JSON.stringify(show.seasons[s].episodes[e])}</span><span class="e-title">${sxe} - ${title}</span></div>`;
+
+                    // attach show information
+                    let data = show.seasons[s].episodes[e];
+                    data.metadata.show = show.metadata;
+
+                    str += `<div class="episode e${e}" onClick="Details.localEpisode(this)" id="${Items.slugify(show.seasons[s].episodes[e].path)}" onClick="event.stopPropagation()"><span class="data">${JSON.stringify(data)}</span><span class="e-title">${sxe} - ${title}</span></div>`;
                 }
                 str += `</div>`;
             }
@@ -152,7 +158,7 @@ const Items = {
         }();
 
         let item = `<div class="local-item" id="${d.id}" onClick="Interface.locals.showSeasons('${d.id}')">`+
-            `<span class="title">${show.title}</span>`+
+            `<span class="title">${show.metadata.title}</span>`+
             `<div class="seasons">${seasons}</div>`+
         `</div>`;
 

@@ -13,11 +13,20 @@ const Details = {
     localMovie: (elm) => {
         let file = Details.getData(elm);
 
-        //Player.play(file.path);
+        Images.get.movie(file.metadata.movie.ids).then(images => {
+            file.metadata.movie.images = images;
+            console.log('images', images)
+        });
     },
 
     localEpisode: (elm) => {
-        let file = Details.getData(elm)
+        event.stopPropagation();
+        let file = Details.getData(elm);
+
+        Images.get.show(file.metadata.show.ids).then(images => {
+            file.metadata.show.images = images;
+            console.log('images', images)
+        });
     },
     
     localUnmatched: (elm) => {

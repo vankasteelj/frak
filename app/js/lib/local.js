@@ -46,11 +46,13 @@ const Local = {
 
                     if (!library.shows) library.shows = Array();
 
-                    let findShow = (title) => library.shows.find((show) => show.title === title);
+                    let findShow = (title) => library.shows.find((show) => show.metadata.title === title);
                     let found = findShow(file.metadata.show.title);
 
                     if (!found) {
-                        let newShow = file.metadata.show;
+                        let newShow = {
+                            metadata: file.metadata.show
+                        }
 
                         newShow.seasons = Object();
                         newShow.seasons[s] = Object();
