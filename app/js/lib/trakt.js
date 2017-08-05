@@ -12,7 +12,10 @@ const Trakt = {
 
     reconnect: () => {
         let auth = DB.get('trakt_auth');
-        if (!auth) return;
+        if (!auth) {
+            $('#init').show();
+            return;
+        }
 
         Trakt.client.import_token(auth).then(Trakt.connected);
     },

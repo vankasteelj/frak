@@ -20,6 +20,7 @@ const Interface = {
     // AUTO: from lib/trakt or boot
     traktConnected: (info) => {
         $('#traktinit').hide();
+        $('#init').show();
         $('#traktwelcome').show();
 
         if (info) {

@@ -2,3 +2,4 @@
 - stream view + pop MPV player
 - seen/unseed button
 - item: allow resort
+- about with credits + version
