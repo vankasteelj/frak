@@ -54,7 +54,13 @@ const Player = {
         Player.mpv = new (require('node-mpv'))({
             binary: p,
             auto_restart: false
-        });
+        }, [
+            //'--no-sub-auto',
+            '--geometry=50%',
+            '--sub-font-size=45',
+            '--sub-border-size=2',
+            '--sub-scale=0.7'
+        ]);
         $('#settings .mpv #fakempvpath').val(p)
     },
 
