@@ -9,23 +9,31 @@ const Player = {
     mpv: undefined,
 
     play: (file) => {
-        if (!Player.mpv) return;
+        if (!Player.mpv) {
+            console.error('No MPV player defined'); // this shouldn't happen
+            return;
+        }
 
-        Player.handleEvents();
+        Player.mpv.isRunning() && Player.quit() || Player.handleEvents();
 
         console.info('Playing:', file)
 
-        /* =node-mpv v1= */
+        /* =node-mpv v1= 
         Player.mpv.loadFile(file);
-        Player.mpv.observeProperty('percent-pos', 50);
+        Player.mpv.observeProperty('percent-pos', 50);*/
 
-        /* =node-mpv v2=
+        /* =node-mpv v2=*/
         Player.mpv.start().then(() => {
             Player.mpv.loadFile(file);
             Player.mpv.observeProperty('percent-pos', 50);
         }).catch(error => {
             console.error('MPV error', error);
-        });*/
+        });
+    },
+
+    quit: () => {
+        console.log('MPV quitted at %s%', Player.config.states['percent-pos']);
+        Player.mpv.quit();
     },
 
     handleEvents: () => {
@@ -41,10 +49,14 @@ const Player = {
             console.log('MPV resumed at %s%', Player.config.states['percent-pos']);
         });
         Player.mpv.on('stopped', () => {
-            console.log('MPV stopped')
+            console.log('MPV stopped');
+        });
+        Player.mpv.on('crashed', () => {
+            console.log('MPV crashed');
+            Player.quit();
         });
         Player.mpv.on('quit', () => {
-            console.log('MPV quitted at %s%', Player.config.states['percent-pos']);
+            Player.quit();
         });
 
         Player.config.events = true;
