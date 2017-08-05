@@ -31,6 +31,8 @@ const Local = {
         const library = Object();
 
         for (let file of files) {
+            file.path = file.path.replace(/\\/g, '/'); //unix-like
+
             if (file.metadata && file.metadata.type) {
 
                 if (file.metadata.type == 'movie') {
