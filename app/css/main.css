@@ -195,7 +195,6 @@ input {
 #traktwelcome p {
     margin: 15px 0;
     font-size: 14px;
-    color: #ccc;
 }
 
 #traktinit img,
@@ -212,24 +211,16 @@ input {
 #traktinit button {
     display: inline-block;
     font-size: 15px;
-    color: #fafafa;
     width: 170px;
     height: 55px;
     margin: 40px 0 10px 0;
     font-weight: 600;
     border: 1px solid transparent;
     border-radius: 3px;
-    background: #16a085;
     transition: all .3s;
 }
 
-#traktinit button:hover {
-    color: #fafafa;
-    background: #138a72;
-}
-
 #traktinit input {
-    color: #1d1d1d;
     text-align: center;
     margin: 40px 0 10px 0;
     font-size: 20px;
@@ -257,7 +248,6 @@ input {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: #333;
   opacity: 0.6;
   position: absolute;
   top: 0;
@@ -265,7 +255,6 @@ input {
 }
 
 #navbar .fa-spin {
-    color: rgb(0,230,255);
     position: absolute;
     font-size: 16px;
     margin-top: -7px;
@@ -280,7 +269,6 @@ input {
     overflow: hidden;
     background-size: cover;
     background-position: 50%;
-    background-color: #1d1d1d;
 }
 #collection .fanart img {
     opacity: 1;
@@ -339,39 +327,30 @@ input {
 }
 
 #collection .titles h4 .sxe {
-    background-color: #ed1c24;
-    color: #fafafa;
     padding: 3px 5px;
 }
 
 #collection .titles h4 .eptitle {
-    color: #ddd;
-    background-color: rgba(0,0,0,0.4);
     padding: 3px 5px;
     padding-left: 6px;
 }
 
 #collection .titles h4 .unseen {
-    color: #1d1d1d;
-    background-color: rgba(255,200,0,1);
     font-weight: bold;
     padding: 3px 5px;
 }
 
 #collection .titles h3 {
-    color: #fafafa;
     margin-top: 3px;
     text-shadow: 0 0 20px black;
     font-family: 'Proxima Nova Semibold';
     font-size: 18px;
     padding: 10px;
-    background-color: rgba(0,0,0,0.4);
     display: inline-block;
 }
 #collection .titles h3 .year {
     font-weight: 200;
     font-size: 14px;
-    color: #bbb;
     padding-left: 6px;
 }
 
@@ -417,7 +396,6 @@ input {
 }
 
 #collection .metadata .fa-heart {
-    color: #b11010;
     font-size: 16px;
     margin-right: 5px;
 }
@@ -427,13 +405,12 @@ input {
 }
 
 #collection .local-item {
-    line-height: 59px; /* because of border-bottom 1px */
+    line-height: 58px; /* because of border-bottom 1px */
     font-family: 'Proxima Nova Semibold';
 }
 
 #locals {
     display: none;
-    color: #dfdfdf;
 }
 
 #locals .refreshing {
@@ -442,7 +419,6 @@ input {
     bottom: 0;
     right: 0;
     padding: 5px 10px;
-    background: rgba(11, 11, 11, 0.8);
 }
 
 #locals .local-item,
@@ -453,23 +429,9 @@ input {
 #locals .local-item:hover,
 #locals .local-item.active {
     cursor: pointer;
-    color: #fafafa;
-    background-color: #222;
-}
-#locals .local-item.active {
-    background-color: #292929;
 }
 #locals .local-item .season {
-    color: #dfdfdf;
     font-family: 'Proxima Nova';
-}
-#locals .local-item .season:hover,
-#locals .local-item .season.active {
-    background-color: #2f2f2f;
-    color: #fafafa
-}
-#locals .local-item .season.active {
-    background-color: #393939;
 }
 #locals .local-item .season {
     padding-left: 40px;
@@ -478,12 +440,7 @@ input {
 #locals .local-item .episode {
     margin-left: -40px;
     padding-left: 80px;
-    color: #dfdfdf;
     font-family: 'Proxima Nova';
-}
-#locals .local-item .episode:hover {
-    background-color: #3f3f3f;
-    color: #fafafa
 }
 
 #locals .local-item .title {
@@ -514,16 +471,11 @@ input {
     line-height: 190px;
     margin-top: 150px;
     border: 1px dashed #aaa;
-    color: #bfbfbf;
     border-radius: 40px;
     transition: all .5s;
     cursor: pointer;
 }
-#locals .category:hover {
-    color: #fafafa;
-    border-color: #888;
-    background-color: #333
-}
+
 #locals .category .text {
     font-size: 18px;
     font-family: 'Proxima Nova';
@@ -549,17 +501,8 @@ input {
     height: 60px;
     padding: 20px;
     font-size: 20px;
-    color: #ccc;
     cursor: pointer;
     transition: all .5s;
-}
-#navbar .nav:hover {
-    color: #fafafa;
-    background-color: #333;
-}
-#navbar .nav.active {
-    color: #fafafa;
-    background-color: #444;
 }
 
 #navbar .nav .text {
@@ -582,7 +525,6 @@ input {
     width: 100vw;
     position: fixed;
     height: 100%;
-    background: rgba(11,11,11,0.8);
     z-index: 998;
     transition: all .5s;
 }
@@ -633,7 +575,6 @@ input {
     display: inline;
     line-height: 60px;
     float: left;
-    color: #efefef;
 }
 
 #settings .action {
@@ -646,19 +587,9 @@ input {
     height: 40px;
     line-height: 40px;
     width: 150px;
-    background: #16a085;
     border: 0px;
     border-radius: 5px;
-    color: #fafafa;
     transition: all .3s
-}
-#settings .action button:hover {
-    color: #fafafa;
-    background: #2b678f;
-}
-
-#settings .action button.disconnect:hover {
-    background: #b11010;
 }
 
 #settings .locals .option {
@@ -673,7 +604,6 @@ input {
 #settings .locals .option .pathbox .paths {
     height: 100px;
     width: 304px;
-    background: rgba(255,255,255,.1);
     border-radius: 5px;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -686,14 +616,6 @@ input {
     padding: 5px 15px;
     line-height: 25px;
     cursor: pointer;
-    color: #ccc;
-}
-#settings .locals .option .pathbox .paths li:hover {
-    background: rgba(0,0,0,.1);
-}
-#settings .locals .option .pathbox .paths li.selected {
-    background: rgba(0,0,0,.3);
-    color: #eee;
 }
 
 #hidden-input-local {
@@ -707,7 +629,6 @@ input {
 #settings .interface .action {
     font-size: 20px;
     font-family: 'Proxima Nova Semibold';
-    color: #dadada;
 }
 /* Settings END */
 
@@ -731,7 +652,6 @@ input {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #16a085;
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -743,7 +663,6 @@ input {
   width: 22px;
   left: 3px;
   bottom: 2px;
-  background-color: #efefef;
   -webkit-transition: .4s;
   transition: .4s;
 }

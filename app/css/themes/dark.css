@@ -109,3 +109,170 @@ input {
     color: #fafafa;
     background-color: #2b678f;
 }
+#traktinit p,
+#traktwelcome p {
+    color: #ccc;
+}
+
+#traktinit button {
+    color: #fafafa;
+    background: #16a085;
+}
+
+#traktinit button:hover {
+    color: #fafafa;
+    background: #138a72;
+}
+
+#traktinit input {
+    color: #1d1d1d;
+}
+
+.double-bounce1, .double-bounce2 {
+  background-color: #333;
+}
+
+#navbar .fa-spin {
+    color: rgb(0,230,255);
+}
+
+#collection .fanart {
+    background-color: #1d1d1d;
+}
+
+#collection .titles h4 .sxe {
+    background-color: #ed1c24;
+    color: #fafafa;
+}
+
+#collection .titles h4 .eptitle {
+    color: #ddd;
+    background-color: rgba(0,0,0,0.4);
+}
+
+#collection .titles h4 .unseen {
+    color: #1d1d1d;
+    background-color: rgba(255,200,0,1);
+}
+
+#collection .titles h3 {
+    color: #fafafa;
+    background-color: rgba(0,0,0,0.4);
+}
+#collection .titles h3 .year {
+    color: #bbb;
+}
+
+#collection .metadata .fa-heart {
+    color: #b11010;
+}
+
+#locals {
+    color: #dfdfdf;
+}
+
+#locals .refreshing {
+    background: rgba(11, 11, 11, 0.8);
+}
+
+#locals .local-item:hover,
+#locals .local-item.active {
+    color: #fafafa;
+    background-color: #222;
+}
+#locals .local-item.active {
+    background-color: #292929;
+}
+#locals .local-item .season {
+    color: #dfdfdf;
+}
+#locals .local-item .season:hover,
+#locals .local-item .season.active {
+    background-color: #2f2f2f;
+    color: #fafafa
+}
+#locals .local-item .season.active {
+    background-color: #393939;
+}
+
+#locals .local-item .episode {
+    color: #dfdfdf;
+}
+#locals .local-item .episode:hover {
+    background-color: #3f3f3f;
+    color: #fafafa
+}
+
+#locals .category {
+    border-color: #aaa;
+    color: #bfbfbf;
+}
+#locals .category:hover {
+    color: #fafafa;
+    border-color: #888;
+    background-color: #333
+}
+
+#navbar .nav {
+    color: #ccc;
+}
+#navbar .nav:hover {
+    color: #fafafa;
+    background-color: #333;
+}
+#navbar .nav.active {
+    color: #fafafa;
+    background-color: #444;
+}
+
+#trailer {
+    background: rgba(11,11,11,0.8);
+}
+
+#settings .setting {
+    border-bottom: 1px solid #2f2f2f;
+}
+
+#settings .text {
+    color: #efefef;
+}
+
+#settings .action button {
+    background: #16a085;
+    color: #fafafa;
+}
+#settings .action button:hover {
+    color: #fafafa;
+    background: #2b678f;
+}
+
+#settings .action button.disconnect:hover {
+    background: #b11010;
+}
+
+#settings .locals .option .pathbox .paths {
+    background: rgba(255,255,255,.1);
+}
+
+#settings .locals .option .pathbox .paths li {
+    color: #ccc;
+}
+#settings .locals .option .pathbox .paths li:hover {
+    background: rgba(0,0,0,.1);
+}
+#settings .locals .option .pathbox .paths li.selected {
+    background: rgba(0,0,0,.3);
+    color: #eee;
+}
+
+#settings .interface .action {
+    color: #dadada;
+}
+
+.slider {
+  background-color: #16a085;
+}
+
+.slider:before {
+  background-color: #efefef;
+} 
