@@ -142,9 +142,11 @@ const Interface = {
     },
 
     addLocalPath: () => {
-        
+        document.querySelector('#hidden-input-local').click();
     },
     removeLocalPath: () => {
-        
+        let selected = $('#settings .locals .option .paths li.selected');
+        if (!selected.length) return;
+        Local.removePath(selected.text());
     }
 };

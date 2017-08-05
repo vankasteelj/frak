@@ -660,4 +660,43 @@ input {
 #settings .action button.disconnect:hover {
     background: #b11010;
 }
+
+#settings .locals .option {
+    height: 160px;
+}
+
+#settings .locals .option .pathbox {
+    height: 150px;
+    position: relative;
+}
+
+#settings .locals .option .pathbox .paths {
+    height: 100px;
+    width: 304px;
+    background: rgba(255,255,255,.1);
+    border-radius: 5px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#settings .locals .option .pathbox .paths li {
+    list-style: none;
+    font-size: 12px;
+    font-family: monospace;
+    padding: 5px 15px;
+    line-height: 25px;
+    cursor: pointer;
+    color: #ccc;
+}
+#settings .locals .option .pathbox .paths li:hover {
+    background: rgba(0,0,0,.1);
+}
+#settings .locals .option .pathbox .paths li.selected {
+    background: rgba(0,0,0,.3);
+    color: #eee;
+}
+
+#hidden-input-local {
+    display: none;
+}
 /* Settings END */

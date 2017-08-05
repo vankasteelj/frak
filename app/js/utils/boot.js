@@ -5,6 +5,7 @@ const Boot = {
         Localization.setupLocalization();   // localize
         Boot.setupSettings();               // setup settings popup
         Boot.checkVisible();                // nwjs window position
+        Boot.setupInputs();                 // browse button
         Boot.setupRightClicks();            // right click menus
         Keyboard.setupShortcuts();          // keyboard shortcuts
         Update.checkUpdates();              // update
@@ -115,8 +116,13 @@ const Boot = {
         $('#settings .trakt .username').text(DB.get('trakt_profile') && DB.get('trakt_profile').username);
 
         // search paths for locals
-        Local.setupPaths().then(paths => {
-            //todo
-        })
+        Local.setupPaths();
+    },
+
+    setupInputs: () => {
+        document.querySelector('#hidden-input-local').addEventListener('change', (evt) => {
+            let directory = $('#hidden-input-local').val();
+            Local.addPath(directory);
+        }, false);
     }
 };

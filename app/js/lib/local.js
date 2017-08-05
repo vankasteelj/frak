@@ -13,18 +13,17 @@ const Local = {
         return Local.client.update(library);
     },
 
-    updatePaths: (paths) => {
+    updateClientPaths: (paths) => {
         Local.client.parser.options.paths = paths;
         DB.store(paths, 'local_paths');
     },
 
     setupPaths: () => {
         let paths = DB.get('local_paths');
-        if (!paths) paths = [process.env.HOME];
+        if (!paths || (paths && !paths[0])) paths = [process.env.HOME];
 
-        Local.updatePaths(paths);
-
-        return Promise.resolve(paths);
+        Local.updateClientPaths(paths);
+        Local.setSettingsPaths(paths);
     },
 
     buildVideoLibrary: (files) => {
@@ -76,5 +75,49 @@ const Local = {
         }
 
         return library;
+    },
+
+    setSettingsPaths: (paths) => {
+        $('#settings .locals .option .paths').html('');
+
+        let items = String();
+        for (let p of paths) {
+            items += `<li onClick="Local.setSettingsActive(this)">${p}</li>`;
+        }
+        $('#settings .locals .option .paths').append(items);
+    },
+
+    setSettingsActive: (item) => {
+        $('#settings .locals .option .paths li').removeClass('selected');
+        $(item).addClass('selected');
+    },
+
+    removePath: (p) => {
+        let paths = DB.get('local_paths');
+        paths.splice(paths.indexOf(p), 1);
+
+        DB.store(paths, 'local_paths');
+        Local.setupPaths();
+
+        //remove untracked files
+        let library = DB.get('locallibrary');
+        let newLibrary = Array();
+        for (let file of library) {
+            if (!file.path.startsWith(p)) newLibrary.push(file);
+        }
+        DB.store(newLibrary, 'locallibrary');
+        Collection.format.locals(newLibrary);
+    },
+    addPath: (p) => {
+        let paths = DB.get('local_paths');
+        paths.push(p);
+
+        DB.store(paths, 'local_paths');
+        Local.setupPaths();
+        
+        setTimeout(() => {
+            $('#navbar .locals .fa-spin').css('opacity', 1)
+            Collection.get.local()
+        }, 500);
     }
 }
