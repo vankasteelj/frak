@@ -1,7 +1,6 @@
 - keyboard shortcuts
 - stream view + pop MPV player
 - locals: while it loads, show a "wait for it" kind of message
-- locals: multiple scans can occur at the same time
 - seen/unseed button
 - item: allow resort
 - items: allow col-sm-3, 6 and 12 (maybe computation can calc more sizes?)

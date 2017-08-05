@@ -69,12 +69,18 @@ const Collection = {
             let method = collection ? 'update' : 'scan';
             method == 'update' && $('#locals .refreshing').show() && Collection.format.locals(DB.get('locallibrary'));
 
+            Local.scans++;
+
             Local[method](collection).then(results => {
                 console.info('Local library collection recieved');
+                Local.scans--;
 
                 DB.store(results, 'locallibrary');
-                $('#navbar .locals .fa-spin').css('opacity', 0);
-                $('#locals .refreshing').hide();
+
+                if (Local.scans <= 0) {
+                    $('#navbar .locals .fa-spin').css('opacity', 0);
+                    $('#locals .refreshing').hide();
+                }
 
                 Collection.format.locals(results);
             }).catch(console.error)

@@ -1,6 +1,7 @@
 'use strict'
 
 const Local = {
+    scans: 0,
     client: new (require('local-video-library'))(Settings.apikeys.trakt_id, [process.env.HOME]),
     
     scan: () => {
