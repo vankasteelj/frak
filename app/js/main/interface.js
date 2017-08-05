@@ -14,6 +14,7 @@ const Interface = {
         $('#traktAuth, #traktinit a').hide();
         $('#traktinit p').text(i18n.__('Enter the code below in your browser'));
         $('#traktCode').val(poll.user_code).show();
+        gui.Clipboard.get().set(poll.user_code); //ctrl+v easy hack
     },
 
     // AUTO: from lib/trakt or boot
