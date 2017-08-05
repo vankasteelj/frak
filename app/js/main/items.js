@@ -24,10 +24,11 @@ const Items = {
             image: Images.reduce(movie.movie.images.fanart) || movie.movie.images.poster,
             id: Items.slugify(movie.movie.title) + '-trakt',
             data: JSON.stringify(movie),
-            rating: Items.percentage(movie.movie.rating)
+            rating: Items.percentage(movie.movie.rating),
+            size: DB.get('small_items') ? 4 : 6
         }
 
-        let item = `<div class="grid-item col-sm-6" id="${d.id}">`+
+        let item = `<div class="grid-item col-sm-${d.size}" id="${d.id}">`+
             `<span class="data">${d.data}</span>`+
             `<div class="fanart" style="background-image: url('${d.image}')">`+
                 `<img class="base" src="images/placeholder.png">`+
@@ -63,10 +64,11 @@ const Items = {
             id: Items.slugify(show.show.title) + '-trakt',
             sxe: `s${Items.pad(show.next_episode.season)}e${Items.pad(show.next_episode.number)}`,
             data: JSON.stringify(show),
-            rating: Items.percentage(show.show.rating)
+            rating: Items.percentage(show.show.rating),
+            size: DB.get('small_items') ? 4 : 6
         }
 
-        let item = `<div class="grid-item col-sm-6" id="${d.id}">`+
+        let item = `<div class="grid-item col-sm-${d.size}" id="${d.id}">`+
             `<span class="data">${d.data}</span>`+
             `<div class="fanart" style="background-image: url('${d.image}')">`+
                 `<img class="base" src="images/placeholder.png">`+

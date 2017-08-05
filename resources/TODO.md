@@ -3,4 +3,3 @@
 - locals: while it loads, show a "wait for it" kind of message
 - seen/unseed button
 - item: allow resort
-- items: allow col-sm-3, 6 and 12 (maybe computation can calc more sizes?)

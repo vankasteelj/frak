@@ -148,5 +148,16 @@ const Interface = {
         let selected = $('#settings .locals .option .paths li.selected');
         if (!selected.length) return;
         Local.removePath(selected.text());
+    },
+
+    switchCollectionSize: (wasBig) => {
+        console.info('Switching items size to %s items per row', wasBig ? '3' : '2');
+
+        let size = {
+            from: wasBig ? 6 : 4,
+            to: wasBig ? 4 : 6
+        }
+
+        $(`.col-sm-${size.from}`).addClass(`col-sm-${size.to}`).removeClass(`col-sm-${size.from}`);
     }
 };

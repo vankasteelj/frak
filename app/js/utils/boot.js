@@ -117,12 +117,23 @@ const Boot = {
 
         // search paths for locals
         Local.setupPaths();
+
+        // items size
+        if (DB.get('small_items')) {
+            document.querySelector('#items-per-row').checked = true;
+        }
     },
 
     setupInputs: () => {
         document.querySelector('#hidden-input-local').addEventListener('change', (evt) => {
             let directory = $('#hidden-input-local').val();
             Local.addPath(directory);
+        }, false);
+
+        document.querySelector('#items-per-row').addEventListener('click', (evt) => {
+            let isSmall = evt.toElement.checked;
+            DB.store(isSmall, 'small_items');
+            Interface.switchCollectionSize(isSmall);
         }, false);
     }
 };
