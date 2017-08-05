@@ -22,5 +22,6 @@ const Loading = {
     
     localUnmatched: (elm) => {
         let file = Loading.getData(elm);
+        Player.play(file.path);
     }
 }

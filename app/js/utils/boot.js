@@ -3,6 +3,7 @@ const Boot = {
     // STARTUP: load app: ui,settings,features
     load: () => {
         Localization.setupLocalization();   // localize
+        Player.findMpv()                    // player
         Boot.setupSettings();               // setup settings popup
         Boot.checkVisible();                // nwjs window position
         Boot.setupInputs();                 // browse button
