@@ -54,7 +54,9 @@
                 <img src="images/trakt-logo.png"/>
                 <p><i18n>You need a Trakt.tv account</i18n></p>
 
-                <button id="traktAuth" onClick="Trakt.login()">Connect</button>
+                <button id="traktAuth" onClick="Trakt.login()">
+                    <i18n>Connect</i18n>
+                </button>
                 <input style="display:none" id="traktCode" value=""/>
 
                 <a class="createaccount" onClick="Misc.openExternal('https://trakt.tv/auth/join')">
@@ -71,6 +73,18 @@
                     <div class="double-bounce1"></div>
                     <div class="double-bounce2"></div>
                 </div>
+            </div>
+            <div id="requirempv" style="display:none">
+                <img src="images/mpv-logo.png"/>
+                <p><i18n>MPV player needs to be installed</i18n></p>
+                
+                <button id="downloadMPV" onClick="Misc.openExternal('https://mpv.io/installation/')">
+                    <i18n>Download</i18n>
+                </button>
+
+                <a class="skipMPV" onClick="Interface.showMain()">
+                    <i18n>It's done</i18n>
+                </a>
             </div>
         </section>
 
@@ -166,7 +180,7 @@
                 </div>
             </div>
             <div class="setting locals">
-                <div class="title">Local library</div>
+                <div class="title"><i18n>Local library</i18n></div>
                 <div class="option">
                     <div class="text">
                         <i18n>Search paths</i18n>
@@ -186,7 +200,7 @@
                 </div>
             </div>
             <div class="setting interface">
-                <div class="title">Interface</div>
+                <div class="title"><i18n>Interface</i18n></div>
                 <div class="option">
                     <div class="text">
                         <i18n>Items per row</i18n>
@@ -198,6 +212,18 @@
                             <span class="slider round"></span>
                         </label>
                         &nbsp;3
+                    </div>
+                </div>
+            </div>
+            <div class="setting mpv">
+                <div class="title"><i18n>Player</i18n></div>
+                <div class="option">
+                    <div class="text">
+                        <i18n>Path to MPV</i18n>
+                    </div>
+                    <div class="action">
+                        <input id="mpvpath" type="file"/>
+                        <input id="fakempvpath" type="text" readonly onClick="Interface.setMPVPath()"/>
                     </div>
                 </div>
             </div>

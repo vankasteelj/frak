@@ -184,6 +184,7 @@ input {
 
 /* init */
 #traktinit,
+#requirempv,
 #traktwelcome {
     width: 25%;
     margin: 0 auto;
@@ -192,12 +193,14 @@ input {
 }
 
 #traktinit p,
+#requirempv p,
 #traktwelcome p {
     margin: 15px 0;
     font-size: 14px;
 }
 
 #traktinit img,
+#requirempv img,
 #welcomeprofile img {
     width: 80px;
     height: 80px;
@@ -208,7 +211,8 @@ input {
     margin: 40px auto;
 }
 
-#traktinit button {
+#traktinit button,
+#requirempv button {
     display: inline-block;
     font-size: 15px;
     width: 170px;
@@ -228,7 +232,8 @@ input {
     height: 55px;
 }
 
-#traktinit a {
+#traktinit a,
+#requirempv a {
     display: block;
     font-size: 13px;
 }
@@ -627,24 +632,36 @@ input {
 }
 
 #settings .interface .action {
-    font-size: 20px;
-    font-family: 'Proxima Nova Semibold';
+    font-size: 14px;
+    font-family: 'Proxima Nova';
+}
+
+#settings .mpv #mpvpath {
+    display: none;
+}
+
+#settings .mpv input {
+    cursor: pointer;
+    height: 30px;
+    padding: 10px;
+    text-align: center;
+    width: 220px;
+    font-family: monospace;
+    color: #ccc;
+    font-size: 12px;
 }
 /* Settings END */
 
 /* slider */
- /* The switch - the box around the slider */
 .switch {
   position: relative;
   display: inline-block;
-  width: 55px;
-  height: 26px;
+  width: 45px;
+  height: 20px;
 }
 
-/* Hide default HTML checkbox */
 .switch input {display:none;}
 
-/* The slider */
 .slider {
   position: absolute;
   cursor: pointer;
@@ -659,20 +676,18 @@ input {
 .slider:before {
   position: absolute;
   content: "";
-  height: 22px;
-  width: 22px;
+  height: 16px;
+  width: 16px;
   left: 3px;
   bottom: 2px;
   -webkit-transition: .4s;
   transition: .4s;
 }
 
-
 input:checked + .slider:before {
-  transform: translateX(27px);
+  transform: translateX(23px);
 }
 
-/* Rounded sliders */
 .slider.round {
   border-radius: 34px;
 }

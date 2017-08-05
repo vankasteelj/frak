@@ -43,8 +43,15 @@ const Interface = {
     },
 
     // AUTO: from welcome page
+    requireMPV: () => {
+        $('#traktwelcome').hide();
+        $('#requirempv').show();
+    },
+
+    // AUTO: from welcome page
     showMain: () => {
         $('#traktwelcome').hide();
+        $('#requirempv').hide();
         $('#collection').show();
         $('#navbar').show();
     },
@@ -159,5 +166,9 @@ const Interface = {
         }
 
         $(`.col-sm-${size.from}`).addClass(`col-sm-${size.to}`).removeClass(`col-sm-${size.from}`);
+    },
+    
+    setMPVPath: () => {
+        document.querySelector('#mpvpath').click();
     }
 };

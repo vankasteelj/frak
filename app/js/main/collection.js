@@ -59,7 +59,13 @@ const Collection = {
 
             Collection.show.movies(movies);
             Collection.show.shows(shows);
-            setTimeout(() => Interface.showMain(), 1500);
+            setTimeout(() => {
+                if (!Player.mpv) {
+                    Interface.requireMPV();
+                } else {
+                    Interface.showMain();
+                }
+            }, 1500);
         },
         local: () => {
             let collection = DB.get('locallibrary');

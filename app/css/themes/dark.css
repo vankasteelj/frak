@@ -110,16 +110,19 @@ input {
     background-color: #2b678f;
 }
 #traktinit p,
-#traktwelcome p {
+#traktwelcome p,
+#requirempv p {
     color: #ccc;
 }
 
-#traktinit button {
+#traktinit button,
+#requirempv button {
     color: #fafafa;
     background: #16a085;
 }
 
-#traktinit button:hover {
+#traktinit button:hover,
+#requirempv button:hover {
     color: #fafafa;
     background: #138a72;
 }
@@ -251,11 +254,13 @@ input {
     background: #b11010;
 }
 
-#settings .locals .option .pathbox .paths {
+#settings .locals .option .pathbox .paths,
+#settings .mpv input {
     background: rgba(255,255,255,.1);
 }
 
-#settings .locals .option .pathbox .paths li {
+#settings .locals .option .pathbox .paths li,
+#settings .mpv input {
     color: #ccc;
 }
 #settings .locals .option .pathbox .paths li:hover {

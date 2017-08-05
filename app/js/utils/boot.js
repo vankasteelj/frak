@@ -3,7 +3,7 @@ const Boot = {
     // STARTUP: load app: ui,settings,features
     load: () => {
         Localization.setupLocalization();   // localize
-        Player.findMpv()                    // player
+        try{Player.findMpv()}catch(e){};    // player
         Boot.setupSettings();               // setup settings popup
         Boot.checkVisible();                // nwjs window position
         Boot.setupInputs();                 // browse button
@@ -130,6 +130,11 @@ const Boot = {
             let directory = $('#hidden-input-local').val();
             Local.addPath(directory);
         }, false);
+
+        document.querySelector('#mpvpath').addEventListener('change', (evt) => {
+            let p = $('#mpvpath').val();
+            Player.setMPV(p);
+        })
 
         document.querySelector('#items-per-row').addEventListener('click', (evt) => {
             let isSmall = evt.toElement.checked;

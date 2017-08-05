@@ -50,22 +50,25 @@ const Player = {
         Player.config.events = true;
     },
 
+    setMPV: (p) => {
+        Player.mpv = new (require('node-mpv'))({
+            binary: p,
+            auto_restart: false
+        });
+        $('#settings .mpv #fakempvpath').val(p)
+    },
+
     findMpv: () => {
-        // automatic on osx/linux
+        // should be automatic on osx/linux
         if (process.platform !== 'win32') {
-            Player.mpv = new (require('node-mpv'))({
-                auto_restart: false
-            });
+            Player.setMPV();
             return;
         }
 
         // did we store it?
         let found = DB.get('mpv');
         if (found && fs.existsSync(found)) {
-            Player.mpv = new (require('node-mpv'))({
-                binary: found,
-                auto_restart: false
-            });
+            Player.setMPV(found);
             return;
         } else {
             found = undefined;
@@ -103,18 +106,9 @@ const Player = {
                     found = d.fullPath.replace(/\\/g, '/');
                     DB.store(found, 'mpv');
 
-                    Player.mpv = new (require('node-mpv'))({
-                        binary: found,
-                        auto_restart: false
-                    });
+                    Player.setMPV(found);
                 }
             });
         }
-
-        setTimeout(() => {
-            if (!found || !Player.mpv) {
-                Notify.snack(i18n.__('No MPV player found, please set it in the Settings'), 10000);
-            }
-        }, 10000)
     }
 }
