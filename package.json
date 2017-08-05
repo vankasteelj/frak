@@ -1,5 +1,5 @@
 {
-    "name": "frakingplayer",
+    "name": "frak",
     "releaseName": "Frak",
     "description": "A frakingly good media center",
     "license": "GPL-3.0",
@@ -35,7 +35,7 @@
         "trakt.tv": "5.x.x",
         "trakt.tv-ondeck": "5.x.x",
         "trakt.tv-matcher": "5.x.x",
-        "local-video-library": "0.0.x",
+        "local-video-library": "1.x.x",
         "mdata": "0.x.x"
     },
     "devDependencies": {

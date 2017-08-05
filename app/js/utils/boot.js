@@ -112,7 +112,7 @@ const Boot = {
         Localization.setupDropdown();
 
         // username
-        $('#settings .trakt .username').text(DB.get('trakt_profile').username);
+        $('#settings .trakt .username').text(DB.get('trakt_profile') && DB.get('trakt_profile').username);
 
         // search paths for locals
         Local.setupPaths().then(paths => {
