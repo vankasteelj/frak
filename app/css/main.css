@@ -283,7 +283,7 @@ input {
     background-color: #1d1d1d;
 }
 #collection .fanart img {
-    opacity: 0;
+    opacity: 1;
     transition: all .5s;
 }
 #collection .base {
@@ -506,6 +506,7 @@ input {
 #locals .category {
     margin: 0 auto;
     justify-content: center;
+    display: none;
     text-align: center;
     font-size: 40px;
     height: 200px;

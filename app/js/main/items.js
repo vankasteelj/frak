@@ -51,7 +51,7 @@ const Items = {
         `</div>`;
 
         Items.getImage(d.image).then(state => {
-            !state && $(`#${d.id} .fanart img`).css('opacity', '1');
+            state && $(`#${d.id} .fanart img`).css('opacity', '0');
             !movie.movie.trailer && $(`#${d.id} .trailer`).hide();
         })
 
@@ -95,7 +95,7 @@ const Items = {
         `</div>`;
 
         Items.getImage(d.image).then(state => {
-            !state && $(`#${d.id} .fanart img`).css('opacity', '1');
+            state && $(`#${d.id} .fanart img`).css('opacity', '0');
             !show.show.trailer && $(`#${d.id} .trailer`).hide();
             !(show.unseen - 1) && $(`#${d.id} .unseen`).hide();
         });
