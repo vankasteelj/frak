@@ -1,5 +1,4 @@
 - keyboard shortcuts
 - stream view + pop MPV player
-- locals: while it loads, show a "wait for it" kind of message
 - seen/unseed button
 - item: allow resort

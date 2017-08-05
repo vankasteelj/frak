@@ -103,12 +103,12 @@ const Local = {
         Local.setupPaths();
 
         //remove untracked files
-        let library = DB.get('locallibrary');
+        let library = DB.get('local_library');
         let newLibrary = Array();
         for (let file of library) {
             if (!file.path.startsWith(p)) newLibrary.push(file);
         }
-        DB.store(newLibrary, 'locallibrary');
+        DB.store(newLibrary, 'local_library');
         Collection.format.locals(newLibrary);
     },
     addPath: (p) => {

@@ -426,6 +426,14 @@ input {
     padding: 5px 10px;
 }
 
+#locals .waitforlibrary {
+    width: 50%;
+    margin: 0 auto;
+    font-size: 16px;
+    text-align: center;
+    font-family: 'Proxima Nova';
+}
+
 #locals .local-item,
 #locals .local-item .season,
 #locals .local-item .episode {

@@ -178,6 +178,10 @@ input {
     background: rgba(11, 11, 11, 0.8);
 }
 
+#locals .waitforlibrary {
+    color: #888;
+}
+
 #locals .local-item:hover,
 #locals .local-item.active {
     color: #fafafa;

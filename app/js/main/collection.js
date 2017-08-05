@@ -68,12 +68,12 @@ const Collection = {
             }, 1500);
         },
         local: () => {
-            let collection = DB.get('locallibrary');
+            let collection = DB.get('local_library');
 
             if (!collection) $('#navbar .locals .fa-spin').css('opacity', 1);
 
             let method = collection ? 'update' : 'scan';
-            method == 'update' && $('#locals .refreshing').show() && Collection.format.locals(DB.get('locallibrary'));
+            method == 'update' && $('#locals .refreshing').show() && Collection.format.locals(DB.get('local_library'));
 
             Local.scans++;
 
@@ -81,7 +81,7 @@ const Collection = {
                 console.info('Local library collection recieved');
                 Local.scans--;
 
-                DB.store(results, 'locallibrary');
+                DB.store(results, 'local_library');
 
                 if (Local.scans <= 0) {
                     $('#navbar .locals .fa-spin').css('opacity', 0);
@@ -170,10 +170,12 @@ const Collection = {
 
             if (collection.movies) {
                 let movies = collection.movies.sort(alphabetical);
+                DB.store(movies, 'local_movies');
                 Collection.show.locals.movies(movies);
             }
             if (collection.shows) {
                 let shows = collection.shows.sort(alphabetical);
+                DB.store(shows, 'local_shows');
                 Collection.show.locals.shows(shows);
             }
             if (collection.unmatched) {
@@ -205,6 +207,7 @@ const Collection = {
         locals: {
             movies: (movies) => {
                 $('#collection #locals .movies .row').html('');
+                $('#collection #locals .waitforlibrary').hide();
                 $('#collection #locals .categories .movies').show();
                 for (let movie of movies) {
                     let item = Items.constructLocalMovie(movie);
@@ -213,6 +216,7 @@ const Collection = {
             },
             shows: (shows) => {
                 $('#collection #locals .shows .row').html('');
+                $('#collection #locals .waitforlibrary').hide();
                 $('#collection #locals .categories .shows').show();
                 for (let show of shows) {
                     let item = Items.constructLocalShow(show);
@@ -221,6 +225,7 @@ const Collection = {
             },
             unmatched: (unmatched) => {
                 $('#collection #locals .unmatched .row').html('');
+                $('#collection #locals .waitforlibrary').hide();
                 $('#collection #locals .categories .unmatched').show();
                 for (let unmatch of unmatched) {
                     let item = Items.constructLocalUnmatched(unmatch);
