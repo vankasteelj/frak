@@ -37,7 +37,7 @@
         "trakt.tv-matcher": "5.x.x",
         "local-video-library": "1.x.x",
         "mdata": "0.x.x",
-        "node-mpv": "1.x.x",
+        "node-mpv": "vankasteelj/Node-MPV#Node-MPV-2",
         "readdirp": "*"
     },
     "devDependencies": {
