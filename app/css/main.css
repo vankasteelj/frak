@@ -427,7 +427,7 @@ input {
 }
 
 #collection .local-item {
-    line-height: 60px;
+    line-height: 59px; /* because of border-bottom 1px */
     font-family: 'Proxima Nova Semibold';
 }
 
