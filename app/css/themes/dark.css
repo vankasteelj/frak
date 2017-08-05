@@ -246,7 +246,8 @@ input {
     background: #2b678f;
 }
 
-#settings .action button.disconnect:hover {
+#settings .action button.disconnect:hover,
+#settings .action button.remove:hover {
     background: #b11010;
 }
 
