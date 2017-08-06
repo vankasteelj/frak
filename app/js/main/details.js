@@ -42,6 +42,7 @@ const Details = {
         }
 
         $('#details .id').text(d.id);
+        $('#details .data').text(JSON.stringify(d.data));
 
         if (d.ids) {
             d.ids.imdb && $('#details-metadata .ids .imdb').text(d.ids.imdb);
@@ -59,7 +60,7 @@ const Details = {
             $('#details-metadata .title').css('font-size', `${d.title.length > 50 ? 40 : 35}px`);
         }
 
-        d['ep-title'] && $('#details-metadata .ep-title').text(d['ep-title']);
+        d['ep-title'] && $('#details-metadata .ep-title').show().text(d['ep-title']) || $('#details-metadata .ep-title').hide();
         $('#details-metadata .synopsis').text(d.synopsis == 'No overview found.' ? i18n.__('No synopsis available') : d.synopsis || i18n.__('No synopsis available'));
 
         d.year && $('#details-metadata .year').text(d.year).show() || $('#details-metadata .year').hide();
@@ -101,6 +102,7 @@ const Details = {
 
             Details.loadDetails({
                 id: Items.slugify(file.path),
+                data: file,
                 ids: file.metadata.movie.ids,
                 title: file.metadata.movie.title,
                 synopsis: file.metadata.movie.overview,
@@ -122,6 +124,26 @@ const Details = {
             event.stopPropagation(); // because of season.onClick...
 
             let file = Details.getData(elm);
+
+            Details.loadDetails({
+                id: Items.slugify(file.path),
+                data: file,
+                ids: file.metadata.episode.ids,
+                title: file.metadata.show.title,
+                'ep-title': `S${Items.pad(file.metadata.episode.season)}E${Items.pad(file.metadata.episode.number)} - ` + file.metadata.episode.title,
+                synopsis: file.metadata.show.overview,
+                year: file.metadata.show.year,
+                rating: parseFloat(file.metadata.show.rating).toFixed(1),
+                runtime: file.metadata.show.runtime,
+                genres: file.metadata.show.genres
+            });
+
+            Images.get.show(file.metadata.show.ids).then(images => {
+                file.metadata.show.images = images;
+
+                Details.loadImage(images.fanart || images.poster, 'fanart');
+                Details.loadImage(images.poster || images.fanart, 'poster');
+            });
 
             Images.get.show(file.metadata.show.ids).then(images => {
                 file.metadata.show.images = images;

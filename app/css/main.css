@@ -738,6 +738,10 @@ input:checked + .slider:before {
     z-index: 4;
 }
 
+#details .data {
+    display: none;
+}
+
 #details #details-back {
     font-size: 30px;
     position: absolute;
@@ -768,6 +772,11 @@ input:checked + .slider:before {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+#details-metadata .ep-title {
+    position: absolute;
+    top: 10px;
 }
 
 #details-metadata .md-box {
