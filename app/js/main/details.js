@@ -118,6 +118,8 @@ const Details = {
                 Details.loadImage(images.fanart || images.poster, 'fanart');
                 Details.loadImage(images.poster || images.fanart, 'poster');
             });
+
+            Search.addLocal(file)
         },
 
         episode: (elm) => {
@@ -144,6 +146,8 @@ const Details = {
                 Details.loadImage(images.fanart || images.poster, 'fanart');
                 Details.loadImage(images.poster || images.fanart, 'poster');
             });
+
+            Search.addLocal(file)
         },
     
         unmatched: (elm) => {
