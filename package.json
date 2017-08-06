@@ -37,7 +37,7 @@
         "trakt.tv-matcher": "5.x.x",
         "local-video-library": "1.x.x",
         "mdata": "0.x.x",
-        "node-mpv": "vankasteelj/Node-MPV#Node-MPV-2",
+        "node-mpv": "00SteinsGate00/Node-MPV#Node-MPV-2",
         "readdirp": "*",
         "opensubtitles-api": "4.x.x"
     },

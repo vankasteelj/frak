@@ -119,7 +119,7 @@ const Details = {
                 Details.loadImage(images.poster || images.fanart, 'poster');
             });
 
-            Search.addLocal(file)
+            Search.addLocal(file);
         },
 
         episode: (elm) => {
@@ -147,7 +147,7 @@ const Details = {
                 Details.loadImage(images.poster || images.fanart, 'poster');
             });
 
-            Search.addLocal(file)
+            Search.addLocal(file);
         },
     
         unmatched: (elm) => {
