@@ -32,6 +32,7 @@
     <script src="js/lib/local.js" type="application/javascript"></script>
     <script src="js/lib/images.js" type="application/javascript"></script>
     <script src="js/lib/player.js" type="application/javascript"></script>
+    <script src="js/lib/search.js" type="application/javascript"></script>
 
     <script src="js/main/interface.js" type="application/javascript"></script>
     <script src="js/main/collection.js" type="application/javascript"></script>
@@ -277,8 +278,30 @@
                     </div>
                 </div>
 
-                <div id="details-sources"></div>
-                <div id="details-loading"></div>
+                <div id="details-sources">
+                    <div class="query">
+                        <input id="query" class="i18n" placeholder="Search"/>
+                        <div class="fa fa-search" onClick="Search.getResults()"></div>
+                    </div>
+                    <div class="sources row"></div>
+                </div>
+
+                <div id="details-loading">
+                    <div class="title"><i18n>Now playing</i18n></div>
+                    <div id="steaminfo">
+                        <div class="file">
+                            <div class="filename">
+                                <i18n>File</i18n> - <span></span>
+                            </div>
+                            <div class="download">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="subtitles">
+                        <div class="title"><i18n>Subtitles</i18n></div>
+                        <div class="row"></div>
+                    </div>
+                </div>
             </div>
         </section>
 

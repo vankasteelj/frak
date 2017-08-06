@@ -758,7 +758,7 @@ input:checked + .slider:before {
     width: 85%;
     margin: 0 auto;
     padding: 25px 0px;
-    height: 100%;
+    height: 350px;
 }
 
 #details-metadata .ids {
@@ -830,5 +830,41 @@ input:checked + .slider:before {
     font-family: 'Proxima Nova';
 }
 
+#details-sources,
+#details-loading {
+    height: calc(100% - 350px - 50px);
+    width: 85%;
+    margin: 25px auto;
+}
+
+#details-sources .query,
+#details-loading .title {
+    position: absolute;
+    margin-top: -25px;
+}
+
+#details-sources .query #query {
+    color: #1d1d1d;
+    padding: 0px 6px;
+    overflow: hidden;
+    width: 180px;
+}
+
+#details-sources .query .fa {
+    padding: 4px 5px;
+    cursor: pointer;
+}
+
+#details-sources .sources {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#details-loading {
+    display:none;
+}
 
 /* details END */
