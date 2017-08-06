@@ -24,7 +24,7 @@
         "show": false,
         "width": 1024,
         "height": 618,
-        "resizable": false
+        "resizable": true
     },
     "repository": {
         "type": "git",
