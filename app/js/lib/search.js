@@ -6,12 +6,6 @@ const Search = {
         
         //if (!query) return;
 
-        let data = JSON.parse($('#details .data').text());
-
-        let offline = Search.offline(data);
-        if (offline) {
-            console.log('Found match in local library', offline);
-        }
         //Search.online(query);
     },
     
@@ -35,5 +29,15 @@ const Search = {
                 return library[found].seasons[data.next_episode.season].episodes[data.next_episode.number];
             } catch (e) {}
         }
+    },
+
+    addLocal: (data) => {
+        let item = `<div class="item local" id="local-file" onClick="Details.loadLocal(this)">`+
+            `<div class="data">${JSON.stringify(data)}</div>`+
+            `<div class="fa fa-hdd-o"></div>`+
+            `<div class="title">${data.filename}</div>`+
+        `</div>`;
+        
+        $('#details-sources .sources').append(item);
     }
 }

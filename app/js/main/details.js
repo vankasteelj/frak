@@ -168,6 +168,12 @@ const Details = {
                 fanart: item.movie.images.fanart || item.movie.images.poster,
                 poster: item.movie.images.poster || item.movie.images.fanart
             });
+
+            let offline = Search.offline(item);
+            if (offline) {
+                console.log('Found match in local library', offline);
+                Search.addLocal(offline);
+            }
         },
 
         episode: (elm) => {
@@ -187,6 +193,20 @@ const Details = {
                 fanart: item.show.images.fanart || item.show.images.poster,
                 poster: item.show.images.poster || item.show.images.fanart
             });
+
+            let offline = Search.offline(item);
+            if (offline) {
+                console.log('Found match in local library', offline);
+                Search.addLocal(offline);
+            }
         }
+    },
+
+    loadLocal: (elm) => {
+        let file = Details.getData(elm);
+
+        Loading.local(file);
+        $('#details-loading').show();
+        $('#details-sources').hide();
     }
 }

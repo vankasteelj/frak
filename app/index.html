@@ -105,7 +105,7 @@
             </div>
             <div class="nav locals" onClick="Interface.showLocals()">
                 <div class="fa fa-spin fa-refresh"></div>
-                <div class="fa fa-folder">
+                <div class="fa fa-hdd-o">
                     <div class="text"><i18n>Local</i18n></div>
                 </div>
             </div>
@@ -288,12 +288,26 @@
 
                 <div id="details-loading">
                     <div class="title"><i18n>Now playing</i18n></div>
-                    <div id="steaminfo">
+                    <div id="streaminfo">
                         <div class="file">
                             <div class="filename">
                                 <i18n>File</i18n> - <span></span>
                             </div>
-                            <div class="download">
+                            <div class="source">
+                                <i18n>Source</i18n> - <span></span>
+                            </div>
+                            <div class="connection">
+                                <div class="download">
+                                    <i18n>Download</i18n> - <span></span>
+                                </div>
+                                <div class="upload">
+                                    <i18n>Upload</i18n> - <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="player">
+                            <div class="control">
+                                <div class="fa fa-fast-backward" onClick="Player.mpv.seek(-10)"></div><div class="fa fa-stop" onClick="Player.quit()"></div><div class="play fa fa-pause" onClick="Player.mpv.togglePause()"></div><div class="fa fa-fast-forward" onClick="Player.mpv.seek(10)"></div>
                             </div>
                         </div>
                     </div>

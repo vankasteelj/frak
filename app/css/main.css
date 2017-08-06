@@ -863,8 +863,71 @@ input:checked + .slider:before {
     overflow-y: scroll;
 }
 
+#details-sources .item {
+    line-height: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: all .5s;
+}
+#details-sources .item:hover {
+    background: rgba(255, 255, 255, .1);
+}
+
+#details-sources .item .fa {
+    display: inline-block;
+    padding: 0 10px;
+    line-height: 40px;
+    float: left;
+}
+#details-sources .item .title {
+    display: inline-block;
+    font-family: 'Proxima Nova';
+    overflow: hidden;
+    width: 80%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    float: left;
+}
+
 #details-loading {
     display:none;
 }
 
+#details-loading .title {
+    font-family: 'Proxima Nova Semibold';
+}
+#details-loading #streaminfo {
+    width: 75%;
+    margin-right: 5%;
+    float: left;
+    height: 100%;
+}
+#details-loading #subtitles {
+    width: 20%;
+    float: right;
+    height: 100%;
+}
+
+#details-loading .file {
+    font-size: 14px;
+    font-family: 'Proxima Nova';
+    opacity: .9;
+    height: 80%;
+}
+#details-loading .player {
+    height: 20%;
+    font-size: 20px;
+}
+
+#details-loading .player .control .fa {
+    padding: 10px;
+    color: #2b678f;
+    background: transparent;
+    transition: all .5s;
+    cursor: pointer;
+}
+#details-loading .player .control .fa:hover {
+    background: #2b678f;
+    color: #fafafa;
+}
 /* details END */
