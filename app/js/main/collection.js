@@ -195,14 +195,17 @@ const Collection = {
         },
         movies: (movies) => {
             $('#collection #movies').html('');
+            let untrack = Array();
             for (let movie of movies) {
                 if (new Date(movie.movie.released.split('-')).valueOf() > Date.now()) {
-                    console.info(`${movie.movie.title} is not released yet, not showing`)
+                    untrack.push(movie.movie.title);
                     continue;
                 }
                 let item = Items.constructMovie(movie);
                 $('#collection #movies').append(item);
             }
+
+            untrack.length && console.info('Some movies are not released yet, not showing:', untrack.join(', '));
         },
         locals: {
             movies: (movies) => {

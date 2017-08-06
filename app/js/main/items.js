@@ -134,7 +134,7 @@ const Items = {
     },
     constructLocalShow: (show) => {
         let d = {
-            id: Items.slugify(show.metadata.title) + '-local'
+            id: Items.slugify(show.metadata.show.title) + '-local'
         };
 
         let seasons = function () {
@@ -149,7 +149,7 @@ const Items = {
 
                     // attach show information
                     let data = show.seasons[s].episodes[e];
-                    data.metadata.show = show.metadata;
+                    data.metadata.show = show.metadata.show;
 
                     str += `<div class="episode e${e}" onClick="Details.local.episode(this)" id="${Items.slugify(show.seasons[s].episodes[e].path)}" onClick="event.stopPropagation()"><span class="data">${JSON.stringify(data)}</span><span class="e-title">${sxe} - ${title}</span></div>`;
                 }
@@ -160,7 +160,7 @@ const Items = {
         }();
 
         let item = `<div class="local-item" id="${d.id}" onClick="Interface.locals.showSeasons('${d.id}')">`+
-            `<span class="title">${show.metadata.title}</span>`+
+            `<span class="title">${show.metadata.show.title}</span>`+
             `<div class="seasons">${seasons}</div>`+
         `</div>`;
 

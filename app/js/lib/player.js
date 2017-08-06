@@ -60,12 +60,14 @@ const Player = {
         });
         Player.mpv.on('stopped', () => {
             console.log('MPV stopped');
+            Player.quit();
         });
         Player.mpv.on('crashed', () => {
             console.log('MPV crashed');
             Player.quit();
         });
         Player.mpv.on('quit', () => {
+            console.log('MPV has been closed');
             Player.quit();
         });
 

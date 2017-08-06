@@ -38,7 +38,8 @@
         "local-video-library": "1.x.x",
         "mdata": "0.x.x",
         "node-mpv": "vankasteelj/Node-MPV#Node-MPV-2",
-        "readdirp": "*"
+        "readdirp": "*",
+        "opensubtitles-api": "4.x.x"
     },
     "devDependencies": {
         "del": "3.x.x",

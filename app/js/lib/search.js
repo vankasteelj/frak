@@ -13,12 +13,13 @@ const Search = {
         console.info('Searching for', query)
     },
     offline: (data) => {
-        let id = data.show && data.show.ids.slug || data.movie && data.movie.ids.slug;
-        let library = data.show && DB.get('local_shows') || data.movie && DB.get('local_movies');
+        let type = data.show && 'show' || data.movie && 'movie';
+        let id = data[type].ids.slug;
+        let library = DB.get(`local_${type}s`);
 
         if (!id || !library) return;
         
-        let find = (slug) => library.findIndex((item) => item.metadata.ids.slug === slug);
+        let find = (slug) => library.findIndex((item) => item.metadata[type].ids.slug === slug);
         let found = find(id);
 
         if (data.movie) {
