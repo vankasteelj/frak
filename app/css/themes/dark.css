@@ -285,4 +285,8 @@ input {
 
 .slider:before {
   background-color: #efefef;
-} 
+}
+
+#details {
+    background-color: #1d1d1d;
+}

@@ -708,3 +708,118 @@ input:checked + .slider:before {
   border-radius: 50%;
 } 
 /* slider END */
+
+/* details */
+#details {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 3;
+}
+
+#details .background {
+    transition: all 1s;
+    width: 100%;
+    height: 100%;
+    background-image: url(../images/placeholder.png);
+    opacity: 0;
+    background-size: cover;
+    filter: blur(70px);
+    position: absolute;
+    z-index: 3;
+}
+
+#details .container {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    position: absolute;
+    z-index: 4;
+}
+
+#details #details-back {
+    font-size: 30px;
+    position: absolute;
+    padding: 38px 25px;
+    color: #888;
+    transition: all .3s;
+    cursor: pointer;
+}
+#details #details-back:hover {
+    color: #ddd;
+}
+
+#details #details-metadata {
+    width: 85%;
+    margin: 0 auto;
+    padding: 25px 0px;
+    height: 100%;
+}
+
+#details-metadata .ids {
+    display: none;
+}
+#details-metadata .title {
+    font-size: 45px;
+    line-height: 64px;
+    font-family: 'Proxima Nova Semibold';
+    text-shadow: 2px 1px 10px rgba(11, 11, 11, .5);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#details-metadata .md-box {
+    width: 100%;
+    height: 234px;
+    margin-bottom: 10px;
+}
+
+#details-metadata .poster {
+    width: 156px;
+    height: 234px;
+    margin-right: 10px;
+    float: left;
+    background-image: url('../images/placeholder.png');
+    background-size: cover;
+    background-position: 50%;
+    box-shadow: 3px 3px 10px rgba(11, 11, 11, .3);
+    border-radius: 3px;
+}
+
+#details-metadata .md-line {
+    float: right;
+    width: calc(100% - 166px);
+    height: 40px;
+    padding-bottom: 10px;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    color: #ccc;
+}
+
+#details-metadata .md-line span:before {
+    content: '\2022';
+    font-size: 20px;
+    margin: 0;
+    color: #ddd;
+    line-height: 16px;
+    padding: 0 10px 0 7px;
+}
+#details-metadata .md-line span:first-child:before {
+    content: ''
+}
+
+#details-metadata .synopsis {
+    float: right;
+    width: calc(100% - 166px);
+    overflow-y: scroll;
+    height: 196px;
+    padding-right: 10px;
+    text-align: justify;
+    font-size: 16px;
+    font-family: 'Proxima Nova';
+}
+
+
+/* details END */

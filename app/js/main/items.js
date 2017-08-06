@@ -6,6 +6,8 @@ const Items = {
     percentage: (n) => parseInt(n*10),
 
     getImage: (url) => {
+        if (!url) return Promise.resolve(false);
+
         return new Promise(resolve => {
             let cache = new Image();
             cache.src = url;
@@ -30,7 +32,7 @@ const Items = {
 
         let item = `<div class="grid-item col-sm-${d.size}" id="${d.id}">`+
             `<span class="data">${d.data}</span>`+
-            `<div class="fanart" style="background-image: url('${d.image}')">`+
+            `<div class="fanart">`+
                 `<img class="base" src="images/placeholder.png">`+
                 `<div class="shadow"></div>`+
                 `<div class="titles">`+
@@ -52,7 +54,7 @@ const Items = {
         `</div>`;
 
         Items.getImage(d.image).then(state => {
-            state && $(`#${d.id} .fanart img`).css('opacity', '0');
+            state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !movie.movie.trailer && $(`#${d.id} .trailer`).hide();
         })
 
@@ -70,7 +72,7 @@ const Items = {
 
         let item = `<div class="grid-item col-sm-${d.size}" id="${d.id}">`+
             `<span class="data">${d.data}</span>`+
-            `<div class="fanart" style="background-image: url('${d.image}')">`+
+            `<div class="fanart">`+
                 `<img class="base" src="images/placeholder.png">`+
                 `<div class="shadow"></div>`+
                 `<div class="titles">`+
@@ -97,7 +99,7 @@ const Items = {
         `</div>`;
 
         Items.getImage(d.image).then(state => {
-            state && $(`#${d.id} .fanart img`).css('opacity', '0');
+            state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !show.show.trailer && $(`#${d.id} .trailer`).hide();
             !(show.unseen - 1) && $(`#${d.id} .unseen`).hide();
         });
@@ -110,7 +112,7 @@ const Items = {
             data: JSON.stringify(movie)
         }
 
-        let item = `<div class="local-item" onClick="Details.localMovie(this)" id="${d.id}">`+
+        let item = `<div class="local-item" onClick="Details.local.movie(this)" id="${d.id}">`+
             `<span class="data">${d.data}</span>`+
             `<span class="title">${movie.metadata.movie.title}</span>`+
         `</div>`;
@@ -123,7 +125,7 @@ const Items = {
             data: JSON.stringify(file)
         }
 
-        let item = `<div class="local-item" onClick="Details.localUnmatched(this)" id="${d.id}">`+
+        let item = `<div class="local-item" onClick="Details.local.unmatched(this)" id="${d.id}">`+
             `<span class="data">${d.data}</span>`+
             `<span class="title">${file.filename}</span>`+
         `</div>`;
@@ -149,7 +151,7 @@ const Items = {
                     let data = show.seasons[s].episodes[e];
                     data.metadata.show = show.metadata;
 
-                    str += `<div class="episode e${e}" onClick="Details.localEpisode(this)" id="${Items.slugify(show.seasons[s].episodes[e].path)}" onClick="event.stopPropagation()"><span class="data">${JSON.stringify(data)}</span><span class="e-title">${sxe} - ${title}</span></div>`;
+                    str += `<div class="episode e${e}" onClick="Details.local.episode(this)" id="${Items.slugify(show.seasons[s].episodes[e].path)}" onClick="event.stopPropagation()"><span class="data">${JSON.stringify(data)}</span><span class="e-title">${sxe} - ${title}</span></div>`;
                 }
                 str += `</div>`;
             }

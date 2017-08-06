@@ -123,6 +123,8 @@ const Boot = {
         if (DB.get('small_items')) {
             document.querySelector('#items-per-row').checked = true;
         }
+
+        Details.default = $('#details').html();
     },
 
     setupInputs: () => {
