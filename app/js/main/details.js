@@ -9,12 +9,12 @@ const Details = {
 
     getData: (elm) => {
         // extract json from data div
-        let id = $(elm).context.id;
-        let file = JSON.parse($(`#${id} .data`).text());
+        let id = $(elm).context.offsetParent.id || $(elm).context.id;
+        let data = JSON.parse($(`#${id} .data`).text());
         
-        console.log('details', file);
+        console.log('details', data);
 
-        return file;
+        return data;
     },
 
     loadImage: (url, type) => {
@@ -144,15 +144,49 @@ const Details = {
                 Details.loadImage(images.fanart || images.poster, 'fanart');
                 Details.loadImage(images.poster || images.fanart, 'poster');
             });
-
-            Images.get.show(file.metadata.show.ids).then(images => {
-                file.metadata.show.images = images;
-                console.log('images', images)
-            });
         },
     
         unmatched: (elm) => {
             let file = Details.getData(elm);
+        }
+    },
+
+    trakt: {
+        movie: (elm) => {
+            let item = Details.getData(elm);
+
+            Details.loadDetails({
+                id: Items.slugify(item.movie.title),
+                data: item,
+                ids: item.movie.ids,
+                title: item.movie.title,
+                synopsis: item.movie.overview,
+                year: item.movie.year,
+                rating: parseFloat(item.movie.rating).toFixed(1),
+                runtime: item.movie.runtime,
+                genres: item.movie.genres,
+                fanart: item.movie.images.fanart || item.movie.images.poster,
+                poster: item.movie.images.poster || item.movie.images.fanart
+            });
+        },
+
+        episode: (elm) => {
+            let item = Details.getData(elm);
+
+            Details.loadDetails({
+                id: Items.slugify(item.show.title),
+                data: item,
+                ids: item.show.ids,
+                title: item.show.title,
+                'ep-title': `S${Items.pad(item.next_episode.season)}E${Items.pad(item.next_episode.number)} - ` + item.next_episode.title,
+                synopsis: item.show.overview,
+                year: item.show.year,
+                rating: parseFloat(item.show.rating).toFixed(1),
+                runtime: item.show.runtime,
+                genres: item.show.genres,
+                fanart: item.show.images.fanart || item.show.images.poster,
+                poster: item.show.images.poster || item.show.images.fanart
+            });
         }
     }
 }

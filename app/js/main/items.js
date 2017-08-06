@@ -43,7 +43,7 @@ const Items = {
                 `<div class="actions">`+
                     `<div class="watched trakt-icon-check-thick"></div>`+
                     `<div class="trailer fa fa-youtube-play" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>`+
-                    `<div class="play trakt-icon-play2-thick"></div>`+
+                    `<div class="play trakt-icon-play2-thick" onClick="Details.trakt.movie(this)"></div>`+
                 `</div>`+
                 `<div class="metadata">`+
                     `<div class="percentage">`+
@@ -88,7 +88,7 @@ const Items = {
                 `<div class="actions">`+
                     `<div class="watched trakt-icon-check-thick"></div>`+
                     `<div class="trailer fa fa-youtube-play" onClick="Interface.playTrailer('${show.show.trailer}')"></div>`+
-                    `<div class="play trakt-icon-play2-thick"></div>`+
+                    `<div class="play trakt-icon-play2-thick" onClick="Details.trakt.episode(this)"></div>`+
                 `</div>`+
                 `<div class="metadata">`+
                     `<div class="percentage">`+
