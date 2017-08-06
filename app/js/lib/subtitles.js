@@ -2,7 +2,7 @@
 
 const Subtitles = {
     client: new (require('opensubtitles-api'))({
-        useragent: 'OSTestUserAgentTemp' //todo: use own
+        useragent: `${Settings.apikeys.opensubtitles} v${PKJSON.version}`
     }),
 
     search: (opts) => {
