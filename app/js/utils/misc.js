@@ -95,5 +95,10 @@ const Misc = {
         const elemBottom = elemTop + $el.height();
 
         return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom) && (elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+    },
+
+    // AUTO: capitalize first letter
+    capitalize: (str) => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
     }
 };

@@ -18,6 +18,8 @@ const Details = {
     },
 
     loadImage: (url, type) => {
+        url = Images.reduce(url, true); // because small+blur
+
         Items.getImage(url).then(state => {
             if (!state) return;
             
@@ -58,11 +60,21 @@ const Details = {
         }
 
         d['ep-title'] && $('#details-metadata .ep-title').text(d['ep-title']);
-        $('#details-metadata .synopsis').text(d.synopsis || i18n.__('No synopsis available'));
+        $('#details-metadata .synopsis').text(d.synopsis == 'No overview found.' ? i18n.__('No synopsis available') : d.synopsis || i18n.__('No synopsis available'));
 
         d.year && $('#details-metadata .year').text(d.year).show() || $('#details-metadata .year').hide();
         d.runtime && $('#details-metadata .runtime').text(`${d.runtime} ${i18n.__('min')}`).show() || $('#details-metadata .runtime').hide();
         d.rating && $('#details-metadata .rating').text(`${d.rating} / 10`).show() || $('#details-metdata .runtime').hide();
+
+        if (d.genres) {
+            let genre = Array();
+            for (let g of d.genres) {
+                genre.push(i18n.__(Misc.capitalize(g)));
+            }
+            $('#details-metadata .genres').show().text(genre.join(' / '));
+        } else {
+            $('#details-metadata .genres').hide();
+        }
 
         $('#details').show();
         $('#collection').hide();
@@ -94,14 +106,15 @@ const Details = {
                 synopsis: file.metadata.movie.overview,
                 year: file.metadata.movie.year,
                 rating: parseFloat(file.metadata.movie.rating).toFixed(1),
-                runtime: file.metadata.movie.runtime
+                runtime: file.metadata.movie.runtime,
+                genres: file.metadata.movie.genres
             });
 
             Images.get.movie(file.metadata.movie.ids).then(images => {
                 file.metadata.movie.images = images;
 
-                Details.loadImage(images.fanart, 'fanart');
-                Details.loadImage(images.poster, 'poster');
+                Details.loadImage(images.fanart || images.poster, 'fanart');
+                Details.loadImage(images.poster || images.fanart, 'poster');
             });
         },
 
