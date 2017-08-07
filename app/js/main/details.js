@@ -178,6 +178,8 @@ const Details = {
                 console.log('Found match in local library', offline);
                 Search.addLocal(offline);
             }
+
+            Search.online(item).then(Search.addRemote);
         },
 
         episode: (elm) => {
@@ -203,6 +205,8 @@ const Details = {
                 console.log('Found match in local library', offline);
                 Search.addLocal(offline);
             }
+
+            Search.online(item).then(Search.addRemote);
         }
     },
 

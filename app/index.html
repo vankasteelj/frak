@@ -34,6 +34,7 @@
     <script src="js/lib/player.js" type="application/javascript"></script>
     <script src="js/lib/search.js" type="application/javascript"></script>
     <script src="js/lib/subtitles.js" type="application/javascript"></script>
+    <script src="js/lib/plugins.js" type="application/javascript"></script>
 
     <script src="js/main/interface.js" type="application/javascript"></script>
     <script src="js/main/collection.js" type="application/javascript"></script>
@@ -325,10 +326,12 @@
 
     <!-- code initialization -->
     <script>
+        console.time('Startup')
         gui.start().then(() => {
             Trakt.reconnect();
             win.show(true);
             win.focus();
+            console.timeEnd('Startup')
         });
     </script>
 </body>

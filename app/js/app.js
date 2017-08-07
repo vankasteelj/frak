@@ -2,19 +2,6 @@
 
 console.info('Opening app...');
 
-// important variables used in the app
-const gui = require('nw.gui');
-const win = gui.Window.get();
-const path = require('path');
-const fs = require('fs');
-const spawn = require('child_process').spawn;
-const https = require('https');
-const crypt = require('crypto');
-const i18n = require('i18n');
-const PKJSON = require('../package.json');
-
-let OS;
-
 // setup window's content and start the app
 gui.start = () => {
     return new Promise((resolve, reject) => {

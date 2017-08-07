@@ -1,5 +1,17 @@
 'use strict';
 
+// important variables used in the app
+const gui = require('nw.gui');
+const win = gui.Window.get();
+const path = require('path');
+const fs = require('fs');
+const zlib = require('zlib');
+const spawn = require('child_process').spawn;
+const https = require('https');
+const crypt = require('crypto');
+const i18n = require('i18n');
+const PKJSON = require('../package.json');
+
 const Settings = {
     apikeys: function () { 
         return JSON.parse(

@@ -9,8 +9,29 @@ const Search = {
         //Search.online(query);
     },
     
-    online: (query) => {
-        console.info('Searching for', query)
+    online: (data) => {
+        let type = data.show && 'show' || data.movie && 'movie';
+
+        let keywords = data[type].title;
+        
+        if (data.show) {
+            let s = Items.pad(data.next_episode.season);
+            let e = Items.pad(data.next_episode.number);
+            keywords += ` s${s}e${e}`;
+        }
+
+        console.info('Searching for', keywords);
+        
+        return Promise.all(Object.keys(Plugins.loaded).map(plugin => {
+            return Plugins.loaded[plugin].search({
+                keywords: keywords,
+                type: type
+            });
+        })).then(r => {
+            let results = [].concat.apply([], r); //flatten array
+            console.log(results);
+            return results;
+        });
     },
     offline: (data) => {
         let type = data.show && 'show' || data.movie && 'movie';
@@ -40,5 +61,17 @@ const Search = {
         `</div>`;
         
         $('#details-sources .sources').append(item);
+    },
+    addRemote: (results) => {
+        $('#details-sources .sources .item.remote').remove()
+        for (let data of results) {
+            let item = `<div class="item remote" id="local-file" onClick="Details.loadRemote(${data.magnet})">`+
+                `<div class="data">${JSON.stringify(data)}</div>`+
+                `<div class="fa fa-magnet"></div>`+
+                `<div class="title">${data.name}</div>`+
+            `</div>`;
+
+            $('#details-sources .sources').append(item);
+        }
     }
 }
