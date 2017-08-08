@@ -100,5 +100,8 @@ const Misc = {
     // AUTO: capitalize first letter
     capitalize: (str) => {
         return str.charAt(0).toUpperCase() + str.slice(1);
-    }
+    },
+
+    slugify: (title) => title.replace(/\W+/g, '-').toLowerCase(),
+    percentage: (n) => parseInt(n*10),
 };

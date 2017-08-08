@@ -77,6 +77,26 @@ const Details = {
             $('#details-metadata .genres').hide();
         }
 
+        // search online
+        if (Object.keys(Plugins.loaded).length) {
+            let type = d.data.show && 'show' || d.data.movie && 'movie';
+            if (type) {
+                let keywords = d.data[type].title;
+
+                if (d.data.show) {
+                    let s = Misc.pad(d.data.next_episode.season);
+                    let e = Misc.pad(d.data.next_episode.number);
+                    keywords += ` s${s}e${e}`;
+                }
+
+                keywords = keywords.replace(/\W/ig, ' ').replace(/\s+/g, ' ').toLowerCase();
+
+                $('#query').val(keywords);
+                $('#details-sources .query .search').click();
+                $('#details-sources .query').show();
+            }
+        }
+
         $('#details').show();
         $('#collection').hide();
     },
@@ -101,7 +121,7 @@ const Details = {
             let file = Details.getData(elm);
 
             Details.loadDetails({
-                id: Items.slugify(file.path),
+                id: Misc.slugify(file.path),
                 data: file,
                 ids: file.metadata.movie.ids,
                 title: file.metadata.movie.title,
@@ -128,11 +148,11 @@ const Details = {
             let file = Details.getData(elm);
 
             Details.loadDetails({
-                id: Items.slugify(file.path),
+                id: Misc.slugify(file.path),
                 data: file,
                 ids: file.metadata.episode.ids,
                 title: file.metadata.show.title,
-                'ep-title': `S${Items.pad(file.metadata.episode.season)}E${Items.pad(file.metadata.episode.number)} - ` + file.metadata.episode.title,
+                'ep-title': `S${Misc.pad(file.metadata.episode.season)}E${Misc.pad(file.metadata.episode.number)} - ` + file.metadata.episode.title,
                 synopsis: file.metadata.show.overview,
                 year: file.metadata.show.year,
                 rating: parseFloat(file.metadata.show.rating).toFixed(1),
@@ -152,6 +172,7 @@ const Details = {
     
         unmatched: (elm) => {
             let file = Details.getData(elm);
+            Player.play(file.path);
         }
     },
 
@@ -160,7 +181,7 @@ const Details = {
             let item = Details.getData(elm);
 
             Details.loadDetails({
-                id: Items.slugify(item.movie.title),
+                id: Misc.slugify(item.movie.title),
                 data: item,
                 ids: item.movie.ids,
                 title: item.movie.title,
@@ -178,19 +199,17 @@ const Details = {
                 console.log('Found match in local library', offline);
                 Search.addLocal(offline);
             }
-
-            Search.online(item).then(Search.addRemote);
         },
 
         episode: (elm) => {
             let item = Details.getData(elm);
 
             Details.loadDetails({
-                id: Items.slugify(item.show.title),
+                id: Misc.slugify(item.show.title),
                 data: item,
                 ids: item.show.ids,
                 title: item.show.title,
-                'ep-title': `S${Items.pad(item.next_episode.season)}E${Items.pad(item.next_episode.number)} - ` + item.next_episode.title,
+                'ep-title': `S${Misc.pad(item.next_episode.season)}E${Misc.pad(item.next_episode.number)} - ` + item.next_episode.title,
                 synopsis: item.show.overview,
                 year: item.show.year,
                 rating: parseFloat(item.show.rating).toFixed(1),
@@ -205,8 +224,6 @@ const Details = {
                 console.log('Found match in local library', offline);
                 Search.addLocal(offline);
             }
-
-            Search.online(item).then(Search.addRemote);
         }
     },
 

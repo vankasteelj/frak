@@ -843,6 +843,10 @@ input:checked + .slider:before {
     margin-top: -25px;
 }
 
+#details-sources .query {
+    display: none;
+}
+
 #details-sources .query #query {
     color: #1d1d1d;
     padding: 0px 6px;

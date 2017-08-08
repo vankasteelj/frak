@@ -15,7 +15,6 @@ gui.start = () => {
                 win.showDevTools();
             }
 
-            console.info('Application ready');
             setTimeout(resolve, 200);
         } catch (err) {
             // if things go south on startup, just display devtools and log error

@@ -1,10 +1,6 @@
 'use strict'
 
 const Items = {
-    slugify: (title) => title.replace(/\W+/g, '-').toLowerCase(),
-    pad: (n) => (n < 10) ? ('0' + n) : n,
-    percentage: (n) => parseInt(n*10),
-
     getImage: (url) => {
         if (!url) return Promise.resolve(false);
 
@@ -24,9 +20,9 @@ const Items = {
     constructMovie: (movie) => {
         let d = {
             image: Images.reduce(movie.movie.images.fanart) || movie.movie.images.poster,
-            id: Items.slugify(movie.movie.title) + '-trakt',
+            id: Misc.slugify(movie.movie.title) + '-trakt',
             data: JSON.stringify(movie),
-            rating: Items.percentage(movie.movie.rating),
+            rating: Misc.percentage(movie.movie.rating),
             size: DB.get('small_items') ? 4 : 6
         }
 
@@ -63,10 +59,10 @@ const Items = {
     constructShow: (show) => {
         let d = {
             image: Images.reduce(show.show.images.fanart) || show.show.images.poster,
-            id: Items.slugify(show.show.title) + '-trakt',
-            sxe: `s${Items.pad(show.next_episode.season)}e${Items.pad(show.next_episode.number)}`,
+            id: Misc.slugify(show.show.title) + '-trakt',
+            sxe: `s${Misc.pad(show.next_episode.season)}e${Misc.pad(show.next_episode.number)}`,
             data: JSON.stringify(show),
-            rating: Items.percentage(show.show.rating),
+            rating: Misc.percentage(show.show.rating),
             size: DB.get('small_items') ? 4 : 6
         }
 
@@ -108,7 +104,7 @@ const Items = {
     },
     constructLocalMovie: (movie) => {
         let d = {
-            id: Items.slugify(movie.path),
+            id: Misc.slugify(movie.path),
             data: JSON.stringify(movie)
         }
 
@@ -121,7 +117,7 @@ const Items = {
     },
     constructLocalUnmatched: (file) => {
         let d = {
-            id: Items.slugify(file.path),
+            id: Misc.slugify(file.path),
             data: JSON.stringify(file)
         }
 
@@ -134,7 +130,7 @@ const Items = {
     },
     constructLocalShow: (show) => {
         let d = {
-            id: Items.slugify(show.metadata.show.title) + '-local'
+            id: Misc.slugify(show.metadata.show.title) + '-local'
         };
 
         let seasons = function () {
@@ -144,14 +140,14 @@ const Items = {
                 str += `<div class="season s${s}" onClick="Interface.locals.showEpisodes('${d.id}', ${s})"><span class="title">${i18n.__('Season %s',s)}</span>`;
 
                 for (let e in show.seasons[s].episodes) {
-                    let sxe = `S${Items.pad(s)}E${Items.pad(e)}`;
+                    let sxe = `S${Misc.pad(s)}E${Misc.pad(e)}`;
                     let title = show.seasons[s].episodes[e].metadata.episode.title;
 
                     // attach show information
                     let data = show.seasons[s].episodes[e];
                     data.metadata.show = show.metadata.show;
 
-                    str += `<div class="episode e${e}" onClick="Details.local.episode(this)" id="${Items.slugify(show.seasons[s].episodes[e].path)}" onClick="event.stopPropagation()"><span class="data">${JSON.stringify(data)}</span><span class="e-title">${sxe} - ${title}</span></div>`;
+                    str += `<div class="episode e${e}" onClick="Details.local.episode(this)" id="${Misc.slugify(show.seasons[s].episodes[e].path)}" onClick="event.stopPropagation()"><span class="data">${JSON.stringify(data)}</span><span class="e-title">${sxe} - ${title}</span></div>`;
                 }
                 str += `</div>`;
             }

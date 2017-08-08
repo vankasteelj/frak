@@ -4,6 +4,7 @@ const Boot = {
     load: () => {
         Localization.setupLocalization();   // localize
         try{Player.findMpv()}catch(e){};    // player
+        Plugins.load();                     // load search plugins
         Boot.setupSettings();               // setup settings popup
         Boot.checkVisible();                // nwjs window position
         Boot.setupInputs();                 // browse button
@@ -13,7 +14,6 @@ const Boot = {
         Boot.setupTooltips();               // tooltips
         Boot.setupVersion();                // version number
         Boot.online();                      // check if online
-        Plugins.load();                     // load search plugins
 
         // on app open, load file if used 'open with'
         // let file = gui.App.argv.slice(-1).pop();

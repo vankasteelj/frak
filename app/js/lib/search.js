@@ -1,36 +1,36 @@
 'use strict'
 
 const Search = {
-    getResults: () => {
-        let query = $('#query').val()
-        
-        //if (!query) return;
+    query: () => {
+        let query = $('#query').val();
+        if (!query) return;
 
-        //Search.online(query);
-    },
-    
-    online: (data) => {
+        let data = JSON.parse($('#details > .container > .data').text());
         let type = data.show && 'show' || data.movie && 'movie';
 
-        let keywords = data[type].title;
-        
-        if (data.show) {
-            let s = Items.pad(data.next_episode.season);
-            let e = Items.pad(data.next_episode.number);
-            keywords += ` s${s}e${e}`;
-        }
+        $('#details-sources .query .search').addClass('fa-spin fa-circle-o-notch').removeClass('fa-search');
 
-        console.info('Searching for', keywords);
-        
+        Search.online(query, type).then(results => {
+            console.info('Found %s results', results.length, results);
+
+            Search.addRemote(results);
+
+            $('#details-sources .query .search').addClass('fa-search').removeClass('fa-spin fa-circle-o-notch');
+        });
+    },
+    
+    online: (keywords, type) => {
+        console.info('Searching for', keywords, type);
+
         return Promise.all(Object.keys(Plugins.loaded).map(plugin => {
             return Plugins.loaded[plugin].search({
                 keywords: keywords,
                 type: type
-            });
+            }).catch(console.error);
         })).then(r => {
             let results = [].concat.apply([], r); //flatten array
-            console.log(results);
-            return results;
+
+            return Search.sortOnline(results);
         });
     },
     offline: (data) => {
@@ -53,6 +53,73 @@ const Search = {
         }
     },
 
+    sortOnline: (input) => {
+        let out = [];
+        let outDupNames = {};
+        let outDupBtih = {};
+
+        let foundNames = [];
+        let dupNames = [];
+        let foundBtih = [];
+        let dupBtih = [];
+
+        for (let i of input) {
+            let name = Misc.slugify(i.name);
+            foundNames.indexOf(name) === -1 && foundNames.push(name) || dupNames.push(name);
+
+            let btih = i.magnet.match(/btih:(.*?)\&/i)[1];
+            foundBtih.indexOf(btih) === -1 && foundBtih.push(btih) || dupBtih.push(btih);
+        }
+
+        // add health
+        for (let i of input) {
+            if (!i || !i.seeds) continue; // remove undefined and 0 seeds
+            let ratio = i.peers ? i.seeds / i.peers : i.seeds; // get ratio
+            let freeseeds = i.seeds - i.peers; // get total of free seeds
+
+            let score = 0;
+            score += ratio > 1 ? 1:0;               // +1 for more seeds than peers
+            score += Math.floor(freeseeds/5)/10;    // +0.1 by 5 free peers
+            score -= i.seeds < 5 ? 2:0;             // -2 for less than 5 seeds
+            score -= i.seeds < 15 ? 1:0;            // -1 for less than 15 seeds
+            
+            //scores: 0 is bad, 1.2 is usable, 2 is good enough, 3 is good, 5 is great, >10 is awesome
+
+            i.score = score;
+
+            // where to push?
+            let name = Misc.slugify(i.name);
+            let btih = i.magnet.match(/btih:(.*?)\&/i)[1];
+            if (dupBtih.indexOf(btih) !== -1) {
+                if (!outDupBtih[btih]) outDupBtih[btih] = [];
+                outDupBtih[btih].push(i);
+            } else if (dupNames.indexOf(name) !== -1) {
+                if (!outDupNames[name]) outDupNames[name] = [];
+                outDupNames[name].push(i);
+            } else {
+                out.push(i);
+            }
+        }
+        
+        // sort duplicates by score, keep the best one
+        let findMax = (a, b) => (a.score > b.score) ? a : b;
+        for (let i in outDupNames) {
+            out.push(outDupNames[i].reduce(findMax));
+        }
+        for (let i in outDupBtih) {
+            out.push(outDupBtih[i].reduce(findMax))
+        }
+
+        // sort by score
+        out = out.sort((a,b) => {
+            if (a.score > b.score) return -1;
+            if (a.score < b.score) return 1;
+            return 0;
+        });    
+
+        return out;
+    },
+
     addLocal: (data) => {
         let item = `<div class="item local" id="local-file" onClick="Details.loadLocal(this)">`+
             `<div class="data">${JSON.stringify(data)}</div>`+
@@ -63,9 +130,10 @@ const Search = {
         $('#details-sources .sources').append(item);
     },
     addRemote: (results) => {
-        $('#details-sources .sources .item.remote').remove()
+        $('#details-sources .sources .item.remote').remove();
         for (let data of results) {
-            let item = `<div class="item remote" id="local-file" onClick="Details.loadRemote(${data.magnet})">`+
+            if (!data) continue;
+            let item = `<div class="item remote" id="local-file" onClick="Details.loadRemote('${data.magnet}')">`+
                 `<div class="data">${JSON.stringify(data)}</div>`+
                 `<div class="fa fa-magnet"></div>`+
                 `<div class="title">${data.name}</div>`+

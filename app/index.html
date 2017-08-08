@@ -283,7 +283,7 @@
                 <div id="details-sources">
                     <div class="query">
                         <input id="query" class="i18n" placeholder="Search"/>
-                        <div class="fa fa-search" onClick="Search.getResults()"></div>
+                        <div class="search fa fa-search" onClick="Search.query()"></div>
                     </div>
                     <div class="sources row"></div>
                 </div>
@@ -326,12 +326,12 @@
 
     <!-- code initialization -->
     <script>
-        console.time('Startup')
+        console.time('Application ready')
         gui.start().then(() => {
             Trakt.reconnect();
             win.show(true);
             win.focus();
-            console.timeEnd('Startup')
+            console.timeEnd('Application ready')
         });
     </script>
 </body>
