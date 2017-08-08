@@ -23,10 +23,14 @@ const Search = {
         console.info('Searching for', keywords, type);
 
         return Promise.all(Object.keys(Plugins.loaded).map(plugin => {
-            return Plugins.loaded[plugin].search({
-                keywords: keywords,
-                type: type
-            }).catch(console.error);
+            try {
+                return Plugins.loaded[plugin].search({
+                    keywords: keywords,
+                    type: type
+                });
+            } catch (e) {
+                return Promise.resolve([])
+            }
         })).then(r => {
             let results = [].concat.apply([], r); //flatten array
 
