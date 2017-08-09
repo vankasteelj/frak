@@ -5,3 +5,6 @@
 - about with credits + version
 - allow choosing start page
 - a discover + add to watchlist button, with search
+- seeking while downloading
+- display wait messages for loading + waiting for the player to open
+- something with subtitles not matching

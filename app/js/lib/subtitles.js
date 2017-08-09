@@ -17,9 +17,7 @@ const Subtitles = {
         console.info('Looking for subtitles', opts);
         return Subtitles.client.search(opts);
     },
-    searchLocal: (filepath) => {
-        
-    },
+
     addSubtitle: (sub) => {
         let item = `<div class="sub" id="${sub.id}" onClick="Subtitles.select(this)">`+
             `<div class="data">${JSON.stringify(sub)}</div>`+

@@ -106,4 +106,46 @@ const Misc = {
 
     slugify: (title) => title.replace(/\W+/g, '-').toLowerCase(),
     percentage: (n) => parseInt(n*10),
+
+    fileSize: (num) => {
+        if (isNaN(num)) {
+            return;
+        }
+
+        num = parseInt(num) | 0;
+
+        let exponent, unit, units, base;
+        let neg = num < 0;
+
+        switch (require('os').platform()) {
+            case 'linux':
+                base = 1024;
+                units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+                break;
+            case 'win32':
+                base = 1024;
+                units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+                break;
+            case 'darwin':
+                /* falls through */
+            default:
+                base = 1000;
+                units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        }
+
+        if (neg) {
+            num = -num;
+        }
+
+        if (num < 1) {
+            unit = units[0];
+            return (neg ? '-' : '') + num + ' ' + unit;
+        }
+
+        exponent = Math.min(Math.floor(Math.log(num) / Math.log(base)), units.length - 1);
+        num = (num / Math.pow(base, exponent)).toFixed(2) * 1;
+        unit = units[exponent];
+
+        return (neg ? '-' : '') + num + ' ' + unit;
+    }
 };

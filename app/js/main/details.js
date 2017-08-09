@@ -233,5 +233,13 @@ const Details = {
         Loading.local(file);
         $('#details-loading').show();
         $('#details-sources').hide();
+    },
+
+    loadRemote: (magnet) => {
+        Webtorrent.start(magnet).then(url => {
+            Loading.remote(url);
+            $('#details-loading').show();
+            $('#details-sources').hide();
+        });
     }
 }

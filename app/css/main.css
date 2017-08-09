@@ -910,6 +910,9 @@ input:checked + .slider:before {
     float: left;
     height: 100%;
 }
+#details-loading #streaminfo .connection {
+    margin-top: 10px;
+}
 #details-loading #subtitles {
     width: 20%;
     float: right;
