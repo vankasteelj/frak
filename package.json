@@ -41,7 +41,8 @@
         "readdirp": "*",
         "opensubtitles-api": "4.x.x",
         "got": "7.x.x",
-        "fs-extra": "4.x.x"
+        "fs-extra": "4.x.x",
+        "webtorrent": "0.98.x"
     },
     "devDependencies": {
         "del": "3.x.x",
