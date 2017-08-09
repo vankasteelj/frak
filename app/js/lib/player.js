@@ -5,7 +5,7 @@ const Player = {
         events: false,
         states: false,
         cli: [
-            '--no-sub-auto',
+            //'--no-sub-auto',
             '--geometry=50%',
             '--sub-font-size=45',
             '--sub-border-size=2',

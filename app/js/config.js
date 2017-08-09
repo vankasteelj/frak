@@ -10,6 +10,7 @@ const spawn = require('child_process').spawn;
 const https = require('https');
 const crypt = require('crypto');
 const i18n = require('i18n');
+const got = require('got');
 const PKJSON = require('../package.json');
 
 const Settings = {

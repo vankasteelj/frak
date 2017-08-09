@@ -39,7 +39,8 @@
         "mdata": "0.x.x",
         "node-mpv": "00SteinsGate00/Node-MPV#Node-MPV-2",
         "readdirp": "*",
-        "opensubtitles-api": "4.x.x"
+        "opensubtitles-api": "4.x.x",
+        "got": "7.x.x"
     },
     "devDependencies": {
         "del": "3.x.x",
