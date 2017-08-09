@@ -16,17 +16,20 @@ const Search = {
             Search.addRemote(results);
 
             $('#details-sources .query .search').addClass('fa-search').removeClass('fa-spin fa-circle-o-notch');
-        });
+        }).catch(err => $('#details-sources .query .search').addClass('fa-search').removeClass('fa-spin fa-circle-o-notch'));
     },
     
     online: (keywords, type) => {
-        console.info('Searching for', keywords, type);
+        console.info('Searching for \'%s\' [%s]', keywords, type);
 
         return Promise.all(Object.keys(Plugins.loaded).map(plugin => {
             try {
                 return Plugins.loaded[plugin].search({
                     keywords: keywords,
                     type: type
+                }).catch(err => {
+                    console.error(err);
+                    return Promise.resolve([]);
                 });
             } catch (e) {
                 return Promise.resolve([])
@@ -90,6 +93,7 @@ const Search = {
             //scores: 0 is bad, 1.2 is usable, 2 is good enough, 3 is good, 5 is great, >10 is awesome
 
             i.score = score;
+            i.ratio = ratio;
 
             // where to push?
             let name = Misc.slugify(i.name);
@@ -114,10 +118,14 @@ const Search = {
             out.push(outDupBtih[i].reduce(findMax))
         }
 
-        // sort by score
+        // sort by score (and then seeds, and then ratio)
         out = out.sort((a,b) => {
             if (a.score > b.score) return -1;
             if (a.score < b.score) return 1;
+            if (a.seeds > b.seeds) return -1;
+            if (a.seeds < b.seeds) return 1;
+            if (a.ratio > b.ratio) return -1;
+            if (a.ratio < b.ratio) return 1;
             return 0;
         });    
 

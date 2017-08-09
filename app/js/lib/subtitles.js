@@ -6,7 +6,7 @@ const Subtitles = {
     }),
 
     search: (opts) => {
-        console.info('Looking for subtitles');
+        console.info('Looking for subtitles', opts);
         return Subtitles.client.search(opts);
     },
     searchLocal: (filepath) => {

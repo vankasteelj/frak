@@ -7,7 +7,7 @@ const Plugins = {
 
         fs.existsSync(dir) && fs.readdir(dir, (err, plugins) => {
             if (err) return;
-            console.log('Plugins - loading', plugins)
+            console.info('Plugins - loading:', plugins.join(', '));
 
             for (let file of plugins) {
                 try {

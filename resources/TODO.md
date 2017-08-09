@@ -3,3 +3,5 @@
 - seen/unseed button
 - item: allow resort
 - about with credits + version
+- allow choosing start page
+- a discover + add to watchlist button, with search

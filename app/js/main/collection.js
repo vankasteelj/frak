@@ -65,7 +65,7 @@ const Collection = {
                 } else {
                     Interface.showMain();
                 }
-            }, 1500);
+            }, 1200);
         },
         local: () => {
             let collection = DB.get('local_library');

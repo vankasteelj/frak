@@ -326,12 +326,12 @@
 
     <!-- code initialization -->
     <script>
-        console.time('Application ready')
+        console.time('Application ready');
         gui.start().then(() => {
             Trakt.reconnect();
             win.show(true);
             win.focus();
-            console.timeEnd('Application ready')
+            console.timeEnd('Application ready');
         });
     </script>
 </body>

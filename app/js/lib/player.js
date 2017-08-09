@@ -5,11 +5,15 @@ const Player = {
         events: false,
         states: false,
         cli: [
-            //'--no-sub-auto',
+            '--no-sub-auto',
             '--geometry=50%',
             '--sub-font-size=45',
             '--sub-border-size=2',
-            '--sub-scale=0.7'
+            '--sub-scale=0.7',
+            '--sub-fix-timing=yes',
+            '--contrast=5',
+            '--saturation=2',
+            '--script-opts=osc-layout=box,osc-seekbarstyle=knob,osc-scalefullscreen=0.7,osc-scalewindowed=1,osc-valign=0.9,osc-timetotal=yes,osc-boxalpha=160'
         ]
     },
 
@@ -25,11 +29,6 @@ const Player = {
 
         console.info('Playing:', file)
 
-        /* =node-mpv v1= 
-        Player.mpv.loadFile(file);
-        Player.mpv.observeProperty('percent-pos', 50);*/
-
-        /* =node-mpv v2=*/
         Player.mpv.start().then(() => {
             Player.mpv.loadFile(file);
             Player.mpv.observeProperty('percent-pos', 50);

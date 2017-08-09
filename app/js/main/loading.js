@@ -14,6 +14,7 @@ const Loading = {
 
     lookForSubtitles: (file) => {
         let data = JSON.parse($('#details > .container > .data').text());
+        if (data.metadata) data = data.metadata;
         let type = data.show && 'show' || data.movie && 'movie';
 
         let subopts = {

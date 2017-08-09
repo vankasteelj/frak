@@ -105,7 +105,7 @@ const Interface = {
     playTrailer: (url) => {
         let ytc = url.split('=')[1];
         let iframe = $('<iframe>')
-            .attr('src', `http://www.youtube.com/embed/${ytc}?autoplay=1`)
+            .attr('src', `http://www.youtube.com/embed/${ytc}?autoplay=1&VQ=HD720`)
             .attr('frameborder', '0')
             .attr('allowfullscreen', '1')
             .css({'width': 640, 'height':360});
