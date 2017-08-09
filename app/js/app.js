@@ -41,3 +41,8 @@ gui.App.on('open', (cmd) => {
         console.info('Opened from file', file);
     }
 });
+
+win.on('close', () => {
+    Cache.delete();
+    win.close(true);
+});

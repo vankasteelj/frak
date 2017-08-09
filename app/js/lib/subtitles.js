@@ -32,7 +32,7 @@ const Subtitles = {
         let sub = Subtitles.getData(elm);
         let id = sub.id;
 
-        let subtitle = path.join(process.env.TEMP, sub.filename);
+        let subtitle = path.join(Cache.dir, sub.filename);
 
         let selectSubtitle = () => {
             Player.mpv.addSubtitles(subtitle, 'cached', sub.filename, sub.langcode);

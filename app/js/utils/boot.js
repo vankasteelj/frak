@@ -3,6 +3,7 @@ const Boot = {
     // STARTUP: load app: ui,settings,features
     load: () => {
         Localization.setupLocalization();   // localize
+        Cache.create();                     // create tmp dir
         try{Player.findMpv()}catch(e){};    // player
         Plugins.load();                     // load search plugins
         Boot.setupSettings();               // setup settings popup
