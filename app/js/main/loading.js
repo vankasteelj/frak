@@ -74,8 +74,8 @@ const Loading = {
             data[type].ids && (subopts.imdbid = data[type].ids.imdb);
             
             if (type === 'show') {
-                subopts.episode = data.next_episode.number;
-                subopts.season = data.next_episode.season;
+                subopts.episode = data.next_episode ? data.next_episode.number : data.episode.number;
+                subopts.season = data.next_episode ? data.next_episode.season : data.episode.season;
             }
         }
 
