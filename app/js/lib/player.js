@@ -19,7 +19,7 @@ const Player = {
 
     mpv: undefined,
 
-    play: (file) => {
+    play: (file, args) => {
         if (!Player.mpv) {
             console.error('No MPV player defined'); // this shouldn't happen
             return;
@@ -32,6 +32,10 @@ const Player = {
         Player.mpv.start().then(() => {
             Player.mpv.loadFile(file);
             Player.mpv.observeProperty('percent-pos', 50);
+
+            for (let prop in args) {
+                Player.mpv.setProperty(prop, args[prop]);
+            }
         }).catch(error => {
             console.error('MPV error', error);
         });

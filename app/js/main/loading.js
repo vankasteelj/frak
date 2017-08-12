@@ -50,7 +50,9 @@ const Loading = {
             $('#streaminfo .upload span').text(uspeed+'/s');
         }, 1000);
 
-        Player.play(url);
+        Player.play(url, {
+            'title': Webtorrent.streaminfo.file_name
+        });
 
         Loading.lookForSubtitles({
             filename: Webtorrent.streaminfo.file_name,
