@@ -166,7 +166,6 @@ const Items = {
     markAsWatched: (elm) => {
         let id = $(elm).context.offsetParent.id || $(elm).context.id;
         let data = JSON.parse($(`#${id} .data`).text());
-        console.log('mark as watched', data);
 
         let type, model;
         
@@ -182,6 +181,7 @@ const Items = {
         let item = {ids: model.ids};
         post[type] = [item];
 
+        console.info('Mark as watched:', model.ids.slug);
         Trakt.client.sync.history.add(post);
 
         $(elm).addClass('selected');
@@ -190,6 +190,6 @@ const Items = {
 
         setTimeout(() => {
             Trakt.reload(true);
-        }, 750);        
+        }, 500);        
     }
 }

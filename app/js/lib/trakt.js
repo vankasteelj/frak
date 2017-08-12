@@ -68,13 +68,15 @@ const Trakt = {
         delete localStorage.traktshowscollection;
         delete localStorage.traktsync;
 
-        Promise.all([
+        return Promise.all([
             Collection.get.traktshows(update),
             Collection.get.traktmovies(update)
         ]).then((collections) => {
             //console.log('Fetching done', collections)
             Collection.get.traktcached();
-        })
+            
+            return collections;
+        });
     },
 
     scrobble: (action) => {
@@ -109,12 +111,24 @@ const Trakt = {
             }
         }
 
-        let post = {progress: parseFloat(progress).toFixed(2)};
+        let post = {progress: parseFloat(progress.toFixed(2))};
         let item = {ids: model.ids};
 
         post[type] = item;
 
         console.info('Trakt - scrobble %s (%s%)', action, progress);
-        Trakt.client.scrobble[action](post);
+        Trakt.client.scrobble[action](post).catch(console.error);
+
+        if (progress > 80 && !Details.model.metadata && type === 'episode' && action === 'stop') {
+            setTimeout(() => {
+                Trakt.reload(true).then(collections => {
+                    if (Details.model.next_episode) {
+                        console.log('next episode is ready');
+                        /*Details.closeDetails();
+                        $(`#${Misc.slugify(Details.model.show.title)}-trakt .play`).click();*/
+                    }
+                });
+            }, 500);
+        }
     }
 }
