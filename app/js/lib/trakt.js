@@ -78,33 +78,33 @@ const Trakt = {
     },
 
     scrobble: (action) => {
-        if (!Details.model || (Details.model && !Details.model.data)) {
+        if (!Details.model) {
             return;
         }
 
         let progress = Player.config.states['percent-pos'] || 0;
         let model, type, itemType;
 
-        if (Details.model.data.metadata) {
+        if (Details.model.metadata) {
             // local
-            if (Details.model.data.metadata.movie) {
+            if (Details.model.metadata.movie) {
                 // local movie
-                model = Details.model.data.metadata.movie;
+                model = Details.model.metadata.movie;
                 type = 'movie';
             } else {
                 // local episode
-                model = Details.model.data.metadata.episode;
+                model = Details.model.metadata.episode;
                 type = 'episode';
             }
         } else {
             // collection
-            if (Details.model.data.movie) {
+            if (Details.model.movie) {
                 // collection movie
-                model = Details.model.data.movie;
+                model = Details.model.movie;
                 type = 'movie';
             } else {
                 // collection episode
-                model = Details.model.data.next_episode;
+                model = Details.model.next_episode;
                 type = 'episode';
             }
         }

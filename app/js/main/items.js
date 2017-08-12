@@ -37,7 +37,7 @@ const Items = {
             `</div>`+
             `<div class="quick-icons">`+
                 `<div class="actions">`+
-                    `<div class="watched trakt-icon-check-thick"></div>`+
+                    `<div class="watched trakt-icon-check-thick" onClick="Items.markAsWatched(this)"></div>`+
                     `<div class="trailer fa fa-youtube-play" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>`+
                     `<div class="play trakt-icon-play2-thick" onClick="Details.trakt.movie(this)"></div>`+
                 `</div>`+
@@ -82,7 +82,7 @@ const Items = {
             `</div>`+
             `<div class="quick-icons">`+
                 `<div class="actions">`+
-                    `<div class="watched trakt-icon-check-thick"></div>`+
+                    `<div class="watched trakt-icon-check-thick" onClick="Items.markAsWatched(this)"></div>`+
                     `<div class="trailer fa fa-youtube-play" onClick="Interface.playTrailer('${show.show.trailer}')"></div>`+
                     `<div class="play trakt-icon-play2-thick" onClick="Details.trakt.episode(this)"></div>`+
                 `</div>`+
@@ -161,5 +161,45 @@ const Items = {
         `</div>`;
 
         return item;
+    },
+
+    markAsWatched: (elm) => {
+        let id = $(elm).context.offsetParent.id || $(elm).context.id;
+        let data = JSON.parse($(`#${id} .data`).text());
+        console.log('mark as watched', data);
+
+        let type, model;
+        
+        if (data.movie) {
+            type = 'movies';
+            model = data.movie;
+        } else {
+            type = 'episodes';
+            model = data.next_episode;
+        }
+
+        let post = {};
+        let item = {ids: model.ids};
+        post[type] = [item];
+
+        Trakt.client.sync.history.add(post);
+
+        $(elm).addClass('selected');
+        $(`#${id}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
+
+
+        if (type === 'episodes') {
+            setTimeout(() => {
+                Collection.get.traktshows(model.ids.slug)
+                    .then(Collection.get.traktcached);
+            }, 500);
+        } else {
+            setTimeout(() => {
+                DB.store(DB.get('traktmoviescollection').filter(mov => mov.movie.ids.slug !== model.ids.slug), 'traktmoviescollection');
+                $(`#${id}`).remove();
+            }, 1000);
+        }
+
+        
     }
 }

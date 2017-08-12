@@ -12,8 +12,6 @@ const Details = {
         // extract json from data div
         let id = $(elm).context.offsetParent.id || $(elm).context.id;
         let data = JSON.parse($(`#${id} .data`).text());
-        
-        console.log('details', data);
 
         return data;
     },
@@ -40,7 +38,7 @@ const Details = {
             return;
         } else { //reset
             $('#details').html(Details.default); 
-            Details.model = d;
+            Details.model = d.data;
             Details.previous = {
                 id: undefined,
                 html: undefined
