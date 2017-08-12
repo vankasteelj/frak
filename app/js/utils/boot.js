@@ -2,19 +2,22 @@ const Boot = {
 
     // STARTUP: load app: ui,settings,features
     load: () => {
-        Localization.setupLocalization();   // localize
-        Cache.create();                     // create tmp dir
-        try{Player.findMpv()}catch(e){};    // player
-        Plugins.load();                     // load search plugins
-        Boot.setupSettings();               // setup settings popup
-        Boot.checkVisible();                // nwjs window position
-        Boot.setupInputs();                 // browse button
-        Boot.setupRightClicks();            // right click menus
-        Keyboard.setupShortcuts();          // keyboard shortcuts
-        Update.checkUpdates();              // update
-        Boot.setupTooltips();               // tooltips
-        Boot.setupVersion();                // version number
-        Boot.online();                      // check if online
+        Localization.setupLocalization();                   // localize
+        Cache.create();                                     // create tmp dir
+        try{Player.findMpv()}catch(e){};                    // player
+        Plugins.load();                                     // load search plugins
+        Boot.setupSettings();                               // setup settings popup
+        Boot.checkVisible();                                // nwjs window position
+        Boot.setupInputs();                                 // browse button
+        Keyboard.setupShortcuts();                          // keyboard shortcuts
+        Update.checkUpdates();                              // update
+        Boot.setupTooltips();                               // tooltips
+        Boot.setupVersion();                                // version number
+        Boot.online();                                      // check if online
+
+        // right clicks
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
+        Boot.setupRightClicks('input[type=text], textarea');
 
         // on app open, load file if used 'open with'
         // let file = gui.App.argv.slice(-1).pop();
@@ -23,37 +26,44 @@ const Boot = {
     // STARTUP: check if online
     online: () => {
         let online = window.navigator.onLine;
+        let localip = '127.0.0.1';
+        
+        require('dns').lookup(require('os').hostname(), function (err, add, fam) {
+            if (!err) localip = add;
+            DB.store(localip, 'localip');
+        });
+
         if (online) {
-            !DB.get('online') && DB.store(true, 'online') && console.info('App is online')
+            !DB.get('online') && DB.store(true, 'online') && console.info('App is online');
         } else {
-            DB.get('online') && DB.store(false, 'online') && console.info('No internet connection')
+            DB.get('online') && DB.store(false, 'online') && console.info('No internet connection');
         }
-        setTimeout(() => {Boot.online()}, 1000);
+        setTimeout(() => {Boot.online()}, 2000);
     },
 
     // STARTUP: builds right click menu
-    setupRightClicks: () => {
-        const inputs = $('input[type=text], textarea');
+    setupRightClicks: (toFind) => {
+        let inputs = $(toFind);
         inputs.each((i) => {
             // right click event
-            inputs[i].addEventListener('contextmenu', (ev) => {
+            inputs[i].addEventListener('contextmenu', (e) => {
                 // force stop default rightclick event
-                ev.preventDefault();
+                e.preventDefault();
                 let menu;
 
                 if ($(inputs[i]).attr('readonly')) {
                     // copy only on readonly fields
-                    if (ev.target.value !== '') {
-                        menu = Misc.contextMenu(null, i18n.__('Copy'), null, ev.target.id);
+                    if (e.target.value !== '') {
+                        menu = Misc.contextMenu(null, i18n.__('Copy'), null, e.target.id);
                     } else {
                         return;
                     }
                 } else {
                     // cut-copy-paste on other
-                    menu = Misc.contextMenu(i18n.__('Cut'), i18n.__('Copy'), i18n.__('Paste'), ev.target.id);
+                    menu = Misc.contextMenu(i18n.__('Cut'), i18n.__('Copy'), i18n.__('Paste'), e.target.id);
                 }
                 // show our custom menu
-                menu.popup(ev.x, ev.y);
+                menu.popup(e.x, e.y);
                 return false;
             }, false);
         });

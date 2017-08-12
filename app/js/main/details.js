@@ -39,6 +39,7 @@ const Details = {
             return;
         } else {
             $('#details').html(Details.default); //reset
+            Boot.setupRightClicks('#query');
         }
 
         $('#details .id').text(d.id);

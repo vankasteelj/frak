@@ -63,7 +63,7 @@
                 <button id="traktAuth" onClick="Trakt.login()">
                     <i18n>Connect</i18n>
                 </button>
-                <input style="display:none" id="traktCode" value=""/>
+                <input style="display:none" id="traktCode" type="text" value=""/>
 
                 <a class="createaccount" onClick="Misc.openExternal('https://trakt.tv/auth/join')">
                     <i18n>Create an account online</i18n>
@@ -284,7 +284,7 @@
 
                 <div id="details-sources">
                     <div class="query">
-                        <input id="query" class="i18n" placeholder="Search"/>
+                        <input id="query" class="i18n" type="text" placeholder="Search"/>
                         <div class="search fa fa-search" onClick="Search.query()"></div>
                     </div>
                     <div class="sources row"></div>
