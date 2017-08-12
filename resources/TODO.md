@@ -1,5 +1,4 @@
 - keyboard shortcuts
-- stream view + pop MPV player
 - seen/unseed button
 - item: allow resort
 - about with credits + version
@@ -11,4 +10,3 @@
 - "rename mode" for the local lib "unmatched". Autorename for the matched.
 - something is off with mdata
 - pass the streamed file name to the player, instead of displaying index only
-- get local ip to replace 127.0.0.1
