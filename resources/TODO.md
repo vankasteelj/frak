@@ -9,6 +9,6 @@
 - something with subtitles not matching
 - download in background and add to library
 - "rename mode" for the local lib "unmatched". Autorename for the matched.
-- something is off with mdata (and Images.timeout should be heigher)
+- something is off with mdata
 - pass the streamed file name to the player, instead of displaying index only
 - get local ip to replace 127.0.0.1

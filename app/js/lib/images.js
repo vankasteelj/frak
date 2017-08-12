@@ -1,7 +1,7 @@
 'use strict';
 
 const Images = {
-    timeout: 3500,
+    timeout: 5000,
     defaults: {
         fanart: null,
         poster: null,
