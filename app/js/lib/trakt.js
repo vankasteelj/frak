@@ -61,7 +61,7 @@ const Trakt = {
         }).catch(console.error)
     },
 
-    reload: () => {
+    reload: (update) => {
         delete localStorage.traktmovies;
         delete localStorage.traktmoviescollection;
         delete localStorage.traktshows;
@@ -69,8 +69,8 @@ const Trakt = {
         delete localStorage.traktsync;
 
         Promise.all([
-            Collection.get.traktshows(),
-            Collection.get.traktmovies()
+            Collection.get.traktshows(update),
+            Collection.get.traktmovies(update)
         ]).then((collections) => {
             //console.log('Fetching done', collections)
             Collection.get.traktcached();

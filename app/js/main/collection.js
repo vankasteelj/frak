@@ -27,9 +27,9 @@ const Collection = {
 
     get: {
         traktshows: (update) => {
-            $('#navbar .shows .fa-spin').css('opacity', 1);
-            let method = update ? 'updateOne': 'getAll';
-            return Trakt.client.ondeck[method](DB.get('traktshows'), update).then(results => {
+            $('#navbar .shows .fa-spin').css('opacity', update ? 0 : 1);
+
+            return Trakt.client.ondeck.getAll().then(results => {
                 console.info('Trakt.tv - "show watchlist" collection recieved');
 
                 DB.store(Date.now(), 'traktsync');
@@ -38,8 +38,9 @@ const Collection = {
                 return Collection.format.traktshows(results.shows);
             }).catch(console.error)
         },
-        traktmovies: () => {
-            $('#navbar .movies .fa-spin').css('opacity', 1);
+        traktmovies: (update) => {
+            $('#navbar .movies .fa-spin').css('opacity', update ? 0 : 1);
+
             return Trakt.client.sync.watchlist.get({
                 extended: 'full',
                 type: 'movies'

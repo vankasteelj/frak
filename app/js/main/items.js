@@ -188,18 +188,8 @@ const Items = {
         $(`#${id}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
 
 
-        if (type === 'episodes') {
-            setTimeout(() => {
-                Collection.get.traktshows(model.ids.slug)
-                    .then(Collection.get.traktcached);
-            }, 500);
-        } else {
-            setTimeout(() => {
-                DB.store(DB.get('traktmoviescollection').filter(mov => mov.movie.ids.slug !== model.ids.slug), 'traktmoviescollection');
-                $(`#${id}`).remove();
-            }, 1000);
-        }
-
-        
+        setTimeout(() => {
+            Trakt.reload(true);
+        }, 750);        
     }
 }

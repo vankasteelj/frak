@@ -1,5 +1,4 @@
 - keyboard shortcuts
-- seen/unseed button
 - item: allow resort
 - about with credits + version
 - allow choosing start page
@@ -9,4 +8,3 @@
 - download in background and add to library
 - "rename mode" for the local lib "unmatched". Autorename for the matched.
 - something is off with mdata
-- pass the streamed file name to the player, instead of displaying index only
