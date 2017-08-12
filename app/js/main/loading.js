@@ -13,9 +13,10 @@ const Loading = {
         });
     },
     remote: (url) => {
-        $('#streaminfo .filename span').text(Webtorrent.streaminfo.file_name);
-        $('#streaminfo .source span').text(url);
+        let localUrl = DB.get('localip') ? url.replace('127.0.0.1', DB.get('localip')) : url;
 
+        $('#streaminfo .filename span').text(Webtorrent.streaminfo.file_name);
+        $('#streaminfo .source span').text(localUrl);
 
         let calcRemainingTime = (timeLeft) => {
             if (timeLeft === undefined) {
