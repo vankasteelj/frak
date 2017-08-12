@@ -234,18 +234,40 @@ const Details = {
     },
 
     loadLocal: (elm) => {
-        let file = Details.getData(elm);
+        Details.closeRemote().then(() => {
+            let file = Details.getData(elm);
 
-        Loading.local(file);
-        $('#details-loading').show();
-        $('#details-sources').hide();
+            Loading.local(file);
+            $('#details-loading').show();
+            $('#details-sources').hide();
+        });
     },
 
     loadRemote: (magnet) => {
-        Webtorrent.start(magnet).then(url => {
-            Loading.remote(url);
-            $('#details-loading').show();
-            $('#details-sources').hide();
+        Details.closeRemote().then(() => {
+            Webtorrent.start(magnet).then(url => {
+                Loading.remote(url);
+                $('#details-loading').show();
+                $('#details-sources').hide();
+            });
+        });
+    },
+
+    closeRemote: () => {
+        let timeout = 0
+        return new Promise(resolve => {
+            if (Player.mpv.isRunning() && Webtorrent.client) {
+                Webtorrent.stop();
+                Player.quit();
+                clearInterval(Loading.update);
+                Loading.update = null;
+
+                timeout = 300;
+            }
+
+            setTimeout(() => {
+                resolve();
+            }, timeout)
         });
     }
 }
