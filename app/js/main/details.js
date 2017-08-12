@@ -178,7 +178,19 @@ const Details = {
     
         unmatched: (elm) => {
             let file = Details.getData(elm);
-            Player.play(file.path);
+
+            // reset the details view;
+            $('#details').html(Details.default); 
+            Details.model = undefined;
+            Details.previous = {
+                id: undefined,
+                html: undefined
+            }
+            Boot.setupRightClicks('#query');
+
+            Details.closeRemote().then(() => {
+                Player.play(file.path);
+            });
         }
     },
 

@@ -75,5 +75,46 @@ const Trakt = {
             //console.log('Fetching done', collections)
             Collection.get.traktcached();
         })
+    },
+
+    scrobble: (action) => {
+        if (!Details.model || (Details.model && !Details.model.data)) {
+            return;
+        }
+
+        let progress = Player.config.states['percent-pos'] || 0;
+        let model, type, itemType;
+
+        if (Details.model.data.metadata) {
+            // local
+            if (Details.model.data.metadata.movie) {
+                // local movie
+                model = Details.model.data.metadata.movie;
+                type = 'movie';
+            } else {
+                // local episode
+                model = Details.model.data.metadata.episode;
+                type = 'episode';
+            }
+        } else {
+            // collection
+            if (Details.model.data.movie) {
+                // collection movie
+                model = Details.model.data.movie;
+                type = 'movie';
+            } else {
+                // collection episode
+                model = Details.model.data.next_episode;
+                type = 'episode';
+            }
+        }
+
+        let post = {progress: parseFloat(progress).toFixed(2)};
+        let item = {ids: model.ids};
+
+        post[type] = item;
+
+        console.info('Trakt - scrobble %s (%s%)', action, progress);
+        Trakt.client.scrobble[action](post);
     }
 }

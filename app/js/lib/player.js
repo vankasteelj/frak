@@ -36,6 +36,8 @@ const Player = {
             for (let prop in args) {
                 Player.mpv.setProperty(prop, args[prop]);
             }
+
+            Trakt.scrobble('start');
         }).catch(error => {
             console.error('MPV error', error);
         });
@@ -43,6 +45,9 @@ const Player = {
 
     quit: () => {
         console.log('MPV quitted at %s%', Player.config.states['percent-pos']);
+
+        Trakt.scrobble('stop');
+
         Player.mpv.quit();
         Loading.close();
     },
@@ -55,10 +60,12 @@ const Player = {
         });
         Player.mpv.on('paused', () => {
             console.log('MPV paused at %s%', Player.config.states['percent-pos']);
+            Trakt.scrobble('pause');
             $('#streaminfo .control .play').addClass('fa-play').removeClass('fa-pause');
         });
         Player.mpv.on('resumed', () => {
             console.log('MPV resumed at %s%', Player.config.states['percent-pos']);
+            Trakt.scrobble('start');
             $('#streaminfo .control .play').addClass('fa-pause').removeClass('fa-play');
         });
         Player.mpv.on('stopped', () => {
