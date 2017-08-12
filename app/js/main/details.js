@@ -90,7 +90,11 @@ const Details = {
                     keywords += ` s${s}e${e}`;
                 }
 
-                keywords = keywords.replace(/\W/ig, ' ').replace(/\s+/g, ' ').toLowerCase();
+                keywords = keywords
+                    .replace('\'', '')
+                    .replace(/\W/ig, ' ')
+                    .replace(/\s+/g, ' ')
+                    .toLowerCase();
 
                 $('#query').val(keywords);
                 $('#details-sources .query .search').click();
