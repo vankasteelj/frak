@@ -15,7 +15,7 @@ const Loading = {
     remote: (url) => {
         let localUrl = DB.get('localip') ? url.replace('127.0.0.1', DB.get('localip')) : url;
 
-        $('#streaminfo .filename span').text(Webtorrent.streaminfo.file_name);
+        $('#streaminfo .filename span').text(Streamer.streaminfo.file_name);
         $('#streaminfo .source span').text(localUrl);
 
         let calcRemainingTime = (timeLeft) => {
@@ -31,32 +31,32 @@ const Loading = {
         };
 
         Loading.update = setInterval(() => {
-            let downloaded = parseInt(Webtorrent.streaminfo.stats.downloaded_percent, 10);
+            let downloaded = parseInt(Streamer.streaminfo.stats.downloaded_percent, 10);
             
             if (downloaded == 100) {
                 $('#streaminfo .connection').hide();
                 return;
             }
 
-            let time = calcRemainingTime(Webtorrent.streaminfo.stats.remaining_time);
-            let dspeed = Misc.fileSize(Webtorrent.streaminfo.stats.download_speed);
-            let uspeed = Misc.fileSize(Webtorrent.streaminfo.stats.upload_speed);
-            let size = Misc.fileSize(Webtorrent.streaminfo.file_size);
+            let time = calcRemainingTime(Streamer.streaminfo.stats.remaining_time);
+            let dspeed = Misc.fileSize(Streamer.streaminfo.stats.download_speed);
+            let uspeed = Misc.fileSize(Streamer.streaminfo.stats.upload_speed);
+            let size = Misc.fileSize(Streamer.streaminfo.file_size);
 
             $('#streaminfo .status span').text(i18n.__('%s%% of %s', downloaded, size));
             $('#streaminfo .remaining span').text(time);
-            $('#streaminfo .peers span').text(Webtorrent.streaminfo.stats.total_peers);
+            $('#streaminfo .peers span').text(Streamer.streaminfo.stats.total_peers);
             $('#streaminfo .download span').text(dspeed+'/s');
             $('#streaminfo .upload span').text(uspeed+'/s');
         }, 1000);
 
         Player.play(url, {
-            'title': Webtorrent.streaminfo.file_name
+            'title': Streamer.streaminfo.file_name
         });
 
         Loading.lookForSubtitles({
-            filename: Webtorrent.streaminfo.file_name,
-            filesize: Webtorrent.streaminfo.file_size
+            filename: Streamer.streaminfo.file_name,
+            filesize: Streamer.streaminfo.file_size
         });
     },
 
@@ -93,7 +93,7 @@ const Loading = {
     close: () => {
         clearInterval(Loading.update);
         Loading.update = null;
-        Webtorrent.stop();
+        Streamer.stop();
 
         $('#details-sources').show();
         $('#details-loading').hide();

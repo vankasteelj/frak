@@ -33,8 +33,8 @@ const Details = {
     },
 
     loadDetails: (d) => {
-        if (d.id === Details.previous.id) {
-            console.info('Returning to previous details window')
+        if (d.id === Details.previous.id && Player.mpv.isRunning()) {
+            console.info('Returning to previous details window');
             $('#details').html(Details.previous.html).show();
             $('#collection').hide();
             return;
@@ -245,7 +245,7 @@ const Details = {
 
     loadRemote: (magnet) => {
         Details.closeRemote().then(() => {
-            Webtorrent.start(magnet).then(url => {
+            Streamer.start(magnet).then(url => {
                 Loading.remote(url);
                 $('#details-loading').show();
                 $('#details-sources').hide();
@@ -254,10 +254,10 @@ const Details = {
     },
 
     closeRemote: () => {
-        let timeout = 0
+        let timeout = 0;
         return new Promise(resolve => {
-            if (Player.mpv.isRunning() && Webtorrent.client) {
-                Webtorrent.stop();
+            if (Player.mpv.isRunning() || Streamer.client) {
+                Streamer.stop();
                 Player.quit();
                 clearInterval(Loading.update);
                 Loading.update = null;
