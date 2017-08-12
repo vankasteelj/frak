@@ -2,6 +2,7 @@
 
 const Details = {
     default: undefined,
+    model: undefined,
     previous: {
         id: undefined,
         hmtl: undefined
@@ -37,8 +38,13 @@ const Details = {
             $('#details').html(Details.previous.html).show();
             $('#collection').hide();
             return;
-        } else {
-            $('#details').html(Details.default); //reset
+        } else { //reset
+            $('#details').html(Details.default); 
+            Details.model = d;
+            Details.previous = {
+                id: undefined,
+                html: undefined
+            }
             Boot.setupRightClicks('#query');
         }
 
@@ -110,11 +116,6 @@ const Details = {
         if (Player.mpv.isRunning()) {
             Details.previous.id = $('#details .id').text();
             Details.previous.html = $('#details').html();
-        } else {
-            Details.previous = {
-                id: undefined,
-                html: undefined
-            }
         }
 
         $('#collection').show();
