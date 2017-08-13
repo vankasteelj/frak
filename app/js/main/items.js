@@ -28,7 +28,7 @@ const Items = {
 
         let item = `<div class="grid-item col-sm-${d.size}" id="${d.id}">`+
             `<span class="data">${d.data}</span>`+
-            `<div class="fanart">`+
+            `<div class="fanart" onClick="Items.defaultAction(this)">`+
                 `<img class="base" src="images/placeholder.png">`+
                 `<div class="shadow"></div>`+
                 `<div class="titles">`+
@@ -68,7 +68,7 @@ const Items = {
 
         let item = `<div class="grid-item col-sm-${d.size}" id="${d.id}">`+
             `<span class="data">${d.data}</span>`+
-            `<div class="fanart">`+
+            `<div class="fanart" onClick="Items.defaultAction(this)">`+
                 `<img class="base" src="images/placeholder.png">`+
                 `<div class="shadow"></div>`+
                 `<div class="titles">`+
@@ -187,9 +187,11 @@ const Items = {
         $(elm).addClass('selected');
         $(`#${id}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
 
-
         setTimeout(() => {
             Trakt.reload(true);
         }, 500);        
+    },
+    defaultAction: (elm) => {
+        $(elm).parent().find('.play').click();
     }
 }

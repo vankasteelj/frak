@@ -83,8 +83,11 @@ const Loading = {
         }
 
         Subtitles.search(subopts).then(subs => {
-            console.info('Found %d subtitles', Object.keys(subs).length, subs);
-            $('#subtitles .sub').html('');
+            let total = Object.keys(subs).length;
+            console.info('Found %d subtitles', total, subs);
+
+            if (total) $('#subtitles').show();
+            $('#subtitles .sub').remove();
 
             for (let lang in subs) {
                 Subtitles.addSubtitle(subs[lang]);

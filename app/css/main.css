@@ -938,6 +938,7 @@ input:checked + .slider:before {
     width: 20%;
     float: right;
     height: 80%;
+    display: none;
     overflow-y: scroll;
 }
 #details-loading #subtitles .subs {

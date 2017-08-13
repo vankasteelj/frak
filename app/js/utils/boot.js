@@ -11,7 +11,7 @@ const Boot = {
         Boot.setupInputs();                                 // browse button
         Keyboard.setupShortcuts();                          // keyboard shortcuts
         Update.checkUpdates();                              // update
-        Boot.setupTooltips();                               // tooltips
+        //Boot.setupTooltips();                             // tooltips - use default visual
         Boot.setupVersion();                                // version number
         Boot.online();                                      // check if online
 
