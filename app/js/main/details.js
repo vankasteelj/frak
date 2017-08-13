@@ -35,6 +35,12 @@ const Details = {
             console.info('Returning to previous details window');
             $('#details').html(Details.previous.html).show();
             $('#collection').hide();
+
+            if (Player.mpv.isRunning() || Streamer.client) {
+                $('#details-sources').hide();
+                $('#details-loading').show();                
+            }
+
             return;
         } else { //reset
             $('#details').html(Details.default); 
