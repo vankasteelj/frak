@@ -145,7 +145,7 @@ const Search = {
         $('#details-sources .sources .item.remote').remove();
         for (let data of results) {
             if (!data) continue;
-            let item = `<div class="item remote" id="local-file" onClick="Details.loadRemote('${data.magnet}')">`+
+            let item = `<div class="item remote" onClick="Details.loadRemote('${data.magnet}')">`+
                 `<div class="data">${JSON.stringify(data)}</div>`+
                 `<div class="fa fa-magnet"></div>`+
                 `<div class="title">${data.name}</div>`+
