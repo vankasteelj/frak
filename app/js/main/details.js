@@ -267,6 +267,7 @@ const Details = {
             return Streamer.start(magnet).then(url => {
                 Loading.remote(url);
                 $('#details-loading').show();
+                $('#details-sources').hide();
                 $('#details-spinner').hide();
             });
         }).catch((err) => {
