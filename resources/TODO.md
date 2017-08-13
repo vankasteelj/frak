@@ -1,9 +1,7 @@
 - keyboard shortcuts
-- item: allow resort
 - about with credits + version
 - allow choosing start page
 - a discover + add to watchlist button, with search
-- display wait messages for loading + waiting for the player to open
 - something with subtitles not matching
 - download in background and add to library
 - "rename mode" for the local lib "unmatched". Autorename for the matched.
