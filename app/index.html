@@ -256,7 +256,7 @@
             <div class="background"></div>
             <div class="container">
                 <div class="data"></div>
-                <div id="details-back" onClick="Details.closeDetails()" class="fa fa-arrow-left"></div>
+                <div id="details-back" onClick="Details.closeDetails()" class="fa fa-arrow-left tooltipped i18n" title="Go back"></div>
                 
                 <div id="details-metadata">
                     <div class="ids">
@@ -285,7 +285,7 @@
                 <div id="details-sources">
                     <div class="query">
                         <input id="query" class="i18n" type="text" placeholder="Search"/>
-                        <div class="search fa fa-search" onClick="Search.query()"></div>
+                        <div class="search fa fa-search tooltipped i18n" title="Search" onClick="Search.query()"></div>
                     </div>
                     <div class="sources row"></div>
                 </div>
@@ -327,7 +327,7 @@
                         </div>
                         <div class="player">
                             <div class="control">
-                                <div class="fa fa-fast-backward" onClick="Player.mpv.seek(-10)"></div><div class="fa fa-stop" onClick="Player.quit()"></div><div class="play fa fa-pause" onClick="Player.mpv.togglePause()"></div><div class="fa fa-fast-forward" onClick="Player.mpv.seek(10)"></div>
+                                <div class="fa fa-fast-backward tooltipped i18n" title="Seek backward" onClick="Player.mpv.seek(-10)"></div><div class="fa fa-stop tooltipped i18n" title="Stop" onClick="Player.quit()"></div><div class="play fa fa-pause tooltipped i18n" title="Play/Pause" onClick="Player.mpv.togglePause()"></div><div class="fa fa-fast-forward tooltipped i18n" title="Seek forward" onClick="Player.mpv.seek(10)"></div>
                             </div>
                         </div>
                     </div>

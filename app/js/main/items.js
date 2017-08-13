@@ -37,12 +37,12 @@ const Items = {
             `</div>`+
             `<div class="quick-icons">`+
                 `<div class="actions">`+
-                    `<div class="watched trakt-icon-check-thick" onClick="Items.markAsWatched(this)"></div>`+
-                    `<div class="trailer fa fa-youtube-play" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>`+
-                    `<div class="play trakt-icon-play2-thick" onClick="Details.trakt.movie(this)"></div>`+
+                    `<div class="watched trakt-icon-check-thick tooltipped i18n" title="${i18n.__('Mark as watched')}" onClick="Items.markAsWatched(this)"></div>`+
+                    `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>`+
+                    `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Watch now')}" onClick="Details.trakt.movie(this)"></div>`+
                 `</div>`+
                 `<div class="metadata">`+
-                    `<div class="percentage">`+
+                    `<div class="percentage tooltipped i18n" title="${i18n.__('Rate')}">`+
                         `<div class="fa fa-heart"></div>`+
                         `${d.rating}&nbsp%`+
                 `</div>`+
@@ -74,7 +74,7 @@ const Items = {
                 `<div class="titles">`+
                     `<h4>`+
                         `<span class="sxe">${d.sxe}</span>`+
-                        `<span class="unseen">+${show.unseen - 1}</span>`+
+                        `<span class="unseen tooltipped i18n" title="${i18n.__('This episode and %s other(s) left to watch', show.unseen - 1)}">+${show.unseen - 1}</span>`+
                         `<span class="eptitle">${show.next_episode.title}</span>`+
                     `</h4><br/>`+
                     `<h3>${show.show.title}<span class="year">${show.show.year}</span></h3>`+
@@ -82,12 +82,12 @@ const Items = {
             `</div>`+
             `<div class="quick-icons">`+
                 `<div class="actions">`+
-                    `<div class="watched trakt-icon-check-thick" onClick="Items.markAsWatched(this)"></div>`+
-                    `<div class="trailer fa fa-youtube-play" onClick="Interface.playTrailer('${show.show.trailer}')"></div>`+
-                    `<div class="play trakt-icon-play2-thick" onClick="Details.trakt.episode(this)"></div>`+
+                    `<div class="watched trakt-icon-check-thick tooltipped i18n" title="${i18n.__('Mark as watched')}" onClick="Items.markAsWatched(this)"></div>`+
+                    `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${show.show.trailer}')"></div>`+
+                    `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.episode(this)"></div>`+
                 `</div>`+
                 `<div class="metadata">`+
-                    `<div class="percentage">`+
+                    `<div class="percentage tooltipped i18n" title="${i18n.__('Rate')}">`+
                         `<div class="fa fa-heart"></div>`+
                         `${d.rating}&nbsp;%`+
                 `</div>`+
