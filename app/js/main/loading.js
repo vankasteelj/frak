@@ -17,6 +17,7 @@ const Loading = {
 
         $('#streaminfo .filename span').text(Streamer.streaminfo.file_name);
         $('#streaminfo .source span').text(localUrl);
+        $('#streaminfo .connection').show();
 
         let calcRemainingTime = (timeLeft) => {
             if (timeLeft === undefined) {

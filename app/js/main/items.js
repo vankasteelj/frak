@@ -23,12 +23,12 @@ const Items = {
             id: Misc.slugify(movie.movie.title) + '-trakt',
             data: JSON.stringify(movie),
             rating: Misc.percentage(movie.movie.rating),
-            size: DB.get('small_items') ? 4 : 6
+            size: DB.get('small_items') ? {sm: 6, md: 4, lg: 3} : {sm: 12, md: 6, lg: 4}
         }
 
-        let item = `<div class="grid-item col-sm-${d.size}" id="${d.id}">`+
+        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">`+
             `<span class="data">${d.data}</span>`+
-            `<div class="fanart" onClick="Items.defaultAction(this)">`+
+            `<div class="fanart">`+
                 `<img class="base" src="images/placeholder.png">`+
                 `<div class="shadow"></div>`+
                 `<div class="titles">`+
@@ -63,12 +63,12 @@ const Items = {
             sxe: `s${Misc.pad(show.next_episode.season)}e${Misc.pad(show.next_episode.number)}`,
             data: JSON.stringify(show),
             rating: Misc.percentage(show.show.rating),
-            size: DB.get('small_items') ? 4 : 6
+            size: DB.get('small_items') ? {sm: 6, md: 4, lg: 3} : {sm: 12, md: 6, lg: 4}
         }
 
-        let item = `<div class="grid-item col-sm-${d.size}" id="${d.id}">`+
+        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">`+
             `<span class="data">${d.data}</span>`+
-            `<div class="fanart" onClick="Items.defaultAction(this)">`+
+            `<div class="fanart">`+
                 `<img class="base" src="images/placeholder.png">`+
                 `<div class="shadow"></div>`+
                 `<div class="titles">`+

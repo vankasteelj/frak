@@ -160,14 +160,16 @@ const Interface = {
     },
 
     switchCollectionSize: (wasBig) => {
-        console.info('Switching items size to %s items per row', wasBig ? '3' : '2');
+        console.info('Switching to %s items', wasBig ? 'smaller':'bigger');
 
         let size = {
-            from: wasBig ? 6 : 4,
-            to: wasBig ? 4 : 6
+            from: wasBig ? {sm: 12, md: 6, lg: 4} : {sm: 6, md: 4, lg: 3},
+            to: wasBig ? {sm: 6, md: 4, lg: 3} : {sm: 12, md: 6, lg: 4}
         }
 
-        $(`.col-sm-${size.from}`).addClass(`col-sm-${size.to}`).removeClass(`col-sm-${size.from}`);
+        $(`.col-sm-${size.from.sm}`).addClass(`col-sm-${size.to.sm}`).removeClass(`col-sm-${size.from.sm}`);
+        $(`.col-md-${size.from.md}`).addClass(`col-md-${size.to.md}`).removeClass(`col-md-${size.from.md}`);
+        $(`.col-lg-${size.from.lg}`).addClass(`col-lg-${size.to.lg}`).removeClass(`col-lg-${size.from.lg}`);
     },
     
     setMPVPath: () => {

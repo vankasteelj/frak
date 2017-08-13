@@ -19,11 +19,12 @@
     "window": {
         "title": "Frak",
         "icon": "app/images/frak-logo.png",
-        "toolbar": false,
         "frame": true,
         "show": false,
         "width": 1024,
         "height": 623,
+        "min_width": 768,
+        "min_height": 500,
         "resizable": true
     },
     "repository": {

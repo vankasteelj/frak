@@ -133,7 +133,7 @@ const Boot = {
 
         // items size
         if (DB.get('small_items')) {
-            document.querySelector('#items-per-row').checked = true;
+            document.querySelector('#items-size').checked = true;
         }
 
         Details.default = $('#details').html();
@@ -150,7 +150,7 @@ const Boot = {
             Player.setMPV(p);
         })
 
-        document.querySelector('#items-per-row').addEventListener('click', (evt) => {
+        document.querySelector('#items-size').addEventListener('click', (evt) => {
             let isSmall = evt.toElement.checked;
             DB.store(isSmall, 'small_items');
             Interface.switchCollectionSize(isSmall);
