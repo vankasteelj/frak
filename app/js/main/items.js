@@ -20,7 +20,7 @@ const Items = {
     constructMovie: (movie) => {
         let d = {
             image: Images.reduce(movie.movie.images.fanart) || movie.movie.images.poster,
-            id: Misc.slugify(movie.movie.title) + '-trakt',
+            id: movie.movie.ids.slug,
             data: JSON.stringify(movie),
             rating: Misc.percentage(movie.movie.rating),
             size: DB.get('small_items') ? {sm: 6, md: 4, lg: 3} : {sm: 12, md: 6, lg: 4}
@@ -29,6 +29,7 @@ const Items = {
         let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">`+
             `<span class="data">${d.data}</span>`+
             `<div class="fanart">`+
+                `<div class="corner-rating"><span></span></div>`+
                 `<img class="base" src="images/placeholder.png">`+
                 `<div class="shadow"></div>`+
                 `<div class="titles">`+
@@ -42,7 +43,7 @@ const Items = {
                     `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Watch now')}" onClick="Details.trakt.movie(this)"></div>`+
                 `</div>`+
                 `<div class="metadata">`+
-                    `<div class="percentage tooltipped i18n" title="${i18n.__('Rate')}">`+
+                    `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">`+
                         `<div class="fa fa-heart"></div>`+
                         `${d.rating}&nbsp%`+
                 `</div>`+
@@ -59,7 +60,7 @@ const Items = {
     constructShow: (show) => {
         let d = {
             image: Images.reduce(show.show.images.fanart) || show.show.images.poster,
-            id: Misc.slugify(show.show.title) + '-trakt',
+            id: show.show.ids.slug,
             sxe: `s${Misc.pad(show.next_episode.season)}e${Misc.pad(show.next_episode.number)}`,
             data: JSON.stringify(show),
             rating: Misc.percentage(show.show.rating),
@@ -69,6 +70,7 @@ const Items = {
         let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">`+
             `<span class="data">${d.data}</span>`+
             `<div class="fanart">`+
+                `<div class="corner-rating"><span></span></div>`+
                 `<img class="base" src="images/placeholder.png">`+
                 `<div class="shadow"></div>`+
                 `<div class="titles">`+
@@ -87,7 +89,7 @@ const Items = {
                     `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.episode(this)"></div>`+
                 `</div>`+
                 `<div class="metadata">`+
-                    `<div class="percentage tooltipped i18n" title="${i18n.__('Rate')}">`+
+                    `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">`+
                         `<div class="fa fa-heart"></div>`+
                         `${d.rating}&nbsp;%`+
                 `</div>`+
@@ -189,9 +191,75 @@ const Items = {
 
         setTimeout(() => {
             Trakt.reload(true);
-        }, 500);        
+        }, 500);
     },
-    defaultAction: (elm) => {
-        $(elm).parent().find('.play').click();
+
+    applyRatings: (ratings) => {
+        $('.corner-rating span').text('');
+        $('.corner-rating').hide();
+
+        for (let item of ratings) {
+            if (['show', 'movie'].indexOf(item.type) === -1) continue;
+
+            $(`#${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show();
+            // do the rating
+        }
+    },
+
+    rate: (slug) => {
+        let $this = $(`#${slug} .percentage`);
+        $('.popover').remove();
+
+        console.log('show/hide popup for', slug);
+
+        if (!$this.attr('initialized')) {
+            console.log('building a new popup');
+            let isRated = $(`#${slug} .corner-rating span`).text();
+
+            let content = '';
+            for (let i = 10; i > 0; i--) {
+                let id = "rating-" + i + '-' + Date.now();
+
+                content += `<input id="${id}" type="radio" class="rating-${i}" name="rating" value="${i}" ${isRated == i ? 'checked=1' : ''}/>`+
+                    `<label for="${id}" title="" class="rating-${i}">${i}</label>`
+            }
+
+            $this.popover({
+                placement: 'bottom',
+                trigger: 'focus',
+                html: true
+            }).on('shown.bs.popover', () => {
+                setTimeout(() => {
+                    document.getElementsByClassName('popover-content')[0].innerHTML = '<div class="rating-hearts">' + content + '</div>';
+
+                    $('.popover').find('label').off('mouseover').on('mouseover', function () {
+                        let t = $("#" + $(this).attr("for"));
+                        let e = t.val();
+                        $('.popover-title').text(isRated == e ? i18n.__('Unrate this') : e + '/10');
+                    }).off('mouseleave').on('mouseleave', () => {
+                        $('.popover-title').text($this.data('original-title'));
+                    }).off('click').on('click', function (e) {
+                        e.preventDefault();
+
+                        let t = $("#" + $(this).attr("for"));
+                        let score = t.val();
+
+                        let item = JSON.parse($(`#${slug} .data`).text());
+                        if (isRated == score) {
+                            Trakt.rate('remove', item);
+                        } else {
+                            Trakt.rate('add', item, score);
+                        }
+
+                        $this.removeAttr('initialized');
+                        $this.popover('destroy');
+                    })
+                }, 0);
+            });
+
+            $this.attr('initialized', 1);
+        }
+
+        $this.popover('toggle');
     }
 }

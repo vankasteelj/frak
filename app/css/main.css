@@ -31,6 +31,7 @@
     cursor: pointer;
 }
 
+
 /*
  * KEYBOARD SHORTCUTS
  */
@@ -86,6 +87,7 @@
     width: 44px;
     text-transform: capitalize;
 }
+
 
 /*
  * GENERAL
@@ -182,7 +184,9 @@ input {
     display: none;
 }
 
+
 /* init */
+
 #traktinit,
 #requirempv,
 #traktwelcome {
@@ -238,25 +242,28 @@ input {
     font-size: 13px;
 }
 
+
 /* traktwelcome END */
 
-/* spinner */
-.spinner {
-  width: 40px;
-  height: 40px;
 
-  position: relative;
-  margin: 100px auto;
+/* spinner */
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    margin: 100px auto;
 }
 
-.double-bounce1, .double-bounce2 {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  opacity: 0.6;
-  position: absolute;
-  top: 0;
-  left: 0;
+.double-bounce1,
+.double-bounce2 {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 #navbar .fa-spin {
@@ -268,7 +275,9 @@ input {
     transition: all .5s;
 }
 
+
 /* collection item */
+
 #collection .item-spinner {
     position: absolute;
     top: 0;
@@ -276,6 +285,7 @@ input {
     width: 100%;
     height: 100%;
 }
+
 #collection .item-spinner .fa-spin {
     font-size: 50px;
     color: #8e44ad;
@@ -290,18 +300,49 @@ input {
     background-size: cover;
     background-position: 50%;
 }
+
+#collection .fanart .corner-rating {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 30px 30px 0;
+    border-color: transparent #b11010 transparent transparent;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    display: none;
+}
+
+#collection .fanart .corner-rating span {
+    color: #fff !important;
+    font-size: 12px;
+    font-family: 'Proxima Nova Bold';
+    position: absolute;
+    top: 0;
+    right: -22px;
+    width: 15px;
+    height: 30px;
+    text-align: center;
+    line-height: 12px;
+    transform: rotate(45deg);
+    z-index: 15;
+}
+
 #collection .fanart img {
     opacity: 1;
     transition: all .5s;
 }
+
 #collection .base {
     width: 100%;
 }
+
 #collection .real {
     width: 100%;
     vertical-align: middle;
     position: absolute;
-    display:block;
+    display: block;
     top: 0;
     left: 0;
 }
@@ -312,7 +353,7 @@ input {
     right: 10px;
 }
 
-#collection .row > div {
+#collection .row>div {
     padding: 0;
 }
 
@@ -326,7 +367,7 @@ input {
     position: absolute;
     bottom: 0;
     left: 0;
-    background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 100%);
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.3) 100%);
     background-repeat: repeat-x;
 }
 
@@ -369,6 +410,7 @@ input {
     padding: 10px;
     display: inline-block;
 }
+
 #collection .titles h3 .year {
     font-weight: 200;
     font-size: 14px;
@@ -382,10 +424,10 @@ input {
 }
 
 #collection .actions {
-    float:left;
+    float: left;
 }
 
-#collection .actions > div {
+#collection .actions>div {
     height: 40px;
     width: 40px;
     font-size: 2.2em;
@@ -395,8 +437,8 @@ input {
     transition: all .5s;
 }
 
-#collection .actions > div:hover,
-#collection .metadata > div:hover {
+#collection .actions>div:hover,
+#collection .metadata>div:hover {
     cursor: pointer;
 }
 
@@ -420,13 +462,15 @@ input {
     font-size: 16px;
     margin-right: 5px;
 }
+
 #collection .grid-item .data,
 #collection #locals .data {
-    display:none;
+    display: none;
 }
 
 #collection .local-item {
-    line-height: 58px; /* because of border-bottom 1px */
+    line-height: 58px;
+    /* because of border-bottom 1px */
     font-family: 'Proxima Nova Semibold';
 }
 
@@ -455,13 +499,16 @@ input {
 #locals .local-item .episode {
     transition: all .3s;
 }
+
 #locals .local-item:hover,
 #locals .local-item.active {
     cursor: pointer;
 }
+
 #locals .local-item .season {
     font-family: 'Proxima Nova';
 }
+
 #locals .local-item .season {
     padding-left: 40px;
 }
@@ -476,6 +523,7 @@ input {
     padding: 20px;
     font-size: 18px;
 }
+
 #locals .local-item .title,
 #locals .local-item .e-title {
     white-space: nowrap;
@@ -519,7 +567,9 @@ input {
     margin-top: 20px;
 }
 
+
 /* navbar */
+
 #navbar {
     width: 60px;
     z-index: 2;
@@ -555,9 +605,12 @@ input {
     bottom: 0;
 }
 
+
 /* collection END */
 
+
 /* trailer popup */
+
 #trailer {
     width: 100vw;
     position: fixed;
@@ -578,7 +631,9 @@ input {
     margin: 200px calc(50% - 20px);
 }
 
+
 /* Settings */
+
 #settings {
     position: absolute;
     right: 0px;
@@ -683,54 +738,64 @@ input {
     color: #ccc;
     font-size: 12px;
 }
+
+
 /* Settings END */
 
+
 /* slider */
+
 .switch {
-  position: relative;
-  display: inline-block;
-  width: 45px;
-  height: 20px;
+    position: relative;
+    display: inline-block;
+    width: 45px;
+    height: 20px;
 }
 
-.switch input {display:none;}
+.switch input {
+    display: none;
+}
 
 .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  -webkit-transition: .4s;
-  transition: .4s;
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    -webkit-transition: .4s;
+    transition: .4s;
 }
 
 .slider:before {
-  position: absolute;
-  content: "";
-  height: 16px;
-  width: 16px;
-  left: 3px;
-  bottom: 2px;
-  -webkit-transition: .4s;
-  transition: .4s;
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 2px;
+    -webkit-transition: .4s;
+    transition: .4s;
 }
 
-input:checked + .slider:before {
-  transform: translateX(23px);
+input:checked+.slider:before {
+    transform: translateX(23px);
 }
 
 .slider.round {
-  border-radius: 34px;
+    border-radius: 34px;
 }
 
 .slider.round:before {
-  border-radius: 50%;
-} 
+    border-radius: 50%;
+}
+
+
 /* slider END */
 
+
 /* details */
+
 #details {
     position: fixed;
     width: 100vw;
@@ -771,6 +836,7 @@ input:checked + .slider:before {
     transition: all .3s;
     cursor: pointer;
 }
+
 #details #details-back:hover {
     color: #ddd;
 }
@@ -785,6 +851,7 @@ input:checked + .slider:before {
 #details-metadata .ids {
     display: none;
 }
+
 #details-metadata .title {
     font-size: 45px;
     line-height: 64px;
@@ -839,6 +906,7 @@ input:checked + .slider:before {
     line-height: 16px;
     padding: 0 10px 0 7px;
 }
+
 #details-metadata .md-line span:first-child:before {
     content: ''
 }
@@ -898,10 +966,12 @@ input:checked + .slider:before {
     cursor: pointer;
     transition: all .5s;
 }
+
 #details-sources .item:hover,
 #details-loading .sub:hover {
     background: rgba(255, 255, 255, .1);
 }
+
 #details-loading .sub.active {
     background: rgba(255, 255, 255, .2);
 }
@@ -912,6 +982,7 @@ input:checked + .slider:before {
     line-height: 40px;
     float: left;
 }
+
 #details-sources .item .title {
     display: inline-block;
     font-family: 'Proxima Nova';
@@ -924,8 +995,9 @@ input:checked + .slider:before {
 
 #details-loading,
 #details-spinner {
-    display:none;
+    display: none;
 }
+
 #details-spinner .spinner .double-bounce1,
 #details-spinner .spinner .double-bounce2 {
     background-color: #ccc;
@@ -934,15 +1006,18 @@ input:checked + .slider:before {
 #details-loading .title {
     font-family: 'Proxima Nova Semibold';
 }
+
 #details-loading #streaminfo {
     width: 75%;
     margin-right: 5%;
     float: left;
     height: 100%;
 }
+
 #details-loading #streaminfo .connection {
     margin-top: 10px;
 }
+
 #details-loading #subtitles {
     width: 20%;
     float: right;
@@ -950,9 +1025,11 @@ input:checked + .slider:before {
     display: none;
     overflow-y: scroll;
 }
+
 #details-loading #subtitles .subs {
     padding-left: 5px;
 }
+
 #details-loading #subtitles .subs .sub {
     height: 25px;
     line-height: 25px;
@@ -962,6 +1039,7 @@ input:checked + .slider:before {
     opacity: .9;
     cursor: pointer;
 }
+
 #details-loading #subtitles .subs .sub .sublang {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -975,11 +1053,13 @@ input:checked + .slider:before {
     height: 80%;
     overflow-y: scroll;
 }
+
 #details-loading .file div {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
 #details-loading .player {
     height: 20%;
     font-size: 20px;
@@ -992,8 +1072,171 @@ input:checked + .slider:before {
     transition: all .5s;
     cursor: pointer;
 }
+
 #details-loading .player .control .fa:hover {
     background: #2b678f;
     color: #fafafa;
 }
+
+
 /* details END */
+
+
+/* ratings */
+
+.rating-hearts {
+    float: left
+}
+
+.rating-hearts:not(:checked)>input {
+    position: absolute;
+    top: -9999px;
+    clip: rect(0, 0, 0, 0)
+}
+
+.rating-hearts:not(:checked)>label {
+    float: right;
+    width: 1.22em;
+    padding: 0 .2em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1.2;
+    color: #ddd
+}
+
+.rating-hearts:not(:checked)>label:before {
+    content: "\f004";
+    font-family: "FontAwesome"
+}
+
+.rating-hearts>input:checked.rating-1~label {
+    color: #616161
+}
+
+.rating-hearts>input:checked.rating-2~label {
+    color: #675b5b
+}
+
+.rating-hearts>input:checked.rating-3~label {
+    color: #705252
+}
+
+.rating-hearts>input:checked.rating-4~label {
+    color: #7a4747
+}
+
+.rating-hearts>input:checked.rating-5~label {
+    color: #863c3c
+}
+
+.rating-hearts>input:checked.rating-6~label {
+    color: #922f30
+}
+
+.rating-hearts>input:checked.rating-7~label {
+    color: #9e2424
+}
+
+.rating-hearts>input:checked.rating-8~label {
+    color: #a81918
+}
+
+.rating-hearts>input:checked.rating-9~label {
+    color: #b11010
+}
+
+.rating-hearts>input:checked.rating-10~label {
+    color: #b70a0a
+}
+
+.rating-hearts:not(:checked)>label:hover.rating-1,
+.rating-hearts:not(:checked)>label:hover.rating-1~label {
+    color: #616161 !important
+}
+
+.rating-hearts:not(:checked)>label:hover.rating-2,
+.rating-hearts:not(:checked)>label:hover.rating-2~label {
+    color: #675b5b !important
+}
+
+.rating-hearts:not(:checked)>label:hover.rating-3,
+.rating-hearts:not(:checked)>label:hover.rating-3~label {
+    color: #705252 !important
+}
+
+.rating-hearts:not(:checked)>label:hover.rating-4,
+.rating-hearts:not(:checked)>label:hover.rating-4~label {
+    color: #7a4747 !important
+}
+
+.rating-hearts:not(:checked)>label:hover.rating-5,
+.rating-hearts:not(:checked)>label:hover.rating-5~label {
+    color: #863c3c !important
+}
+
+.rating-hearts:not(:checked)>label:hover.rating-6,
+.rating-hearts:not(:checked)>label:hover.rating-6~label {
+    color: #922f30 !important
+}
+
+.rating-hearts:not(:checked)>label:hover.rating-7,
+.rating-hearts:not(:checked)>label:hover.rating-7~label {
+    color: #9e2424 !important
+}
+
+.rating-hearts:not(:checked)>label:hover.rating-8,
+.rating-hearts:not(:checked)>label:hover.rating-8~label {
+    color: #a81918 !important
+}
+
+.rating-hearts:not(:checked)>label:hover.rating-9,
+.rating-hearts:not(:checked)>label:hover.rating-9~label {
+    color: #b11010 !important
+}
+
+.rating-hearts:not(:checked)>label:hover.rating-10,
+.rating-hearts:not(:checked)>label:hover.rating-10~label {
+    color: #b70a0a !important
+}
+
+.rating-hearts>label:active {
+    position: relative;
+    top: 2px;
+    left: 2px
+}
+
+.rating-hearts:hover>label {
+    color: #ddd !important;
+    transition: color .1s
+}
+
+.popover {
+    padding: 0;
+    width: 400px;
+    color: #1d1d1d;
+}
+
+.popover.bottom {
+    margin-top: 5px;
+}
+
+.popover.bottom>.arrow:after {
+    border-bottom-color: #f7f7f7;
+}
+
+.popover .popover-title {
+    font-family: 'Proxima Nova';
+    text-align: center;
+    font-size: 14px;
+}
+
+.popover .popover-content {
+    padding-left: 5px;
+    padding-right: 5px;
+    white-space: nowrap
+}
+
+
+/* ratings END */

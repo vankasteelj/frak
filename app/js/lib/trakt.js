@@ -36,6 +36,7 @@ const Trakt = {
         delete localStorage.traktshows;
         delete localStorage.traktshowscollection;
         delete localStorage.traktsync;
+        delete localStorage.traktratings;
         delete localStorage.trakt_profile;
 
         win.reload();
@@ -61,11 +62,86 @@ const Trakt = {
         }).catch(console.error)
     },
 
+    getRatings: () => {
+        return Trakt.client.sync.ratings.get().then(ratings => {
+            DB.store(ratings, 'traktratings');
+            return Items.applyRatings(ratings);
+        });
+    },
+
+    rate: (method, item, score) => {
+        let model, type;
+
+        if (item.metadata) {
+            // local
+            if (item.metadata.movie) {
+                // local movie
+                model = item.metadata.movie;
+                type = 'movie';
+            } else {
+                // local episode
+                model = item.metadata.show;
+                type = 'show';
+            }
+        } else {
+            // collection
+            if (item.movie) {
+                // collection movie
+                model = item.movie;
+                type = 'movie';
+            } else {
+                // collection episode
+                model = item.show;
+                type = 'show';
+            }
+        }
+
+        let data = {rating: score, ids: model.ids};
+        let post = {};
+        post[type+'s'] = [data];
+
+        console.info('Trakt - %s rating for %s', method, model.ids.slug);
+
+        return Trakt.client.sync.ratings[method](post).then(() => {
+            let ratings = DB.get('traktratings');
+
+            switch (method) {
+                case 'add':
+                    let pushable = {
+                        rated_at: (new Date).toISOString(),
+                        rating: score,
+                        type: type
+                    }
+                    pushable[type] = {
+                        ids: model.ids,
+                        title: model.title,
+                        year: model.year
+                    }
+                    ratings.push(pushable);
+                    break;
+                case 'remove':
+                    ratings = ratings.filter(i => {
+                        if (!i[type]) {
+                            return true;
+                        } else {
+                            return i[type].ids.slug !== model.ids.slug;
+                        }
+                    });
+                default:
+                    break;
+            }
+
+            DB.store(ratings, 'traktratings');
+            Items.applyRatings(ratings);
+        });
+    },
+
     reload: (update) => {
         delete localStorage.traktmovies;
         delete localStorage.traktmoviescollection;
         delete localStorage.traktshows;
         delete localStorage.traktshowscollection;
+        delete localStorage.traktratings;
         delete localStorage.traktsync;
 
         return Promise.all([
@@ -74,6 +150,7 @@ const Trakt = {
         ]).then((collections) => {
             //console.log('Fetching done', collections)
             Collection.get.traktcached();
+            Trakt.getRatings();
             
             return collections;
         });

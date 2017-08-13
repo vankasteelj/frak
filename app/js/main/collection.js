@@ -15,10 +15,12 @@ const Collection = {
                 ]).then((collections) => {
                     //console.log('Fetching done', collections)
                     Collection.get.traktcached();
+                    Trakt.getRatings();
                 })
             } else {
                 console.info('We got cached trakt data')
                 Collection.get.traktcached();
+                Items.applyRatings(DB.get('traktratings'));
             }
         }).catch(console.error);
 
