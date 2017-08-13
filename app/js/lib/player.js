@@ -32,12 +32,11 @@ const Player = {
         Player.mpv.start().then(() => {
             Player.mpv.loadFile(file);
             Player.mpv.observeProperty('percent-pos', 50);
+            Player.mpv.observeProperty('seeking', 51);
 
             for (let prop in args) {
                 Player.mpv.setProperty(prop, args[prop]);
             }
-
-            Trakt.scrobble('start');
         }).catch(error => {
             console.error('MPV error', error);
         });
@@ -57,6 +56,9 @@ const Player = {
 
         Player.mpv.on('statuschange', states => {
             Player.config.states = states;
+            if (states.seeking) { // triggers when player starts, and when seeking
+                Trakt.scrobble('start');
+            }
         });
         Player.mpv.on('paused', () => {
             console.log('MPV paused at %s%', Player.config.states['percent-pos']);
