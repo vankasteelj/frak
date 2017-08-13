@@ -112,7 +112,7 @@ const Misc = {
             return;
         }
 
-        num = parseInt(num) | 0;
+        num = parseInt(num) || 0;
 
         let exponent, unit, units, base;
         let neg = num < 0;
