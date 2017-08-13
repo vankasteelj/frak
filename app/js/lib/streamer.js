@@ -16,6 +16,7 @@ const Streamer = {
     },
     start: (magnet, index) => {
         if (Streamer.client) Streamer.stop();
+        console.info('Streamer - loading', magnet.split('&')[0]);
 
         return Streamer.fetchTorrent(magnet).then(torrent => {
             console.info('Streamer connected', torrent);
@@ -37,13 +38,19 @@ const Streamer = {
         }        
     },
     fetchTorrent: (magnet) => {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             let client = Streamer.getInstance();
             let torrent = client.add(magnet, {
                 path: Cache.dir
             });
 
+            setTimeout(() => {
+                reject(new Error('Streamer - magnet timed out'));
+            }, 7500);
+
             torrent.on('metadata', () => resolve(torrent));
+            torrent.on('error', reject);
+            client.on('error', reject);
         });
     },
     handleTorrent: (torrent, index) => {

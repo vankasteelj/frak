@@ -846,7 +846,8 @@ input:checked + .slider:before {
 }
 
 #details-sources,
-#details-loading {
+#details-loading,
+#details-spinner {
     height: calc(100% - 350px - 50px);
     width: 85%;
     margin: 25px auto;
@@ -912,8 +913,13 @@ input:checked + .slider:before {
     float: left;
 }
 
-#details-loading {
+#details-loading,
+#details-spinner {
     display:none;
+}
+#details-spinner .spinner .double-bounce1,
+#details-spinner .spinner .double-bounce2 {
+    background-color: #ccc;
 }
 
 #details-loading .title {

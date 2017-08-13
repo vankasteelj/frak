@@ -254,24 +254,34 @@ const Details = {
     },
 
     loadRemote: (magnet) => {
+        $('#details-spinner').show();
+        $('#details-sources').hide();
+
         Details.closeRemote().then(() => {
-            Streamer.start(magnet).then(url => {
+            return Streamer.start(magnet).then(url => {
                 Loading.remote(url);
                 $('#details-loading').show();
-                $('#details-sources').hide();
+                $('#details-spinner').hide();
             });
+        }).catch((err) => {
+            console.error(err);
+            Notify.snack(err.message);
+            $('#details-spinner').hide();
+            $('#details-sources').show();
         });
     },
 
     closeRemote: () => {
         let timeout = 0;
         return new Promise(resolve => {
-            if (Player.mpv.isRunning() || Streamer.client) {
-                Streamer.stop();
+            if (Player.mpv.isRunning()) {
                 Player.quit();
                 clearInterval(Loading.update);
                 Loading.update = null;
-
+                timeout = 300;
+            }
+            if (Streamer.client) {
+                Streamer.stop();
                 timeout = 300;
             }
 
