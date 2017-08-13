@@ -27,10 +27,10 @@ const Player = {
 
         Player.mpv.isRunning() && Player.quit() || Player.handleEvents();
 
-        console.info('Playing:', file)
-
         Player.mpv.start().then(() => {
             Player.mpv.loadFile(file);
+            console.info('Playing:', file);
+
             Player.mpv.observeProperty('percent-pos', 50);
             Player.mpv.observeProperty('seeking', 51);
 
@@ -43,7 +43,7 @@ const Player = {
     },
 
     quit: () => {
-        console.log('MPV quitted at %s%', Player.config.states['percent-pos']);
+        //console.log('MPV quitted at %s%', Player.config.states['percent-pos']);
 
         Trakt.scrobble('stop');
 
@@ -61,25 +61,25 @@ const Player = {
             }
         });
         Player.mpv.on('paused', () => {
-            console.log('MPV paused at %s%', Player.config.states['percent-pos']);
+            //console.log('MPV paused at %s%', Player.config.states['percent-pos']);
             Trakt.scrobble('pause');
             $('#streaminfo .control .play').addClass('fa-play').removeClass('fa-pause');
         });
         Player.mpv.on('resumed', () => {
-            console.log('MPV resumed at %s%', Player.config.states['percent-pos']);
+            //console.log('MPV resumed at %s%', Player.config.states['percent-pos']);
             Trakt.scrobble('start');
             $('#streaminfo .control .play').addClass('fa-pause').removeClass('fa-play');
         });
         Player.mpv.on('stopped', () => {
-            console.log('MPV stopped');
+            console.info('MPV stopped');
             Player.quit();
         });
         Player.mpv.on('crashed', () => {
-            console.log('MPV crashed');
+            console.error('MPV crashed');
             Player.quit();
         });
         Player.mpv.on('quit', () => {
-            console.log('MPV has been closed');
+            console.info('MPV has been closed');
             Player.quit();
         });
 

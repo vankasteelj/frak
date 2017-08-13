@@ -85,6 +85,8 @@ const Trakt = {
         }
 
         let progress = Player.config.states['percent-pos'] || 0;
+        progress = parseFloat(progress.toFixed(2));
+
         let model, type, itemType;
 
         if (Details.model.metadata) {
@@ -111,7 +113,7 @@ const Trakt = {
             }
         }
 
-        let post = {progress: parseFloat(progress.toFixed(2))};
+        let post = {progress: progress};
         let item = {ids: model.ids};
 
         post[type] = item;
