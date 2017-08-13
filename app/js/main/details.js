@@ -43,13 +43,16 @@ const Details = {
 
             return;
         } else { //reset
-            $('#details').html(Details.default); 
-            Details.model = d.data;
-            Details.previous = {
-                id: undefined,
-                html: undefined
+            if (Details.previous.id && !Player.mpv.isRunning()) {
+                console.log('Restoring previous default')
+                Details.previous = {
+                    id: undefined,
+                    html: undefined
+                }
+                Boot.setupRightClicks('#query');
             }
-            Boot.setupRightClicks('#query');
+            $('#details').html(Details.default);
+            Details.model = d.data;
         }
 
         $('#details .id').text(d.id);
@@ -117,7 +120,7 @@ const Details = {
     },
 
     closeDetails: () => {
-        if (Player.mpv.isRunning()) {
+        if (Player.mpv.isRunning() && Details.previous.id === undefined) {
             Details.previous.id = $('#details .id').text();
             Details.previous.html = $('#details').html();
         }
@@ -203,7 +206,7 @@ const Details = {
             let item = Details.getData(elm);
 
             Details.loadDetails({
-                id: Misc.slugify(item.movie.title),
+                id: item.movie.ids.slug,
                 data: item,
                 ids: item.movie.ids,
                 title: item.movie.title,
@@ -227,7 +230,7 @@ const Details = {
             let item = Details.getData(elm);
 
             Details.loadDetails({
-                id: Misc.slugify(item.show.title),
+                id: item.show.ids.slug,
                 data: item,
                 ids: item.show.ids,
                 title: item.show.title,
