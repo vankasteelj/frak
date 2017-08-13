@@ -282,11 +282,11 @@ const Details = {
         return new Promise(resolve => {
             if (Player.mpv.isRunning()) {
                 Player.quit();
-                clearInterval(Loading.update);
-                Loading.update = null;
                 timeout = 300;
             }
             if (Streamer.client) {
+                clearInterval(Loading.update);
+                Loading.update = null;
                 Streamer.stop();
                 timeout = 300;
             }
