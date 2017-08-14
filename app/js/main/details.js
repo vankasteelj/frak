@@ -48,9 +48,9 @@ const Details = {
                     id: undefined,
                     html: undefined
                 }
-                Boot.setupRightClicks('#query');
             }
             $('#details').html(Details.default);
+            Boot.setupRightClicks('#query');
             Details.model = d.data;
         }
 
