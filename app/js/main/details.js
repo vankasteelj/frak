@@ -17,7 +17,7 @@ const Details = {
     },
 
     loadImage: (url, type) => {
-        url = Images.reduce(url); // because small+blur
+        url = Images.reduce(url, type === 'poster');
 
         Items.getImage(url).then(state => {
             if (!state) return;
