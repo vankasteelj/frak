@@ -244,13 +244,19 @@ input {
     color: #efefef;
 }
 
-#settings .action button {
+#settings .action button,
+#details-next .content button {
     background: #16a085;
     color: #fafafa;
 }
-#settings .action button:hover {
+#settings .action button:hover,
+#details-next .content button:hover {
     color: #fafafa;
     background: #2b678f;
+}
+
+#details-next .content button.later:hover {
+    background: #777;
 }
 
 #settings .action button.disconnect:hover,

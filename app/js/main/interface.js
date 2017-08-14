@@ -53,7 +53,7 @@ const Interface = {
     showMain: () => {
         $('#traktwelcome').hide();
         $('#requirempv').hide();
-        $('#collection').show();
+        !$('#details').is(':visible') && $('#collection').show();
         $('#navbar').show();
     },
 

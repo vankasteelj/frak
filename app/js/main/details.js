@@ -10,7 +10,7 @@ const Details = {
 
     getData: (elm) => {
         // extract json from data div
-        let id = $(elm).context.offsetParent.id || $(elm).context.id;
+        let id = $(elm).context.offsetParent && $(elm).context.offsetParent.id || $(elm).context.id;
         let data = JSON.parse($(`#${id} .data`).text());
 
         return data;
@@ -297,6 +297,26 @@ const Details = {
             setTimeout(() => {
                 resolve();
             }, timeout)
+        });
+    },
+
+    loadNext: () => {
+        let $next_episode = $(`#${Details.model.show.ids.slug}`);
+        if (!$next_episode.length) return;
+
+        let data = JSON.parse($next_episode.find('.data').text());
+        console.info('Next episode is ready', data);
+
+        $('#details-sources').hide();
+        $('#details-loading').hide();
+        $('#details-spinner').hide();
+        $('#details-next').show();
+
+        $('#details-next .content .next-title span').text(`S${Misc.pad(data.next_episode.season)}E${Misc.pad(data.next_episode.number)} - ` + data.next_episode.title);
+
+        $('#playnext').on('click', () => {
+            Details.closeDetails();
+            $next_episode.find('.play').click();
         });
     }
 }

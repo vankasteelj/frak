@@ -54,7 +54,7 @@ const Collection = {
                 return Collection.format.traktmovies(results);
             }).catch(console.error)
         },
-        traktcached: () => {
+        traktcached: (update) => {
             let movies = DB.get('traktmoviescollection');
             let shows = DB.get('traktshowscollection');
 
@@ -62,6 +62,9 @@ const Collection = {
 
             Collection.show.movies(movies);
             Collection.show.shows(shows);
+
+            if (update) return;
+
             setTimeout(() => {
                 if (!Player.mpv) {
                     Interface.requireMPV();

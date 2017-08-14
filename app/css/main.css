@@ -232,7 +232,8 @@ input {
 #locals .items.unmatched,
 #settings,
 #trailer,
-#details {
+#details,
+#details #details-next {
     display: none;
 }
 
@@ -702,13 +703,18 @@ input {
     font-family: 'Proxima Nova';
 }
 
-#settings .action button {
+#settings .action button,
+#details-next .content button {
     height: 40px;
     line-height: 40px;
     width: 150px;
     border: 0px;
     border-radius: 5px;
     transition: all .3s
+}
+#details-next .content button {
+    margin-top: 10px;
+    margin-left: 20px;
 }
 
 #settings .locals .option {
@@ -950,14 +956,16 @@ input:checked+.slider:before {
 
 #details-sources,
 #details-loading,
-#details-spinner {
+#details-spinner,
+#details-next {
     height: calc(100% - 350px - 50px);
     width: 85%;
     margin: 25px auto;
 }
 
 #details-sources .query,
-#details-loading .title {
+#details-loading .title,
+#details-next .title {
     position: absolute;
     margin-top: -25px;
 }
@@ -1029,7 +1037,8 @@ input:checked+.slider:before {
     background-color: #ccc;
 }
 
-#details-loading .title {
+#details-loading .title,
+#details-next .title {
     font-family: 'Proxima Nova Semibold';
 }
 
@@ -1072,7 +1081,8 @@ input:checked+.slider:before {
     white-space: nowrap;
 }
 
-#details-loading .file {
+#details-loading .file,
+#details-next .content {
     font-size: 14px;
     font-family: 'Proxima Nova';
     opacity: .9;

@@ -148,7 +148,7 @@ const Trakt = {
             Collection.get.traktshows(update),
             Collection.get.traktmovies(update)
         ]).then((collections) => {
-            Collection.get.traktcached();
+            Collection.get.traktcached(update);
             Trakt.getRatings();
             
             return collections;
@@ -199,12 +199,14 @@ const Trakt = {
 
         if (progress > 80 && !Details.model.metadata && type === 'episode' && action === 'stop') {
             setTimeout(() => {
+                $('#details-sources').hide();
+                $('#details-loading').hide();
+                $('#details-spinner').show();
+            }, 100);
+
+            setTimeout(() => {
                 Trakt.reload(true).then(collections => {
-                    if (Details.model.next_episode) {
-                        console.log('next episode is ready');
-                        /*Details.closeDetails();
-                        $(`#${Misc.slugify(Details.model.show.title)}-trakt .play`).click();*/
-                    }
+                    Details.loadNext();
                 });
             }, 500);
         }
