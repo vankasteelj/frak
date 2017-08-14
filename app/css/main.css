@@ -536,6 +536,10 @@ input {
     display: none;
 }
 
+#locals .waitforlibrary .notfound {
+    display: none;
+}
+
 #locals .categories {
     display: flex;
     width: calc(100% - 60px);

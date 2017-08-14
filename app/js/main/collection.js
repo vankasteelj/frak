@@ -76,8 +76,14 @@ const Collection = {
 
             if (!collection) $('#navbar .locals .fa-spin').css('opacity', 1);
 
+            $('#collection #locals .waitforlibrary').show();
+            $('#collection #locals .waitforlibrary .spinner').css('visibility', 'visible');
+            $('#collection #locals .waitforlibrary .notfound').hide();
+            $('#collection #locals .waitforlibrary .scanning').show();
+            console.log('display spin wait')
+
             let method = collection ? 'update' : 'scan';
-            method == 'update' && $('#locals .refreshing').show() && Collection.format.locals(DB.get('local_library'));
+            method == 'update' && $('#locals .refreshing').show() && collection.length && Collection.format.locals(DB.get('local_library'));
 
             Local.scans++;
 
@@ -163,8 +169,10 @@ const Collection = {
         },
 
         locals: (items) => {
+            console.log('items', items)
             let collection = Local.buildVideoLibrary(items);
 
+            console.log('collection', collection)
             let alphabetical = (a, b) => {
                 let c = (a.title && b.title) ? 'title' : 'filename';
                 if (a[c] < b[c]) return -1
@@ -172,19 +180,28 @@ const Collection = {
                 return 0;
             }
 
-            if (collection.movies) {
-                let movies = collection.movies.sort(alphabetical);
-                DB.store(movies, 'local_movies');
-                Collection.show.locals.movies(movies);
-            }
-            if (collection.shows) {
-                let shows = collection.shows.sort(alphabetical);
-                DB.store(shows, 'local_shows');
-                Collection.show.locals.shows(shows);
-            }
-            if (collection.unmatched) {
-                let unmatched = collection.unmatched.sort(alphabetical);
-                Collection.show.locals.unmatched(unmatched);
+            $('#collection #locals .waitforlibrary').show();
+            $('#collection #locals .waitforlibrary .spinner').css('visibility', 'visible');
+            $('#collection #locals .categories .movies').hide();
+            $('#collection #locals .categories .shows').hide();
+            $('#collection #locals .categories .unmatched').hide();
+
+
+            let movies = collection.movies.sort(alphabetical);
+            DB.store(movies, 'local_movies');
+            Collection.show.locals.movies(movies);
+
+            let shows = collection.shows.sort(alphabetical);
+            DB.store(shows, 'local_shows');
+            Collection.show.locals.shows(shows);
+
+            let unmatched = collection.unmatched.sort(alphabetical);
+            Collection.show.locals.unmatched(unmatched);
+
+            if (!movies.length && !shows.length && !unmatched.length) {
+                $('#collection #locals .waitforlibrary .spinner').css('visibility', 'hidden');
+                $('#collection #locals .waitforlibrary .scanning').hide();
+                $('#collection #locals .waitforlibrary .notfound').show();
             }
         }
     },
@@ -214,6 +231,7 @@ const Collection = {
         locals: {
             movies: (movies) => {
                 $('#collection #locals .movies .row').html('');
+                if (!movies.length) return;
                 $('#collection #locals .waitforlibrary').hide();
                 $('#collection #locals .categories .movies').show();
                 for (let movie of movies) {
@@ -223,6 +241,7 @@ const Collection = {
             },
             shows: (shows) => {
                 $('#collection #locals .shows .row').html('');
+                if (!shows.length) return;
                 $('#collection #locals .waitforlibrary').hide();
                 $('#collection #locals .categories .shows').show();
                 for (let show of shows) {
@@ -232,6 +251,7 @@ const Collection = {
             },
             unmatched: (unmatched) => {
                 $('#collection #locals .unmatched .row').html('');
+                if (!unmatched.length) return;
                 $('#collection #locals .waitforlibrary').hide();
                 $('#collection #locals .categories .unmatched').show();
                 for (let unmatch of unmatched) {

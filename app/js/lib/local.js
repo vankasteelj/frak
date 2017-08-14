@@ -28,7 +28,11 @@ const Local = {
     },
 
     buildVideoLibrary: (files) => {
-        const library = Object();
+        let library = {
+            movies: [],
+            shows: [],
+            unmatched: []
+        };
 
         for (let file of files) {
             file.path = file.path.replace(/\\/g, '/'); //unix-like
@@ -36,15 +40,11 @@ const Local = {
             if (file.metadata && file.metadata.type) {
 
                 if (file.metadata.type == 'movie') {
-                    if (!library.movies) library.movies = Array();
-
                     library.movies.push(file);
 
                 } else if (file.metadata.type == 'episode') {
                     let s = file.metadata.episode.season;
                     let e = file.metadata.episode.number;
-
-                    if (!library.shows) library.shows = Array();
 
                     let findShow = (title) => library.shows.find((show) => show.metadata.show.title === title);
                     let found = findShow(file.metadata.show.title);
@@ -71,8 +71,6 @@ const Local = {
                 }
 
             } else {
-                if (!library.unmatched) library.unmatched = Array();
-
                 library.unmatched.push(file);
             }
         }
