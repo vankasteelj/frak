@@ -136,6 +136,8 @@ const Boot = {
             document.querySelector('#items-size').checked = true;
         }
 
+        Boot.startScreen();
+
         Details.default = $('#details').html();
     },
 
@@ -155,5 +157,20 @@ const Boot = {
             DB.store(isSmall, 'small_items');
             Interface.switchCollectionSize(isSmall);
         }, false);
+    },
+
+    startScreen: () => {
+        let start = DB.get('startscreen') || 'shows';
+
+        // set active
+        $(`#navbar .nav.${start}`).addClass('active');
+        $(`#collection #${start}`).show();
+
+        // prepare settings
+        let $setting = $('#startscreen');
+        $setting.val(start).on('change', () => {
+            let selected = $setting.val();
+            DB.store(selected, 'startscreen');
+        });
     }
 };

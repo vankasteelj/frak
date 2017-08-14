@@ -55,7 +55,7 @@
 
 <body>
     <div id="app">
-        <section id="init" style="display:none">
+        <section id="init">
             <div id="traktinit">
                 <img src="images/trakt-logo.png"/>
                 <p><i18n>You need a Trakt.tv account</i18n></p>
@@ -63,24 +63,24 @@
                 <button id="traktAuth" onClick="Trakt.login()">
                     <i18n>Connect</i18n>
                 </button>
-                <input style="display:none" id="traktCode" type="text" value=""/>
+                <input id="traktCode" type="text" value=""/>
 
                 <a class="createaccount" onClick="Misc.openExternal('https://trakt.tv/auth/join')">
                     <i18n>Create an account online</i18n>
                 </a>
             </div>
-            <div id="traktwelcome" style="display:none">
-                <div id="welcomeprofile" style="display:none">
+            <div id="traktwelcome">
+                <div id="welcomeprofile">
                     <img class="avatar" src="images/trakt-logo.png"/>
                     <p><span class="welcomemessage"></span> <span class="username"></span></p>
                 </div>
 
-                <div class="spinner" style="display:none">
+                <div class="spinner">
                     <div class="double-bounce1"></div>
                     <div class="double-bounce2"></div>
                 </div>
             </div>
-            <div id="requirempv" style="display:none">
+            <div id="requirempv">
                 <img src="images/mpv-logo.png"/>
                 <p><i18n>MPV player needs to be installed</i18n></p>
                 
@@ -94,14 +94,14 @@
             </div>
         </section>
 
-        <section id="navbar" style="display:none">
+        <section id="navbar">
             <div class="nav movies" onClick="Interface.showMovies()">
                 <div class="fa fa-spin fa-refresh"></div>
                 <div class="fa fa-film">
                     <div class="text"><i18n>Movies</i18n></div>
                 </div>
             </div>
-            <div class="nav shows active" onClick="Interface.showShows()">
+            <div class="nav shows" onClick="Interface.showShows()">
                 <div class="fa fa-spin fa-refresh"></div>
                 <div class="fa fa-television">
                     <div class="text"><i18n>Shows</i18n></div>
@@ -121,11 +121,11 @@
             <div class="online"></div>
         </section>
         
-        <section id="collection" style="display:none">
+        <section id="collection">
             <div class="row" id="shows"></div>
-            <div class="row" id="movies" style="display:none"></div>
+            <div class="row" id="movies"></div>
 
-            <div id="locals" style="display:none">
+            <div id="locals">
                 <div class="refreshing">
                     <div class="fa fa-spin fa-refresh"></div>
                     <i18n>Updating...</i18n>
@@ -163,19 +163,19 @@
                     </div>
                 </div>
 
-                <div class="items movies" style="display:none">
+                <div class="items movies">
                     <div class="row"></div>
                 </div>
-                <div class="items shows" style="display:none">
+                <div class="items shows">
                     <div class="row"></div>
                 </div>
-                <div class="items unmatched" style="display:none">
+                <div class="items unmatched">
                     <div class="row"></div>
                 </div>
             </div>
         </section>
 
-        <section id="settings" style="display:none">
+        <section id="settings">
             <div class="setting trakt">
                 <div class="title">Trakt.tv</div>
                 <div class="option">
@@ -234,6 +234,18 @@
                         &nbsp;<i18n>small</i18n>
                     </div>
                 </div>
+                <div class="option">
+                    <div class="text">
+                        <i18n>Start page</i18n>
+                    </div>
+                    <div class="action">
+                        <select id="startscreen" class="dropdown">
+                            <option value="movies"><i18n>Movies</i18n></option>
+                            <option value="shows"><i18n>Shows</i18n></option>
+                            <option value="locals"><i18n>Local</i18n></option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="setting mpv">
                 <div class="title"><i18n>Player</i18n></div>
@@ -243,13 +255,13 @@
                     </div>
                     <div class="action">
                         <input id="mpvpath" type="file"/>
-                        <input id="fakempvpath" type="text" readonly onClick="Interface.setMPVPath()"/>
+                        <input id="fakempvpath" class="i18n" placeholder="Select an executable" type="text" readonly onClick="Interface.setMPVPath()"/>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="trailer" style="display:none" onClick="Interface.closeTrailer()">
+        <section id="trailer" onClick="Interface.closeTrailer()">
             <div class="spinner">
                 <div class="double-bounce1"></div>
                 <div class="double-bounce2"></div>
@@ -257,7 +269,7 @@
             <div class="video"></div>
         </section>
 
-        <section id="details" style="display:none">
+        <section id="details">
             <div class="background"></div>
             <div class="container">
                 <div class="data"></div>

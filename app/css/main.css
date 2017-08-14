@@ -210,9 +210,30 @@ input {
     height: 80px;
     border-radius: 40px;
 }
+#welcomeprofile {
+    display: none
+}
 
 #init .spinner {
     margin: 40px auto;
+}
+
+#init,
+#traktwelcome,
+#traktwelcome .spinner,
+#requirempv,
+#navbar,
+#collection,
+#shows,
+#movies,
+#locals,
+#locals .items.movies,
+#locals .items.shows,
+#locals .items.unmatched,
+#settings,
+#trailer,
+#details {
+    display: none;
 }
 
 #traktinit button,
@@ -228,7 +249,8 @@ input {
     transition: all .3s;
 }
 
-#traktinit input {
+#traktinit #traktCode {
+    display: none;
     text-align: center;
     margin: 40px 0 10px 0;
     font-size: 20px;
@@ -676,6 +698,8 @@ input {
     display: inline;
     line-height: 60px;
     float: right;
+    font-size: 14px;
+    font-family: 'Proxima Nova';
 }
 
 #settings .action button {
@@ -1242,3 +1266,22 @@ input:checked+.slider:before {
 
 
 /* ratings END */
+
+/* dropdowns */
+select.dropdown {
+    padding-left: 10px;
+    border: 0;
+    border-radius: 5px;
+    height: 40px;
+    width: 150px;
+    background-color: #16a085;
+    cursor: pointer;
+    color: #fafafa;
+    padding-right: 10px;
+}
+
+.dropdown option {
+    background: #444;
+}
+
+/* dropdowns END */
