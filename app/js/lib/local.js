@@ -119,6 +119,6 @@ const Local = {
         setTimeout(() => {
             $('#navbar .locals .fa-spin').css('opacity', 1)
             Collection.get.local()
-        }, 500);
+        }, 300);
     }
 }

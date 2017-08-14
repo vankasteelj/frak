@@ -191,7 +191,7 @@ const Items = {
 
         setTimeout(() => {
             Trakt.reload(true);
-        }, 500);
+        }, 300);
     },
 
     applyRatings: (ratings) => {

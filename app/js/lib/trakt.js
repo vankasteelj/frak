@@ -202,13 +202,13 @@ const Trakt = {
                 $('#details-sources').hide();
                 $('#details-loading').hide();
                 $('#details-spinner').show();
-            }, 100);
+            }, 50);
 
             setTimeout(() => {
                 Trakt.reload(true).then(collections => {
                     Details.loadNext();
                 });
-            }, 500);
+            }, 300);
         }
     }
 }

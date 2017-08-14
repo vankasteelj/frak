@@ -38,7 +38,7 @@ const Boot = {
         } else {
             DB.get('online') && DB.store(false, 'online') && console.info('No internet connection');
         }
-        setTimeout(() => {Boot.online()}, 2000);
+        setTimeout(() => {Boot.online()}, 3000);
     },
 
     // STARTUP: builds right click menu
