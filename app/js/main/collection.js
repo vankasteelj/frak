@@ -201,7 +201,7 @@ const Collection = {
             $('#collection #movies').html('');
             let untrack = Array();
             for (let movie of movies) {
-                if (new Date(movie.movie.released.split('-')).valueOf() > Date.now()) {
+                if (!movie.movie.released || new Date(movie.movie.released.split('-')).valueOf() > Date.now()) {
                     untrack.push(movie.movie.title);
                     continue;
                 }
