@@ -13,7 +13,6 @@ const Collection = {
                     Collection.get.traktshows(),
                     Collection.get.traktmovies()
                 ]).then((collections) => {
-                    //console.log('Fetching done', collections)
                     Collection.get.traktcached();
                     Trakt.getRatings();
                 })
@@ -80,7 +79,6 @@ const Collection = {
             $('#collection #locals .waitforlibrary .spinner').css('visibility', 'visible');
             $('#collection #locals .waitforlibrary .notfound').hide();
             $('#collection #locals .waitforlibrary .scanning').show();
-            console.log('display spin wait')
 
             let method = collection ? 'update' : 'scan';
             method == 'update' && $('#locals .refreshing').show() && collection.length && Collection.format.locals(DB.get('local_library'));
@@ -169,10 +167,8 @@ const Collection = {
         },
 
         locals: (items) => {
-            console.log('items', items)
             let collection = Local.buildVideoLibrary(items);
 
-            console.log('collection', collection)
             let alphabetical = (a, b) => {
                 let c = (a.title && b.title) ? 'title' : 'filename';
                 if (a[c] < b[c]) return -1

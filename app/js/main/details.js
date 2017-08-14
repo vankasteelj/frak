@@ -44,7 +44,6 @@ const Details = {
             return;
         } else { //reset
             if (Details.previous.id && !Player.mpv.isRunning()) {
-                console.log('Restoring previous default')
                 Details.previous = {
                     id: undefined,
                     html: undefined
@@ -221,7 +220,7 @@ const Details = {
 
             let offline = Search.offline(item);
             if (offline) {
-                console.log('Found match in local library', offline);
+                console.info('Found match in local library', offline);
                 Search.addLocal(offline);
             }
         },
@@ -246,7 +245,7 @@ const Details = {
 
             let offline = Search.offline(item);
             if (offline) {
-                console.log('Found match in local library', offline);
+                console.info('Found match in local library', offline);
                 Search.addLocal(offline);
             }
         }

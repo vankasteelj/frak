@@ -210,10 +210,7 @@ const Items = {
         let $this = $(`#${slug} .percentage`);
         $('.popover').remove();
 
-        console.log('show/hide popup for', slug);
-
         if (!$this.attr('initialized')) {
-            console.log('building a new popup');
             let isRated = $(`#${slug} .corner-rating span`).text();
 
             let content = '';

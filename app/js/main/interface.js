@@ -24,12 +24,11 @@ const Interface = {
         $('#traktwelcome').show();
 
         if (info) {
-            //console.log('trakt welcome from db');
+            // we already have a profile
             $('#welcomeprofile .welcomemessage').text(i18n.__('Welcome back'));
             $('#welcomeprofile img').attr('src', info.images.avatar.full);
             $('#welcomeprofile .username').text(info.username);
         } else {
-            //console.log('trakt welcome from GET profile')
             Trakt.client.users.profile({
                 username: 'me',
                 extended: 'full'

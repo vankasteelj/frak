@@ -148,7 +148,6 @@ const Trakt = {
             Collection.get.traktshows(update),
             Collection.get.traktmovies(update)
         ]).then((collections) => {
-            //console.log('Fetching done', collections)
             Collection.get.traktcached();
             Trakt.getRatings();
             
