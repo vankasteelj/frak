@@ -310,7 +310,6 @@ input {
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 10;
     display: none;
 }
 
@@ -326,7 +325,6 @@ input {
     text-align: center;
     line-height: 12px;
     transform: rotate(45deg);
-    z-index: 15;
 }
 
 #collection .fanart img {
