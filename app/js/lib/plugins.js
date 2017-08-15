@@ -12,9 +12,14 @@ const Plugins = {
             for (let file of plugins) {
                 try {
                     let found = path.join(dir, file);
-                    if (fs.statSync(found).isFile()) return;
-
-                    let plugin = path.join(found, 'index.js');
+                    let plugin;
+                    if (fs.statSync(found).isFile()) {
+                        // load index files
+                        plugin = found;
+                    } else {
+                        // load complete modules
+                        plugin = path.join(found, 'index.js');
+                    }
 
                     let tmp = require(plugin);
 

@@ -31,7 +31,7 @@ const Search = {
                     keywords: keywords,
                     type: type
                 }).catch(err => {
-                    console.error(err);
+                    console.error('%s search error', plugin, err);
                     return Promise.resolve([]);
                 });
             } catch (e) {
