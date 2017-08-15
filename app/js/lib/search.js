@@ -16,7 +16,10 @@ const Search = {
             Search.addRemote(results);
 
             $('#details-sources .query .search').addClass('fa-search').removeClass('fa-spin fa-circle-o-notch');
-        }).catch(err => $('#details-sources .query .search').addClass('fa-search').removeClass('fa-spin fa-circle-o-notch'));
+        }).catch(err => {
+            $('#details-sources .query .search').addClass('fa-search').removeClass('fa-spin fa-circle-o-notch')
+            console.error('Search.query', err);
+        });
     },
     
     online: (keywords, type) => {
@@ -61,6 +64,7 @@ const Search = {
     },
 
     sortOnline: (input) => {
+        let collection = [];
         let out = [];
         let outDupNames = {};
         let outDupBtih = {};
@@ -74,62 +78,87 @@ const Search = {
             let name = Misc.slugify(i.name);
             foundNames.indexOf(name) === -1 && foundNames.push(name) || dupNames.push(name);
 
-            let btih = i.magnet.match(/btih:(.*?)\&/i)[1];
+            let btih = i.magnet.match(/btih:(.*?)\&/i)[1].toLowerCase();
             foundBtih.indexOf(btih) === -1 && foundBtih.push(btih) || dupBtih.push(btih);
         }
 
-        // add health
-        for (let i of input) {
-            if (!i || !i.seeds) continue; // remove undefined and 0 seeds
-            let ratio = i.peers ? i.seeds / i.peers : i.seeds; // get ratio
-            let freeseeds = i.seeds - i.peers; // get total of free seeds
+        // check if all info is there
+        return Promise.all(input.map((i) => {
+            return new Promise(resolve => {
+                if (!i) resolve();
 
-            let score = 0;
-            score += ratio > 1 ? 1:0;               // +1 for more seeds than peers
-            score += Math.floor(freeseeds/5)/10;    // +0.1 by 5 free peers
-            score -= i.seeds < 5 ? 2:0;             // -2 for less than 5 seeds
-            score -= i.seeds < 15 ? 1:0;            // -1 for less than 15 seeds
-            
-            //scores: 0 is bad, 1.2 is usable, 2 is good enough, 3 is good, 5 is great, >10 is awesome
+                // 0 peers, 0 seeds
+                if (!i.seeds && !i.peers) {
+                    Search.recalcSeeds(i).then(reseed => {
+                        if (reseed.size) {
+                            return reseed;
+                        } else {
+                            // also no size
+                            return Search.recalcSize(reseed);
+                        }
+                    }).then((done) => {
+                        done && collection.push(done);
+                        resolve();
+                    });
+                } else if (i.seeds && i.peers && !i.size) {
+                    Search.recalcSize(i).then(resize => {
+                        resize && collection.push(resize);
+                        resolve();
+                    })
+                } else {
+                    collection.push(i);
+                    resolve();
+                }
+            });
+        })).then(() => {
+            // add health
+            for (let i of collection) {
+                if (!i) continue; // remove undefined
+                let ratio = i.peers ? i.seeds / i.peers : i.seeds; // get ratio
+                let freeseeds = i.seeds - i.peers; // get total of free seeds
 
-            i.score = score;
-            i.ratio = ratio;
+                let score = Search.calcScore(ratio, i.seeds, freeseeds);
 
-            // where to push?
-            let name = Misc.slugify(i.name);
-            let btih = i.magnet.match(/btih:(.*?)\&/i)[1];
-            if (dupBtih.indexOf(btih) !== -1) {
-                if (!outDupBtih[btih]) outDupBtih[btih] = [];
-                outDupBtih[btih].push(i);
-            } else if (dupNames.indexOf(name) !== -1) {
-                if (!outDupNames[name]) outDupNames[name] = [];
-                outDupNames[name].push(i);
-            } else {
-                out.push(i);
+                i.score = score;
+                i.ratio = ratio;
+
+                // where to push?
+                let name = Misc.slugify(i.name);
+                let btih = i.magnet.match(/btih:(.*?)\&/i)[1].toLowerCase();
+
+                if (dupBtih.indexOf(btih) !== -1) {
+                    if (!outDupBtih[btih]) outDupBtih[btih] = [];
+                    outDupBtih[btih].push(i);
+                } else if (dupNames.indexOf(name) !== -1) {
+                    if (!outDupNames[name]) outDupNames[name] = [];
+                    outDupNames[name].push(i);
+                } else {
+                    out.push(i);
+                }
             }
-        }
-        
-        // sort duplicates by score, keep the best one
-        let findMax = (a, b) => (a.score > b.score) ? a : b;
-        for (let i in outDupNames) {
-            out.push(outDupNames[i].reduce(findMax));
-        }
-        for (let i in outDupBtih) {
-            out.push(outDupBtih[i].reduce(findMax))
-        }
 
-        // sort by score (and then seeds, and then ratio)
-        out = out.sort((a,b) => {
-            if (a.score > b.score) return -1;
-            if (a.score < b.score) return 1;
-            if (a.seeds > b.seeds) return -1;
-            if (a.seeds < b.seeds) return 1;
-            if (a.ratio > b.ratio) return -1;
-            if (a.ratio < b.ratio) return 1;
-            return 0;
-        });    
+            // sort duplicates by score, keep the best one
+            let findMax = (a, b) => (a.score > b.score) ? a : b;
+            for (let i in outDupNames) {
+                out.push(outDupNames[i].reduce(findMax));
+            }
+            for (let i in outDupBtih) {
+                out.push(outDupBtih[i].reduce(findMax))
+            }
 
-        return out;
+            // sort by score (and then seeds, and then ratio)
+            out = out.sort((a,b) => {
+                if (a.score > b.score) return -1;
+                if (a.score < b.score) return 1;
+                if (a.seeds > b.seeds) return -1;
+                if (a.seeds < b.seeds) return 1;
+                if (a.ratio > b.ratio) return -1;
+                if (a.ratio < b.ratio) return 1;
+                return 0;
+            });    
+
+            return out;
+        });
     },
 
     addLocal: (data) => {
@@ -149,9 +178,107 @@ const Search = {
                 `<div class="data">${JSON.stringify(data)}</div>`+
                 `<div class="fa fa-magnet"></div>`+
                 `<div class="title">${data.name}</div>`+
+                `<div class="size">${Misc.fileSize(data.size) || i18n.__('Unknown')}</div>`+
+                `<div class="fa fa-bolt ${Search.matchScore(data.score)}" title="${i18n.__('Seeds: %s', data.seeds)}, ${i18n.__('Peers: %s', data.peers)}"></div>`+
             `</div>`;
 
             $('#details-sources .sources').append(item);
         }
+    },
+
+    calcScore: (ratio, seeds, freeseeds) => {
+            let score = 0;
+            score += ratio > 1 ? 1:0;               // +1 for more seeds than peers
+            score += Math.floor(freeseeds/5)/10;    // +0.1 by 5 free peers
+            score -= seeds < 5 ? 2:0;             // -2 for less than 5 seeds
+            score -= seeds < 15 ? 1:0;            // -1 for less than 15 seeds
+            
+            //scores: 0 is bad, 1.2 is usable, 2 is good enough, 3 is good, 5 is great, >10 is awesome
+            return score;
+    },
+
+    matchScore: (score) => {
+        let cl = 'neutral';
+
+        if (score >= 1.2) cl = 'ok';
+        if (score >= 3) cl = 'good';
+        if (score >= 5) cl = 'great';
+        if (score < 1.2) cl = 'usable';
+        if (score < 0) cl = 'terrible';
+
+        return cl;
+    },
+
+    recalcSeeds: (data) => {
+        return new Promise(resolve => {
+            let wheath = require('webtorrent-health');
+
+            wheath(data.magnet).then((i) => {
+                data.seeds = i.seeds;
+                data.peers = i.peers;
+                resolve(data);
+            }).catch(()=>{
+                resolve();
+            });
+        });
+/*
+        let wheath = require('webtorrent-health');
+
+        let item = $(`#${Misc.slugify(data.magnet)}`);
+        item.find('.fa-bolt').addClass('fa-spin fa-circle-o-notch');
+
+        wheath(data.magnet).then((i) => {
+            let ratio = i.peers ? i.seeds / i.peers : i.seeds; // get ratio
+            let freeseeds = i.seeds - i.peers; // get total of free seeds
+            let score = Search.calcScore(ratio, i.seeds, freeseeds);
+
+            item.find('.fa-bolt')
+                .removeClass('terrible')
+                .removeClass('fa-spin fa-circle-o-notch')
+                .addClass(Search.matchScore(score))
+                .attr('title', `${i18n.__('Seeds: %s', i.seeds)}, ${i18n.__('Peers: %s', i.peers)}`);
+
+        }).catch(()=>{});
+*/
+    },
+
+    recalcSize: (data) => {
+        return new Promise(resolve => {
+            let wtorrent = new (require('webtorrent'));
+            let done;
+
+            setTimeout(() => {
+                if (done) return;
+                wtorrent.destroy();
+                resolve();
+            }, 3500);
+
+            wtorrent.add(data.magnet, (t) => {        
+                data.size = t.length
+
+                wtorrent.destroy();
+                done = true;
+                resolve(data);
+            });
+        });
+
+/*
+        let wtorrent = new (require('webtorrent'));
+        let item = $(`#${Misc.slugify(data.magnet)}`);
+        let done;
+
+        setTimeout(() => {
+            if (done) return;
+            wtorrent.destroy();
+            item.remove();
+        }, 3500);
+
+        wtorrent.add(data.magnet, (t) => {        
+            item.find('.size').text(Misc.fileSize(t.length) || i18n.__('Unknown'));
+
+            wtorrent.destroy();
+            done = true;
+        });
+*/
     }
 }

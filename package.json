@@ -43,7 +43,9 @@
         "opensubtitles-api": "4.x.x",
         "got": "7.x.x",
         "fs-extra": "4.x.x",
-        "webtorrent": "0.98.x"
+        "webtorrent": "0.98.x",
+        "webtorrent-health": "1.x.x",
+        "cheerio": "1.0.0-rc.2"
     },
     "devDependencies": {
         "del": "3.x.x",

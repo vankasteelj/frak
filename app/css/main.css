@@ -975,7 +975,9 @@ input:checked+.slider:before {
 }
 
 #details-sources .query #query {
-    color: #1d1d1d;
+    color: #000;
+    background: rgba(245, 245, 245, .85);
+    font-family: 'Proxima Nova';
     padding: 0px 6px;
     overflow: hidden;
     width: 180px;
@@ -1014,17 +1016,50 @@ input:checked+.slider:before {
     display: inline-block;
     padding: 0 10px;
     line-height: 40px;
+    width: 32px;
     float: left;
+}
+#details-sources .item .fa.fa-bolt {
+    float: right;
 }
 
 #details-sources .item .title {
     display: inline-block;
     font-family: 'Proxima Nova';
     overflow: hidden;
-    width: 80%;
+    width: calc(100% - 150px);
     white-space: nowrap;
     text-overflow: ellipsis;
     float: left;
+}
+
+#details-sources .item .great {
+    color: limegreen;
+}
+#details-sources .item .good {
+    color: yellowgreen;
+}
+#details-sources .item .ok {
+    color: yellow;
+}
+#details-sources .item .usable {
+    color: orange;
+}
+#details-sources .item .terrible {
+    color: red;
+}
+#details-sources .item .neutral {
+    color: grey;
+}
+
+#details-sources .item .size {
+    opacity: .7;
+    font-size: 11px;
+    text-align: right;
+    float: right;
+    width: 85px;
+    padding-right: 20px;
+    padding-left: 5px;
 }
 
 #details-loading,
