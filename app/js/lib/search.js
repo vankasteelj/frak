@@ -189,15 +189,25 @@ const Search = {
         $('#details-sources .sources .item.remote').remove();
         for (let data of results) {
             if (!data) continue;
-            let item = `<div class="item remote" onClick="Details.loadRemote('${data.magnet}')">`+
+
+            let id = Date.now();
+            let item = `<div class="item remote" onClick="Details.loadRemote('${data.magnet}')" id="${id}">`+
                 `<div class="data">${JSON.stringify(data)}</div>`+
-                `<div class="fa fa-magnet"></div>`+
+                `<div class="fa fa-magnet" title="${i18n.__('Open the magnet link')}"></div>`+
                 `<div class="title">${data.name}</div>`+
                 `<div class="size">${Misc.fileSize(data.size) || i18n.__('Unknown')}</div>`+
                 `<div class="fa fa-bolt ${Search.matchScore(data.score)}" title="${i18n.__('Seeds: %s', data.seeds)}, ${i18n.__('Peers: %s', data.peers)}"></div>`+
             `</div>`;
 
             $('#details-sources .sources').append(item);
+            $(`#${id} .fa-magnet`).on('click', (e) => {
+                e.stopPropagation();
+                Misc.openExternal(data.magnet);
+            }).on('contextmenu', (e) => {
+                let clipboard = nw.Clipboard.get();
+                clipboard.set(data.magnet, 'text');
+                Notify.snack(i18n.__('Magnet link was copied to the clipboard'));
+            })
         }
     },
 
@@ -236,25 +246,6 @@ const Search = {
                 resolve();
             });
         });
-/*
-        let wheath = require('webtorrent-health');
-
-        let item = $(`#${Misc.slugify(data.magnet)}`);
-        item.find('.fa-bolt').addClass('fa-spin fa-circle-o-notch');
-
-        wheath(data.magnet).then((i) => {
-            let ratio = i.peers ? i.seeds / i.peers : i.seeds; // get ratio
-            let freeseeds = i.seeds - i.peers; // get total of free seeds
-            let score = Search.calcScore(ratio, i.seeds, freeseeds);
-
-            item.find('.fa-bolt')
-                .removeClass('terrible')
-                .removeClass('fa-spin fa-circle-o-notch')
-                .addClass(Search.matchScore(score))
-                .attr('title', `${i18n.__('Seeds: %s', i.seeds)}, ${i18n.__('Peers: %s', i.peers)}`);
-
-        }).catch(()=>{});
-*/
     },
 
     recalcSize: (data) => {
@@ -276,24 +267,5 @@ const Search = {
                 resolve(data);
             });
         });
-
-/*
-        let wtorrent = new (require('webtorrent'));
-        let item = $(`#${Misc.slugify(data.magnet)}`);
-        let done;
-
-        setTimeout(() => {
-            if (done) return;
-            wtorrent.destroy();
-            item.remove();
-        }, 3500);
-
-        wtorrent.add(data.magnet, (t) => {        
-            item.find('.size').text(Misc.fileSize(t.length) || i18n.__('Unknown'));
-
-            wtorrent.destroy();
-            done = true;
-        });
-*/
     }
 }
