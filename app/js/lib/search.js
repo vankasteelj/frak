@@ -66,21 +66,17 @@ const Search = {
     sortOnline: (input) => {
         let collection = [];
         let out = [];
+
         let outDupNames = {};
         let outDupBtih = {};
+        let outDupSizes = {};
 
         let foundNames = [];
         let dupNames = [];
         let foundBtih = [];
         let dupBtih = [];
-
-        for (let i of input) {
-            let name = Misc.slugify(i.name);
-            foundNames.indexOf(name) === -1 && foundNames.push(name) || dupNames.push(name);
-
-            let btih = i.magnet.match(/btih:(.*?)\&/i)[1].toLowerCase();
-            foundBtih.indexOf(btih) === -1 && foundBtih.push(btih) || dupBtih.push(btih);
-        }
+        let foundSize = [];
+        let dupSize = [];
 
         // check if all info is there
         return Promise.all(input.map((i) => {
@@ -111,6 +107,18 @@ const Search = {
                 }
             });
         })).then(() => {
+            // prepare for duplicates
+            for (let i of collection) {
+                let name = Misc.slugify(i.name);
+                foundNames.indexOf(name) === -1 && foundNames.push(name) || dupNames.push(name);
+
+                let btih = i.magnet.match(/btih:(.*?)\&/i)[1].toLowerCase();
+                foundBtih.indexOf(btih) === -1 && foundBtih.push(btih) || dupBtih.push(btih);
+
+                let size = parseInt(i.size / 1024 / (1024 / 100)); // 1kb range
+                foundSize.indexOf(size) === -1 && foundSize.push(size) || dupSize.push(size);
+            }
+
             // add health
             for (let i of collection) {
                 if (!i) continue; // remove undefined
@@ -125,6 +133,7 @@ const Search = {
                 // where to push?
                 let name = Misc.slugify(i.name);
                 let btih = i.magnet.match(/btih:(.*?)\&/i)[1].toLowerCase();
+                let size = parseInt(i.size / 1024 / (1024 / 100));
 
                 if (dupBtih.indexOf(btih) !== -1) {
                     if (!outDupBtih[btih]) outDupBtih[btih] = [];
@@ -132,6 +141,9 @@ const Search = {
                 } else if (dupNames.indexOf(name) !== -1) {
                     if (!outDupNames[name]) outDupNames[name] = [];
                     outDupNames[name].push(i);
+                } else if (dupSize.indexOf(size) !== -1) {
+                    if (!outDupSizes[size]) outDupSizes[size] = [];
+                    outDupSizes[size].push(i);
                 } else {
                     out.push(i);
                 }
@@ -144,6 +156,9 @@ const Search = {
             }
             for (let i in outDupBtih) {
                 out.push(outDupBtih[i].reduce(findMax))
+            }
+            for (let i in outDupSizes) {
+                out.push(outDupSizes[i].reduce(findMax))
             }
 
             // sort by score (and then seeds, and then ratio)
