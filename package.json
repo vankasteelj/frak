@@ -45,7 +45,7 @@
         "fs-extra": "4.x.x",
         "webtorrent": "0.98.x",
         "webtorrent-health": "1.x.x",
-        "cheerio": "1.0.0-rc.2"
+        "cheerio": "0.22.x"
     },
     "devDependencies": {
         "del": "3.x.x",
