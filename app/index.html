@@ -384,7 +384,7 @@
         gui.start().then(() => {
             Trakt.reconnect();
             win.show(true);
-            win.focus();
+            Interface.focus(true);
             console.timeEnd('Application ready');
         });
     </script>

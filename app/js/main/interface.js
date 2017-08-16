@@ -10,7 +10,7 @@ const Interface = {
     // AUTO: from lib/trakt
     traktLogin: (poll) => {
         Misc.openExternal(poll.verification_url);
-        win.focus();
+        Interface.focus(true);
         $('#traktAuth, #traktinit a').hide();
         $('#traktinit p').text(i18n.__('Enter the code below in your browser'));
         $('#traktCode').val(poll.user_code).show();
@@ -47,6 +47,12 @@ const Interface = {
     requireMPV: () => {
         $('#traktwelcome').hide();
         $('#requirempv').show();
+    },
+
+    focus: (force) => {
+        force && win.setAlwaysOnTop(true);
+        win.focus(true);
+        force && win.setAlwaysOnTop(false);
     },
 
     // AUTO: from welcome page
