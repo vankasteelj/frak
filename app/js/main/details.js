@@ -302,7 +302,10 @@ const Details = {
 
     loadNext: () => {
         let $next_episode = $(`#${Details.model.show.ids.slug}`);
-        if (!$next_episode.length) return;
+        if (!$next_episode.length) {
+            Details.closeDetails();
+            return;
+        }
 
         let data = JSON.parse($next_episode.find('.data').text());
         console.info('Next episode is ready', data);
