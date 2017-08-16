@@ -44,6 +44,7 @@ const Player = {
 
     quit: () => {
         Trakt.scrobble('stop');
+        $('#playing').hide();
 
         Player.mpv.quit();
         Loading.close();

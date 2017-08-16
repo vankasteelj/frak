@@ -1330,3 +1330,30 @@ select.dropdown {
 }
 
 /* dropdowns END */
+
+/* playing div */
+#playing {
+    position: fixed;
+    z-index: 999;
+    bottom: 0;
+    right: -5px;
+    background: rgba(11, 11, 11, .8);
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 5px 0px 0px 0px;
+    font-family: 'Proxima Nova';
+    height: 26px;
+    cursor: pointer;
+    opacity: .8;
+    transition: all .5s;
+    display: none;
+}
+#playing:hover {
+    opacity: 1;
+}
+#playing .fa {
+    font-size: 12px;
+    margin-right: 3px;
+}
+
+/* playing div END */

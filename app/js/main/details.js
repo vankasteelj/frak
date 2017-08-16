@@ -35,6 +35,7 @@ const Details = {
             console.info('Returning to previous details window');
             $('#details').html(Details.previous.html).show();
             $('#collection').hide();
+            $('#playing').hide();
 
             if (Player.mpv.isRunning() || Streamer.client) {
                 $('#details-sources').hide();
@@ -52,6 +53,7 @@ const Details = {
             $('#details').html(Details.default);
             Boot.setupRightClicks('#query');
             Details.model = d.data;
+            $('#playing').hide();
         }
 
         $('#details .id').text(d.id);
@@ -124,6 +126,12 @@ const Details = {
             Details.previous.html = $('#details').html();
         }
 
+        if (Details.previous.id) {
+            $('#playing').show().off('click').on('click', () => {
+                $(`#${Details.previous.id} .play`).click();
+            });
+        }
+
         $('#collection').show();
         $('#details').hide();
     },
@@ -186,7 +194,8 @@ const Details = {
             let file = Details.getData(elm);
 
             // reset the details view;
-            $('#details').html(Details.default); 
+            $('#details').html(Details.default);
+            $('#playing').hide();
             Details.model = undefined;
             Details.previous = {
                 id: undefined,
