@@ -6,14 +6,14 @@ const Player = {
         states: false,
         cli: [
             //'--no-sub-auto',
-            '--geometry=50%',
-            '--sub-font-size=45',
-            '--sub-border-size=2',
-            '--sub-scale=0.7',
             '--sub-fix-timing=yes',
-            '--contrast=5',
-            '--saturation=2',
-            '--script-opts=osc-layout=box,osc-seekbarstyle=knob,osc-scalefullscreen=0.7,osc-scalewindowed=1,osc-valign=0.9,osc-timetotal=yes,osc-boxalpha=160'
+            Settings.player.centered ? '--geometry=50%' : '',
+            '--sub-font-size=' + Settings.player.sub_size,
+            '--sub-border-size=2',
+            '--sub-scale=' + Settings.player.scale,
+            '--contrast=' + Settings.player.contrast,
+            '--saturation=' + Settings.player.saturation,
+            `--script-opts=osc-layout=${Settings.player.layout},osc-seekbarstyle=${Settings.player.seekbar},osc-scalefullscreen=${Settings.player.scale},osc-valign=0.9,osc-timetotal=yes,osc-boxalpha=160`
         ]
     },
 
