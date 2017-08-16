@@ -8,7 +8,7 @@ const Notify = {
             .show()
             .addClass('slideNotification')
             .delay(duration)
-            .queue(() => $('#notification-snack').html('').hide('fast').removeClass('slideNotification').dequeue());
+            .queue(() => $('#notification-snack').hide('fast').removeClass('slideNotification').dequeue());
     }, 
 
     // request attention when in bg

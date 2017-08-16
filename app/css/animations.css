@@ -142,7 +142,7 @@
 
 .slideNotification {
     -webkit-animation-name: slideNotification;
-    -webkit-animation-duration: 0.45s;
+    -webkit-animation-duration: 0.30s;
     -webkit-animation-timing-function: ease-in;
     -webkit-animation-iteration-count: 1;
 }

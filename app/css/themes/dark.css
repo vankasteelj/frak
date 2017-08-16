@@ -14,13 +14,15 @@ body {
 }
 
 #notification-snack {
-    background: rgba(48, 48, 48, .7);
-    color: #f5f7fa;
-    border: 1px solid #666;
+    background: rgba(11, 11, 11, .7);
+    color: #fafafa;
+    border: 1px solid #444;
+    transition: all .3s;
 }
 
 #notification-snack:hover {
-    background: rgba(60, 60, 60, .8);
+    color: #fff;
+    background: rgba(11, 11, 11, .9);
 }
 
 input {
