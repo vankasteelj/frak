@@ -234,6 +234,7 @@ input {
 #locals .items.unmatched,
 #settings,
 #trailer,
+#history,
 #details,
 #details #details-next {
     display: none;
@@ -319,14 +320,16 @@ input {
     right: calc(50% - 25px);
 }
 
-#collection .fanart {
+#collection .fanart,
+#trakt .fanart {
     position: relative;
     overflow: hidden;
     background-size: cover;
     background-position: 50%;
 }
 
-#collection .fanart .corner-rating {
+#collection .fanart .corner-rating,
+#trakt .fanart .corner-rating {
     width: 0;
     height: 0;
     border-style: solid;
@@ -338,7 +341,8 @@ input {
     display: none;
 }
 
-#collection .fanart .corner-rating span {
+#collection .fanart .corner-rating span,
+#trakt .fanart .corner-rating span {
     color: #fff !important;
     font-size: 12px;
     font-family: 'Proxima Nova Bold';
@@ -352,36 +356,49 @@ input {
     transform: rotate(45deg);
 }
 
-#collection .fanart img {
+#collection .fanart img,
+#trakt .fanart img {
+    width: 100%;
     opacity: 1;
     transition: all .5s;
 }
 
-#collection .base {
-    width: 100%;
-}
-
-#collection .real {
-    width: 100%;
-    vertical-align: middle;
-    position: absolute;
-    display: block;
-    top: 0;
-    left: 0;
-}
-
-#collection .row {
+#collection .row,
+#trakt .row {
     width: calc(100% - 55px);
     position: absolute;
     right: 10px;
 }
 
-#collection .row>div {
+#collection .row>div,
+#collection .grid-item {
     padding: 0;
 }
 
-#collection .grid-item {
-    padding: 0;
+#trakt .grid-item {
+    padding: 10px;
+}
+
+#trakt .titles {
+    font-family: 'Proxima Nova';
+    text-align: center;
+    padding: 5px 0;
+}
+#trakt .title,
+#trakt .datetime {
+    font-size: 1.2em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+#trakt .sxe {
+    font-family: 'Proxima Nova Bold';
+}
+#trakt .datetime {
+    font-size: .9em;
+}
+#trakt #history .spinner {
+    margin: 38vh auto;
 }
 
 #collection .shadow {
@@ -440,17 +457,20 @@ input {
     padding-left: 6px;
 }
 
-#collection .quick-icons {
+#collection .quick-icons,
+#trakt .quick-icons {
     height: 40px;
     overflow: hidden;
     white-space: nowrap;
 }
 
-#collection .actions {
+#collection .actions,
+#trakt .actions {
     float: left;
 }
 
-#collection .actions>div {
+#collection .actions>div,
+#trakt .actions>div {
     height: 40px;
     width: 40px;
     font-size: 2.2em;
@@ -461,6 +481,8 @@ input {
 }
 
 #collection .actions>div:hover,
+#trakt .actions>div:hover,
+#trakt .metadata>div:hover,
 #collection .metadata>div:hover {
     cursor: pointer;
 }
@@ -470,23 +492,27 @@ input {
     padding-top: 7px;
 }
 
-#collection .metadata {
+#collection .metadata,
+#trakt .metadata {
     float: right;
     padding-right: 10px;
 }
 
-#collection .metadata .percentage {
+#collection .metadata .percentage,
+#trakt .metadata .percentage {
     font-size: 20px;
     font-family: 'Proxima Nova Semibold';
     line-height: 40px;
 }
 
-#collection .metadata .fa-heart {
+#collection .metadata .fa-heart,
+#trakt .metadata .fa-heart {
     font-size: 16px;
     margin-right: 5px;
 }
 
 #collection .grid-item .data,
+#trakt .grid-item .data,
 #collection #locals .data {
     display: none;
 }
@@ -594,6 +620,7 @@ input {
     margin-top: 20px;
 }
 
+/* collection END */
 
 /* navbar */
 
@@ -632,8 +659,12 @@ input {
     bottom: 0;
 }
 
+#navbar .separator {
+    border-bottom: 1px solid rgba(240, 240, 240, .15);
+    margin: 20px 0px;
+}
 
-/* collection END */
+/* navbar END */
 
 
 /* trailer popup */

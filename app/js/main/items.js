@@ -164,7 +164,100 @@ const Items = {
 
         return item;
     },
+    constructHistoryShow: (show) => {
+        let d = {
+            image: show.show.images.poster || Images.reduce(show.show.images.fanart),
+            id: show.show.ids.slug,
+            sxe: `${show.episode.season}x${Misc.pad(show.episode.number)}`,
+            title: show.episode.title,
+            data: JSON.stringify(show),
+            rating: Misc.percentage(show.show.rating),
+            size: DB.get('small_items') ? {sm: 3, md: 2, lg: 1} : {sm: 4, md: 3, lg: 2},
+            watched_at: function () {
+                let d = new Date(show.watched_at);
+                return d.toLocaleDateString() + ' ' + Misc.pad(d.getHours()) + ':' + Misc.pad(d.getMinutes());
+            }(),
+            watched_id: show.id
+        }
 
+        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg} ${d.id}" id="${d.watched_id}">`+
+            `<span class="data">${d.data}</span>`+
+            `<div class="fanart">`+
+                `<div class="corner-rating"><span></span></div>`+
+                `<img class="base" src="images/posterholder.png">`+
+            `</div>`+
+            `<div class="quick-icons">`+
+                `<div class="actions">`+
+                    `<div class="watched trakt-icon-check-thick tooltipped i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched('${d.watched_id}')"></div>`+
+                `</div>`+
+                `<div class="metadata">`+
+                    `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.watched_id}')">`+
+                        `<div class="fa fa-heart"></div>`+
+                        `${d.rating}&nbsp;%`+
+                    `</div>`+
+                `</div>`+
+            `</div>`+
+            `<div class="titles">`+
+                `<div class="title">`+
+                    `<span class="sxe">${d.sxe}</span>&nbsp`+
+                    `<span>${d.title}</span>`+
+                `</div>`+
+                `<span class="datetime">${d.watched_at}</span>`+
+            `</div>`+
+        `</div>`;
+
+        Items.getImage(d.image).then(state => {
+            state && $(`#${d.watched_id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.watched_id} .fanart img`).css('opacity', '0');
+        });
+
+        return item;
+    },
+    constructHistoryMovie: (movie) => {
+        let d = {
+            image: movie.movie.images.poster || Images.reduce(movie.movie.images.fanart),
+            id: movie.movie.ids.slug,
+            title: movie.movie.title,
+            data: JSON.stringify(movie),
+            rating: Misc.percentage(movie.movie.rating),
+            size: DB.get('small_items') ? {sm: 3, md: 2, lg: 1} : {sm: 4, md: 3, lg: 2},
+            watched_at: function () {
+                let d = new Date(movie.watched_at);
+                return d.toLocaleDateString() + ' ' + Misc.pad(d.getHours()) + ':' + Misc.pad(d.getMinutes());
+            }(),
+            watched_id: movie.id
+        }
+
+        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg} ${d.id}" id="${d.watched_id}">`+
+            `<span class="data">${d.data}</span>`+
+            `<div class="fanart">`+
+                `<div class="corner-rating"><span></span></div>`+
+                `<img class="base" src="images/posterholder.png">`+
+            `</div>`+
+            `<div class="quick-icons">`+
+                `<div class="actions">`+
+                    `<div class="watched trakt-icon-check-thick tooltipped i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched('${d.watched_id}')"></div>`+
+                `</div>`+
+                `<div class="metadata">`+
+                    `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.watched_id}')">`+
+                        `<div class="fa fa-heart"></div>`+
+                        `${d.rating}&nbsp;%`+
+                    `</div>`+
+                `</div>`+
+            `</div>`+
+            `<div class="titles">`+
+                `<div class="title">`+
+                    `<span>${d.title}</span>`+
+                `</div>`+
+                `<span class="datetime">${d.watched_at}</span>`+
+            `</div>`+
+        `</div>`;
+
+        Items.getImage(d.image).then(state => {
+            state && $(`#${d.watched_id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.watched_id} .fanart img`).css('opacity', '0');
+        });
+
+        return item;
+    },
     markAsWatched: (elm) => {
         let id = $(elm).context.offsetParent.id || $(elm).context.id;
         let data = JSON.parse($(`#${id} .data`).text());
@@ -194,6 +287,16 @@ const Items = {
         }, 300);
     },
 
+    markAsUnWatched: (id) => {
+        Trakt.client.sync.history.remove({ids:[id]});
+        $(`#${id} .watched`).removeClass('selected');
+
+        setTimeout(() => {
+            Trakt.reload();
+            $(`#${id}`).remove();
+        }, 300);
+    },
+
     applyRatings: (ratings) => {
         $('.corner-rating span').text('');
         $('.corner-rating').hide();
@@ -202,6 +305,7 @@ const Items = {
             if (['show', 'movie'].indexOf(item.type) === -1) continue;
 
             $(`#${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show();
+            $(`.${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show();
             // do the rating
         }
     },

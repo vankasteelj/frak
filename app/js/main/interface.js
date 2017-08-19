@@ -69,6 +69,7 @@ const Interface = {
         $('#collection #movies').show();
         $('#collection #shows').hide();
         $('#collection #locals').hide();
+        $('#trakt #history').hide();
         $('#settings').hide();
         $('#navbar .movies').addClass('active');
         window.scrollTo(0,0);
@@ -79,6 +80,7 @@ const Interface = {
         $('#collection #shows').show();
         $('#collection #movies').hide();
         $('#collection #locals').hide();
+        $('#trakt #history').hide();
         $('#settings').hide();
         $('#navbar .shows').addClass('active');
         window.scrollTo(0,0);
@@ -89,6 +91,7 @@ const Interface = {
         $('#collection #locals').show();
         $('#collection #shows').hide();
         $('#collection #movies').hide();
+        $('#trakt #history').hide();
         $('#settings').hide();
         $('#navbar .locals').addClass('active');
         $('#locals .categories').show();
@@ -99,11 +102,25 @@ const Interface = {
     showSettings: () => {
         $('#navbar .nav').removeClass('active');
         $('#settings').show();
+        $('#trakt #history').hide();
         $('#collection #shows').hide();
         $('#collection #locals').hide();
         $('#collection #movies').hide();
         $('#navbar .settings').addClass('active');
-        window.scrollTo(0,0);
+    },
+    // USER INTERACTION: click navbar
+    showHistory: () => {
+        Collection.get.history().then(() => {
+            window.scrollTo(0,0);
+            Items.applyRatings(DB.get('traktratings'));
+            setTimeout(() => $('#trakt #history').show(), 200);
+        });
+        $('#navbar .nav').removeClass('active');
+        $('#navbar .history').addClass('active');
+        $('#collection #shows').hide();
+        $('#collection #locals').hide();
+        $('#collection #movies').hide();
+        $('#settings').hide();
     },
 
     // USER INTERACTION: click trailer item button

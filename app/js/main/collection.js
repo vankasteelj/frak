@@ -101,6 +101,22 @@ const Collection = {
 
                 Collection.format.locals(results);
             }).catch(console.error)
+        },
+        history: () => {
+            $('#navbar .history .fa-spin').css('opacity', 1);
+
+            return Trakt.client.sync.history.get({
+                limit: 24, //because bootstap column is 12
+                page: 1,
+                extended: 'full'
+            }).then(results => {
+                console.info('Trakt.tv - history recieved', results);
+                DB.store(results, 'trakthistory');
+
+                return Collection.format.trakthistory(results);
+            }).then((collection) => {
+                return Collection.show.history(collection);
+            }).catch(console.error)
         }
     },
 
@@ -202,6 +218,42 @@ const Collection = {
                 $('#collection #locals .waitforlibrary .scanning').hide();
                 $('#collection #locals .waitforlibrary .notfound').show();
             }
+        },
+
+        trakthistory: (items) => {
+            let collection = Array();
+
+            return Promise.all(items.map((item, index) => {
+                let type = item.type == 'movie' ? 'movie' : 'show';
+
+                return Images.get[type]({
+                    imdb: item[type].ids.imdb,
+                    tmdb: item[type].ids.tmdb,
+                    tvdb: item[type].ids.tvdb
+                }).then(images => {
+                    item[type].images = images;
+                    item.index = index;
+                    collection.push(item);
+                    return item;
+                });
+            })).then(() => {
+                console.info('All images found for the history');
+
+                // sort
+                collection = collection.sort(function(a, b){
+                    if(a.index < b.index) {
+                        return -1;
+                    }
+                    if(a.index > b.index) {
+                        return 1;
+                    }
+                    return 0;
+                });
+
+                DB.store(collection, 'trakthistorycollection');
+                $('#navbar .history .fa-spin').css('opacity', 0);
+                return collection;
+            }).catch(console.error);
         }
     },
 
@@ -257,6 +309,19 @@ const Collection = {
                     let item = Items.constructLocalUnmatched(unmatch);
                     $('#collection #locals .unmatched .row').append(item);
                 }
+            }
+        },
+        history: (collection) => {
+            $('#trakt #history').html('');
+            for (let i of collection) {
+                let item;
+                if (i.type == 'movie') {
+                    item = Items.constructHistoryMovie(i);
+                } else {
+                    item = Items.constructHistoryShow(i);
+                }
+
+                $('#trakt #history').append(item);
             }
         }
     }
