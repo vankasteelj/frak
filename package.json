@@ -33,7 +33,7 @@
     },
     "dependencies": {
         "i18n": "0.x.x",
-        "trakt.tv": "5.x.x",
+        "trakt.tv": "6.x.x",
         "trakt.tv-ondeck": "5.x.x",
         "trakt.tv-matcher": "5.x.x",
         "local-video-library": "1.x.x",
