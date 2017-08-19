@@ -131,14 +131,26 @@ const Boot = {
         // search paths for locals
         Local.setupPaths();
 
+        // what view to load first
+        Boot.startScreen();
+
+        // prepare for default details page
+        Details.default = $('#details').html();
+
         // items size
         if (DB.get('small_items')) {
             document.querySelector('#items-size').checked = true;
         }
 
-        Boot.startScreen();
+        // default player options
+        !DB.get('player_options') && DB.store(Settings.player, 'player_options');
 
-        Details.default = $('#details').html();
+        // setup player options
+        let player_options = DB.get('player_options');
+        for (let o in player_options) {
+            let c = o == 'centered' ? 'checked' : 'value';
+            document.querySelector(`#${o}`)[c] = player_options[o];
+        }
     },
 
     setupInputs: () => {
@@ -157,6 +169,19 @@ const Boot = {
             DB.store(isSmall, 'small_items');
             Interface.switchCollectionSize(isSmall);
         }, false);
+
+        let player_options = DB.get('player_options');
+        for (let o in player_options) {
+            let c = o == 'centered' ? 'checked' : 'value';
+
+            document.querySelector(`#${o}`).addEventListener('change', (evt) => {
+                player_options[o] = document.querySelector(`#${o}`)[c];
+                console.log(o, player_options[o]);
+                DB.store(player_options, 'player_options');
+
+                Player.setMPV(DB.get('mpv'));
+            });
+        }
     },
 
     startScreen: () => {

@@ -749,11 +749,11 @@ input {
     display: none;
 }
 
-#settings .interface label {
+#settings label {
     margin-bottom: -5px;
 }
 
-#settings .interface .action {
+#settings .action {
     font-size: 14px;
     font-family: 'Proxima Nova';
 }
@@ -767,10 +767,20 @@ input {
     height: 30px;
     padding: 10px;
     text-align: center;
-    width: 220px;
+    width: 150px;
     font-family: monospace;
     color: #ccc;
     font-size: 12px;
+}
+#settings .mpv #fakempvpath {
+    width: 220px;
+}
+#settings input[type='color'] {
+    -webkit-appearance: none;
+    padding: 0 10px 0 20px;
+}
+#settings input[type='color']::-webkit-color-swatch {
+    margin: 3px -9px 3px -3px;
 }
 
 

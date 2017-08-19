@@ -3,18 +3,7 @@
 const Player = {
     config: {
         events: false,
-        states: false,
-        cli: [
-            //'--no-sub-auto',
-            '--sub-fix-timing=yes',
-            Settings.player.centered ? '--geometry=50%' : '',
-            '--sub-font-size=' + Settings.player.sub_size,
-            '--sub-border-size=2',
-            '--sub-scale=' + Settings.player.scale,
-            '--contrast=' + Settings.player.contrast,
-            '--saturation=' + Settings.player.saturation,
-            `--script-opts=osc-layout=${Settings.player.layout},osc-seekbarstyle=${Settings.player.seekbar},osc-scalefullscreen=${Settings.player.scale},osc-valign=0.9,osc-timetotal=yes,osc-boxalpha=160`
-        ]
+        states: false
     },
 
     mpv: undefined,
@@ -84,11 +73,32 @@ const Player = {
     },
 
     setMPV: (p) => {
+        let binary = p || DB.get('mpv');
+        let options = Player.getOptions();
+
         Player.mpv = new (require('node-mpv'))({
-            binary: p,
+            binary: binary,
             auto_restart: false
-        }, Player.config.cli);
-        $('#settings .mpv #fakempvpath').val(p)
+        }, options);
+
+        $('#settings .mpv #fakempvpath').val(binary);
+    },
+
+    getOptions: () => {
+        let options = DB.get('player_options');
+
+        return [
+            //'--no-sub-auto',
+            '--sub-fix-timing=yes',
+            options.centered ? '--geometry=50%' : '',
+            '--sub-font-size=' + options.sub_size,
+            '--sub-color=' + options.sub_color,
+            '--sub-border-size=2',
+            '--sub-scale=' + options.scale,
+            '--contrast=' + options.contrast,
+            '--saturation=' + options.saturation,
+            `--script-opts=osc-layout=${options.layout},osc-seekbarstyle=${options.seekbar},osc-scalefullscreen=${options.scale},osc-valign=0.9,osc-timetotal=yes,osc-boxalpha=160`
+        ];
     },
 
     findMpv: () => {

@@ -258,6 +258,92 @@
                         <input id="fakempvpath" class="i18n" placeholder="Select an executable" type="text" readonly onClick="Interface.setMPVPath()"/>
                     </div>
                 </div>
+                <div class="option">
+                    <div class="text">
+                        <i18n>OSC layout</i18n>
+                    </div>
+                    <div class="action">
+                        <select id="layout" class="dropdown">
+                            <option value="box"><i18n>Box</i18n></option>
+                            <option value="slimbox"><i18n>Box (slim)</i18n></option>
+                            <option value="bottombar"><i18n>Bottom bar</i18n></option>
+                            <option value="topbar"><i18n>Top bar</i18n></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="text">
+                        <i18n>OSC seekbar</i18n>
+                    </div>
+                    <div class="action">
+                        <select id="seekbar" class="dropdown">
+                            <option value="slider"><i18n>Diamond marker</i18n></option>
+                            <option value="knob"><i18n>Circle marker</i18n></option>
+                            <option value="bar"><i18n>Fill the bar</i18n></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="text">
+                        <i18n>OSC scale factor</i18n>
+                    </div>
+                    <div class="action">
+                        <input id="scale" class="i18n" type="text" placeholder="Default: 1.0"/>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="text">
+                        <i18n>Start centered</i18n>
+                    </div>
+                    <div class="action">
+                        <i18n>no</i18n>&nbsp;
+                        <label class="switch">
+                            <input id="centered" type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                        &nbsp;<i18n>yes</i18n>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="text">
+                        <i18n>Contrast</i18n>
+                    </div>
+                    <div class="action">
+                        <input id="contrast" class="i18n" type="text" placeholder="-100 to 100"/>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="text">
+                        <i18n>Saturation</i18n>
+                    </div>
+                    <div class="action">
+                        <input id="saturation" class="i18n" type="text" placeholder="-100 to 100"/>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="text">
+                        <i18n>Subtitles size</i18n>
+                    </div>
+                    <div class="action">
+                        <input id="sub_size" class="i18n" type="text" placeholder="Default: 55"/>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="text">
+                        <i18n>Subtitles color</i18n>
+                    </div>
+                    <div class="action">
+                        <input id="sub_color" class="i18n" type="color" list="subs_colors"/>
+                        <datalist id="subs_colors">
+                            <option>#ffffff</option>
+                            <option>#ffff00</option>
+                            <option>#ff0000</option>
+                            <option>#ff00ff</option>
+                            <option>#00ffff</option>
+                            <option>#00ff00</option>
+                        </datalist>
+                    </div>
+                </div>
             </div>
         </section>
 

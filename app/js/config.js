@@ -17,6 +17,7 @@ const Settings = {
     player: {
         centered: true,
         sub_size: 45,
+        sub_color: '#ffffff',
         scale: 0.7,
         contrast: 5,
         saturation: 2,
