@@ -1,8 +1,0 @@
-- keyboard shortcuts
-- about with credits + version
-- allow choosing start page
-- a discover + add to watchlist button, with search
-- something with subtitles not matching
-- download in background and add to library
-- "rename mode" for the local lib "unmatched". Autorename for the matched.
-- something is off with mdata
