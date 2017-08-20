@@ -45,6 +45,7 @@ const Details = {
             return;
         } else { //reset
             if (Details.previous.id && !Player.mpv.isRunning()) {
+                console.info('Reset previous details');
                 Details.previous = {
                     id: undefined,
                     html: undefined
@@ -127,7 +128,11 @@ const Details = {
         }
 
         if (Details.previous.id) {
+            let nav = $('#navbar .nav.active').attr('class');
             $('#playing').show().off('click').on('click', () => {
+                $(`#navbar .${nav.split(' ')[1]}`).click();
+
+                $(`#${Details.previous.id}`).click();
                 $(`#${Details.previous.id} .play`).click();
             });
         }

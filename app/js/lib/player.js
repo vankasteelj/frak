@@ -37,6 +37,12 @@ const Player = {
 
         Player.mpv.quit();
         Loading.close();
+
+        // reset details window
+        Details.previous = {
+            id: undefined,
+            html: undefined
+        }
     },
 
     handleEvents: () => {
