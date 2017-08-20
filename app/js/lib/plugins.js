@@ -61,6 +61,8 @@ const Plugins = {
         $('#settings .plugins').append(item);
 
         $(`#${id}`).off('click').on('click', (evt) => {
+            Interface.showWarning();
+
             let isActive = evt.toElement.checked;
             DB.store(isActive, plugin.name);
             

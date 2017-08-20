@@ -236,6 +236,7 @@ input {
 #trailer,
 #history,
 #about,
+#legal,
 #details,
 #details #details-next {
     display: none;
@@ -1506,3 +1507,46 @@ select.dropdown {
 }
 
 /* about END */
+
+/* legal */
+
+#legal {
+    position: fixed;
+    z-index: 9997;
+    width: 100vw;
+    height: 100vh;
+}
+#legal .background {
+    background: rgba(11, 11, 11, .8);
+    width: 100%;
+    position: absolute;
+    height: 100%;
+}
+#legal .content {
+    width: 450px;
+    padding: 10px;
+    position: absolute;
+    background: #1d1d1d;
+    border-radius: 5px;
+    margin: 25vh calc(50% - 225px);
+}
+
+#legal .warning {
+    text-align: justify;
+    padding: 15px;
+}
+#legal button {
+    background: yellow;
+    -webkit-appearance: none;
+    border: none;
+    color: black;
+    font-weight: 800;
+    height: 40px;
+    width: 430px;
+    transition: all .5s;
+}
+#legal button:hover {
+    color: #fafafa;
+    background: #16a085;
+}
+/* legal END */

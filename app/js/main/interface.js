@@ -203,5 +203,15 @@ const Interface = {
     },
     closeAbout: () => {
         $('#about').hide();
+    },
+
+    showWarning: () => {
+        if (DB.get('legal_notice_read')) return;
+        
+        $('#legal').show();
+    },
+    hideWarning: () => {
+        $('#legal').hide();
+        DB.store(true, 'legal_notice_read');
     }
 };
