@@ -189,6 +189,8 @@
         </section>
 
         <section id="settings">
+            <div class="about fa fa-info-circle i18n" title="About" onClick="Interface.showAbout()"></div>
+
             <div class="setting trakt">
                 <div class="title">Trakt.tv</div>
                 <div class="option">
@@ -470,10 +472,45 @@
             </div>
         </section>
 
+        <section id="about">
+            <div class="background" onClick="Interface.closeAbout()"></div>
+            
+            <div class="content">
+                <div class="fa fa-github repolink i18n" title="Get the source code"></div>
+                <h3>Frak <span class="version"></span></h3>
+                <h4><i18n>A frakingly good multimedia center</i18n></h4>
+
+                <div class="technologies">
+                    <h5><i18n>Built with:</i18n></h5>
+                    <div class="icons">
+                        <img src="images/about/nodejs.png" title="NodeJS" onClick="Misc.openExternal('http://nodejs.org/')"/>
+                        <img src="images/about/html.png" title="HTML5" onClick="Misc.openExternal('https://www.w3.org/standards/')"/>                        
+                    </div>
+                    <div class="icons icons-2">
+                        <img src="images/about/nwjs.png" title="NW.js" onClick="Misc.openExternal('http://nwjs.io/')"/>
+                        <img src="images/about/mpv.png" title="mpv" onClick="Misc.openExternal('https://mpv.io/')"/>
+                        <img src="images/about/bootstrap.png" title="Bootstrap" onClick="Misc.openExternal('http://getbootstrap.com/')"/>
+                        <img src="images/about/jquery.png" title="jQuery" onClick="Misc.openExternal('https://jquery.com/')"/>
+                    </div>
+                </div>
+                <div class="services">
+                    <h5><i18n>Thanks to:</i18n></h5>
+                    <div class="icons">
+                        <img src="images/about/trakt.png" title="Trakt" onClick="Misc.openExternal('https://trakt.tv/')"/>
+                        <img src="images/about/tmdb.png" title="TheMovieDB" onClick="Misc.openExternal('https://www.themoviedb.org/')"/>
+                        <img src="images/about/tvdb.png" title="TheTVDB" onClick="Misc.openExternal('http://thetvdb.com/')"/>
+                        <img src="images/about/fanart.png" title="Fanart.tv" onClick="Misc.openExternal('http://fanart.tv/')"/>
+                        <img src="images/about/opensubtitles.png" title="OpenSubtitles" onClick="Misc.openExternal('http://opensubtitles.org/')"/>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <div id="playing">
             <div class="fa fa-share"></div>
             <span><i18n>Return to details</i18n></span>
         </div>
+
         <div id="notification-snack" onClick="$(this).hide()"></div>
     </div>
 

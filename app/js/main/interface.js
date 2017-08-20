@@ -196,5 +196,12 @@ const Interface = {
     
     setMPVPath: () => {
         document.querySelector('#mpvpath').click();
+    },
+
+    showAbout: () => {
+        $('#about').show();
+    },
+    closeAbout: () => {
+        $('#about').hide();
     }
 };

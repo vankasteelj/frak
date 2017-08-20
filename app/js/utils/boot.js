@@ -114,8 +114,13 @@ const Boot = {
         });
     },
 
-    // STARTUP: set up version number in bottom-right corner
-    setupVersion: () => $('.version').text(PKJSON.version),
+    // STARTUP: set up version number and repository link
+    setupVersion: () => {
+        $('#about .version').text(PKJSON.version);
+        $('#about .repolink').on('click', () => {
+            Misc.openExternal(PKJSON.homepage);
+        });
+    },
 
     // STARTUP: set up values in settings popup
     setupSettings: () => {

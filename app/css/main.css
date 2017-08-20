@@ -235,6 +235,7 @@ input {
 #settings,
 #trailer,
 #history,
+#about,
 #details,
 #details #details-next {
     display: none;
@@ -697,6 +698,20 @@ input {
     right: 0px;
     width: calc(100% - 60px);
     height: 100vh;
+}
+
+#settings .about {
+    position: fixed;
+    right: 15px;
+    opacity: .6;
+    padding: 5px;
+    font-size: 20px;
+    top: 10px;
+    cursor: pointer;
+    transition: all .5s;
+}
+#settings .about:hover {
+    opacity: .9;
 }
 
 #settings .setting {
@@ -1400,3 +1415,89 @@ select.dropdown {
 }
 
 /* playing div END */
+
+/* about */
+
+#about {
+    position: fixed;
+    z-index: 9998;
+    width: 100%;
+    height: 100%;
+}
+
+#about .background {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 50;
+    background: rgba(11,11,11,0.8);
+}
+#about .content {
+    position: fixed;
+    z-index: 51;
+    width: 70vw;
+    overflow: hidden;
+    height: 90vh;
+    margin: 5vh 15vw;
+    background: #1d1d1d;
+    padding: 40px;
+    font-family: 'Proxima Nova';
+}
+
+#about .content h3 {
+    text-align: center;
+    font-family: 'Proxima Nova Semibold';
+    font-size: 30px;
+}
+#about .content h3 .version {
+    font-size: .4em;
+    font-family: 'Proxima Nova';
+    margin-left: 3px;
+    position: absolute;
+}
+
+#about .content h4 {
+    opacity: .45;
+    margin: 15px 0 40px 0;
+    font-size: 1.1em;
+    font-style: italic;
+    text-align: center;
+}
+#about .content h5 {
+    opacity: .8;
+}
+
+#about .icons {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#about .icons img {
+    height: 74px;
+    padding: 5px 10px;
+    transition: all .5s;
+    cursor: pointer;
+    border-radius: 5px
+}
+#about .icons img:hover {
+    background: rgba(240, 240, 240, .2);
+}
+#about .services .icons img,
+#about .technologies .icons-2 img {
+    height: 56px;
+}
+
+#about .repolink {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 25px;
+    cursor: pointer;
+    opacity: .8;
+    transition: all .5s;
+}
+#about .repolink:hover {
+    opacity: 1;
+}
+
+/* about END */
