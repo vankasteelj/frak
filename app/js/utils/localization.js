@@ -3,7 +3,11 @@
 const Localization = {
 
     // cache
-    availableLocales: ['en'],
+    availableLocales: ['en', 'fr'],
+    nativeNames: {
+        en: 'English',
+        fr: 'Français'
+    },
     detectedLocale: false,
 
     // STARTUP: load i18n and set locales, then localize app
@@ -16,7 +20,7 @@ const Localization = {
             defaultLocale: Localization.detectedLocale,
             locales: Localization.availableLocales,
             directory: './app/localization',
-            updateFiles: false
+            updateFiles: true
         });
 
         // set lang to stored or detected one
@@ -61,6 +65,9 @@ const Localization = {
             if (c[j].placeholder) {
                 c[j].placeholder = i18n.__(c[j].placeholder);
             }
+            if (c[j].innerText && c[j].localName == 'option') {
+                c[j].innerText = i18n.__(c[j].innerText);
+            }
         }
     },
 
@@ -70,7 +77,8 @@ const Localization = {
         for (let i in Localization.availableLocales) {
             // insert element in dropdown
             let lang = Localization.availableLocales[i];
-            $('#app-language').append('<option value="'+lang+'">'+lang+'</option>');
+            let native = Localization.nativeNames[lang];
+            $('#app-language').append('<option value="'+lang+'">'+native+'</option>');
 
             // select if active
             if (lang === i18n.getLocale()) {

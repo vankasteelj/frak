@@ -21,7 +21,7 @@ const Subtitles = {
     addSubtitle: (sub) => {
         let item = `<div class="sub tooltipped i18n" title="${i18n.__('Load this subtitle')}" id="${sub.id}" onClick="Subtitles.select(this)">`+
             `<div class="data">${JSON.stringify(sub)}</div>`+
-            `<div class="sublang">${sub.lang}</div>`+
+            `<div class="sublang">${Localization.nativeNames[sub.langcode] || sub.lang}</div>`+
         `</div>`;
 
         $('#subtitles .subs').append(item);

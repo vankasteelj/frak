@@ -453,9 +453,9 @@ input {
 }
 
 #collection .titles h3 .year {
-    font-weight: 200;
     font-size: 14px;
     padding-left: 6px;
+    font-family: 'Proxima Nova';
 }
 
 #collection .quick-icons,
@@ -653,6 +653,9 @@ input {
     position: relative;
     left: 40px;
     font-family: 'Proxima Nova';
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 #navbar .nav.settings {
@@ -741,6 +744,7 @@ input {
     display: inline;
     line-height: 60px;
     float: left;
+    font-family: 'Proxima Nova';
 }
 
 #settings .action {
@@ -955,6 +959,7 @@ input:checked+.slider:before {
 #details-metadata .ep-title {
     position: absolute;
     top: 10px;
+    font-family: 'Proxima Nova Semibold';
 }
 
 #details-metadata .md-box {
