@@ -11,5 +11,9 @@ const DB = {
         try {data = JSON.parse(data)} catch (e) {}
         
         return data;
+    },
+    reset: () => {
+        localStorage.clear();
+        win.reload();
     }
 }
