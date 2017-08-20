@@ -191,6 +191,42 @@
         <section id="settings">
             <div class="about fa fa-info-circle i18n" title="About" onClick="Interface.showAbout()"></div>
 
+            <div class="setting interface">
+                <div class="title"><i18n>Interface</i18n></div>
+                <div class="option">
+                    <div class="text">
+                        <i18n>Language</i18n>
+                    </div>
+                    <div class="action">
+                        <select id="app-language" class="dropdown"></select>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="text">
+                        <i18n>Item size</i18n>
+                    </div>
+                    <div class="action">
+                        <i18n>big</i18n>&nbsp;
+                        <label class="switch">
+                            <input id="items-size" type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                        &nbsp;<i18n>small</i18n>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="text">
+                        <i18n>Start page</i18n>
+                    </div>
+                    <div class="action">
+                        <select id="startscreen" class="dropdown">
+                            <option class="i18n" value="movies">Movies</option>
+                            <option class="i18n" value="shows">Shows</option>
+                            <option class="i18n" value="locals">Local</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
             <div class="setting trakt">
                 <div class="title">Trakt.tv</div>
                 <div class="option">
@@ -231,42 +267,6 @@
                                 <i18n>Remove</i18n>
                             </button>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="setting interface">
-                <div class="title"><i18n>Interface</i18n></div>
-                <div class="option">
-                    <div class="text">
-                        <i18n>Language</i18n>
-                    </div>
-                    <div class="action">
-                        <select id="app-language" class="dropdown"></select>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text">
-                        <i18n>Item size</i18n>
-                    </div>
-                    <div class="action">
-                        <i18n>big</i18n>&nbsp;
-                        <label class="switch">
-                            <input id="items-size" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        &nbsp;<i18n>small</i18n>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text">
-                        <i18n>Start page</i18n>
-                    </div>
-                    <div class="action">
-                        <select id="startscreen" class="dropdown">
-                            <option class="i18n" value="movies">Movies</option>
-                            <option class="i18n" value="shows">Shows</option>
-                            <option class="i18n" value="locals">Local</option>
-                        </select>
                     </div>
                 </div>
             </div>
