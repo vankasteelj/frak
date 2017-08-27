@@ -16,12 +16,11 @@ const Player = {
 
         Player.mpv.isRunning() && Player.quit() || Player.handleEvents();
 
-        Player.mpv.start().then(() => {
-            Player.mpv.loadFile(file);
+        Player.mpv.start().then(() => Player.mpv.load(file)).then(() => {
             console.info('Playing:', file);
+			Trakt.scrobble('start');
 
             Player.mpv.observeProperty('percent-pos', 50);
-            Player.mpv.observeProperty('seeking', 51);
 
             for (let prop in args) {
                 Player.mpv.setProperty(prop, args[prop]);
@@ -50,10 +49,10 @@ const Player = {
 
         Player.mpv.on('statuschange', states => {
             Player.config.states = states;
-            if (states.seeking) { // triggers when player starts, and when seeking
-                Trakt.scrobble('start');
-            }
         });
+		Player.mpv.on('seek', timepositions => {
+			if (!Player.config.states.pause) Trakt.scrobble('start');
+		});
         Player.mpv.on('paused', () => {
             Trakt.scrobble('pause');
             $('#streaminfo .control .play').addClass('fa-play').removeClass('fa-pause');
