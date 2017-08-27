@@ -906,7 +906,7 @@ input:checked+.slider:before {
     background-image: url(../images/placeholder.png);
     opacity: 0;
     background-size: cover;
-    filter: blur(70px);
+    filter: blur(70px) saturate(0.8);
     position: absolute;
     z-index: 3;
 }

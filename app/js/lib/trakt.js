@@ -7,7 +7,8 @@ const Trakt = {
         plugins: {
             ondeck: require('trakt.tv-ondeck'),
             matcher: require('trakt.tv-matcher')
-        }
+        },
+		debug: true
     }),
 
     reconnect: () => {

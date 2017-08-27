@@ -83,7 +83,8 @@ const Player = {
 
         Player.mpv = new (require('node-mpv'))({
             binary: binary,
-            auto_restart: false
+            auto_restart: false,
+			debug: true
         }, options);
 
         $('#settings .mpv #fakempvpath').val(binary);
