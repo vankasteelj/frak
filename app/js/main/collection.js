@@ -6,7 +6,10 @@ const Collection = {
 
         // should trakt update?
         Trakt.last_activities().then(activities => {
-            if (activities > (DB.get('traktsync') || 0) + 1200000) {
+            if (
+				(activities > (DB.get('traktsync') || 0))
+				|| (Date.now() - (DB.get('traktsync') || 0) > 3600000)
+			) {
                 console.info('Fetching from remote server...')
                 Collection.get.traktcached();
                 Promise.all([

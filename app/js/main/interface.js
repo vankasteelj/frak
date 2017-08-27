@@ -113,7 +113,15 @@ const Interface = {
         Collection.get.history().then(() => {
             window.scrollTo(0,0);
             Items.applyRatings(DB.get('traktratings'));
-            setTimeout(() => $('#trakt #history').show(), 200);
+            setTimeout(() => {
+				$('#navbar .nav').removeClass('active');
+				$('#navbar .history').addClass('active');
+				$('#collection #shows').hide();
+				$('#collection #locals').hide();
+				$('#collection #movies').hide();
+				$('#settings').hide();
+				$('#trakt #history').show();
+			}, 200);
         });
         $('#navbar .nav').removeClass('active');
         $('#navbar .history').addClass('active');
