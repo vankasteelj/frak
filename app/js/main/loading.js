@@ -52,7 +52,8 @@ const Loading = {
         }, 1000);
 
         Player.play(url, {
-            'title': Streamer.streaminfo.file_name
+            'title': Streamer.streaminfo.file_name,
+            'force-media-title': localUrl
         });
 
         Loading.lookForSubtitles({

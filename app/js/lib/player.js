@@ -103,7 +103,7 @@ const Player = {
             '--sub-scale=' + options.scale,
             '--contrast=' + options.contrast,
             '--saturation=' + options.saturation,
-            `--script-opts=osc-layout=${options.layout},osc-seekbarstyle=${options.seekbar},osc-scalefullscreen=${options.scale},osc-valign=0.9,osc-timetotal=yes,osc-boxalpha=160`
+            `--script-opts=osc-layout=${options.layout},osc-seekbarstyle=${options.seekbar},osc-scalewindowed=${options.scale},osc-valign=0.9,osc-timetotal=yes,osc-boxalpha=160,osc-vidscale=no`
         ];
     },
 
@@ -159,5 +159,15 @@ const Player = {
                 }
             });
         }
-    }
+    },
+
+    subFontSize: (n) => {
+        let saved = DB.get('player_options');
+        saved.sub_size += n;
+
+        Player.mpv.setProperty('sub-font-size', saved.sub_size);
+
+        DB.store(saved, 'player_options');
+        $('#sub_size').val(saved.sub_size);
+    },
 }
