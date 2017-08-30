@@ -6,7 +6,7 @@ const Streamer = {
     getInstance: () => {
         if (Streamer.client === null) {
             Streamer.client = new (require('webtorrent'))({
-                maxConns: 55,
+                maxConns: 40,
                 tracker: {
                     wrtc: false
                 }

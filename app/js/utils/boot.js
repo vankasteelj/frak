@@ -190,7 +190,10 @@ const Boot = {
     },
 
     startScreen: () => {
-        let start = DB.get('startscreen') || 'shows';
+        let def = 'shows';
+        let opt = DB.get('startscreen') || def;
+        let start = opt;
+        if (start === 'last') start = DB.get('last_tab') || def;
 
         // set active
         $(`#navbar .nav.${start}`).addClass('active');
@@ -198,7 +201,7 @@ const Boot = {
 
         // prepare settings
         let $setting = $('#startscreen');
-        $setting.val(start).on('change', () => {
+        $setting.val(opt).on('change', () => {
             let selected = $setting.val();
             DB.store(selected, 'startscreen');
         });

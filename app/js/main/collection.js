@@ -74,7 +74,7 @@ const Collection = {
                 } else {
                     Interface.showMain();
                 }
-            }, 700);
+            }, 200);
         },
         local: () => {
             let collection = DB.get('local_library');
