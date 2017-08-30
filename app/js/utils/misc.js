@@ -2,7 +2,7 @@
 
 const Misc = {
 
-    // AUTO or USERINTERACTION: open url in browser
+    // AUTO or USERINTERACTION: open url in browser or file explorer
     openExternal: (link) => gui.Shell.openExternal(link),
 
     // USERINTERACTION: restart app (used by Keyboard.setupShortcuts)

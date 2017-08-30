@@ -184,6 +184,11 @@ const Search = {
         `</div>`;
         
         $('#details-sources .sources').append(item);
+
+        $(`#local-file .fa-hdd-o`).on('contextmenu', (e) => {
+            gui.Shell.openItem(path.dirname(data.path));
+            Notify.snack(i18n.__('Opening the file location'));
+        })
     },
     addRemote: (results) => {
         $('#details-sources .sources .item.remote').remove();
