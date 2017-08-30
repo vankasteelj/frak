@@ -72,7 +72,7 @@ const Interface = {
         $('#trakt #history').hide();
         $('#settings').hide();
         $('#navbar .movies').addClass('active');
-		DB.store('movies', 'last_tab');
+        DB.store('movies', 'last_tab');
         window.scrollTo(0,0);
     },
     // USER INTERACTION: click navbar
@@ -84,7 +84,7 @@ const Interface = {
         $('#trakt #history').hide();
         $('#settings').hide();
         $('#navbar .shows').addClass('active');
-		DB.store('shows', 'last_tab');
+        DB.store('shows', 'last_tab');
         window.scrollTo(0,0);
     },
     // USER INTERACTION: click navbar
@@ -98,7 +98,7 @@ const Interface = {
         $('#navbar .locals').addClass('active');
         $('#locals .categories').show();
         $('#locals .items').hide();
-		DB.store('locals', 'last_tab');
+        DB.store('locals', 'last_tab');
         window.scrollTo(0,0);
     },
     // USER INTERACTION: click navbar
