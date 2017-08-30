@@ -52,7 +52,7 @@ const get = (keywords, cfg = {}) => {
         });
 
         return torrents;
-    });
+    }).catch((err) => []);
 }
 
 module.exports = {

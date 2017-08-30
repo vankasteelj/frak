@@ -60,7 +60,7 @@ const get = (keywords, cfg = {}) => {
             return list;
         });
         
-    });
+    }).catch((err) => []);
         
 };
 

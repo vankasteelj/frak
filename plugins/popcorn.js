@@ -43,7 +43,7 @@ const getMovies = (query) => {
         }
 
         return results;
-    });
+    }).catch((err) => []);
 }
 
 const getShows = (query) => {
@@ -120,7 +120,7 @@ const getShows = (query) => {
 
         return results;
 
-    });
+    }).catch((err) => []);
 }
 
 module.exports = {
