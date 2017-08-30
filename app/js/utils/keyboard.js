@@ -12,5 +12,36 @@ const Keyboard = {
                 Misc.restartApp();
             }
         });
+		
+		document.addEventListener('keydown', (key) => {
+			if (key.key === 'Escape') { // escape
+				if ($('#details').is(':visible')) {
+					$('#details-back').click();
+				} else if ($('#locals').is(':visible')) {
+					$('.locals').click();
+				} else if ($('#settings').is(':visible')) {
+					$(`.${DB.get('last_tab')}`).click();
+				} else if ($('#trailer').is(':visible')) {
+					Interface.closeTrailer();
+				} else if ($('#about').is(':visible')) {
+					Interface.closeAbout();
+				}
+			} else if (key.key === 'Tab') { // tab
+				let tabs = ['movies', 'shows', 'locals'];
+				let active = DB.get('last_tab');
+				
+				let next = tabs.indexOf(active);
+				if (key.shiftKey) { // go previous
+					next -= 1;
+					if (next < 0) next = tabs.length - 1;
+				} else { // go next
+					next += 1;
+					if (next > tabs.length - 1) next = 0;
+				}
+
+				
+				$(`.${tabs[next]}`).click();
+			}
+		})
     },
 };

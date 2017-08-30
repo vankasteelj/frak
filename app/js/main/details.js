@@ -112,6 +112,9 @@ const Details = {
                     .toLowerCase();
 
                 $('#query').val(keywords);
+				$('#query').keypress((e) => {
+					if (e.which === 13) $('#details-sources .query .search').click();
+				});
                 $('#details-sources .query .search').click();
                 $('#details-sources .query').show();
             }
