@@ -11,6 +11,7 @@ const Search = {
         $('#details-sources .query .search').addClass('fa-spin fa-circle-o-notch').removeClass('fa-search');
 
         Search.online(query, type).then(results => {
+            if (!results) results = [];
             console.info('Found %s results', results.length, results);
 
             Search.addRemote(results);
@@ -112,7 +113,10 @@ const Search = {
                 let name = Misc.slugify(i.name);
                 foundNames.indexOf(name) === -1 && foundNames.push(name) || dupNames.push(name);
 
-                let btih = i.magnet.match(/btih:(.*?)\&/i)[1].toLowerCase();
+                let matched = i.magnet.match(/btih:(.*?)\&/i);
+                if (!matched) continue;
+
+                let btih = matched[1].toLowerCase();
                 foundBtih.indexOf(btih) === -1 && foundBtih.push(btih) || dupBtih.push(btih);
 
                 let size = parseInt(i.size / 1024 / (1024 / 100)); // 1kb range
@@ -132,7 +136,11 @@ const Search = {
 
                 // where to push?
                 let name = Misc.slugify(i.name);
-                let btih = i.magnet.match(/btih:(.*?)\&/i)[1].toLowerCase();
+
+                let matched = i.magnet.match(/btih:(.*?)\&/i);
+                if (!matched) continue;
+
+                let btih = matched[1].toLowerCase();
                 let size = parseInt(i.size / 1024 / (1024 / 100));
 
                 if (dupBtih.indexOf(btih) !== -1) {
