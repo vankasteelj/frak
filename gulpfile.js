@@ -172,7 +172,7 @@ gulp.task('clean:nwjs', () => {
 
 // create redistribuable packages
 gulp.task('dist', (callback) => {
-    runSequence('build', 'compress', 'deb', 'nsis', 'portable', callback);
+    runSequence('build', 'compress', 'deb', 'nsis', callback);
 });
 
 // default is help, because we can!
