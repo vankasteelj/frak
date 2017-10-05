@@ -20,7 +20,7 @@ const Trakt = {
 
         Trakt.client.import_token(auth).then(Trakt.connected);
     },
-    
+
     login: () => {
         console.info('Trying to log into trakt.tv');
         Trakt.client.get_codes().then(poll => {
@@ -155,7 +155,7 @@ const Trakt = {
         ]).then((collections) => {
             Collection.get.traktcached(update);
             Trakt.getRatings();
-            
+
             return collections;
         });
     },
@@ -208,6 +208,9 @@ const Trakt = {
                 $('#details-loading').hide();
                 $('#details-spinner').show();
             }, 50);
+
+            // display spinner on list
+            Details.model.show && $(`#${Details.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
 
             setTimeout(() => {
                 Trakt.reload(true).then(collections => {
