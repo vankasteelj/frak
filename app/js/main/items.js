@@ -260,6 +260,9 @@ const Items = {
         return item;
     },
     constructDiscoverShow: (show) => {
+        // standardize output
+        if (!show.show) show = {show: show};
+
         // inject s01e01 for watch now
         show.next_episode = {
             number: 1,
@@ -269,7 +272,13 @@ const Items = {
         let d = {
             image: Images.reduce(show.show.images.fanart) || show.show.images.poster,
             id: show.show.ids.slug,
-            watchers: show.watchers,
+            key: function () {
+                if (show.watchers) return i18n.__('%s people watching', Misc.numberWithCommas(show.watchers));
+                if (show.list_count) return i18n.__('Present in %s lists', Misc.numberWithCommas(show.list_count));
+                if (show.watcher_count) return i18n.__('Played by %s people', Misc.numberWithCommas(show.watcher_count));
+                
+                return false;
+            }(),
             data: JSON.stringify(show),
             rating: Misc.percentage(show.show.rating),
             size: DB.get('small_items') ? {sm: 6, md: 4, lg: 3} : {sm: 12, md: 6, lg: 4},
@@ -284,7 +293,7 @@ const Items = {
                 `<div class="shadow"></div>`+
                 `<div class="titles">`+
                     `<h4>`+
-                        `<span class="eptitle">${i18n.__('%s people watching', d.watchers)}</span>`+
+                        `<span class="eptitle">${d.key}</span>`+
                     `</h4><br/>`+
                     `<h3>${show.show.title}<span class="year">${show.show.year}</span></h3>`+
                 `</div>`+
@@ -306,17 +315,26 @@ const Items = {
         Items.getImage(d.image, show.show.ids).then(state => {
             state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !show.show.trailer && $(`#${d.id} .trailer`).hide();
-            !d.watchers && $(`#${d.id} .eptitle`).hide();
+            !d.key && $(`#${d.id} .eptitle`).hide();
             d.watchlisted && ($(`#${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>');
         });
 
         return item;
     },
     constructDiscoverMovie: (movie) => {
+        // standardize output
+        if (!movie.movie) movie = {movie: movie};
+
         let d = {
             image: Images.reduce(movie.movie.images.fanart) || movie.movie.images.poster,
             id: movie.movie.ids.slug,
-            watchers: movie.watchers,
+            key: function () {
+                if (movie.watchers) return i18n.__('%s people watching', Misc.numberWithCommas(movie.watchers));
+                if (movie.list_count) return i18n.__('Present in %s lists', Misc.numberWithCommas(movie.list_count));
+                if (movie.watcher_count) return i18n.__('Played by %s people', Misc.numberWithCommas(movie.watcher_count));
+                
+                return false;
+            }(),
             data: JSON.stringify(movie),
             rating: Misc.percentage(movie.movie.rating),
             size: DB.get('small_items') ? {sm: 6, md: 4, lg: 3} : {sm: 12, md: 6, lg: 4},
@@ -331,7 +349,7 @@ const Items = {
                 `<div class="shadow"></div>`+
                 `<div class="titles">`+
                     `<h4>`+
-                        `<span class="eptitle">${i18n.__('%s people watching', d.watchers)}</span>`+
+                        `<span class="eptitle">${d.key}</span>`+
                     `</h4><br/>`+
                     `<h3>${movie.movie.title}<span class="year">${movie.movie.year}</span></h3>`+
                 `</div>`+
@@ -353,7 +371,7 @@ const Items = {
         Items.getImage(d.image, movie.movie.ids).then(state => {
             state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !movie.movie.trailer && $(`#${d.id} .trailer`).hide();
-            !d.watchers && $(`#${d.id} .eptitle`).hide();
+            !d.key && $(`#${d.id} .eptitle`).hide();
             d.watchlisted && ($(`#${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>');
         });
 

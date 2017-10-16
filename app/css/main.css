@@ -1592,7 +1592,8 @@ select.dropdown {
 #discover .disc-search .search {
     cursor: pointer;
 }
-#discover .disc-proposal .categories {
+#discover .disc-proposal .categories,
+#discover .disc-proposal .type {
     width: calc(40% + 55px);
     height: 60px;
     padding-left: 60px;
@@ -1618,6 +1619,36 @@ select.dropdown {
 #discover .disc-proposal .categories div.active {
     background: rgba(250,250,250,.4);
     color: #222;
+}
+#discover .disc-proposal .type {
+    width: calc(55% + 55px);
+    height: 20px;
+    color: #ccc;
+    font-family: "Proxima Nova";
+}
+
+#discover .disc-proposal type div {
+    margin: 10px 25px;
+    padding: 5px 0;
+    width: calc(20vw - 50px);
+    float: left;
+    background: rgba(250,250,250,.1);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all .4s;
+}
+#discover .disc-proposal .type div {
+    float: left;
+    cursor: pointer;
+    transition: all .4s;
+    padding: 0px 10px;
+    width: 25%;
+}
+#discover .disc-proposal .type div.active {
+    color: #fafafa;
+}
+#discover #disc-spinner {
+    margin-left: 55px;
 }
 
 /* discover END */

@@ -187,6 +187,10 @@ const Boot = {
                 Player.setMPV(DB.get('mpv'));
             });
         }
+
+        $('#discover .disc-search input').keypress((e) => {
+            if (e.which === 13) $('#discover .disc-search .search').click();
+        });
     },
 
     startScreen: () => {

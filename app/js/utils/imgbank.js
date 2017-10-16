@@ -30,9 +30,12 @@ const IB = {
     get: (ids) => {
         let id = ids.imdb;
         let db = IB._load();
-        
-        if (Date.now() - db[id].ttl > 15 * 24 * 60 * 60 * 1000) {
+
+        if (db[id] && Date.now() - db[id].ttl > 15 * 24 * 60 * 60 * 1000) {
             return false; // invalidate cache every 15 days
+        }
+        if (db[id] && (!db[id].poster || !db[id].fanart)) {
+            return false; // only return full objects
         }
 
         return db[id];

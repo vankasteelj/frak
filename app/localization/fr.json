@@ -125,5 +125,12 @@
 	"%s people watching": "%s personnes en train de visionner",
 	"Add to watchlist": "Ajouter à ma liste",
 	"Western": "Western",
-	"Family": "Family"
+	"Family": "Familial",
+	"Trending": "En ce moment",
+	"Popular": "Populaires",
+	"Watched": "Les + regardés",
+	"Anticipated": "Les + anticipés",
+	"Played by %s people": "Visionné par %s personnes",
+	"Present in %s lists": "Présent dans %s listes",
+    "NUM_COMMA": "."
 }

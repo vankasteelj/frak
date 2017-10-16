@@ -142,7 +142,7 @@ const Interface = {
 
     // USER INTERACTION: click navbar
     showDiscover: () => {
-        Discover.load().then(() => {
+        Discover.load.trending().then(() => {
             window.scrollTo(0,0);
             setTimeout(() => {
                 $('#navbar .nav').removeClass('active');

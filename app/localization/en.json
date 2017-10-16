@@ -123,5 +123,14 @@
 	"Discover": "Discover",
 	"Search for a movie or a TV Show": "Search for a movie or a TV Show",
 	"%s people watching": "%s people watching",
-	"Add to watchlist": "Add to watchlist"
+	"Add to watchlist": "Add to watchlist",
+	"Western": "Western",
+	"Family": "Family",
+	"Trending": "Trending",
+	"Popular": "Popular",
+	"Watched": "Watched",
+	"Anticipated": "Anticipated",
+	"Played by %s people": "Played by %s people",
+	"Present in %s lists": "Present in %s lists",
+    "NUM_COMMA": ","
 }

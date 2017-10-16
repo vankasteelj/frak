@@ -106,6 +106,7 @@ const Misc = {
 
     slugify: (title) => title.replace(/\W+/g, '-').toLowerCase(),
     percentage: (n) => parseInt(n*10),
+    numberWithCommas: (x) => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, i18n.__('NUM_COMMA')),
 
     fileSize: (num) => {
         if (isNaN(num)) {

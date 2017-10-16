@@ -217,8 +217,14 @@
 
                 <dic class="disc-proposal">
                     <div class="categories">
-                        <div class="shows" onClick="Discover.showShows()"><i18n>Shows</i18n></div>
-                        <div class="movies" onClick="Discover.showMovies()"><i18n>Movies</i18n></div>
+                        <div class="shows" onClick="Discover.show.shows()"><i18n>Shows</i18n></div>
+                        <div class="movies" onClick="Discover.show.movies()"><i18n>Movies</i18n></div>
+                    </div>
+                    <div class="type">
+                        <div onClick="Discover.load['trending']()" class="trending"><i18n>Trending</i18n></div>
+                        <div onClick="Discover.load['popular']()" class="popular"><i18n>Popular</i18n></div>
+                        <div onClick="Discover.load['watched']()" class="watched"><i18n>Watched</i18n></div>
+                        <div onClick="Discover.load['anticipated']()" class="anticipated"><i18n>Anticipated</i18n></div>
                     </div>
                     <div class="row"></div>
                 </dic>
