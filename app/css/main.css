@@ -235,6 +235,7 @@ input {
 #settings,
 #trailer,
 #history,
+#discover,
 #about,
 #legal,
 #details,
@@ -366,7 +367,8 @@ input {
 }
 
 #collection .row,
-#trakt .row {
+#trakt #history .row,
+#trakt #discover .row {
     width: calc(100% - 55px);
     position: absolute;
     right: 10px;
@@ -377,33 +379,39 @@ input {
     padding: 0;
 }
 
-#trakt .grid-item {
+#discover .row>div,
+#discover .grid-item {
     padding: 10px;
 }
 
-#trakt .titles {
+#trakt #history .grid-item {
+    padding: 10px;
+}
+
+#trakt #history .titles {
     font-family: 'Proxima Nova';
     text-align: center;
     padding: 5px 0;
 }
-#trakt .title,
-#trakt .datetime {
+#trakt #history .title,
+#trakt #history .datetime {
     font-size: 1.2em;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
 }
-#trakt .sxe {
+#trakt #history .sxe {
     font-family: 'Proxima Nova Bold';
 }
-#trakt .datetime {
+#trakt #history .datetime {
     font-size: .9em;
 }
 #trakt #history .spinner {
     margin: 38vh auto;
 }
 
-#collection .shadow {
+#collection .shadow,
+#discover .shadow {
     height: 75px;
     width: 100%;
     position: absolute;
@@ -413,7 +421,8 @@ input {
     background-repeat: repeat-x;
 }
 
-#collection .titles {
+#collection .titles,
+#discover .titles {
     position: absolute;
     bottom: 5px;
     left: 12px;
@@ -422,7 +431,8 @@ input {
     margin: 0;
 }
 
-#collection .titles h4 {
+#collection .titles h4,
+#discover .titles h4 {
     font-size: 11px;
     display: inline-block;
     height: auto;
@@ -433,7 +443,8 @@ input {
     padding: 3px 5px;
 }
 
-#collection .titles h4 .eptitle {
+#collection .titles h4 .eptitle,
+#discover .titles h4 .eptitle {
     padding: 3px 5px;
     padding-left: 6px;
 }
@@ -444,7 +455,8 @@ input {
     padding: 3px 5px;
 }
 
-#collection .titles h3 {
+#collection .titles h3,
+#discover .titles h3 {
     margin-top: 3px;
     text-shadow: 0 0 20px black;
     font-family: 'Proxima Nova Semibold';
@@ -453,7 +465,8 @@ input {
     display: inline-block;
 }
 
-#collection .titles h3 .year {
+#collection .titles h3 .year,
+#discover .titles h3 .year {
     font-size: 14px;
     padding-left: 6px;
     font-family: 'Proxima Nova';
@@ -489,7 +502,8 @@ input {
     cursor: pointer;
 }
 
-#collection .actions .trailer {
+#collection .actions .trailer,
+#discover .actions .trailer {
     font-size: 1.8em;
     padding-top: 7px;
 }
@@ -1558,3 +1572,52 @@ select.dropdown {
     background: #16a085;
 }
 /* legal END */
+
+/* discover */
+#discover {
+    min-height: 100vh;
+}
+#discover .disc-search {
+    text-align: center;
+    width: 65vw;
+    margin: 25px auto 10px;
+    padding-left: 60px; /* 55 navbar + item padding*/
+}
+#discover .disc-search input {
+    width: 70%;
+    background: rgba(255,255,255,.1);
+    padding: 5px;
+    text-align: center;
+}
+#discover .disc-search .search {
+    cursor: pointer;
+}
+#discover .disc-proposal .categories {
+    width: calc(40% + 55px);
+    height: 60px;
+    padding-left: 60px;
+    margin: 0 auto;
+    text-align: center;
+    font-family: "Proxima Nova Semibold";
+}
+#discover .disc-proposal .categories div {
+    margin: 10px 25px;
+    padding: 5px 0;
+    width: calc(20vw - 50px);
+    float: left;
+    background: rgba(250,250,250,.1);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all .4s;
+}
+#discover .disc-proposal .categories div:hover,
+#discover .disc-proposal .categories div.active:hover {
+    background: rgba(250,250,250,.6);
+    color: #111;
+}
+#discover .disc-proposal .categories div.active {
+    background: rgba(250,250,250,.4);
+    color: #222;
+}
+
+/* discover END */

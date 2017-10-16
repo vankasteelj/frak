@@ -44,6 +44,7 @@
     <script src="js/main/items.js" type="application/javascript"></script>
     <script src="js/main/details.js" type="application/javascript"></script>
     <script src="js/main/loading.js" type="application/javascript"></script>
+    <script src="js/main/discover.js" type="application/javascript"></script>
 
     <script src="js/app.js" type="application/javascript"></script>
 
@@ -121,6 +122,13 @@
             </div>
             
             <div class="separator"></div>
+
+            <div class="nav discover" onClick="Interface.showDiscover()">
+                <div class="fa fa-spin fa-refresh"></div>
+                <div class="fa fa-globe">
+                    <div class="text"><i18n>Discover</i18n></div>
+                </div>
+            </div>
             
             <div class="nav history" onClick="Interface.showHistory()">
                 <div class="fa fa-spin fa-refresh"></div>
@@ -131,6 +139,14 @@
             <div class="online"></div>
         </section>
         
+        <section id="trailer" onClick="Interface.closeTrailer()">
+            <div class="spinner">
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+            </div>
+            <div class="video"></div>
+        </section>
+
         <section id="collection">
             <div class="row" id="shows"></div>
             <div class="row" id="movies"></div>
@@ -187,6 +203,32 @@
 
         <section id="trakt">
             <div class="row" id="history"></div>
+            
+            <div class="row" id="discover">
+                <div class="disc-search">
+                    <input type="text" class="i18n" placeholder="Search for a movie or a TV Show"/>
+                    <div class="search fa fa-search tooltipped i18n" title="Search" onClick="Discover.search()"></div>
+                </div>
+
+                <div class="disc-results">
+                    <div class="row"></div>
+                </div>
+
+                <dic class="disc-proposal">
+                    <div class="categories">
+                        <div class="shows" onClick="Discover.showShows()"><i18n>Shows</i18n></div>
+                        <div class="movies" onClick="Discover.showMovies()"><i18n>Movies</i18n></div>
+                    </div>
+                    <div class="row"></div>
+                </dic>
+
+                <div id="disc-spinner">
+                    <div class="spinner">
+                        <div class="double-bounce1"></div>
+                        <div class="double-bounce2"></div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="settings">
@@ -373,14 +415,6 @@
             <div class="setting plugins">
                 <div class="title"><i18n>Plugins</i18n></div>
             </div>
-        </section>
-
-        <section id="trailer" onClick="Interface.closeTrailer()">
-            <div class="spinner">
-                <div class="double-bounce1"></div>
-                <div class="double-bounce2"></div>
-            </div>
-            <div class="video"></div>
         </section>
 
         <section id="details">

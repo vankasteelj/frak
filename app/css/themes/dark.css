@@ -63,7 +63,8 @@ input {
     color: #eee;
 }
 
-#collection .row > div {
+#collection .row > div,
+#discover .row > div {
     border-bottom: solid 1px #2d2d2d;
     border-right: solid 1px #2d2d2d;
 }
@@ -96,6 +97,16 @@ input {
 .actions .watched:hover {
     color: #fafafa;
     background-color: #8e44ad;
+}
+
+.actions .watchlist {
+    color: #16a085;
+    background-color: transparent;
+}
+.actions .watchlist.selected,
+.actions .watchlist:hover {
+    color: #fafafa;
+    background-color: #16a085;
 }
 
 .actions .play {
@@ -155,7 +166,8 @@ input {
     color: #fafafa;
 }
 
-#collection .titles h4 .eptitle {
+#collection .titles h4 .eptitle,
+#discover .titles h4 .eptitle {
     color: #ddd;
     background-color: rgba(0,0,0,0.4);
 }
@@ -165,11 +177,13 @@ input {
     background-color: rgba(255,200,0,1);
 }
 
-#collection .titles h3 {
+#collection .titles h3,
+#discover .titles h3 {
     color: #fafafa;
     background-color: rgba(0,0,0,0.4);
 }
-#collection .titles h3 .year {
+#collection .titles h3 .year,
+#discover .titles h3 .year {
     color: #bbb;
 }
 

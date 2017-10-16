@@ -3,6 +3,7 @@
 const Details = {
     default: undefined,
     model: undefined,
+    from: undefined,
     previous: {
         id: undefined,
         hmtl: undefined
@@ -30,11 +31,12 @@ const Details = {
         });
     },
 
-    loadDetails: (d) => {
+    loadDetails: (d, from = 'collection') => {
+        Details.from = from;
         if (d.id === Details.previous.id && Player.mpv.isRunning()) {
             console.info('Returning to previous details window');
             $('#details').html(Details.previous.html).show();
-            $('#collection').hide();
+            $(`#${Details.from}`).hide();
             $('#playing').hide();
 
             if (Player.mpv.isRunning() || Streamer.client) {
@@ -121,7 +123,7 @@ const Details = {
         }
 
         $('#details').show();
-        $('#collection').hide();
+        $(`#${Details.from}`).hide();
     },
 
     closeDetails: () => {
@@ -140,7 +142,7 @@ const Details = {
             });
         }
 
-        $('#collection').show();
+        $(`#${Details.from}`).show();
         $('#details').hide();
     },
     
@@ -218,7 +220,7 @@ const Details = {
     },
 
     trakt: {
-        movie: (elm) => {
+        movie: (elm, from) => {
             let item = Details.getData(elm);
 
             Details.loadDetails({
@@ -233,7 +235,7 @@ const Details = {
                 genres: item.movie.genres,
                 fanart: item.movie.images.fanart || item.movie.images.poster,
                 poster: item.movie.images.poster || item.movie.images.fanart
-            });
+            }, from);
 
             let offline = Search.offline(item);
             if (offline) {
@@ -242,7 +244,7 @@ const Details = {
             }
         },
 
-        episode: (elm) => {
+        episode: (elm, from) => {
             let item = Details.getData(elm);
 
             Details.loadDetails({
@@ -258,7 +260,7 @@ const Details = {
                 genres: item.show.genres,
                 fanart: item.show.images.fanart || item.show.images.poster,
                 poster: item.show.images.poster || item.show.images.fanart
-            });
+            }, from);
 
             let offline = Search.offline(item);
             if (offline) {

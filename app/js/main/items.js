@@ -258,6 +258,106 @@ const Items = {
 
         return item;
     },
+    constructDiscoverShow: (show) => {
+        // inject s01e01 for watch now
+        show.next_episode = {
+            number: 1,
+            season: 1
+        }
+
+        let d = {
+            image: Images.reduce(show.show.images.fanart) || show.show.images.poster,
+            id: show.show.ids.slug,
+            watchers: show.watchers,
+            data: JSON.stringify(show),
+            rating: Misc.percentage(show.show.rating),
+            size: DB.get('small_items') ? {sm: 6, md: 4, lg: 3} : {sm: 12, md: 6, lg: 4},
+            watchlisted: DB.get('traktshowscollection').find(o => o.show.ids.slug === show.show.ids.slug)
+        }
+
+        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">`+
+            `<span class="data">${d.data}</span>`+
+            `<div class="fanart">`+
+                `<div class="corner-rating"><span></span></div>`+
+                `<img class="base" src="images/placeholder.png">`+
+                `<div class="shadow"></div>`+
+                `<div class="titles">`+
+                    `<h4>`+
+                        `<span class="eptitle">${i18n.__('%s people watching', d.watchers)}</span>`+
+                    `</h4><br/>`+
+                    `<h3>${show.show.title}<span class="year">${show.show.year}</span></h3>`+
+                `</div>`+
+            `</div>`+
+            `<div class="quick-icons">`+
+                `<div class="actions">`+
+                    `<div class="watchlist trakt-icon-list-thick tooltipped i18n" title="${i18n.__('Add to watchlist')}" onClick="Discover.addToWatchlist(this)"></div>`+
+                    `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${show.show.trailer}')"></div>`+
+                    `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.episode(this, 'discover')"></div>`+
+                `</div>`+
+                `<div class="metadata">`+
+                    `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">`+
+                        `<div class="fa fa-heart"></div>`+
+                        `${d.rating}&nbsp;%`+
+                `</div>`+
+            `</div>`+
+        `</div>`;
+
+        Items.getImage(d.image).then(state => {
+            state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
+            !show.show.trailer && $(`#${d.id} .trailer`).hide();
+            !d.watchers && $(`#${d.id} .eptitle`).hide();
+            d.watchlisted && ($(`#${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>');
+        });
+
+        return item;
+    },
+    constructDiscoverMovie: (movie) => {
+        let d = {
+            image: Images.reduce(movie.movie.images.fanart) || movie.movie.images.poster,
+            id: movie.movie.ids.slug,
+            watchers: movie.watchers,
+            data: JSON.stringify(movie),
+            rating: Misc.percentage(movie.movie.rating),
+            size: DB.get('small_items') ? {sm: 6, md: 4, lg: 3} : {sm: 12, md: 6, lg: 4},
+            watchlisted: DB.get('traktmoviescollection').find(o => o.movie.ids.slug === movie.movie.ids.slug)
+        }
+
+        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">`+
+            `<span class="data">${d.data}</span>`+
+            `<div class="fanart">`+
+                `<div class="corner-rating"><span></span></div>`+
+                `<img class="base" src="images/placeholder.png">`+
+                `<div class="shadow"></div>`+
+                `<div class="titles">`+
+                    `<h4>`+
+                        `<span class="eptitle">${i18n.__('%s people watching', d.watchers)}</span>`+
+                    `</h4><br/>`+
+                    `<h3>${movie.movie.title}<span class="year">${movie.movie.year}</span></h3>`+
+                `</div>`+
+            `</div>`+
+            `<div class="quick-icons">`+
+                `<div class="actions">`+
+                    `<div class="watchlist trakt-icon-list-thick tooltipped i18n" title="${i18n.__('Add to watchlist')}" onClick="Discover.addToWatchlist(this)"></div>`+
+                    `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>`+
+                    `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.movie(this, 'discover')"></div>`+
+                `</div>`+
+                `<div class="metadata">`+
+                    `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">`+
+                        `<div class="fa fa-heart"></div>`+
+                        `${d.rating}&nbsp;%`+
+                `</div>`+
+            `</div>`+
+        `</div>`;
+
+        Items.getImage(d.image).then(state => {
+            state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
+            !movie.movie.trailer && $(`#${d.id} .trailer`).hide();
+            !d.watchers && $(`#${d.id} .eptitle`).hide();
+            d.watchlisted && ($(`#${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>');
+        });
+
+        return item;
+    },
     markAsWatched: (elm) => {
         let id = $(elm).context.offsetParent.id || $(elm).context.id;
         let data = JSON.parse($(`#${id} .data`).text());

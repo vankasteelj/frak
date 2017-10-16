@@ -70,6 +70,7 @@ const Interface = {
         $('#collection #shows').hide();
         $('#collection #locals').hide();
         $('#trakt #history').hide();
+        $('#trakt #discover').hide();
         $('#settings').hide();
         $('#navbar .movies').addClass('active');
         DB.store('movies', 'last_tab');
@@ -82,6 +83,7 @@ const Interface = {
         $('#collection #movies').hide();
         $('#collection #locals').hide();
         $('#trakt #history').hide();
+        $('#trakt #discover').hide();
         $('#settings').hide();
         $('#navbar .shows').addClass('active');
         DB.store('shows', 'last_tab');
@@ -94,6 +96,7 @@ const Interface = {
         $('#collection #shows').hide();
         $('#collection #movies').hide();
         $('#trakt #history').hide();
+        $('#trakt #discover').hide();
         $('#settings').hide();
         $('#navbar .locals').addClass('active');
         $('#locals .categories').show();
@@ -109,6 +112,7 @@ const Interface = {
         $('#collection #shows').hide();
         $('#collection #locals').hide();
         $('#collection #movies').hide();
+        $('#trakt #discover').hide();
         $('#navbar .settings').addClass('active');
     },
     // USER INTERACTION: click navbar
@@ -123,6 +127,7 @@ const Interface = {
 				$('#collection #locals').hide();
 				$('#collection #movies').hide();
 				$('#settings').hide();
+                $('#trakt #discover').hide();
 				$('#trakt #history').show();
 			}, 0);
         });
@@ -131,7 +136,33 @@ const Interface = {
         $('#collection #shows').hide();
         $('#collection #locals').hide();
         $('#collection #movies').hide();
+        $('#trakt #discover').hide();
         $('#settings').hide();
+    },
+
+    // USER INTERACTION: click navbar
+    showDiscover: () => {
+        Discover.load().then(() => {
+            window.scrollTo(0,0);
+            setTimeout(() => {
+                $('#navbar .nav').removeClass('active');
+                $('#collection #shows').hide();
+                $('#collection #locals').hide();
+                $('#collection #movies').hide();
+                $('#settings').hide();
+                $('#trakt #history').hide();
+                $('#trakt #discover').show();
+                $('#navbar .discover').addClass('active');
+            }, 0);
+        });
+        $('#navbar .nav').removeClass('active');
+        $('#collection #shows').hide();
+        $('#collection #locals').hide();
+        $('#collection #movies').hide();
+        $('#settings').hide();
+        $('#trakt #history').hide();
+        $('#trakt #discover').show();
+        $('#navbar .discover').addClass('active');
     },
 
     // USER INTERACTION: click trailer item button
