@@ -1,7 +1,7 @@
 'use strict'
 
 const Items = {
-    getImage: (url) => {
+    getImage: (url, ids) => {
         if (!url) return Promise.resolve(false);
 
         return new Promise(resolve => {
@@ -12,6 +12,7 @@ const Items = {
                 resolve(true);
             }
             cache.onerror = (e) => {
+                if (ids) IB.remove(ids);
                 resolve(false);
             }
         });
@@ -50,7 +51,7 @@ const Items = {
             `</div>`+
         `</div>`;
 
-        Items.getImage(d.image).then(state => {
+        Items.getImage(d.image, movie.movie.ids).then(state => {
             state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !movie.movie.trailer && $(`#${d.id} .trailer`).hide();
         })
@@ -96,7 +97,7 @@ const Items = {
             `</div>`+
         `</div>`;
 
-        Items.getImage(d.image).then(state => {
+        Items.getImage(d.image, show.show.ids).then(state => {
             state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !show.show.trailer && $(`#${d.id} .trailer`).hide();
             !(show.unseen - 1) && $(`#${d.id} .unseen`).hide();
@@ -206,7 +207,7 @@ const Items = {
             `</div>`+
         `</div>`;
 
-        Items.getImage(d.image).then(state => {
+        Items.getImage(d.image, show.show.ids).then(state => {
             state && $(`#${d.watched_id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.watched_id} .fanart img`).css('opacity', '0');
         });
 
@@ -252,7 +253,7 @@ const Items = {
             `</div>`+
         `</div>`;
 
-        Items.getImage(d.image).then(state => {
+        Items.getImage(d.image, movie.movie.ids).then(state => {
             state && $(`#${d.watched_id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.watched_id} .fanart img`).css('opacity', '0');
         });
 
@@ -302,7 +303,7 @@ const Items = {
             `</div>`+
         `</div>`;
 
-        Items.getImage(d.image).then(state => {
+        Items.getImage(d.image, show.show.ids).then(state => {
             state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !show.show.trailer && $(`#${d.id} .trailer`).hide();
             !d.watchers && $(`#${d.id} .eptitle`).hide();
@@ -349,7 +350,7 @@ const Items = {
             `</div>`+
         `</div>`;
 
-        Items.getImage(d.image).then(state => {
+        Items.getImage(d.image, movie.movie.ids).then(state => {
             state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !movie.movie.trailer && $(`#${d.id} .trailer`).hide();
             !d.watchers && $(`#${d.id} .eptitle`).hide();

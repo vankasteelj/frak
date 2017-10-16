@@ -17,26 +17,41 @@ const Images = {
             return new Promise(resolve => {
                 setTimeout(() => {
                     return resolve(Images.defaults);
-                }, Images.timeout)
-                return Images.client.images.movie(args).then(resolve)
+                }, Images.timeout);
+
+                let cached = IB.get(args);
+                if (cached) {
+                    return resolve(cached);
+                }
+
+                return Images.client.images.movie(args).then((response) => {
+                    IB.store(response, args);
+                    resolve(response);
+                });
             })
         },
         show: (args) => {
             return new Promise(resolve => {
                 setTimeout(() => {
                     return resolve(Images.defaults);
-                }, Images.timeout)
+                }, Images.timeout);
+
+                let cached = IB.get(args);
+                if (cached) {
+                    return resolve(cached);
+                }
+
                 return Images.client.images.show(args).then(resolve)
             })
         },
-        episode: (args) => {
+        /*episode: (args) => {
             return new Promise(resolve => {
                 setTimeout(() => {
                     return resolve(Images.defaults);
                 }, Images.timeout)
                 return Images.client.images.episode(args).then(resolve)
             })
-        }
+        }*/
     },
 
     reduce: (link, full) => {

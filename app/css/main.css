@@ -367,7 +367,7 @@ input {
 }
 
 #collection .row,
-#trakt #history .row,
+#trakt #history.row,
 #trakt #discover .row {
     width: calc(100% - 55px);
     position: absolute;
