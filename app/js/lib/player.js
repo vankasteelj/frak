@@ -114,6 +114,11 @@ const Player = {
             return;
         }
 
+        // is it a portable win32?
+        if (process.platform == 'win32' && PKJSON.portable) {
+            Player.setMPV('./mpv/mpv.exe');
+        }
+
         // did we store it?
         let found = DB.get('mpv');
         if (found && fs.existsSync(found)) {
