@@ -2,7 +2,7 @@
 
 const Local = {
     scans: 0,
-    client: new (require('local-video-library'))(Settings.apikeys.trakt_id, [process.env.HOME]),
+    client: new (require('local-video-library'))(Settings.apikeys.trakt_id, [process.env.HOME || path.join(process.env.HOMEDRIVE, process.env.HOMEPATH)]),
     
     scan: () => {
         console.info('Scanning local drive')
@@ -21,7 +21,7 @@ const Local = {
 
     setupPaths: () => {
         let paths = DB.get('local_paths');
-        if (!paths || (paths && !paths[0])) paths = [process.env.HOME];
+        if (!paths || (paths && !paths[0])) paths = [process.env.HOME || path.join(process.env.HOMEDRIVE, process.env.HOMEPATH)];
 
         Local.updateClientPaths(paths);
         Local.setSettingsPaths(paths);
