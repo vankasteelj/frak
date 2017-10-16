@@ -335,7 +335,10 @@ const Discover = {
         post[type+'s'] = [data[type]];
 
         Trakt.client.sync.watchlist.add(post).then((res) => {
+            console.info('Added to Watchlist:', data[type]);
             $(`#${data[type].ids.slug} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>';
-        })
+
+            Trakt.reload();
+        });
     }
 }
