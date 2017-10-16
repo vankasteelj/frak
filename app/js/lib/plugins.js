@@ -26,7 +26,7 @@ const Plugins = {
 
                     // add to db if missing
                     if (DB.get(tmp.name) === undefined) {
-                        DB.store(tmp.name, false);
+                        DB.store(false, tmp.name);
                     }
 
                     let active = DB.get(tmp.name);
