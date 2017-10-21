@@ -172,7 +172,7 @@ const Interface = {
             .attr('src', `http://www.youtube.com/embed/${ytc}?autoplay=1&VQ=HD720`)
             .attr('frameborder', '0')
             .attr('allowfullscreen', '1')
-            .css({'width': 640, 'height':360});
+            .css({'width': '100%', 'height': '100%'});
 
         $('#trailer .video').append(iframe);
         $('#trailer').show();

@@ -694,10 +694,10 @@ input {
 }
 
 #trailer .video {
-    margin: 0 auto;
-    width: 640px;
+    width: 65%;
+    height: 60%;
     position: absolute;
-    margin: 95px calc(50% - 320px);
+    margin: 8% 17%;
 }
 
 #trailer .spinner {
