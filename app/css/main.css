@@ -781,7 +781,7 @@ input {
     margin-left: 20px;
 }
 
-#settings .locals .option {
+#settings .locals .option.localbox {
     height: 160px;
 }
 

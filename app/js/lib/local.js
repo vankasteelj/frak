@@ -120,5 +120,16 @@ const Local = {
             $('#navbar .locals .fa-spin').css('opacity', 1)
             Collection.get.local()
         }, 300);
+    },
+    rescan: () => {
+        delete localStorage['local_library'];
+
+        $('#collection #locals .waitforlibrary').show();
+        $('#collection #locals .waitforlibrary .spinner').css('visibility', 'visible');
+        $('#collection #locals .categories .movies').hide();
+        $('#collection #locals .categories .shows').hide();
+        $('#collection #locals .categories .unmatched').hide();
+
+        Collection.get.local();
     }
 }

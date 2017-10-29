@@ -132,5 +132,6 @@
 	"Anticipated": "Les + anticipés",
 	"Played by %s people": "Visionné par %s personnes",
 	"Present in %s lists": "Présent dans %s listes",
-    "NUM_COMMA": "."
+	"NUM_COMMA": ".",
+	"Delete and scan again": "Effacer et scanner à nouveau"
 }
