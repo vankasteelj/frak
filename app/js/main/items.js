@@ -495,5 +495,9 @@ const Items = {
         }
 
         $this.popover('toggle');
+    },
+
+    constructMessage: (text) => {
+        return `<p class="rowMessage">${i18n.__(text)}</p>`;
     }
 }

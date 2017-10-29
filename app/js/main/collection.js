@@ -280,6 +280,10 @@ const Collection = {
                 let item = Items.constructShow(show);
                 $('#collection #shows').append(item);
             }
+
+            if (!$('#collection #shows .grid-item').length) {
+                return $('#collection #shows').append(Items.constructMessage('No episode to display. Start watching a TV show or add one to your watchlist, and check back here.'));
+            }
         },
         movies: (movies) => {
             $('#collection #movies').html('');
@@ -291,6 +295,10 @@ const Collection = {
                 }
                 let item = Items.constructMovie(movie);
                 $('#collection #movies').append(item);
+            }
+
+            if (!$('#collection #movies .grid-item').length) {
+                return $('#collection #movies').append(Items.constructMessage('No movie to display, add one to your watchlist and check back here.'));
             }
 
             untrack.length && console.info('Some movies are not released yet, not showing:', untrack.join(', '));
@@ -343,6 +351,10 @@ const Collection = {
                 }
 
                 $('#trakt #history').append(item);
+            }
+
+            if (!$('#trakt #history .grid-item').length) {
+                return $('#trakt #history').append(Items.constructMessage('No history found, watch something before checking back here.'));
             }
 
             $('#trakt #history').append(Items.constructHistoryMore());

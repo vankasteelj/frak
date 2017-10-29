@@ -147,6 +147,11 @@ const Boot = {
             document.querySelector('#items-size').checked = true;
         }
 
+        // use mpv for trailers
+        if (DB.get('trailers_use_mpv')) {
+            document.querySelector('#trailers_use_mpv').checked = true;
+        }
+
         // default player options
         !DB.get('player_options') && DB.store(Settings.player, 'player_options');
 
@@ -167,7 +172,11 @@ const Boot = {
         document.querySelector('#mpvpath').addEventListener('change', (evt) => {
             let p = $('#mpvpath').val();
             Player.setMPV(p);
-        })
+        });
+
+        document.querySelector('#trailers_use_mpv').addEventListener('click', (evt) => {
+            DB.store(evt.toElement.checked, 'trailers_use_mpv');
+        });
 
         document.querySelector('#items-size').addEventListener('click', (evt) => {
             let isSmall = evt.toElement.checked;

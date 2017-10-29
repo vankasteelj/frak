@@ -167,6 +167,12 @@ const Interface = {
     // USER INTERACTION: click trailer item button
     playTrailer: (url) => {
         let ytc = url.split('=')[1];
+
+        if (DB.get('trailers_use_mpv')) {
+            Player.play(url);
+            return;
+        }
+
         let iframe = $('<iframe>')
             .attr('src', `http://www.youtube.com/embed/${ytc}?autoplay=1&VQ=HD720`)
             .attr('frameborder', '0')

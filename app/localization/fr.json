@@ -29,7 +29,7 @@
 	"small": "petits",
 	"Start page": "Page de démarrage",
 	"Player": "Lecteur",
-	"Path to MPV": "Emplacement de MPV",
+	"Path to MPV": "Emplacement de l'exécutable MPV",
 	"OSC layout": "Disposition de l'OSC",
 	"OSC seekbar": "Type de barre OSC",
 	"OSC scale factor": "Facteur d'échelle OSC",
@@ -134,5 +134,9 @@
 	"Present in %s lists": "Présent dans %s listes",
 	"NUM_COMMA": ".",
 	"Delete and scan again": "Effacer et scanner à nouveau",
-	"Show more": "Voir plus"
+	"Show more": "Voir plus",
+	"Play trailers with MPV": "Lire les bande-annonces avec MPV",
+	"No history found, watch something before checking back here.": "L'historique est vide, regardez quelque chose puis revenez ici.",
+	"No movie to display, add one to your watchlist and check back here.": "Aucun film à afficher, ajoutez-en un à votre liste avant de revenir ici.",
+	"No episode to display. Start watching a TV show or add one to your watchlist, and check back here.": "Aucun épisode à afficher. Commencez une série ou ajoutez-en une à votre liste, puis revenez ici."
 }
