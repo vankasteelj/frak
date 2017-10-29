@@ -33,6 +33,8 @@ const Details = {
 
     loadDetails: (d, from = 'collection') => {
         Details.from = from;
+        Details.fromScroll = window.scrollY;
+
         if (d.id === Details.previous.id && Player.mpv.isRunning()) {
             console.info('Returning to previous details window');
             $('#details').html(Details.previous.html).show();
@@ -143,6 +145,7 @@ const Details = {
         }
 
         $(`#${Details.from}`).show();
+        window.scrollTo(0, (Details.fromScroll || 0));
         $('#details').hide();
     },
     
