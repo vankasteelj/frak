@@ -119,7 +119,6 @@ const Interface = {
     showHistory: () => {
         Collection.get.history().then(() => {
             window.scrollTo(0,0);
-            Items.applyRatings(DB.get('traktratings'));
             setTimeout(() => {
 				$('#navbar .nav').removeClass('active');
 				$('#navbar .history').addClass('active');

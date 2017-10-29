@@ -406,6 +406,29 @@ input {
 #trakt #history .spinner {
     margin: 38vh auto;
 }
+#trakt #history #showMore .showMore_button {
+    border: 1px dashed rgba(250,250,250,.5);
+    width: 70%;
+    opacity: .5;
+    cursor: pointer;
+    margin: 50% 15%;
+    transition: opacity .4s;
+}
+#trakt #history #showMore .showMore_button:hover {
+    opacity: .9;
+}
+#trakt #history #showMore .fa {
+    width: 60%;
+    margin: 20% 20% 10% 20%;
+    text-align: center;
+    font-size: 35px;
+}
+#trakt #history #showMore .showMore_text {
+    text-align: center;
+    font-family: "Proxima Nova Semibold";
+    font-size: 14px;
+    margin-bottom: 20%;
+}
 
 #collection .shadow,
 #discover .shadow {

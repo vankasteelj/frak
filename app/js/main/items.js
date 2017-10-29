@@ -259,6 +259,20 @@ const Items = {
 
         return item;
     },
+    constructHistoryMore: () => {
+        let d = {
+            size: DB.get('small_items') ? {sm: 3, md: 2, lg: 1} : {sm: 4, md: 3, lg: 2}
+        }
+
+        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="showMore">`+
+            `<div class="showMore_button" onClick="Collection.get.historyMore()">`+
+                `<div class="fa fa-search-plus"></div>`+
+                `<div class="showMore_text">${i18n.__('Show more')}</div>`+
+            `</div>`+
+        `</div>`;
+
+        return item;
+    },
     constructDiscoverShow: (show) => {
         // standardize output
         if (!show.show) show = {show: show};

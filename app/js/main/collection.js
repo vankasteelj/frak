@@ -109,16 +109,29 @@ const Collection = {
             $('#navbar .history .fa-spin').css('opacity', 1);
 
             return Trakt.client.sync.history.get({
-                limit: 24, //because bootstap column is 12
+                limit: 23, //because bootstap column is 12 (23+1 show more)
                 page: 1,
                 extended: 'full'
             }).then(results => {
                 console.info('Trakt.tv - history recieved', results);
-                DB.store(results, 'trakthistory');
-
                 return Collection.format.trakthistory(results);
             }).then((collection) => {
                 return Collection.show.history(collection);
+            }).catch(console.error)
+        },
+        historyMore: () => {
+            $('#history .showMore_button .fa').addClass('fa-spin fa-circle-o-notch');
+
+            let page = parseInt($('#history .grid-item').length / 24) + 1;
+            return Trakt.client.sync.history.get({
+                limit: 24, //because bootstap column is 12
+                page: page,
+                extended: 'full'
+            }).then(results => {
+                console.info('Trakt.tv - history (p.%s) recieved', page, results);
+                return Collection.format.trakthistory(results);
+            }).then(collection => {
+                return Collection.show.history(collection, true);
             }).catch(console.error)
         }
     },
@@ -314,8 +327,13 @@ const Collection = {
                 }
             }
         },
-        history: (collection) => {
-            $('#trakt #history').html('');
+        history: (collection, update) => {
+            if (update) {
+                $('#trakt #history #showMore').remove();
+            } else {
+                $('#trakt #history').html('');
+            }
+
             for (let i of collection) {
                 let item;
                 if (i.type == 'movie') {
@@ -326,6 +344,9 @@ const Collection = {
 
                 $('#trakt #history').append(item);
             }
+
+            $('#trakt #history').append(Items.constructHistoryMore());
+            Items.applyRatings(DB.get('traktratings'));
         }
     }
 }

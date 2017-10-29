@@ -133,5 +133,6 @@
 	"Played by %s people": "Played by %s people",
 	"Present in %s lists": "Present in %s lists",
     "NUM_COMMA": ",",
-	"Delete and scan again": "Delete and scan again"
+	"Delete and scan again": "Delete and scan again",
+    "Show more": "Show more"
 }
