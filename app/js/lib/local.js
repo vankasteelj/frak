@@ -42,7 +42,7 @@ const Local = {
                 if (file.metadata.type == 'movie') {
                     library.movies.push(file);
 
-                } else if (file.metadata.type == 'episode') {
+                } else if (file.metadata.type == 'episode' && file.metadata.show) {
                     let s = file.metadata.episode.season;
                     let e = file.metadata.episode.number;
 
