@@ -27,6 +27,7 @@ const Player = {
             }
         }).catch(error => {
             console.error('MPV error', error);
+            Notify.snack('MPV error: ' + error.message)
         });
     },
 

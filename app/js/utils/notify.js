@@ -2,7 +2,7 @@
 
 const Notify = {
     // top-right notification sliding
-    snack: (message, duration = 2500) => {
+    snack: (message, duration = 3500) => {
         let $snack = $('#notification-snack');
 
         if ($snack.is(':visible')) {
