@@ -89,12 +89,14 @@ const Player = {
         }, options);
 
         $('#settings .mpv #fakempvpath').val(binary);
+        Player.config.events = false;
     },
 
     getOptions: () => {
         let options = DB.get('player_options');
 
         return [
+            //'--log-file=output.txt',
             //'--no-sub-auto',
             '--sub-fix-timing=yes',
             options.centered ? '--geometry=50%' : '',
@@ -104,7 +106,7 @@ const Player = {
             '--sub-scale=' + options.scale,
             '--contrast=' + options.contrast,
             '--saturation=' + options.saturation,
-            `--script-opts=osc-layout=${options.layout},osc-seekbarstyle=${options.seekbar},osc-scalewindowed=${options.scale},osc-valign=0.9,osc-timetotal=yes,osc-boxalpha=160,osc-vidscale=no`
+            `--script-opts=osc-layout=${options.layout},osc-seekbarstyle=${options.seekbar},osc-scalewindowed=${options.scale},osc-scalefullscreen=${options.scale*1.2},osc-valign=0.9,osc-timetotal=yes,osc-boxalpha=160,osc-vidscale=no`
         ];
     },
 
