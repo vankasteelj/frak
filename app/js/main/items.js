@@ -431,6 +431,8 @@ const Items = {
     },
 
     applyRatings: (ratings) => {
+        if (!ratings) return;
+
         $('.corner-rating span').text('');
         $('.corner-rating').hide();
 
