@@ -22,7 +22,6 @@ const Collection = {
             } else {
                 console.info('We got cached trakt data')
                 Collection.get.traktcached();
-                Items.applyRatings(DB.get('traktratings'));
             }
         }).catch(console.error);
 
@@ -280,6 +279,7 @@ const Collection = {
                 let item = Items.constructShow(show);
                 $('#collection #shows').append(item);
             }
+            Items.applyRatings(DB.get('traktratings'));
 
             if (!$('#collection #shows .grid-item').length) {
                 return $('#collection #shows').append(Items.constructMessage('No episode to display. Start watching a TV show or add one to your watchlist, and check back here.'));
@@ -296,6 +296,7 @@ const Collection = {
                 let item = Items.constructMovie(movie);
                 $('#collection #movies').append(item);
             }
+            Items.applyRatings(DB.get('traktratings'));
 
             if (!$('#collection #movies .grid-item').length) {
                 return $('#collection #movies').append(Items.constructMessage('No movie to display, add one to your watchlist and check back here.'));
