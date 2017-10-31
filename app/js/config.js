@@ -18,7 +18,7 @@ const Settings = {
         centered: true,
         sub_size: 40,
         sub_color: '#ffffff',
-        scale: 0.7,
+        scale: 0.8,
         contrast: 5,
         saturation: 2,
         layout: 'box',
