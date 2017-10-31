@@ -273,7 +273,7 @@ const Collection = {
     },
 
     show: {
-        shows: (shows) => {
+        shows: (shows = []) => {
             $('#collection #shows').html('');
             for (let show of shows) {
                 let item = Items.constructShow(show);
@@ -285,7 +285,7 @@ const Collection = {
                 return $('#collection #shows').append(Items.constructMessage('No episode to display. Start watching a TV show or add one to your watchlist, and check back here.'));
             }
         },
-        movies: (movies) => {
+        movies: (movies = []) => {
             $('#collection #movies').html('');
             let untrack = Array();
             for (let movie of movies) {
@@ -305,7 +305,7 @@ const Collection = {
             untrack.length && console.info('Some movies are not released yet, not showing:', untrack.join(', '));
         },
         locals: {
-            movies: (movies) => {
+            movies: (movies = []) => {
                 $('#collection #locals .movies .row').html('');
                 if (!movies.length) return;
                 $('#collection #locals .waitforlibrary').hide();
@@ -315,7 +315,7 @@ const Collection = {
                     $('#collection #locals .movies .row').append(item);
                 }
             },
-            shows: (shows) => {
+            shows: (shows = []) => {
                 $('#collection #locals .shows .row').html('');
                 if (!shows.length) return;
                 $('#collection #locals .waitforlibrary').hide();
@@ -325,7 +325,7 @@ const Collection = {
                     $('#collection #locals .shows .row').append(item);
                 }
             },
-            unmatched: (unmatched) => {
+            unmatched: (unmatched = []) => {
                 $('#collection #locals .unmatched .row').html('');
                 if (!unmatched.length) return;
                 $('#collection #locals .waitforlibrary').hide();
@@ -336,7 +336,7 @@ const Collection = {
                 }
             }
         },
-        history: (collection, update) => {
+        history: (collection = [], update = false) => {
             if (update) {
                 $('#trakt #history #showMore').remove();
             } else {

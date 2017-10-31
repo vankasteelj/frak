@@ -19,7 +19,7 @@ const Discover = {
         }).then((results) => {
             console.info('Trakt - search results', results);
             return Discover.formatSearch(results);
-        }).then((items) => {
+        }).then((items = []) => {
             $('#discover #disc-spinner').hide();
             $('#discover .disc-proposal').hide();
             $('#discover .disc-results .row').html('');
@@ -213,7 +213,7 @@ const Discover = {
 
             Discover.reset();
 
-            let shows = DB.get('traktshows'+key);
+            let shows = DB.get('traktshows'+key) || [];
             $('#discover #disc-spinner').hide();
             for (let show of shows) {
                 let item = Items.constructDiscoverShow(show);
@@ -235,7 +235,7 @@ const Discover = {
 
             Discover.reset();
 
-            let movies = DB.get('traktmovies'+key);
+            let movies = DB.get('traktmovies'+key) || [];
             $('#discover .disc-proposal .row').html('');
             $('#discover #disc-spinner').hide();
             for (let movie of movies) {

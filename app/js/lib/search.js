@@ -198,7 +198,7 @@ const Search = {
             Notify.snack(i18n.__('Opening the file location'));
         })
     },
-    addRemote: (results) => {
+    addRemote: (results = []) => {
         $('#details-sources .sources .item.remote').remove();
         for (let data of results) {
             if (!data) continue;

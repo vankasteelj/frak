@@ -27,7 +27,7 @@ const Local = {
         Local.setSettingsPaths(paths);
     },
 
-    buildVideoLibrary: (files) => {
+    buildVideoLibrary: (files = []) => {
         let library = {
             movies: [],
             shows: [],
@@ -78,7 +78,7 @@ const Local = {
         return library;
     },
 
-    setSettingsPaths: (paths) => {
+    setSettingsPaths: (paths = []) => {
         $('#settings .locals .option .paths').html('');
 
         let items = String();
@@ -101,7 +101,7 @@ const Local = {
         Local.setupPaths();
 
         //remove untracked files
-        let library = DB.get('local_library');
+        let library = DB.get('local_library') || [];
         let newLibrary = Array();
         for (let file of library) {
             if (!file.path.startsWith(p)) newLibrary.push(file);

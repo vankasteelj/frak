@@ -430,8 +430,8 @@ const Items = {
         }, 300);
     },
 
-    applyRatings: (ratings) => {
-        if (!ratings) return;
+    applyRatings: (ratings = []) => {
+        if (!ratings.length) return;
 
         $('.corner-rating span').text('');
         $('.corner-rating').hide();

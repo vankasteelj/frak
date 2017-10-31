@@ -6,7 +6,7 @@ const Plugins = {
     load: () => {
         let dir = path.join(process.cwd(), 'plugins');
 
-        fs.existsSync(dir) && fs.readdir(dir, (err, plugins) => {
+        fs.existsSync(dir) && fs.readdir(dir, (err, plugins = []) => {
             if (err) return;
             console.info('Plugins - loading:', plugins.join(', '));
 
