@@ -140,5 +140,8 @@
 	"Play trailers with MPV": "Lire les bande-annonces avec MPV",
 	"No history found, watch something before checking back here.": "L'historique est vide, regardez quelque chose puis revenez ici.",
 	"No movie to display, add one to your watchlist and check back here.": "Aucun film à afficher, ajoutez-en un à votre liste avant de revenir ici.",
-	"No episode to display. Start watching a TV show or add one to your watchlist, and check back here.": "Aucun épisode à afficher. Commencez une série ou ajoutez-en une à votre liste, puis revenez ici."
+	"No episode to display. Start watching a TV show or add one to your watchlist, and check back here.": "Aucun épisode à afficher. Commencez une série ou ajoutez-en une à votre liste, puis revenez ici.",
+	"Reset": "Remettre à zéro",
+	"Reset default settings": "Appliquer les paramètres par défaut",
+	"Application": "Application"
 }

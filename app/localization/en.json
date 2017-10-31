@@ -140,5 +140,8 @@
 	"Play trailers with MPV": "Play trailers with MPV",
 	"No movie to display, add one to your watchlist and check back here.": "No movie to display, add one to your watchlist and check back here.",
 	"No episode to display. Start watching a TV show or add one to your watchlist, and check back here.": "No episode to display. Start watching a TV show or add one to your watchlist, and check back here.",
-	"No history found, watch something before checking back here.": "No history found, watch something before checking back here."
+	"No history found, watch something before checking back here.": "No history found, watch something before checking back here.",
+	"Reset": "Reset",
+	"Reset default settings": "Reset default settings",
+	"Application": "Application"
 }
