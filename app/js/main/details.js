@@ -12,7 +12,7 @@ const Details = {
     getData: (elm) => {
         // extract json from data div
         let id = $(elm).context.offsetParent && $(elm).context.offsetParent.id || $(elm).context.id;
-        let data = JSON.parse($(`#${id} .data`).text());
+        let data = JSON.parse($(`#${id}`).find('.data').text());
 
         return data;
     },
