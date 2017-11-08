@@ -311,6 +311,7 @@ const Collection = {
                 $('#collection #locals .waitforlibrary').hide();
                 $('#collection #locals .categories .movies').show();
                 for (let movie of movies) {
+                    if ($(`#${Misc.slugify(movie.path)}`).length) continue;
                     let item = Items.constructLocalMovie(movie);
                     $('#collection #locals .movies .row').append(item);
                 }
