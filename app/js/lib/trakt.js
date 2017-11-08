@@ -202,21 +202,25 @@ const Trakt = {
         console.info('Trakt - scrobble %s (%s%)', action, progress);
         Trakt.client.scrobble[action](post).catch(console.error);
 
-        if (progress > 80 && !Player.config.model.metadata && type === 'episode' && action === 'stop') {
-            setTimeout(() => {
-                $('#details-sources').hide();
-                $('#details-loading').hide();
-                $('#details-spinner').show();
-            }, 50);
+        if (progress > 80 && !Player.config.model.metadata && action === 'stop') {
+            if (type === 'episode') {
+                setTimeout(() => {
+                    $('#details-sources').hide();
+                    $('#details-loading').hide();
+                    $('#details-spinner').show();
+                }, 50);
 
-            // display spinner on list
-            Player.config.model.show && $(`#${Player.config.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
+                // display spinner on list
+                Player.config.model.show && $(`#${Player.config.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
 
-            setTimeout(() => {
-                Trakt.reload(true).then(collections => {
-                    Details.loadNext();
-                });
-            }, 300);
+                setTimeout(() => {
+                    Trakt.reload(true).then(collections => {
+                        Details.loadNext();
+                    });
+                }, 300);
+            } else {
+                $(`#${Player.config.model.movie.ids.slug}`).remove();
+            }
         }
     }
 }
