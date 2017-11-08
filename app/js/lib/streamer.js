@@ -29,6 +29,7 @@ const Streamer = {
     },
     stop: () => {
         clearInterval(Streamer.streaminfo.updateInterval);
+        nw.Window.get().setProgressBar(0);
         Streamer.streaminfo = {};
 
         if (Streamer.client) {
