@@ -61,6 +61,6 @@
         "jshint-stylish": "2.x.x",
         "nw-builder": "3.x.x",
         "run-sequence": "2.x.x",
-        "yargs": "8.x.x"
+        "yargs": "10.x.x"
     }
 }
