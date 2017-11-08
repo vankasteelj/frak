@@ -343,5 +343,46 @@ const Details = {
             Details.closeDetails();
             $next_episode.find('.play').click();
         });
+    },
+
+    loadLocalNext: () => {
+        let collection = DB.get('local_shows');
+
+        let findShow = (title) => collection.find((show) => show.metadata.show.title === title);
+        let show = findShow(Details.model.metadata.show.title);
+
+        let s = Details.model.metadata.episode.season;
+        let e = Details.model.metadata.episode.number;
+
+        let findNext = (s, e) => {
+            let season = show.seasons[s];
+            let episode = season && season.episodes[e];
+
+            return episode && episode.path;
+        };
+        let next = findNext(s, e+1) || findNext(s+1, 1);
+
+        if (next) {
+            let $next_episode = $(`#${Misc.slugify(next)}`);
+            if (!$next_episode.length) {
+                Details.closeDetails();
+                return;
+            }
+
+            let data = JSON.parse($next_episode.find('.data').text());
+            console.info('Next episode is ready', data);
+
+            $('#details-sources').hide();
+            $('#details-loading').hide();
+            $('#details-spinner').hide();
+            $('#details-next').show();
+
+            $('#details-next .content .next-title span').text(`S${Misc.pad(data.metadata.episode.season)}E${Misc.pad(data.metadata.episode.number)} - ` + data.metadata.episode.title);
+
+            $('#playnext').on('click', () => {
+                Details.closeDetails();
+                $next_episode.click();
+            });
+        }
     }
 }

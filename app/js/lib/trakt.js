@@ -202,24 +202,34 @@ const Trakt = {
         console.info('Trakt - scrobble %s (%s%)', action, progress);
         Trakt.client.scrobble[action](post).catch(console.error);
 
-        if (progress > 80 && !Player.config.model.metadata && action === 'stop') {
-            if (type === 'episode') {
-                setTimeout(() => {
-                    $('#details-sources').hide();
-                    $('#details-loading').hide();
-                    $('#details-spinner').show();
-                }, 50);
-
-                // display spinner on list
-                Player.config.model.show && $(`#${Player.config.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
-
-                setTimeout(() => {
-                    Trakt.reload(true).then(collections => {
-                        Details.loadNext();
-                    });
-                }, 300);
+        if (progress > 80 && action === 'stop') {
+            if (Player.config.model.metadata) {
+                // local item
+                if (type == 'episode') {
+                    setTimeout(() => {
+                        Details.loadLocalNext();
+                    }, 50);
+                }
             } else {
-                $(`#${Player.config.model.movie.ids.slug}`).remove();
+                // trakt list
+                if (type === 'episode') {
+                    setTimeout(() => {
+                        $('#details-sources').hide();
+                        $('#details-loading').hide();
+                        $('#details-spinner').show();
+                    }, 50);
+
+                    // display spinner on list
+                    Player.config.model.show && $(`#${Player.config.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
+
+                    setTimeout(() => {
+                        Trakt.reload(true).then(collections => {
+                            Details.loadNext();
+                        });
+                    }, 300);
+                } else {
+                    $(`#${Player.config.model.movie.ids.slug}`).remove();
+                }
             }
         }
     }
