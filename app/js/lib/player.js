@@ -3,12 +3,12 @@
 const Player = {
     config: {
         events: false,
-        states: false
+        states: false,
+        model: false
     },
-
     mpv: undefined,
 
-    play: (file, args) => {
+    play: (file, args = {}, model) => {
         if (!Player.mpv) {
             console.error('No MPV player defined'); // this shouldn't happen
             return;
@@ -18,6 +18,9 @@ const Player = {
 
         Player.mpv.start().then(() => Player.mpv.load(file)).then(() => {
             console.info('Playing:', file);
+
+            // trakt
+            Player.config.model = model;
 			Trakt.scrobble('start');
 
             Player.mpv.observeProperty('percent-pos', 50);
@@ -32,7 +35,10 @@ const Player = {
     },
 
     quit: () => {
+        // trakt
         Trakt.scrobble('stop');
+        Player.config.model = undefined;
+
         $('#playing').hide();
 
         Player.mpv.quit();

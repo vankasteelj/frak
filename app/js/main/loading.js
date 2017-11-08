@@ -6,7 +6,7 @@ const Loading = {
         $('#streaminfo .source span').text(path.dirname(file.path));
         $('#streaminfo .connection').hide();
 
-        Player.play(file.path);
+        Player.play(file.path, {}, Details.model);
 
         Loading.lookForSubtitles({
             path: file.path
@@ -54,7 +54,7 @@ const Loading = {
         Player.play(url, {
             'title': Streamer.streaminfo.file_name,
             'force-media-title': localUrl
-        });
+        }, Details.model);
 
         Loading.lookForSubtitles({
             filename: Streamer.streaminfo.file_name,

@@ -161,7 +161,7 @@ const Trakt = {
     },
 
     scrobble: (action) => {
-        if (!Details.model) {
+        if (!Player.config.model) {
             return;
         }
 
@@ -170,26 +170,26 @@ const Trakt = {
 
         let model, type, itemType;
 
-        if (Details.model.metadata) {
+        if (Player.config.model.metadata) {
             // local
-            if (Details.model.metadata.movie) {
+            if (Player.config.model.metadata.movie) {
                 // local movie
-                model = Details.model.metadata.movie;
+                model = Player.config.model.metadata.movie;
                 type = 'movie';
             } else {
                 // local episode
-                model = Details.model.metadata.episode;
+                model = Player.config.model.metadata.episode;
                 type = 'episode';
             }
         } else {
             // collection
-            if (Details.model.movie) {
+            if (Player.config.model.movie) {
                 // collection movie
-                model = Details.model.movie;
+                model = Player.config.model.movie;
                 type = 'movie';
             } else {
                 // collection episode
-                model = Details.model.next_episode;
+                model = Player.config.model.next_episode;
                 type = 'episode';
             }
         }
@@ -202,7 +202,7 @@ const Trakt = {
         console.info('Trakt - scrobble %s (%s%)', action, progress);
         Trakt.client.scrobble[action](post).catch(console.error);
 
-        if (progress > 80 && !Details.model.metadata && type === 'episode' && action === 'stop') {
+        if (progress > 80 && !Player.config.model.metadata && type === 'episode' && action === 'stop') {
             setTimeout(() => {
                 $('#details-sources').hide();
                 $('#details-loading').hide();
@@ -210,7 +210,7 @@ const Trakt = {
             }, 50);
 
             // display spinner on list
-            Details.model.show && $(`#${Details.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
+            Player.config.model.show && $(`#${Player.config.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
 
             setTimeout(() => {
                 Trakt.reload(true).then(collections => {
