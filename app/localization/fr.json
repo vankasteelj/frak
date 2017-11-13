@@ -85,6 +85,7 @@
 	"%s%% of %s": "%s%% de %s",
 	"%s minute(s) remaining": "%s minute(s) restante(s)",
 	"%s second(s) remaining": "%s seconde(s) restante(s)",
+	"Unknown time remaining": "Temps restant indéterminé",
 	"Mark as unwatched": "Marquer comme non-vu",
 	"Enter the code below in your browser": "Ce code doit être entré dans le navigateur",
 	"Unrate this": "Retirer l'évaluation",
@@ -98,11 +99,14 @@
 	"Adventure": "Aventure",
 	"Crime": "Crime",
 	"Science-fiction": "Science-fiction",
-	"Superhero": "Superhéro",
+	"Superhero": "Super-héros",
 	"Comedy": "Comédie",
 	"Drama": "Drame",
-	"Fantasy": "Fantasy",
+	"Fantasy": "Fantastique",
 	"Action": "Action",
+	"Anime": "Anime",
+	"Music": "Comédie musicale",
+    "War": "Guerre",
 	"Box": "Boîte flottante",
 	"Box (slim)": "Ligne flottante",
 	"Bottom bar": "Barre en bas",
@@ -153,7 +157,5 @@
 	"Good": "Bon",
 	"Great": "Génial",
 	"Superb": "Superbe",
-	"Totally Ninja!": "Complètement ninja !",
-	"Anime": "Anime",
-	"Unknown time remaining": "Unknown time remaining"
+	"Totally Ninja!": "Complètement ninja !"
 }
