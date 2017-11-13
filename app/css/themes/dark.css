@@ -1,5 +1,64 @@
 /* Theme file: dark */
 
+/* fonts */
+#notification-snack,
+#trakt #history .titles,
+#collection .titles h3 .year,
+#discover .titles h3 .year,
+#discover .disc-proposal .type,
+#locals .waitforlibrary,
+#locals .local-item .season,
+#locals .local-item .episode,
+#locals .category .text,
+#navbar .nav .text,
+#settings .text,
+#settings .action,
+#details-metadata .md-line,
+#details-metadata .synopsis,
+#details-sources .query #query,
+#details-sources .item .title,
+#details-loading #subtitles .subs .sub,
+#details-loading .file,
+#details-next .content,
+.popover .popover-title,
+#playing,
+#about .content,
+#about .content h3 .version,
+#welcomeprofile span,
+.rowMessage {
+    font-weight: normal;
+    font-family: 'Proxima Nova';
+}
+
+
+#trakt #history #showMore .showMore_text,
+#collection .titles h3,
+#discover .titles h3,
+#discover .disc-proposal .categories,
+#discover .disc-proposal .type,
+#collection .metadata .percentage,
+#trakt .metadata .percentage,
+#collection .local-item,
+#settings .title,
+#details-metadata .title,
+#details-metadata .ep-title,
+#details-loading .title,
+#details-next .title,
+#about .content h3,
+.popover .popover-title b {
+    font-weight: normal;
+    font-family: 'Proxima Nova Semibold';
+}
+
+#collection .fanart .corner-rating span,
+#trakt .fanart .corner-rating span,
+#trakt #history .sxe {
+    font-weight: normal;
+    font-family: 'Proxima Nova Bold';
+}
+
+/* colors */
+
 body {
     background-color: #1d1d1d;
     color: #fafafa;
@@ -14,13 +73,13 @@ body {
 }
 
 #notification-snack {
-    background: rgba(11, 11, 11, .7);
+    background-color: rgba(11, 11, 11, .7);
     border-color: #444;
     color: #fafafa;
 }
 
 #notification-snack:hover {
-    background: rgba(11, 11, 11, .9);
+    background-color: rgba(11, 11, 11, .9);
     color: #fff;
 }
 
@@ -29,20 +88,20 @@ input {
 }
 
 ::-webkit-scrollbar-track {
-    background: transparent;
+    background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #eee;
+    background-color: #eee;
     transition: all .5s;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #fafafa;
+    background-color: #fafafa;
 }
 
 .ui-tooltip {
-    background: rgba(50, 50, 50, .8);
+    background-color: rgba(50, 50, 50, .8);
     color: #eee;
 }
 
@@ -64,7 +123,7 @@ input {
 }
 
 #trakt .row {
-    background: #2d2d2d;
+    background-color: #2d2d2d;
 }
 
 #trakt #history #showmore .showmore_button {
@@ -116,14 +175,14 @@ input {
 
 #traktinit button,
 #requirempv button {
-    background: #16a085;
+    background-color: #16a085;
     border-color: transparent;
     color: #fafafa;
 }
 
 #traktinit button:hover,
 #requirempv button:hover {
-    background: #138a72;
+    background-color: #138a72;
     color: #fafafa;
 }
 
@@ -169,7 +228,7 @@ input {
 }
 
 #collection .item-spinner {
-    background: rgba(11, 11, 11, .6);
+    background-color: rgba(11, 11, 11, .6);
 }
 
 #collection .item-spinner .fa-spin {
@@ -236,31 +295,31 @@ input {
 
 #settings .action button,
 #details-next .content button {
-    background: #16a085;
+    background-color: #16a085;
     color: #fafafa;
 }
 
 #settings .action button:hover,
 #details-next .content button:hover {
-    background: #2b678f;
+    background-color: #2b678f;
     color: #fafafa;
 }
 
 #details-next .content button.later:hover {
-    background: #777;
+    background-color: #777;
 }
 
 #settings .action button.disconnect:hover,
 #settings .action button.remove:hover {
-    background: #b11010;
+    background-color: #b11010;
 }
 
 #settings .locals .option .pathbox .paths li:hover {
-    background: rgba(0, 0, 0, .1);
+    background-color: rgba(0, 0, 0, .1);
 }
 
 #settings .locals .option .pathbox .paths li.selected {
-    background: rgba(0, 0, 0, .3);
+    background-color: rgba(0, 0, 0, .3);
     color: #eee;
 }
 
@@ -285,12 +344,12 @@ input {
 }
 
 #details-sources .query #query {
-    background: rgba(245, 245, 245, .85);
+    background-color: rgba(245, 245, 245, .85);
     color: #000;
 }
 
 #details-loading .sub.active {
-    background: rgba(255, 255, 255, .2);
+    background-color: rgba(255, 255, 255, .2);
 }
 
 #details-spinner .spinner .double-bounce1,
@@ -299,12 +358,12 @@ input {
 }
 
 #details-loading .player .control .fa {
-    background: transparent;
+    background-color: transparent;
     color: #2b678f;
 }
 
 #details-loading .player .control .fa:hover {
-    background: #2b678f;
+    background-color: #2b678f;
     color: #fafafa;
 }
 
@@ -322,20 +381,20 @@ select.dropdown {
 }
 
 .dropdown option {
-    background: #444;
+    background-color: #444;
 }
 
 #about .icons img:hover {
-    background: rgba(240, 240, 240, .2);
+    background-color: rgba(240, 240, 240, .2);
 }
 
 #legal button {
-    background: #FF0;
+    background-color: #FF0;
     color: #000;
 }
 
 #legal button:hover {
-    background: #16a085;
+    background-color: #16a085;
     color: #fafafa;
 }
 
@@ -386,7 +445,7 @@ select.dropdown {
 #locals .refreshing,
 #trailer,
 #about .background {
-    background: rgba(11, 11, 11, 0.8);
+    background-color: rgba(11, 11, 11, 0.8);
 }
 
 #locals .waitforlibrary,
@@ -399,7 +458,7 @@ select.dropdown {
 #details-sources .item:hover,
 #details-loading .sub:hover,
 #discover .disc-search input {
-    background: rgba(255, 255, 255, .1);
+    background-color: rgba(255, 255, 255, .1);
 }
 
 #details #details-back:hover,
@@ -410,12 +469,12 @@ select.dropdown {
 
 #playing,
 #legal .background {
-    background: rgba(11, 11, 11, .8);
+    background-color: rgba(11, 11, 11, .8);
 }
 
 #about .content,
 #legal .content {
-    background: #1d1d1d;
+    background-color: #1d1d1d;
 }
 
 #discover .disc-proposal .categories div:hover,

@@ -30,7 +30,6 @@
     overflow: auto;
     transition: all .3s;
     cursor: pointer;
-    font-family: 'Proxima Nova';
     border-width: 1px;
     border-style: solid;
 }
@@ -67,7 +66,7 @@
     text-align: center;
     width: 23px;
     height: 18px;
-    background: #eff0f2;
+    background-color: #eff0f2;
     border-radius: 5px;
     border-top: 1px solid #dedede;
     box-shadow: inset 0 0 25px #e8e8e8, 0 1px 0 #c3c3c3, 0 2px 0 #c9c9c9, 0 2px 3px #333;
@@ -349,7 +348,6 @@ input {
 #trakt .fanart .corner-rating span {
     color: #fff !important;
     font-size: 12px;
-    font-family: 'Proxima Nova Bold';
     position: absolute;
     top: 0;
     right: -22px;
@@ -395,7 +393,6 @@ input {
 }
 
 #trakt #history .titles {
-    font-family: 'Proxima Nova';
     text-align: center;
     padding: 5px 0;
 }
@@ -406,10 +403,6 @@ input {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-}
-
-#trakt #history .sxe {
-    font-family: 'Proxima Nova Bold';
 }
 
 #trakt #history .datetime {
@@ -443,7 +436,6 @@ input {
 
 #trakt #history #showMore .showMore_text {
     text-align: center;
-    font-family: "Proxima Nova Semibold";
     font-size: 14px;
     margin-bottom: 20%;
 }
@@ -497,7 +489,6 @@ input {
 #discover .titles h3 {
     margin-top: 3px;
     text-shadow: 0 0 20px black;
-    font-family: 'Proxima Nova Semibold';
     font-size: 18px;
     padding: 10px;
     display: inline-block;
@@ -507,7 +498,6 @@ input {
 #discover .titles h3 .year {
     font-size: 14px;
     padding-left: 6px;
-    font-family: 'Proxima Nova';
 }
 
 #collection .quick-icons,
@@ -555,7 +545,6 @@ input {
 #collection .metadata .percentage,
 #trakt .metadata .percentage {
     font-size: 20px;
-    font-family: 'Proxima Nova Semibold';
     line-height: 40px;
 }
 
@@ -572,9 +561,7 @@ input {
 }
 
 #collection .local-item {
-    line-height: 58px;
-    /* because of border-bottom 1px */
-    font-family: 'Proxima Nova Semibold';
+    line-height: 58px; /* because of border-bottom 1px */
 }
 
 #locals {
@@ -595,7 +582,6 @@ input {
     margin: 0 auto;
     font-size: 16px;
     text-align: center;
-    font-family: 'Proxima Nova';
 }
 
 #locals .local-item,
@@ -610,17 +596,12 @@ input {
 }
 
 #locals .local-item .season {
-    font-family: 'Proxima Nova';
-}
-
-#locals .local-item .season {
     padding-left: 40px;
 }
 
 #locals .local-item .episode {
     margin-left: -40px;
     padding-left: 80px;
-    font-family: 'Proxima Nova';
 }
 
 #locals .local-item .title {
@@ -672,7 +653,6 @@ input {
 
 #locals .category .text {
     font-size: 18px;
-    font-family: 'Proxima Nova';
     margin-top: 20px;
 }
 
@@ -709,7 +689,6 @@ input {
     top: -16px;
     position: relative;
     left: 40px;
-    font-family: 'Proxima Nova';
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -792,7 +771,6 @@ input {
     padding-top: 20px;
     vertical-align: middle;
     position: absolute;
-    font-family: 'Proxima Nova Semibold';
 }
 
 #settings .option {
@@ -803,7 +781,6 @@ input {
     display: inline;
     line-height: 60px;
     float: left;
-    font-family: 'Proxima Nova';
 }
 
 #settings .action {
@@ -811,7 +788,6 @@ input {
     line-height: 60px;
     float: right;
     font-size: 14px;
-    font-family: 'Proxima Nova';
 }
 
 #settings .action button,
@@ -861,11 +837,6 @@ input {
 
 #settings label {
     margin-bottom: -5px;
-}
-
-#settings .action {
-    font-size: 14px;
-    font-family: 'Proxima Nova';
 }
 
 #settings .mpv #mpvpath {
@@ -924,7 +895,7 @@ input {
 
 .slider:before {
     position: absolute;
-    content: "";
+    content: '';
     height: 16px;
     width: 16px;
     left: 3px;
@@ -1003,7 +974,6 @@ input:checked + .slider:before {
 #details-metadata .title {
     font-size: 45px;
     line-height: 64px;
-    font-family: 'Proxima Nova Semibold';
     text-shadow: 2px 1px 10px rgba(11, 11, 11, .5);
     overflow: hidden;
     white-space: nowrap;
@@ -1013,7 +983,6 @@ input:checked + .slider:before {
 #details-metadata .ep-title {
     position: absolute;
     top: 10px;
-    font-family: 'Proxima Nova Semibold';
 }
 
 #details-metadata .md-box {
@@ -1038,7 +1007,6 @@ input:checked + .slider:before {
     width: calc(100% - 166px);
     height: 40px;
     padding-bottom: 10px;
-    font-family: 'Proxima Nova';
     font-size: 14px;
     white-space: nowrap;
     overflow: hidden;
@@ -1065,7 +1033,6 @@ input:checked + .slider:before {
     padding-right: 10px;
     text-align: justify;
     font-size: 16px;
-    font-family: 'Proxima Nova';
 }
 
 #details-sources,
@@ -1089,7 +1056,6 @@ input:checked + .slider:before {
 }
 
 #details-sources .query #query {
-    font-family: 'Proxima Nova';
     padding: 0px 6px;
     overflow: hidden;
     width: 180px;
@@ -1129,7 +1095,6 @@ input:checked + .slider:before {
 
 #details-sources .item .title {
     display: inline-block;
-    font-family: 'Proxima Nova';
     overflow: hidden;
     width: calc(100% - 150px);
     white-space: nowrap;
@@ -1176,11 +1141,6 @@ input:checked + .slider:before {
     display: none;
 }
 
-#details-loading .title,
-#details-next .title {
-    font-family: 'Proxima Nova Semibold';
-}
-
 #details-loading #streaminfo {
     width: 75%;
     margin-right: 5%;
@@ -1209,7 +1169,6 @@ input:checked + .slider:before {
     line-height: 25px;
     padding-left: 5px;
     font-size: 14px;
-    font-family: 'Proxima Nova';
     opacity: .9;
     cursor: pointer;
 }
@@ -1223,7 +1182,6 @@ input:checked + .slider:before {
 #details-loading .file,
 #details-next .content {
     font-size: 14px;
-    font-family: 'Proxima Nova';
     opacity: .9;
     height: 80%;
     overflow-y: scroll;
@@ -1281,8 +1239,8 @@ input:checked + .slider:before {
 }
 
 .rating-hearts:not(:checked) > label:before {
-    content: "\f004";
-    font-family: "FontAwesome"
+    content: '\f004';
+    font-family: 'FontAwesome'
 }
 
 .rating-hearts > input:checked.rating-1 ~ label {
@@ -1395,14 +1353,8 @@ input:checked + .slider:before {
 }
 
 .popover .popover-title {
-    font-family: 'Proxima Nova';
     text-align: center;
     font-size: 14px;
-}
-
-.popover .popover-title b {
-    font-weight: normal;
-    font-family: 'Proxima Nova Semibold';
 }
 
 .popover .popover-content {
@@ -1438,7 +1390,6 @@ select.dropdown {
     padding: 5px 10px;
     font-size: 14px;
     border-radius: 5px 0px 0px 0px;
-    font-family: 'Proxima Nova';
     height: 26px;
     cursor: pointer;
     opacity: .8;
@@ -1481,18 +1432,15 @@ select.dropdown {
     height: 90vh;
     margin: 5vh 15vw;
     padding: 40px;
-    font-family: 'Proxima Nova';
 }
 
 #about .content h3 {
     text-align: center;
-    font-family: 'Proxima Nova Semibold';
     font-size: 30px;
 }
 
 #about .content h3 .version {
     font-size: .4em;
-    font-family: 'Proxima Nova';
     margin-left: 3px;
     position: absolute;
 }
@@ -1613,7 +1561,6 @@ select.dropdown {
     padding-left: 60px;
     margin: 0 auto;
     text-align: center;
-    font-family: "Proxima Nova Semibold";
 }
 
 #discover .disc-proposal .categories div {
@@ -1642,7 +1589,6 @@ select.dropdown {
 #discover .disc-proposal .type {
     width: calc(55% + 55px);
     height: 30px;
-    font-family: "Proxima Nova";
 }
 
 #discover .disc-proposal type div {
@@ -1692,7 +1638,6 @@ select.dropdown {
     padding-top: 15%;
     margin: 0 20%;
     text-align: center;
-    font-family: "Proxima Nova";
     font-size: 16px;
     opacity: 0.5;
 }
