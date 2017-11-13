@@ -1409,6 +1409,10 @@ input:checked+.slider:before {
     text-align: center;
     font-size: 14px;
 }
+.popover .popover-title b {
+    font-weight: normal;
+    font-family: 'Proxima Nova Semibold';
+}
 
 .popover .popover-content {
     padding-left: 5px;

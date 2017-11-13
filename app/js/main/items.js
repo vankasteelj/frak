@@ -453,6 +453,9 @@ const Items = {
             let isRated = $(`#${slug} .corner-rating span`).text();
 
             let content = '';
+
+            let ratings = ['Weak Sauce :(', 'Terrible', 'Bad', 'Poor', 'Meh', 'Fair', 'Good', 'Great', 'Superb', 'Totally Ninja!'];
+
             for (let i = 10; i > 0; i--) {
                 let id = "rating-" + i + '-' + Date.now();
 
@@ -471,7 +474,7 @@ const Items = {
                     $('.popover').find('label').off('mouseover').on('mouseover', function () {
                         let t = $("#" + $(this).attr("for"));
                         let e = t.val();
-                        $('.popover-title').text(isRated == e ? i18n.__('Unrate this') : e + '/10');
+                        $('.popover-title').html(isRated == e ? i18n.__('Unrate this') : `<b>${e}</b> &mdash; ${i18n.__(ratings[e-1])}`);
                     }).off('mouseleave').on('mouseleave', () => {
                         $('.popover-title').text($this.data('original-title'));
                     }).off('click').on('click', function (e) {
