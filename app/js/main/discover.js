@@ -15,7 +15,7 @@ const Discover = {
             type: 'movie,show',
             query: terms,
             limit: 20,
-            extended: "full"
+            extended: 'full'
         }).then((results) => {
             console.info('Trakt - search results', results);
             return Discover.formatSearch(results);

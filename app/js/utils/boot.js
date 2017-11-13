@@ -4,7 +4,7 @@ const Boot = {
     load: () => {
         Localization.setupLocalization();                   // localize
         Cache.create();                                     // create tmp dir
-        try{Player.findMpv()}catch(e){};                    // player
+        try{Player.findMpv()}catch(e){}                     // player
         Plugins.load();                                     // load search plugins
         Boot.setupSettings();                               // setup settings popup
         Boot.checkVisible();                                // nwjs window position

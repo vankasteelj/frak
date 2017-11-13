@@ -26,7 +26,7 @@ const Details = {
             if (type == 'poster') {
                 $('#details .poster').css('background-image', `url('${url}')`);
             } else {
-                $('#details .background').css('background-image', `url('${url}')`).css('opacity',.7);
+                $('#details .background').css('background-image', `url('${url}')`).css('opacity', 0.7);
             }
         });
     },

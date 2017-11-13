@@ -42,6 +42,7 @@
         "path": true,
         "spawn": true,
         "win": true,
+        "nw": true,
 
         // JS files
         "Boot": true,
@@ -68,11 +69,13 @@
         "DB": true,
         "IB": true,
         "Settings": true,
+        "Cache": true,
 
         // Global variables
         "PKJSON": true,
 
         // Modules
-        "i18n": true
+        "i18n": true,
+        "got": true
     }
 }

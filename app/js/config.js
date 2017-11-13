@@ -24,7 +24,7 @@ const Settings = {
         layout: 'box',
         seekbar: 'knob'
     },
-    apikeys: function () { 
+    apikeys: (function () { 
         return JSON.parse(
             atob('eyJ0cmFrdF9pZCI6ImY3YjY1MjhhYzhiY2IzNjc0MjJhZWU1MWNlYjkwZ'+
                  'Dg2ZDdlMzcyYzMyNzljMDQ1NGIyYTk2ZTEzZGQzYTc1NDIiLCJ0cmFrdF'+
@@ -35,5 +35,5 @@ const Settings = {
                  'Q5NjI2ZWU1ZDNlNzY3YiIsIm9wZW5zdWJ0aXRsZXMiOiJmcmFrIn0='
             )
         );
-    }()
+    })()
 }

@@ -113,7 +113,7 @@ const Trakt = {
             switch (method) {
                 case 'add':
                     let pushable = {
-                        rated_at: (new Date).toISOString(),
+                        rated_at: (new Date()).toISOString(),
                         rating: score,
                         type: type
                     }
@@ -132,6 +132,7 @@ const Trakt = {
                             return i[type].ids.slug !== model.ids.slug;
                         }
                     });
+                    break;
                 default:
                     break;
             }

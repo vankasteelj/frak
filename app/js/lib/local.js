@@ -52,17 +52,17 @@ const Local = {
                     if (!found) {
                         let newShow = {metadata: {show: file.metadata.show}};
 
-                        newShow.seasons = Object();
-                        newShow.seasons[s] = Object();
-                        newShow.seasons[s].episodes = Object();
+                        newShow.seasons = {};
+                        newShow.seasons[s] = {};
+                        newShow.seasons[s].episodes = {};
                         delete file.metadata.show;
                         newShow.seasons[s].episodes[e] = file;
 
                         library.shows.push(newShow);
                     } else {
                         if (!found.seasons[s]) {
-                            found.seasons[s] = Object();
-                            found.seasons[s].episodes = Object();
+                            found.seasons[s] = {};
+                            found.seasons[s].episodes = {};
                         }
 
                         delete file.metadata.show;

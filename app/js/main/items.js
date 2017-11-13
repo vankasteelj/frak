@@ -100,7 +100,7 @@ const Items = {
         Items.getImage(d.image, show.show.ids).then(state => {
             state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !show.show.trailer && $(`#${d.id} .trailer`).hide();
-            !(show.unseen - 1) && $(`#${d.id} .unseen`).hide();
+            show.unseen - 1 || $(`#${d.id} .unseen`).hide();
         });
 
         return item;
@@ -136,7 +136,7 @@ const Items = {
             id: Misc.slugify(show.metadata.show.title) + '-local'
         };
 
-        let seasons = function () {
+        let seasons = (function () {
             let str = String();
 
             for (let s in show.seasons) {
@@ -156,7 +156,7 @@ const Items = {
             }
 
             return str;
-        }();
+        })();
 
         let item = `<div class="local-item" id="${d.id}" onClick="Interface.locals.showSeasons('${d.id}')">`+
             `<span class="title">${show.metadata.show.title}</span>`+
@@ -174,10 +174,10 @@ const Items = {
             data: JSON.stringify(show),
             rating: Misc.percentage(show.show.rating),
             size: DB.get('small_items') ? {sm: 3, md: 2, lg: 1} : {sm: 4, md: 3, lg: 2},
-            watched_at: function () {
+            watched_at: (function () {
                 let d = new Date(show.watched_at);
                 return d.toLocaleDateString() + ' ' + Misc.pad(d.getHours()) + ':' + Misc.pad(d.getMinutes());
-            }(),
+            })(),
             watched_id: show.id
         }
 
@@ -221,10 +221,10 @@ const Items = {
             data: JSON.stringify(movie),
             rating: Misc.percentage(movie.movie.rating),
             size: DB.get('small_items') ? {sm: 3, md: 2, lg: 1} : {sm: 4, md: 3, lg: 2},
-            watched_at: function () {
+            watched_at: (function () {
                 let d = new Date(movie.watched_at);
                 return d.toLocaleDateString() + ' ' + Misc.pad(d.getHours()) + ':' + Misc.pad(d.getMinutes());
-            }(),
+            })(),
             watched_id: movie.id
         }
 
@@ -286,13 +286,13 @@ const Items = {
         let d = {
             image: Images.reduce(show.show.images.fanart) || show.show.images.poster,
             id: show.show.ids.slug,
-            key: function () {
+            key: (function () {
                 if (show.watchers) return i18n.__('%s people watching', Misc.numberWithCommas(show.watchers));
                 if (show.list_count) return i18n.__('Present in %s lists', Misc.numberWithCommas(show.list_count));
                 if (show.watcher_count) return i18n.__('Played by %s people', Misc.numberWithCommas(show.watcher_count));
                 
                 return false;
-            }(),
+            })(),
             data: JSON.stringify(show),
             rating: Misc.percentage(show.show.rating),
             size: DB.get('small_items') ? {sm: 6, md: 4, lg: 3} : {sm: 12, md: 6, lg: 4},
@@ -342,13 +342,13 @@ const Items = {
         let d = {
             image: Images.reduce(movie.movie.images.fanart) || movie.movie.images.poster,
             id: movie.movie.ids.slug,
-            key: function () {
+            key: (function () {
                 if (movie.watchers) return i18n.__('%s people watching', Misc.numberWithCommas(movie.watchers));
                 if (movie.list_count) return i18n.__('Present in %s lists', Misc.numberWithCommas(movie.list_count));
                 if (movie.watcher_count) return i18n.__('Played by %s people', Misc.numberWithCommas(movie.watcher_count));
                 
                 return false;
-            }(),
+            })(),
             data: JSON.stringify(movie),
             rating: Misc.percentage(movie.movie.rating),
             size: DB.get('small_items') ? {sm: 6, md: 4, lg: 3} : {sm: 12, md: 6, lg: 4},
@@ -457,7 +457,7 @@ const Items = {
             let ratings = ['Weak Sauce :(', 'Terrible', 'Bad', 'Poor', 'Meh', 'Fair', 'Good', 'Great', 'Superb', 'Totally Ninja!'];
 
             for (let i = 10; i > 0; i--) {
-                let id = "rating-" + i + '-' + Date.now();
+                let id = 'rating-' + i + '-' + Date.now();
 
                 content += `<input id="${id}" type="radio" class="rating-${i}" name="rating" value="${i}" ${isRated == i ? 'checked=1' : ''}/>`+
                     `<label for="${id}" title="" class="rating-${i}">${i}</label>`
@@ -472,7 +472,7 @@ const Items = {
                     document.getElementsByClassName('popover-content')[0].innerHTML = '<div class="rating-hearts">' + content + '</div>';
 
                     $('.popover').find('label').off('mouseover').on('mouseover', function () {
-                        let t = $("#" + $(this).attr("for"));
+                        let t = $('#' + $(this).attr('for'));
                         let e = t.val();
                         $('.popover-title').html(isRated == e ? i18n.__('Unrate this') : `<b>${e}</b> &mdash; ${i18n.__(ratings[e-1])}`);
                     }).off('mouseleave').on('mouseleave', () => {
@@ -480,7 +480,7 @@ const Items = {
                     }).off('click').on('click', function (e) {
                         e.preventDefault();
 
-                        let t = $("#" + $(this).attr("for"));
+                        let t = $('#' + $(this).attr('for'));
                         let score = t.val();
 
                         let item = JSON.parse($(`#${slug} .data`).text());

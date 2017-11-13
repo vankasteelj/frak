@@ -263,7 +263,7 @@ const Search = {
 
     recalcSize: (data) => {
         return new Promise(resolve => {
-            let wtorrent = new (require('webtorrent'));
+            let wtorrent = new (require('webtorrent'))();
             let done;
 
             setTimeout(() => {
