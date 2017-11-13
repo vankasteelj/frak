@@ -29,6 +29,8 @@
     "newcap": false,
     "esversion": 6,
     "-W138": true,
+    "-W116": true,
+    "asi": true,
 
     // Globals
     "globals": {
@@ -50,11 +52,27 @@
         "Notify": true,
         "Themes": true,
         "Update": true,
+        "Images": true,
+        "Local": true,
+        "Player": true,
+        "Plugins": true,
+        "Search": true,
+        "Streamer": true,
+        "Subtitles": true,
+        "Trakt": true,
+        "Collection": true,
+        "Details": true,
+        "Discover": true,
+        "Items": true,
+        "Loading": true,
+        "DB": true,
+        "IB": true,
+        "Settings": true,
 
         // Global variables
         "PKJSON": true,
 
         // Modules
-        "i18n": true,
+        "i18n": true
     }
 }
