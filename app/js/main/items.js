@@ -296,7 +296,7 @@ const Items = {
             data: JSON.stringify(show),
             rating: Misc.percentage(show.show.rating),
             size: DB.get('small_items') ? {sm: 6, md: 4, lg: 3} : {sm: 12, md: 6, lg: 4},
-            watchlisted: DB.get('traktshowscollection').find(o => o.show.ids.slug === show.show.ids.slug)
+            watchlisted: DB.get('traktshowscollection') && DB.get('traktshowscollection').find(o => o.show.ids.slug === show.show.ids.slug)
         }
 
         let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">`+
