@@ -16,6 +16,7 @@ const PKJSON = require('../package.json');
 const Settings = {
     player: {
         centered: true,
+        fullscreen: false,
         sub_size: 40,
         sub_color: '#ffffff',
         scale: 0.8,

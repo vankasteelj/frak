@@ -106,7 +106,7 @@
 	"Action": "Action",
 	"Anime": "Anime",
 	"Music": "Comédie musicale",
-    "War": "Guerre",
+	"War": "Guerre",
 	"Box": "Boîte flottante",
 	"Box (slim)": "Ligne flottante",
 	"Bottom bar": "Barre en bas",
@@ -157,5 +157,6 @@
 	"Good": "Bon",
 	"Great": "Génial",
 	"Superb": "Superbe",
-	"Totally Ninja!": "Complètement ninja !"
+	"Totally Ninja!": "Complètement ninja !",
+	"Start fullscreen": "Lancer en plein écran"
 }

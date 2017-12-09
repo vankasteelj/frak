@@ -106,6 +106,7 @@ const Player = {
             //'--no-sub-auto',
             '--sub-fix-timing=yes',
             options.centered ? '--geometry=50%' : '',
+            options.fullscreen ? '--fs' : '',
             '--sub-font-size=' + options.sub_size,
             '--sub-color=' + options.sub_color,
             '--sub-border-size=2',

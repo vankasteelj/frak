@@ -153,12 +153,14 @@ const Boot = {
         }
 
         // default player options
-        !DB.get('player_options') && DB.store(Settings.player, 'player_options');
+        let player_options = DB.get('player_options');
+        let _poptions = Settings.player;
+        player_options = Object.assign(_poptions, player_options);
+        DB.store(player_options, 'player_options');
 
         // setup player options
-        let player_options = DB.get('player_options');
         for (let o in player_options) {
-            let c = o == 'centered' ? 'checked' : 'value';
+            let c = o.match('centered|fullscreen') ? 'checked' : 'value';
             document.querySelector(`#${o}`)[c] = player_options[o];
         }
     },
@@ -186,11 +188,11 @@ const Boot = {
 
         let player_options = DB.get('player_options');
         for (let o in player_options) {
-            let c = o == 'centered' ? 'checked' : 'value';
+            let c = o.match('centered|fullscreen') ? 'checked' : 'value';
 
             document.querySelector(`#${o}`).addEventListener('change', (evt) => {
                 player_options[o] = document.querySelector(`#${o}`)[c];
-                console.log(o, player_options[o]);
+                console.log('Player setting `%s` changed to:', o, player_options[o]);
                 DB.store(player_options, 'player_options');
 
                 Player.setMPV(DB.get('mpv'));
