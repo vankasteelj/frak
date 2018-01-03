@@ -449,6 +449,7 @@ select.dropdown {
 }
 
 #locals .waitforlibrary,
+#discover .disc-results .row .notfound,
 #details #details-back {
     color: #888;
 }

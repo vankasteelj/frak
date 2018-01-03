@@ -1554,6 +1554,16 @@ select.dropdown {
     cursor: pointer;
 }
 
+#discover .disc-results .row .notfound {
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+    position: absolute;
+    margin-top: 40px;
+    font-style: italic;
+    font-family: "Proxima Nova Semibold";
+}
+
 #discover .disc-proposal .categories,
 #discover .disc-proposal .type {
     width: calc(40% + 55px);

@@ -28,6 +28,11 @@ const Discover = {
                 let i = Items['constructDiscover'+item.type.charAt(0).toUpperCase() + item.type.slice(1)](item);
                 $('#discover .disc-results .row').append(i);
             }
+
+            if (!items.length) {
+                $('#discover .disc-results .row').append(`<span class="notfound">${i18n.__("These aren't the droids you're looking for")}</span>`);
+            }
+
             Items.applyRatings(DB.get('traktratings'));
             $('#discover .disc-search .search').removeClass('fa-spinner fa-spin');
         });
