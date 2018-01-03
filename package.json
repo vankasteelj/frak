@@ -51,7 +51,6 @@
     "devDependencies": {
         "del": "3.x.x",
         "gulp": "3.x.x",
-        "gulp-cli": "2.x.x",
         "gulp-jshint": "2.x.x",
         "gulp-tar": "2.x.x",
         "gulp-gzip": "1.x.x",

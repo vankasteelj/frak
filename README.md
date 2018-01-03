@@ -1,8 +1,12 @@
 # Frak
 
-a frakingly good media center
+A frakingly good media center
 
-![frak](https://user-images.githubusercontent.com/12599850/29336352-c5b4a648-820d-11e7-9e7b-2b4cde60a9ea.jpg)
+![frak](https://user-images.githubusercontent.com/12599850/34535184-802b85ec-f0c1-11e7-8731-0d52c2a7fb59.png)
+
+## Prerequisites
+- A [trakt](https://trakt.tv/) account (you'll be prompted to create one or login)
+- [MPV player](https://mpv.io/)
 
 ## Set up
 - Install dependencies, download binaries:
