@@ -473,8 +473,8 @@ input {
     padding: 3px 5px;
 }
 
-#collection .titles h4 .eptitle,
-#discover .titles h4 .eptitle {
+#collection .titles h4 .ep-title,
+#discover .titles h4 .ep-title {
     padding: 3px 5px;
     padding-left: 6px;
 }

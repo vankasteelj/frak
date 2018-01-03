@@ -200,8 +200,8 @@ input {
     color: #fafafa;
 }
 
-#collection .titles h4 .eptitle,
-#discover .titles h4 .eptitle {
+#collection .titles h4 .ep-title,
+#discover .titles h4 .ep-title {
     background-color: rgba(0, 0, 0, 0.4);
     color: #ddd;
 }

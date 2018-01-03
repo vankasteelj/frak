@@ -78,7 +78,7 @@ const Items = {
                     `<h4>`+
                         `<span class="sxe">${d.sxe}</span>`+
                         `<span class="unseen tooltipped i18n" title="${i18n.__('This episode and %s other(s) left to watch', show.unseen - 1)}">+${show.unseen - 1}</span>`+
-                        `<span class="eptitle">${show.next_episode.title}</span>`+
+                        `<span class="ep-title">${show.next_episode.title || ''}</span>`+
                     `</h4><br/>`+
                     `<h3>${show.show.title}<span class="year">${show.show.year}</span></h3>`+
                 `</div>`+
@@ -170,7 +170,7 @@ const Items = {
             image: show.show.images.poster || Images.reduce(show.show.images.fanart),
             id: show.show.ids.slug,
             sxe: `${show.episode.season}x${Misc.pad(show.episode.number)}`,
-            title: show.episode.title,
+            title: show.episode.title || '',
             data: JSON.stringify(show),
             rating: Misc.percentage(show.show.rating),
             size: DB.get('small_items') ? {sm: 3, md: 2, lg: 1} : {sm: 4, md: 3, lg: 2},
@@ -307,7 +307,7 @@ const Items = {
                 `<div class="shadow"></div>`+
                 `<div class="titles">`+
                     `<h4>`+
-                        `<span class="eptitle">${d.key}</span>`+
+                        `<span class="ep-title">${d.key}</span>`+
                     `</h4><br/>`+
                     `<h3>${show.show.title}<span class="year">${show.show.year}</span></h3>`+
                 `</div>`+
@@ -329,7 +329,7 @@ const Items = {
         Items.getImage(d.image, show.show.ids).then(state => {
             state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !show.show.trailer && $(`#${d.id} .trailer`).hide();
-            !d.key && $(`#${d.id} .eptitle`).hide();
+            !d.key && $(`#${d.id} .ep-title`).hide();
             d.watchlisted && ($(`#${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>');
         });
 
@@ -363,7 +363,7 @@ const Items = {
                 `<div class="shadow"></div>`+
                 `<div class="titles">`+
                     `<h4>`+
-                        `<span class="eptitle">${d.key}</span>`+
+                        `<span class="ep-title">${d.key}</span>`+
                     `</h4><br/>`+
                     `<h3>${movie.movie.title}<span class="year">${movie.movie.year}</span></h3>`+
                 `</div>`+
@@ -385,7 +385,7 @@ const Items = {
         Items.getImage(d.image, movie.movie.ids).then(state => {
             state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !movie.movie.trailer && $(`#${d.id} .trailer`).hide();
-            !d.key && $(`#${d.id} .eptitle`).hide();
+            !d.key && $(`#${d.id} .ep-title`).hide();
             d.watchlisted && ($(`#${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>');
         });
 
