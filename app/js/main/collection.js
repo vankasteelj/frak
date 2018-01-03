@@ -22,6 +22,7 @@ const Collection = {
             } else {
                 console.info('We got cached trakt data')
                 Collection.get.traktcached();
+                Trakt.getRatings();
             }
         }).catch(console.error);
 
