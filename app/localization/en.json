@@ -88,7 +88,7 @@
 	"%s%% of %s": "%s%% of %s",
 	"%s minute(s) remaining": "%s minute(s) remaining",
 	"%s second(s) remaining": "%s second(s) remaining",
-    "Unknown time remaining": "Unknown time remaining",
+	"Unknown time remaining": "Unknown time remaining",
 	"Mystery": "Mystery",
 	"Adventure": "Adventure",
 	"Crime": "Crime",
@@ -102,7 +102,7 @@
 	"Horror": "Horror",
 	"Documentary": "Documentary",
 	"Anime": "Anime",
-    "War": "War",
+	"War": "War",
 	"Music": "Music",
 	"No synopsis available": "No synopsis available",
 	"Suspense": "Suspense",
@@ -158,5 +158,6 @@
 	"Great": "Great",
 	"Superb": "Superb",
 	"Totally Ninja!": "Totally Ninja!",
-    "Start fullscreen": "Start fullscreen"
+	"Start fullscreen": "Start fullscreen",
+	"Tv-movie": "Tv-movie"
 }
