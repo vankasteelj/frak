@@ -4,3 +4,4 @@ build
 cache
 Thumbs*
 mpv
+package-lock.json
