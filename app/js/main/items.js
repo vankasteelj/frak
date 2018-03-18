@@ -34,7 +34,7 @@ const Items = {
                 `<img class="base" src="images/placeholder.png">`+
                 `<div class="shadow"></div>`+
                 `<div class="titles">`+
-                    `<h3>${movie.movie.title}<span class="year">${movie.movie.year}</span></h3>`+
+                    `<h3>${movie.movie.title}<span class="year">${movie.movie.year || ''}</span></h3>`+
                 `</div>`+
             `</div>`+
             `<div class="quick-icons">`+
@@ -80,7 +80,7 @@ const Items = {
                         `<span class="unseen tooltipped i18n" title="${i18n.__('This episode and %s other(s) left to watch', show.unseen - 1)}">+${show.unseen - 1}</span>`+
                         `<span class="ep-title">${show.next_episode.title || ''}</span>`+
                     `</h4><br/>`+
-                    `<h3>${show.show.title}<span class="year">${show.show.year}</span></h3>`+
+                    `<h3>${show.show.title}<span class="year">${show.show.year || ''}</span></h3>`+
                 `</div>`+
             `</div>`+
             `<div class="quick-icons">`+
@@ -309,7 +309,7 @@ const Items = {
                     `<h4>`+
                         `<span class="ep-title">${d.key}</span>`+
                     `</h4><br/>`+
-                    `<h3>${show.show.title}<span class="year">${show.show.year}</span></h3>`+
+                    `<h3>${show.show.title}<span class="year">${show.show.year || ''}</span></h3>`+
                 `</div>`+
             `</div>`+
             `<div class="quick-icons">`+
@@ -365,7 +365,7 @@ const Items = {
                     `<h4>`+
                         `<span class="ep-title">${d.key}</span>`+
                     `</h4><br/>`+
-                    `<h3>${movie.movie.title}<span class="year">${movie.movie.year}</span></h3>`+
+                    `<h3>${movie.movie.title}<span class="year">${movie.movie.year || ''}</span></h3>`+
                 `</div>`+
             `</div>`+
             `<div class="quick-icons">`+
