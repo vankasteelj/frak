@@ -95,7 +95,12 @@ const Loading = {
             if (total) $('#subtitles').show();
             $('#subtitles .sub').remove();
 
+            // add app language first
+            if (subs[localStorage.locale]) Subtitles.addSubtitle(subs[localStorage.locale]);
+
+            // then the other langs
             for (let lang in subs) {
+                if (localStorage.locale == lang) continue;
                 Subtitles.addSubtitle(subs[lang]);
             }
         });

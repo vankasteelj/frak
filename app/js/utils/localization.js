@@ -25,6 +25,8 @@ const Localization = {
 
         // set lang to stored or detected one
         i18n.setLocale(localStorage.locale || Localization.detectedLocale);
+        // store it for safety
+        localStorage.locale = localStorage.locale || Localization.detectedLocale;
 
         // localize HTML
         Localization.localizeApp();
