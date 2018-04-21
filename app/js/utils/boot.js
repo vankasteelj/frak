@@ -165,7 +165,7 @@ const Boot = {
 
         // setup player options
         for (let o in player_options) {
-            let c = o.match('centered|fullscreen') ? 'checked' : 'value';
+            let c = o.match('centered|fullscreen|sub_auto') ? 'checked' : 'value';
             document.querySelector(`#${o}`)[c] = player_options[o];
         }
     },
@@ -193,7 +193,7 @@ const Boot = {
 
         let player_options = DB.get('player_options');
         for (let o in player_options) {
-            let c = o.match('centered|fullscreen') ? 'checked' : 'value';
+            let c = o.match('centered|fullscreen|sub_auto') ? 'checked' : 'value';
 
             document.querySelector(`#${o}`).addEventListener('change', (evt) => {
                 player_options[o] = document.querySelector(`#${o}`)[c];

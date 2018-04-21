@@ -103,9 +103,8 @@ const Player = {
 
         return [
             //'--log-file=output.txt',
-            '--no-sub-auto',
-            '--sid=no',
-            '--sub-fix-timing=yes',
+            options.sub_auto ? '--no-sub-auto' : '',
+            options.sub_auto ? '--sid=no' : '',
             options.centered ? '--geometry=50%' : '',
             options.fullscreen ? '--fs' : '',
             '--sub-font-size=' + options.sub_size,

@@ -19,6 +19,7 @@ const Settings = {
         fullscreen: false,
         sub_size: 40,
         sub_color: '#ffffff',
+        sub_auto: false,
         scale: 0.8,
         contrast: 5,
         saturation: 2,
