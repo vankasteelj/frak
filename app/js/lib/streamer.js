@@ -45,11 +45,14 @@ const Streamer = {
                 path: Cache.dir
             });
 
-            setTimeout(() => {
+            let timeout = setTimeout(() => {
                 reject(new Error('Streamer - magnet timed out'));
             }, 7500);
 
-            torrent.on('metadata', () => resolve(torrent));
+            torrent.on('metadata', () => {
+                clearTimeout(timeout);
+                return resolve(torrent);
+            });
             torrent.on('error', reject);
             client.on('error', reject);
         });

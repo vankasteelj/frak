@@ -5,7 +5,7 @@
  ********/
 const nwVersion = '0.30.0',
     flavor = 'sdk',
-    availablePlatforms = ['linux32', 'linux64', 'win64', 'osx64'],
+    availablePlatforms = ['linux64', 'win64', 'osx64'],
     releasesDir = 'build';
 
 

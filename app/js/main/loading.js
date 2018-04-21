@@ -53,10 +53,12 @@ const Loading = {
             $('#streaminfo .upload span').text(uspeed+'/s');
         }, 1000);
 
-        Player.play(url, {
-            'title': Streamer.streaminfo.file_name,
-            'force-media-title': localUrl
-        }, Details.model);
+        setTimeout(() => {
+            Player.play(url, {
+                'title': Streamer.streaminfo.file_name,
+                'force-media-title': localUrl
+            }, Details.model);
+        }, 100);
 
         Loading.lookForSubtitles({
             filename: Streamer.streaminfo.file_name,
