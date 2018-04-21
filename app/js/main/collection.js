@@ -69,7 +69,7 @@ const Collection = {
             if (update) return;
 
             setTimeout(() => {
-                if (!Player.mpv) {
+                if (!Player.mpv && !PKJSON.portable) {
                     Interface.requireMPV();
                 } else {
                     Interface.showMain();

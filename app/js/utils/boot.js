@@ -142,6 +142,11 @@ const Boot = {
         // prepare for default details page
         Details.default = $('#details').html();
 
+        // is mpv shipped?
+        if (PKJSON.portable) {
+            $('#mpvexec').hide();
+        }
+
         // items size
         if (DB.get('small_items')) {
             document.querySelector('#items-size').checked = true;
