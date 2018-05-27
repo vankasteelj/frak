@@ -93,6 +93,10 @@ const Boot = {
 
         // move nwjs in sight
         win.moveTo(x, y);
+        // set win size
+        win.width = width;
+        win.height = height;
+        DB.get('wasMaximized') && win.maximize();
 
         // remember positionning
         win.on('move', (x, y) => {
@@ -100,6 +104,17 @@ const Boot = {
                 localStorage.posX = Math.round(x);
                 localStorage.posY = Math.round(y);
             }
+        });
+
+        // remember if the app was maximized or not
+        win.on('maximize', () => {
+            DB.store(true, 'wasMaximized');
+        });
+        win.on('restore', () => {
+            if (!win.isMaximized) DB.store(false, 'wasMaximized');
+        });
+        win.on('minimize', () => {
+           win.isMaximized = DB.get('wasMaximized');
         });
     },
 
