@@ -15,10 +15,6 @@ gui.start = () => {
                 win.showDevTools();
             }
 
-            // sometimes nwjs will add a few pixels (??)
-            win.width = PKJSON.window.width;
-            win.height = PKJSON.window.height;
-
             setTimeout(resolve, 0);
         } catch (err) {
             // if things go south on startup, just display devtools and log error
