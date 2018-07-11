@@ -7,8 +7,6 @@ const Misc = {
 
     // USERINTERACTION: restart app (used by Keyboard.setupShortcuts)
     restartApp: () => {
-        Cache.delete();
-
         const argv = gui.App.fullArgv;
         const CWD = process.cwd();
 
