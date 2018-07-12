@@ -72,7 +72,6 @@
 	"Season %s": "Season %s",
 	"Mark as watched": "Mark as watched",
 	"Watch trailer": "Watch trailer",
-	"Watch now": "Watch now",
 	"Rate this": "Rate this",
 	"This episode and %s other(s) left to watch": "This episode and %s other(s) left to watch",
 	"min": "min",
@@ -160,8 +159,15 @@
 	"Totally Ninja!": "Totally Ninja!",
 	"Start fullscreen": "Start fullscreen",
 	"Tv-movie": "Tv-movie",
-    "These aren't the droids you're looking for": "These aren't the droids you're looking for",
-    "Soap": "Soap",
-    "Unknown": "Unknown",
-    "Load subtitles automatically": "Load subtitles automatically"
+	"These aren't the droids you're looking for": "These aren't the droids you're looking for",
+	"Soap": "Soap",
+	"Unknown": "Unknown",
+	"Load subtitles automatically": "Load subtitles automatically",
+	"Show in file explorer": "Show in file explorer",
+	"Open on Trakt.tv": "Open on Trakt.tv",
+	"Remove from watchlist": "Remove from watchlist",
+	"7 days": "7 days",
+	"30 days": "30 days",
+	"Hide for...": "Hide for...",
+	"Hide this show": "Hide this show"
 }

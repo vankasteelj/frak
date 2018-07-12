@@ -202,7 +202,7 @@ const Interface = {
         },
         // USER INTERACTION: click season
         showEpisodes: (id, s) => {
-            event.stopPropagation();
+            event && event.stopPropagation();
             let opened = $(`#${id} .s${s}`).hasClass('active');
 
             $(`#${id} .season`).removeClass('active');

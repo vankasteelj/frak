@@ -44,6 +44,8 @@ const Keyboard = {
                 $(`.${tabs[next]}`).click();
             } else if (key.key === 'F5') {
                 Trakt.reload();
+            } else if (key.key === 'F10') {
+                gui.Shell.openExternal(Cache.dir);
             }
         });
     },

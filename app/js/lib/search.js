@@ -193,8 +193,8 @@ const Search = {
         
         $('#details-sources .sources').append(item);
 
-        $(`#local-file .fa-hdd-o`).on('contextmenu', (e) => {
-            gui.Shell.openItem(path.dirname(data.path));
+        $(`#local-file .fa-hdd-o`).off('contextmenu').on('contextmenu', (e) => {
+            gui.Shell.showItemInFolder(path.normalize(data.path));
             Notify.snack(i18n.__('Opening the file location'));
         })
     },
@@ -214,9 +214,9 @@ const Search = {
 
             $('#details-sources .sources').append(item);
             $(`#${id} .fa-magnet`).on('click', (e) => {
-                e.stopPropagation();
+                e && e.stopPropagation();
                 Misc.openExternal(data.magnet);
-            }).on('contextmenu', (e) => {
+            }).off('contextmenu').on('contextmenu', (e) => {
                 let clipboard = nw.Clipboard.get();
                 clipboard.set(data.magnet, 'text');
                 Notify.snack(i18n.__('Magnet link was copied to the clipboard'));

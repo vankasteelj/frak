@@ -176,7 +176,7 @@ const Details = {
         },
 
         episode: (elm) => {
-            event.stopPropagation(); // because of season.onClick...
+            event && event.stopPropagation(); // because of season.onClick...
 
             let file = Details.getData(elm);
 

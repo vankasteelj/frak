@@ -59,6 +59,44 @@ const Misc = {
         return menu;
     },
 
+    customContextMenu: (labels) => {
+        // labels should be: {'my button label 1': () => action(), 'my button label 2': () => otherAction()};
+        const menu = new gui.Menu();
+        
+        for (let label in labels) {
+            let action = labels[label];
+            let button = false;
+            
+            if (label === 'separator') {
+                button = new gui.MenuItem({type: 'separator'});
+            } else if (label === 'submenu') {
+                let submenu = new gui.Menu();
+                let title = labels[label]['title'];
+                for (let sublabel in labels[label]['labels']) {
+                    let subaction = labels[label]['labels'][sublabel];
+                    let subbutton = new gui.MenuItem({
+                        label: i18n.__(sublabel),
+                        click: () => subaction()
+                    });
+                    submenu.append(subbutton);
+                }
+                button = new gui.MenuItem({
+                    label: i18n.__(title),
+                    submenu: submenu
+                });
+            } else {
+                button = new gui.MenuItem({
+                    label: i18n.__(label),
+                    click: () => action()
+                });
+            }
+            
+            menu.append(button);
+        }
+
+        return menu;
+    },
+
     // AUTO: get active selection (used by Misc.contextMenu)
     getSelection: (textbox) => {
         let selectedText = null;

@@ -41,7 +41,7 @@ const Items = {
                 `<div class="actions">`+
                     `<div class="watched trakt-icon-check-thick tooltipped i18n" title="${i18n.__('Mark as watched')}" onClick="Items.markAsWatched(this)"></div>`+
                     `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>`+
-                    `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Watch now')}" onClick="Details.trakt.movie(this)"></div>`+
+                    `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.movie(this)"></div>`+
                 `</div>`+
                 `<div class="metadata">`+
                     `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">`+
@@ -54,6 +54,24 @@ const Items = {
         Items.getImage(d.image, movie.movie.ids).then(state => {
             state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !movie.movie.trailer && $(`#${d.id} .trailer`).hide();
+
+            // right click menu
+            let labels = {};
+            labels['Play now'] = () => $(`#${d.id} .play`).click();
+            movie.movie.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).click());
+            labels['Mark as watched'] = () => $(`#${d.id} .watched`).click();
+            labels['separator'] = true;
+            labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`);
+            labels['Remove from watchlist'] = () => Trakt.client.sync.watchlist.remove({movies: [movie.movie]}).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(movie.movie.ids.slug)).catch(console.error);
+            labels['submenu'] = {
+                title: 'Hide for...',
+                labels: {
+                    '7 days': () => Collection.hiddenMovies.add(movie.movie.ids.slug, (Date.now() + (7*24*60*60*1000))) && $(`#${d.id}`).remove(),
+                    '30 days': () => Collection.hiddenMovies.add(movie.movie.ids.slug, (Date.now() + (30*24*60*60*1000))) && $(`#${d.id}`).remove()
+                }
+            }
+            let menu = Misc.customContextMenu(labels);
+            $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
         })
 
         return item;
@@ -101,6 +119,22 @@ const Items = {
             state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !show.show.trailer && $(`#${d.id} .trailer`).hide();
             if (show.unseen - 1 <= 0) $(`#${d.id} .unseen`).hide();
+
+            // right click menu
+            let labels = {};
+            labels['Play now'] = () => $(`#${d.id} .play`).click();
+            show.show.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).click());
+            labels['Mark as watched'] = () => $(`#${d.id} .watched`).click();
+            labels['separator'] = true;
+            if (show.next_episode.number == 1 && show.next_episode.season == 1) {
+                labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`);
+                labels['Remove from watchlist'] = () => Trakt.client.sync.watchlist.remove({shows: [show.show]}).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(movie.movie.ids.slug)).catch(console.error);
+            } else {
+                labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}/seasons/${show.next_episode.season}/episodes/${show.next_episode.number}`);
+                labels['Hide this show'] = () => Trakt.client.users.hidden.add({section: 'progress_watched', shows: [show.show]}).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(movie.movie.ids.slug)).catch(console.error);
+            }
+            let menu = Misc.customContextMenu(labels);
+            $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
         });
 
         return item;
@@ -111,10 +145,22 @@ const Items = {
             data: JSON.stringify(movie)
         }
 
-        let item = `<div class="local-item" onClick="Details.local.movie(this)" id="${d.id}">`+
+        let item = `<div class="local-item tooltipped" onClick="Details.local.movie(this)" id="${d.id}" title="${movie.filename + ' - ' + Misc.fileSize(movie.size)}">`+
             `<span class="data">${d.data}</span>`+
             `<span class="title">${movie.metadata.movie.title}</span>`+
         `</div>`;
+
+        setTimeout(() => {
+            let labels = {};
+            labels['Play now'] = () => $(`#${d.id}`).click();
+            labels['Show in file explorer'] = () => {
+                console.info('[File explorer opened] Showing', movie.path);
+                gui.Shell.showItemInFolder(path.normalize(movie.path));
+                Notify.snack(i18n.__('Opening the file location'));
+            }
+            let menu = Misc.customContextMenu(labels);
+            $(`#${d.id}`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
+        }, 300);
 
         return item;
     },
@@ -124,10 +170,22 @@ const Items = {
             data: JSON.stringify(file)
         }
 
-        let item = `<div class="local-item" onClick="Details.local.unmatched(this)" id="${d.id}">`+
+        let item = `<div class="local-item tooltipped" onClick="Details.local.unmatched(this)" id="${d.id}" title="${file.filename + ' - ' + Misc.fileSize(file.size)}">`+
             `<span class="data">${d.data}</span>`+
             `<span class="title">${file.filename}</span>`+
         `</div>`;
+
+        setTimeout(() => {
+            let labels = {};
+            labels['Play now'] = () => $(`#${d.id}`).click();
+            labels['Show in file explorer'] = () => {
+                console.info('[File explorer opened] Showing', file.path);
+                gui.Shell.showItemInFolder(path.normalize(file.path));
+                Notify.snack(i18n.__('Opening the file location'));
+            }
+            let menu = Misc.customContextMenu(labels);
+            $(`#${d.id}`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
+        }, 300);
 
         return item;
     },
@@ -145,12 +203,25 @@ const Items = {
                 for (let e in show.seasons[s].episodes) {
                     let sxe = `S${Misc.pad(s)}E${Misc.pad(e)}`;
                     let title = show.seasons[s].episodes[e].metadata.episode.title;
+                    let epid = Misc.slugify(show.seasons[s].episodes[e].path);
 
                     // attach show information
                     let data = show.seasons[s].episodes[e];
                     data.metadata.show = show.metadata.show;
 
-                    str += `<div class="episode e${e}" onClick="Details.local.episode(this)" id="${Misc.slugify(show.seasons[s].episodes[e].path)}" onClick="event.stopPropagation()"><span class="data">${JSON.stringify(data)}</span><span class="e-title">${sxe} - ${title}</span></div>`;
+                    str += `<div class="episode tooltipped e${e}" onClick="Details.local.episode(this)" id="${epid}" title="${data.filename + ' - ' + Misc.fileSize(data.size)}"><span class="data">${JSON.stringify(data)}</span><span class="e-title">${title ? sxe + ' - ' + title : sxe}</span></div>`;
+
+                    setTimeout(() => {
+                        let labels = {};
+                        labels['Play now'] = () => $(`#${epid}`).click();
+                        labels['Show in file explorer'] = () => {
+                            console.info('[File explorer opened] Showing', data.path);
+                            gui.Shell.showItemInFolder(path.normalize(data.path));
+                            Notify.snack(i18n.__('Opening the file location'));
+                        }
+                        let menu = Misc.customContextMenu(labels);
+                        $(`#${epid}`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
+                    }, 300);
                 }
                 str += `</div>`;
             }
@@ -330,7 +401,17 @@ const Items = {
             state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !show.show.trailer && $(`#${d.id} .trailer`).hide();
             !d.key && $(`#${d.id} .ep-title`).hide();
-            d.watchlisted && ($(`#${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>');
+            d.watchlisted && $(`#${d.id} .watchlist`)[0] && ($(`#${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>');
+
+            // right click menu
+            let labels = {};
+            labels['Play now'] = () => $(`#${d.id} .play`).click();
+            show.show.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).click());
+            labels['Add to watchlist'] = () => $(`#${d.id} .watchlist`).click();
+            labels['separator'] = true;
+            labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`);
+            let menu = Misc.customContextMenu(labels);
+            $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
         });
 
         return item;
@@ -386,7 +467,17 @@ const Items = {
             state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !movie.movie.trailer && $(`#${d.id} .trailer`).hide();
             !d.key && $(`#${d.id} .ep-title`).hide();
-            d.watchlisted && ($(`#${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>');
+            d.watchlisted && $(`#${d.id} .watchlist`)[0] && ($(`#${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>');
+
+            // right click menu
+            let labels = {};
+            labels['Play now'] = () => $(`#${d.id} .play`).click();
+            movie.movie.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).click());
+            labels['Add to watchlist'] = () => $(`#${d.id} .watchlist`).click();
+            labels['separator'] = true;
+            labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`);
+            let menu = Misc.customContextMenu(labels);
+            $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
         });
 
         return item;

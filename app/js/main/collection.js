@@ -4,23 +4,26 @@ const Collection = {
     load: () => {
         console.info('Loading collection');
 
+        Collection.hiddenMovies.verify();
+
         // should trakt update?
         Trakt.last_activities().then(activities => {
             if (
 				(activities > (DB.get('traktsync') || 0))
 				|| (Date.now() - (DB.get('traktsync') || 0) > 3600000)
 			) {
-                console.info('Fetching from remote server...')
+                console.info('Fetching from remote server...');
                 Collection.get.traktcached();
                 Promise.all([
                     Collection.get.traktshows(),
                     Collection.get.traktmovies()
                 ]).then((collections) => {
                     Collection.get.traktcached();
+                    Collection.hiddenItems.reset();
                     Trakt.getRatings();
                 })
             } else {
-                console.info('We got cached trakt data')
+                console.info('We got cached trakt data');
                 Collection.get.traktcached();
                 Trakt.getRatings();
             }
@@ -277,6 +280,7 @@ const Collection = {
         shows: (shows = []) => {
             $('#collection #shows').html('');
             for (let show of shows) {
+                if (DB.get('hiddenitems') && DB.get('hiddenitems')[show.show.ids.slug]) continue;
                 let item = Items.constructShow(show);
                 $('#collection #shows').append(item);
             }
@@ -290,7 +294,7 @@ const Collection = {
             $('#collection #movies').html('');
             let untrack = Array();
             for (let movie of movies) {
-                if (!movie.movie.released || new Date(movie.movie.released.split('-')).valueOf() > Date.now()) {
+                if (!movie.movie.released || new Date(movie.movie.released.split('-')).valueOf() > Date.now() || DB.get('hiddenmovies')[movie.movie.ids.slug] || (DB.get('hiddenitems') && DB.get('hiddenitems')[movie.movie.ids.slug])) {
                     untrack.push(movie.movie.title);
                     continue;
                 }
@@ -303,7 +307,7 @@ const Collection = {
                 return $('#collection #movies').append(Items.constructMessage('No movie to display, add one to your watchlist and check back here.'));
             }
 
-            untrack.length && console.info('Some movies are not released yet, not showing:', untrack.join(', '));
+            untrack.length && console.info('Some movies are hidden or not released yet, not showing:', untrack.join(', '));
         },
         locals: {
             movies: (movies = []) => {
@@ -362,6 +366,34 @@ const Collection = {
 
             $('#trakt #history').append(Items.constructHistoryMore());
             Items.applyRatings(DB.get('traktratings'));
+        }
+    },
+
+    hiddenMovies: {
+        verify: () => {
+            let db = DB.get('hiddenmovies') || {};
+            for (let movie in db) if (db[movie] < Date.now()) delete db[movie];
+            DB.store(db, 'hiddenmovies');
+        },
+        add: (slug, time) => {
+            let db = DB.get('hiddenmovies') || {};
+            db[slug] = time;
+            DB.store(db, 'hiddenmovies');
+            return true;
+        },
+        reset: () => {
+            DB.store({}, 'hiddenmovies');
+        }
+    },
+
+    hiddenItems: {
+        add: (slug) => {
+            let db = DB.get('hiddenitems');
+            db[slug] = true;
+            DB.store(db, 'hiddenitems');
+        },
+        reset: () => {
+            DB.store({}, 'hiddenitems');
         }
     }
 }

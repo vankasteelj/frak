@@ -216,7 +216,6 @@ const Discover = {
             }
 
             Discover.reset();
-            $('#discover .disc-search input').val('');
 
             let shows = DB.get('traktshows'+key) || [];
             $('#discover #disc-spinner').hide();
@@ -239,7 +238,6 @@ const Discover = {
             }
 
             Discover.reset();
-            $('#discover .disc-search input').val('');
 
             let movies = DB.get('traktmovies'+key) || [];
             $('#discover .disc-proposal .row').html('');
