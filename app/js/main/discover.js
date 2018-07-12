@@ -195,6 +195,43 @@ const Discover = {
                     Discover.show[lastTab]('anticipated');
                 }).catch(console.error);
             }
+        },
+        recommended: () => {
+            Discover.reset();
+
+            let lastTab = $('#discover .disc-proposal .categories .movies').hasClass('active') ? 'movies' : 'shows';
+
+            $('#discover .type div').removeClass('active');
+            $('#discover .type .recommended').addClass('active');
+
+            // cache for 30min
+            if (DB.get('lastrecommendedsync') && (Date.now() - DB.get('lastrecommendedsync') < 30 * 60 * 1000)) {
+                console.info('Trakt - recommended movies/shows already in cache');
+                Discover.show[lastTab]('recommended');
+                return Promise.resolve();
+            } else {
+                console.info('Trakt - loading recommended movies/shows');
+                return Trakt.client.recommendations.movies.get({
+                    extended: 'full',
+                    limit: 20
+                }).then((data) => {
+                    for (let movie in data) data[movie].source = 'recommendations';
+                    return Discover.format.traktmovies(data);
+                }).then((collection) => {
+                    DB.store(collection, 'traktmoviesrecommended');
+                    return Trakt.client.recommendations.shows.get({
+                        extended: 'full',
+                        limit: 20
+                    });
+                }).then((data) => {
+                    for (let show in data) data[show].source = 'recommendations';
+                    return Discover.format.traktshows(data);
+                }).then((collection) => {
+                    DB.store(collection, 'traktshowsrecommended');
+                    DB.store(Date.now(), 'lastrecommendedsync');
+                    Discover.show[lastTab]('recommended');
+                }).catch(console.error);
+            }
         }
     },
     

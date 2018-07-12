@@ -409,6 +409,7 @@ const Items = {
             show.show.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).click());
             labels['Add to watchlist'] = () => $(`#${d.id} .watchlist`).click();
             labels['separator'] = true;
+            show.show.source == 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.shows.hide({id: show.show.ids.slug}).then(() => DB.store(0, 'lastrecommendedsync')).then(() => $(`#${d.id}`).remove()));
             labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`);
             let menu = Misc.customContextMenu(labels);
             $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
@@ -475,6 +476,7 @@ const Items = {
             movie.movie.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).click());
             labels['Add to watchlist'] = () => $(`#${d.id} .watchlist`).click();
             labels['separator'] = true;
+            movie.movie.source == 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.movies.hide({id: movie.movie.ids.slug}).then(() => DB.store(0, 'lastrecommendedsync')).then(() => $(`#${d.id}`).remove()));
             labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`);
             let menu = Misc.customContextMenu(labels);
             $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));

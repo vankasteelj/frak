@@ -1597,7 +1597,7 @@ select.dropdown {
 }
 
 #discover .disc-proposal .type {
-    width: calc(55% + 55px);
+    width: calc(75% + 55px);
     height: 30px;
 }
 
@@ -1616,7 +1616,7 @@ select.dropdown {
     cursor: pointer;
     transition: opacity .4s;
     padding: 0px 10px;
-    width: 25%;
+    width: 20%;
     opacity: .6;
     border-bottom-style: solid;
     border-bottom-width: 0px;
