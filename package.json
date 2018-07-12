@@ -35,7 +35,7 @@
     "dependencies": {
         "cheerio": "0.22.x",
         "fs-extra": "5.x.x",
-        "got": "^8.3.1",
+        "got": "^8.3.2",
         "i18n": "0.x.x",
         "local-video-library": "github:vankasteelj/local-video-library",
         "mdata": "github:vankasteelj/mdata",
@@ -58,7 +58,7 @@
         "gulp-zip": "4.x.x",
         "jshint": "2.x.x",
         "jshint-stylish": "2.x.x",
-        "nw-builder": "3.x.x",
+        "nw-builder": "^3.5.4",
         "run-sequence": "2.x.x",
         "yargs": "^11.1.0"
     }
