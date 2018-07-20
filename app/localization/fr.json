@@ -174,5 +174,8 @@
 	"30 days": "30 jours",
 	"Show in file explorer": "Montrer dans l'explorateur de fichiers",
 	"Recommended": "Recommandés",
-	"Don't recommend this again": "Ne plus me recommander ceci"
+	"Don't recommend this again": "Ne plus me recommander ceci",
+	"Use another monitor (if available)": "Utiliser un autre moniteur (quand disponible)",
+	"Which one?": "Lequel utiliser ?",
+	"1 to 32": "1 à 32"
 }

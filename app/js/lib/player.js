@@ -96,6 +96,7 @@ const Player = {
 
         $('#settings .mpv #fakempvpath').val(binary);
         Player.config.events = false;
+        console.debug('MPV player ready', options);
     },
 
     getOptions: () => {
@@ -103,9 +104,11 @@ const Player = {
 
         return [
             //'--log-file=output.txt',
+            options.multimonitor && (sessionStorage.screens >= options.monitor) ? '--screen=' + (options.monitor - 1) : '', 
+            options.fullscreen ? '--fs' : '',
+            options.fullscreen && options.multimonitor && (sessionStorage.screens >= options.monitor) ? '--fs-screen=' + (options.monitor - 1) : '',
             options.sub_auto ? '' : '--sid=no',
             options.centered ? '--geometry=50%' : '',
-            options.fullscreen ? '--fs' : '',
             '--sub-font-size=' + options.sub_size,
             '--sub-color=' + options.sub_color,
             '--sub-border-size=2',

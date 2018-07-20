@@ -24,7 +24,9 @@ const Settings = {
         contrast: 5,
         saturation: 2,
         layout: 'box',
-        seekbar: 'knob'
+        seekbar: 'knob',
+        multimonitor: false,
+        monitor: 1,
     },
     apikeys: (function () { 
         return JSON.parse(

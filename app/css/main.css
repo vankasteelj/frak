@@ -783,6 +783,11 @@ input {
     float: left;
 }
 
+#settings .text.secondary {
+    padding-left: 10px;
+    opacity: 0.8;
+}
+
 #settings .action {
     display: inline;
     line-height: 60px;

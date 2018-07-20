@@ -4,14 +4,15 @@ const Boot = {
     load: () => {
         Localization.setupLocalization();                   // localize
         Cache.create();                                     // create tmp dir
-        try{Player.findMpv()}catch(e){}                     // player
         Plugins.load();                                     // load search plugins
         Boot.setupSettings();                               // setup settings popup
         Boot.checkVisible();                                // nwjs window position
+        Boot.setupScreens();                                // nwjs screen listener
         Boot.setupInputs();                                 // browse button
         Keyboard.setupShortcuts();                          // keyboard shortcuts
+        try{Player.findMpv()}catch(e){}                     // player
         Update.checkUpdates();                              // update
-        //Boot.setupTooltips();                             // tooltips - use default visual
+        //Boot.setupTooltips();                             // tooltips - off:use default visual
         Boot.setupVersion();                                // version number
         Boot.online();                                      // check if online
 
@@ -41,6 +42,26 @@ const Boot = {
         setTimeout(() => {Boot.online()}, 3000);
     },
 
+    setupScreens: () => {
+        nw.Screen.Init();
+        sessionStorage.screens = Object.keys(nw.Screen.screens).length;
+        
+        if (sessionStorage.screens > 1) {
+            console.info('Multiple monitors (%s) detected', sessionStorage.screens);
+        }
+        
+        nw.Screen.on('displayAdded', () => {
+            sessionStorage.screens = Object.keys(nw.Screen.screens).length;
+            console.info('Multiple monitors (%s) detected', sessionStorage.screens);
+            Player.setMPV(DB.get('mpv'));
+        });
+        nw.Screen.on('displayRemoved', (screen) => {
+            console.info('A monitor was removed');
+            sessionStorage.screens = Object.keys(nw.Screen.screens).length;
+            Player.setMPV(DB.get('mpv'));
+        });
+    },
+    
     // STARTUP: builds right click menu
     setupRightClicks: (toFind) => {
         let inputs = $(toFind);
@@ -180,8 +201,12 @@ const Boot = {
 
         // setup player options
         for (let o in player_options) {
-            let c = o.match('centered|fullscreen|sub_auto') ? 'checked' : 'value';
+            let c = o.match('centered|fullscreen|sub_auto|multimonitor') ? 'checked' : 'value';
             document.querySelector(`#${o}`)[c] = player_options[o];
+
+            if (o.match('multimonitor') && player_options[o]) {
+                $('#mpvmonitoroption').show();
+            }
         }
     },
 
@@ -208,13 +233,20 @@ const Boot = {
 
         let player_options = DB.get('player_options');
         for (let o in player_options) {
-            let c = o.match('centered|fullscreen|sub_auto') ? 'checked' : 'value';
+            let c = o.match('centered|fullscreen|sub_auto|multimonitor') ? 'checked' : 'value';
 
             document.querySelector(`#${o}`).addEventListener('change', (evt) => {
                 player_options[o] = document.querySelector(`#${o}`)[c];
                 console.log('Player setting `%s` changed to:', o, player_options[o]);
                 DB.store(player_options, 'player_options');
 
+                if (o.match('multimonitor')) {
+                    if (player_options[o]) {
+                        $('#mpvmonitoroption').show();
+                    } else {
+                        $('#mpvmonitoroption').hide();
+                    }
+                }
                 Player.setMPV(DB.get('mpv'));
             });
         }
