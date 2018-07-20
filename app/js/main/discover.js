@@ -369,15 +369,18 @@ const Discover = {
     },
 
     addToWatchlist: (item) => {
+        let id = $(item).context.offsetParent.id || $(item).context.id;
         let data = Discover.getData(item);
         let type = data.movie ? 'movie' : 'show';
 
         let post = {};
         post[type+'s'] = [data[type]];
+        $(`#${id}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
 
         Trakt.client.sync.watchlist.add(post).then((res) => {
             console.info('Added to Watchlist:', data[type]);
-            $(`#${data[type].ids.slug} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>';
+            $(`#${id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>';
+            $(`#${id} .item-spinner`).remove();
 
             Trakt.reload();
         });

@@ -308,7 +308,7 @@ input {
 
 
 /* collection item */
-
+#discover .item-spinner,
 #collection .item-spinner {
     position: absolute;
     top: 0;
@@ -316,6 +316,7 @@ input {
     height: 100%;
 }
 
+#discover .item-spinner .fa-spin,
 #collection .item-spinner .fa-spin {
     font-size: 50px;
     position: absolute;
