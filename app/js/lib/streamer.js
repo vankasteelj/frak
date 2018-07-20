@@ -38,6 +38,7 @@ const Streamer = {
             console.info('Streamer stopped');
         }        
     },
+    magnetTimeout: 10000,
     fetchTorrent: (magnet) => {
         return new Promise((resolve, reject) => {
             let client = Streamer.getInstance();
@@ -47,7 +48,7 @@ const Streamer = {
 
             let timeout = setTimeout(() => {
                 reject(new Error('Streamer - magnet timed out'));
-            }, 7500);
+            }, Streamer.magnetTimeout);
 
             torrent.on('metadata', () => {
                 clearTimeout(timeout);
