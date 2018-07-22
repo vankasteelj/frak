@@ -168,3 +168,7 @@
 }
 
 /* Spinner - END */
+
+.blur {
+    filter: blur(1px);
+}

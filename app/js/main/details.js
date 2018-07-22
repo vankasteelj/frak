@@ -283,6 +283,18 @@ const Details = {
         });
     },
 
+    loadVideo: (file) => {
+        Details.closeRemote().then(() => {
+            let data = {
+                path: path.normalize(file),
+                filename: path.basename(file)
+            };
+            Loading.local(data);
+            $('#details-loading').show();
+            $('#details-sources').hide();
+        });
+    },
+
     loadRemote: (magnet) => {
         $('#details-spinner').show();
         $('#details-sources').hide();

@@ -15,6 +15,7 @@ const Boot = {
         //Boot.setupTooltips();                             // tooltips - off:use default visual
         Boot.setupVersion();                                // version number
         Boot.online();                                      // check if online
+        Dragdrop.setup();                                   // allow drag&drop
 
         // right clicks
         document.addEventListener('contextmenu', (e) => e.preventDefault());
