@@ -116,7 +116,7 @@ const Player = {
             '--contrast=' + options.contrast,
             '--saturation=' + options.saturation,
             `--script-opts=osc-layout=${options.layout},osc-seekbarstyle=${options.seekbar},osc-scalewindowed=${options.scale},osc-scalefullscreen=${options.scale*1.2},osc-valign=0.9,osc-timetotal=yes,osc-boxalpha=160,osc-vidscale=no`
-        ];
+        ].filter(n => n);
     },
 
     findMpv: () => {
