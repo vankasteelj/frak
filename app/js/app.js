@@ -15,6 +15,11 @@ gui.start = () => {
                 win.showDevTools();
             }
 
+            if (gui.App.argv.indexOf('--bp') !== -1) {
+                win.zoomLevel = 4;
+                win.maximize();
+            }
+
             setTimeout(resolve, 0);
         } catch (err) {
             // if things go south on startup, just display devtools and log error
