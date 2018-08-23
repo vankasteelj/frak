@@ -28,6 +28,7 @@
         "min_height": 500,
         "resizable": true
     },
+    "chromium-args": "--disable-raf-throttling --single-process --in-process-gpu",
     "repository": {
         "type": "git",
         "url": "https://github.com/vankasteelj/frak"
