@@ -189,6 +189,13 @@ const Boot = {
             document.querySelector('#items-size').checked = true;
         }
 
+        // big picture button visibility
+        if (DB.get('bp_button')) {
+            document.querySelector('#bp-button').checked = true;
+        } else {
+            $('.nav.bigpicture').hide();
+        }
+
         // use mpv for trailers
         if (DB.get('trailers_use_mpv')) {
             document.querySelector('#trailers_use_mpv').checked = true;
@@ -224,6 +231,15 @@ const Boot = {
 
         document.querySelector('#trailers_use_mpv').addEventListener('click', (evt) => {
             DB.store(evt.toElement.checked, 'trailers_use_mpv');
+        });
+
+        document.querySelector('#bp-button').addEventListener('click', (evt) => {
+            DB.store(evt.toElement.checked, 'bp_button');
+            if (evt.toElement.checked) {
+                $('.nav.bigpicture').show();
+            } else {
+                $('.nav.bigpicture').hide();
+            }
         });
 
         document.querySelector('#items-size').addEventListener('click', (evt) => {

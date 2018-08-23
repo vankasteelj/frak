@@ -260,5 +260,29 @@ const Interface = {
     hideWarning: () => {
         $('#legal').hide();
         DB.store(true, 'legal_notice_read');
+    },
+
+    bigPicture: (onStart) => {
+        if (!DB.get('bigPicture')) {
+            console.info('Entering Big Picture mode');
+            win.zoomLevel = 4;
+            win.enterFullscreen();
+            $('.nav.bigpicture > div').addClass('fa-compress').removeClass('fa-arrows-alt');
+            DB.store(true, 'bigPicture');
+
+            if (onStart) {
+                $('.nav.bigpicture').hide();
+                $('.nav.exitapp').show();
+                DB.store(false, 'bigPicture');                
+            }
+        } else {
+            console.info('Exiting Big Picture mode');
+            win.zoomLevel = 0;
+            win.leaveFullscreen();
+            $('.nav.bigpicture > div').addClass('fa-arrows-alt').removeClass('fa-compress');
+            DB.store(false, 'bigPicture');
+        }
+
+        setTimeout(() => Player.setMPV(DB.get('mpv')), 100);
     }
 };

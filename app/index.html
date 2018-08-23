@@ -127,11 +127,6 @@
                     <div class="text"><i18n>Local</i18n></div>
                 </div>
             </div>
-            <div class="nav settings" onClick="Interface.showSettings()">
-                <div class="fa fa-cogs">
-                    <div class="text"><i18n>Settings</i18n></div>
-                </div>
-            </div>
             
             <div class="separator"></div>
 
@@ -148,6 +143,23 @@
                     <div class="text"><i18n>History</i18n></div>
                 </div>
             </div>
+
+            <div class="nav bigpicture" onClick="Interface.bigPicture()">
+                <div class="fa fa-arrows-alt">
+                    <div class="text"><i18n>Big Picture</i18n></div>
+                </div>
+            </div>
+            <div class="nav exitapp" onClick="win.close(true)">
+                <div class="fa fa-times-circle">
+                    <div class="text"><i18n>Exit</i18n></div>
+                </div>
+            </div>
+            <div class="nav settings" onClick="Interface.showSettings()">
+                <div class="fa fa-cogs">
+                    <div class="text"><i18n>Settings</i18n></div>
+                </div>
+            </div>
+
             <div class="online"></div>
         </section>
         
@@ -287,6 +299,19 @@
                             <option class="i18n" value="shows">Shows</option>
                             <option class="i18n" value="locals">Local</option>
                         </select>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="text">
+                        <i18n>Big Picture button</i18n>
+                    </div>
+                    <div class="action">
+                        <i18n>hide</i18n>&nbsp;
+                        <label class="switch">
+                            <input id="bp-button" type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                        &nbsp;<i18n>show</i18n>
                     </div>
                 </div>
             </div>

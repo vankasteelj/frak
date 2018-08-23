@@ -16,8 +16,7 @@ gui.start = () => {
             }
 
             if (gui.App.argv.indexOf('--bp') !== -1) {
-                win.zoomLevel = 4;
-                win.maximize();
+                Interface.bigPicture(true);
             }
 
             setTimeout(resolve, 0);
