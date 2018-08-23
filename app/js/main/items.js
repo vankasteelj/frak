@@ -128,10 +128,10 @@ const Items = {
             labels['separator'] = true;
             if (show.next_episode.number == 1 && show.next_episode.season == 1) {
                 labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`);
-                labels['Remove from watchlist'] = () => Trakt.client.sync.watchlist.remove({shows: [show.show]}).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(movie.movie.ids.slug)).catch(console.error);
+                labels['Remove from watchlist'] = () => Trakt.client.sync.watchlist.remove({shows: [show.show]}).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(show.show.ids.slug)).catch(console.error);
             } else {
                 labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}/seasons/${show.next_episode.season}/episodes/${show.next_episode.number}`);
-                labels['Hide this show'] = () => Trakt.client.users.hidden.add({section: 'progress_watched', shows: [show.show]}).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(movie.movie.ids.slug)).catch(console.error);
+                labels['Hide this show'] = () => Trakt.client.users.hidden.add({section: 'progress_watched', shows: [show.show]}).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(show.show.ids.slug)).catch(console.error);
             }
             let menu = Misc.customContextMenu(labels);
             $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
