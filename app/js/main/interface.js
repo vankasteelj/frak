@@ -269,11 +269,12 @@ const Interface = {
             win.enterFullscreen();
             $('.nav.bigpicture > div').addClass('fa-compress').removeClass('fa-arrows-alt');
             DB.store(true, 'bigPicture');
+            Player.showPopup = true;
 
             if (onStart) {
                 $('.nav.bigpicture').hide();
                 $('.nav.exitapp').show();
-                DB.store(false, 'bigPicture');                
+                DB.store(false, 'bigPicture');
             }
         } else {
             console.info('Exiting Big Picture mode');
@@ -284,5 +285,26 @@ const Interface = {
         }
 
         setTimeout(() => Player.setMPV(DB.get('mpv')), 100);
+    },
+    playerPopup: () => {
+        nw.Window.open('app/playerPopup.html', {
+            width: 100,
+            height: 100,
+            always_on_top: true,
+            resizable: false,
+            show: true,
+            frame: false,
+            show_in_taskbar: false,
+            transparent: true
+        }, function (new_win) {
+            console.debug('Player popup opened');
+            nw.global.playerPopup = new_win;
+            nw.global.playerPopup.x = screen.availWidth - 100;
+            nw.global.playerPopup.y = 0;
+            nw.global.playerPopup.on('closed', () => {
+                console.debug('Player popup closed');
+                Player.quit();
+            });
+        });
     }
 };

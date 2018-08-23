@@ -48,5 +48,6 @@ gui.App.on('open', (cmd) => {
 
 win.on('close', () => {
     Cache.delete();
+    nw.App.closeAllWindows();
     win.close(true);
 });

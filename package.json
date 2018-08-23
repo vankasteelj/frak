@@ -29,6 +29,7 @@
         "resizable": true
     },
     "chromium-args": "--disable-raf-throttling --in-process-gpu",
+    "node-remote": "*://*",
     "repository": {
         "type": "git",
         "url": "https://github.com/vankasteelj/frak"

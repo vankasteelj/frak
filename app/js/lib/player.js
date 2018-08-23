@@ -19,12 +19,14 @@ const Player = {
         Player.mpv.start().then(() => Player.mpv.load(file)).then(() => {
             console.info('Playing:', file);
 
+            // player popup
+            if (Player.showPopup) Interface.playerPopup();
+
             // trakt
             Player.config.model = model;
 			Trakt.scrobble('start');
 
             Player.mpv.observeProperty('percent-pos', 50);
-
             for (let prop in args) {
                 Player.mpv.setProperty(prop, args[prop]);
             }
@@ -43,6 +45,7 @@ const Player = {
 
         Player.mpv.quit();
         Loading.close();
+        nw.global.playerPopup && nw.global.playerPopup.close(true);
 
         // reset details window
         Details.previous = {
