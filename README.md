@@ -2,7 +2,7 @@
 
 A frakingly good media center
 
-![frak](https://user-images.githubusercontent.com/12599850/34535184-802b85ec-f0c1-11e7-8731-0d52c2a7fb59.png)
+![frak](https://user-images.githubusercontent.com/12599850/44541156-62447d00-a709-11e8-8a83-81fd5807d8bd.png)
 
 ## Prerequisites
 - A [trakt](https://trakt.tv/) account (you'll be prompted to create one or login)
