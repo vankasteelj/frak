@@ -372,7 +372,7 @@ const Details = {
 
             return episode && episode.path;
         };
-        let next = findNext(s, e+1) || findNext(s+1, 1);
+        let next = findNext(s, e+1) || findNext(s, e+2) || findNext(s+1, 1);
 
         if (next) {
             let $next_episode = $(`#${Misc.slugify(next)}`);
