@@ -72,12 +72,12 @@ const Collection = {
             if (update) return;
 
             setTimeout(() => {
-                if (!Player.mpv && !PKJSON.portable) {
+                if (!Player.mpv && !(process.platform == 'win32' &&  fs.existsSync('./mpv/mpv.exe'))) {
                     Interface.requireMPV();
                 } else {
                     Interface.showMain();
                 }
-            }, 200);
+            }, 100);
         },
         local: () => {
             let collection = DB.get('local_library');

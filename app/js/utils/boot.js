@@ -10,13 +10,13 @@ const Boot = {
         Boot.setupScreens();                                // nwjs screen listener
         Boot.setupInputs();                                 // browse button
         Keyboard.setupShortcuts();                          // keyboard shortcuts
-        try{Player.findMpv()}catch(e){}                     // player
+        Player.findMpv();                                   // player
         Update.checkUpdates();                              // update
-        //Boot.setupTooltips();                             // tooltips - off:use default visual
         Boot.setupVersion();                                // version number
-        Boot.online();                                      // check if online
+        //Boot.online();                                    // check if online
         Dragdrop.setup();                                   // allow drag&drop
-
+        //Gamepad.init();                                   // gamepad support
+        
         // right clicks
         document.addEventListener('contextmenu', (e) => e.preventDefault());
         Boot.setupRightClicks('input[type=text], textarea');
@@ -180,7 +180,7 @@ const Boot = {
         Details.default = $('#details').html();
 
         // is mpv shipped?
-        if (PKJSON.portable) {
+        if (process.platform == 'win32' && fs.existsSync('./mpv/mpv.exe')) {
             $('#mpvexec').hide();
         }
 
