@@ -1,14 +1,5 @@
 'use strict';
 
-/******** 
- * setup *
- ********/
-const nwVersion = '0.31.5',
-    flavor = 'sdk',
-    availablePlatforms = ['linux64', 'win64', 'osx64'],
-    releasesDir = 'build';
-
-
 /*************** 
  * dependencies *
  ***************/
@@ -25,6 +16,13 @@ const gulp = require('gulp'),
     spawn = require('child_process').spawn,
     pkJson = require('./package.json');
 
+/******** 
+ * setup *
+ ********/
+const nwVersion = pkJson.nwjs.version,
+    flavor = pkJson.nwjs.flavor,
+    availablePlatforms = ['linux64', 'win64', 'osx64'],
+    releasesDir = 'build';
 
 /***********
  *  custom  *
@@ -145,7 +143,7 @@ gulp.task('run', () => {
         child.on('error', (error) => {
             if (error.code === 'ENOENT') {
                 // nw binary most probably missing
-                console.log('%s is not available in cache. Try running `gulp build` beforehand', platform);
+                console.log('%s-%s is not available in cache. Try running `gulp build` beforehand', nwVersion, platform);
             }
             reject(error);
         });
