@@ -6,7 +6,7 @@ A frakingly good media center
 
 ## Prerequisites
 - A [trakt](https://trakt.tv/) account (you'll be prompted to create one or login)
-- [MPV player](https://mpv.io/)
+- [MPV player](https://mpv.io/) for linux/macOS (should be automatically installed on Windows)
 
 ## Set up
 - Install dependencies, download binaries:

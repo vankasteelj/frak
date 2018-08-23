@@ -14,7 +14,10 @@ const gulp = require('gulp'),
     path = require('path'),
     exec = require('child_process').exec,
     spawn = require('child_process').spawn,
-    pkJson = require('./package.json');
+    pkJson = require('./package.json'),
+    got = require('got'),
+    z7 = require('node-7z-forall'),
+    temp = require('os').tmpdir();
 
 /******** 
  * setup *
@@ -152,7 +155,7 @@ gulp.task('run', () => {
 
 // build app from sources
 gulp.task('build', (callback) => {
-    runSequence('nwjs', 'clean:nwjs', callback);
+    runSequence('nwjs', 'clean:nwjs', 'mpv', callback);
 });
 
 // remove unused libraries
@@ -164,7 +167,10 @@ gulp.task('clean:nwjs', () => {
             dirname + '/chrome*',
             dirname + '/nacl*',
             dirname + '/payload*',
-            dirname + '/nwjc*'
+            dirname + '/nwjc*',
+            dirname + '/credit*',
+            dirname + '/debug*',
+            dirname + '/swift*'
         ]);
     }));
 });
@@ -369,4 +375,34 @@ gulp.task('jshint', () => {
         .pipe(glp.jshint('.jshintrc'))
         .pipe(glp.jshint.reporter('jshint-stylish'))
         .pipe(glp.jshint.reporter('fail'));
+});
+
+// download mpv
+gulp.task('mpv', () => {
+    return Promise.all(nw.options.platforms.map((platform) => {
+        // bundled mpv is for win only
+        if (platform.match(/osx|linux/) !== null) {
+            console.log('No `mpv` task for', platform);
+            return null;
+        }
+
+        return new Promise((resolve, reject) => {
+            console.log('downloading mpv...');
+            let stream = got.stream(pkJson.mpv.url, {ecdhCurve: 'auto'}).pipe(fs.createWriteStream(path.join(temp, 'mpv.7z')));
+            stream.on('finish', resolve);
+        }).then(() => {
+            console.log('mpv downloaded, extracting...');
+            let zip = new z7();
+            return zip.extractFull(path.join(temp, 'mpv.7z'), 'mpv');
+        }).then(() => {
+            console.log('mpv extracted');
+            console.log('downloading youtube-dl...');
+            return new Promise((resolve, reject) => {
+                let stream = got.stream(pkJson.mpv['youtube-dl']).pipe(fs.createWriteStream('mpv/youtube-dl.exe'));
+                stream.on('finish', resolve);
+            });
+        }).then(() => {
+            console.log('all done.')
+        });
+    }));
 });

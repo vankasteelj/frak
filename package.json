@@ -58,6 +58,7 @@
         "gulp-load-plugins": "^1.5.0",
         "gulp-tar": "^2.1.0",
         "gulp-zip": "^4.2.0",
+        "node-7z-forall": "^0.5.0",
         "jshint": "^2.9.6",
         "jshint-stylish": "^2.2.1",
         "nw-builder": "^3.5.4",
@@ -67,5 +68,9 @@
     "nwjs": {
         "version": "0.32.3",
         "flavor": "sdk"
+    },
+    "mpv": {
+        "url": "http://mpv.srsfckn.biz/mpv-x86_64-20180731.7z",
+        "youtube-dl": "https://yt-dl.org/latest/youtube-dl.exe"
     }
 }
