@@ -3,14 +3,33 @@
         <style>
             body {
                 background: transparent;
+                margin: 0;
+                padding: 0;
                 opacity: 0;
             }
             body:hover {
                 opacity: 1;
             }
+            .button {
+                color: #fff;
+                height: 46px;
+                margin-top: 10px;
+                line-height: 46px;
+                text-align: center;
+                margin-left: 35px;
+                width: 52px;
+                font-size: 25px;
+                border-style: solid;
+                font-family: monospace;
+                border-radius: 14px;
+                border-width: 1.5px;
+                border-color: rgba(255,255,255,0.3);
+                background-color: rgba(0,0,0,0.6);
+                cursor: default;
+            }
         </style>
     </head>
     <body>
-        <button onclick="nw.Window.get().close(true)">Close</button>
+        <div class="button" onclick="nw.Window.get().close(true)">X</div>
     </body>
 </html>

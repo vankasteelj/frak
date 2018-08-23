@@ -282,6 +282,7 @@ const Interface = {
             win.leaveFullscreen();
             $('.nav.bigpicture > div').addClass('fa-arrows-alt').removeClass('fa-compress');
             DB.store(false, 'bigPicture');
+            Player.showPopup = false;
         }
 
         setTimeout(() => Player.setMPV(DB.get('mpv')), 100);
@@ -299,6 +300,7 @@ const Interface = {
         }, function (new_win) {
             console.debug('Player popup opened');
             nw.global.playerPopup = new_win;
+            //nw.global.playerPopup.showDevTools();
             nw.global.playerPopup.x = screen.availWidth - 100;
             nw.global.playerPopup.y = 0;
             nw.global.playerPopup.on('closed', () => {
