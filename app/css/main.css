@@ -400,7 +400,7 @@ input {
 
 #trakt #history .title,
 #trakt #history .datetime {
-    font-size: 1.2em;
+    font-size: 16px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
