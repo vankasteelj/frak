@@ -25,3 +25,10 @@ A frakingly good media center
 - Build packages and installers:
 
         gulp dist --platforms=all
+
+## Notes
+
+#### Big Picture mode
+- There is a "big picture button" option in the app settings. Using that new button will make the app fullscreen and easy to read on a TV. 
+- Starting the app with `--bp` argument will automatically use "Big Picture" mode and replace the "leave big picture" button with an "exit app" button. This is handy for gamepad/remote users (or using Steam with custom launch arguments).
+- When in "Big Picture" mode, the player will automatically start fullscreened, and a "exit player" button can be found in the top-right corner (hover it).
