@@ -3,8 +3,9 @@
 const Player = {
     config: {
         events: false,
-        states: false,
-        model: false
+        popup: false,
+        states: undefined,
+        model: undefined
     },
     mpv: undefined,
 
@@ -19,17 +20,18 @@ const Player = {
         Player.mpv.start().then(() => Player.mpv.load(file)).then(() => {
             console.info('Playing:', file);
 
-            // player popup
-            if (Player.showPopup) Interface.playerPopup();
+            Player.mpv.observeProperty('percent-pos', 50);
+            Player.mpv.observeProperty('fullscreen', 51);
+            for (let prop in args) {
+                Player.mpv.setProperty(prop, args[prop]);
+            }
 
             // trakt
             Player.config.model = model;
 			Trakt.scrobble('start');
 
-            Player.mpv.observeProperty('percent-pos', 50);
-            for (let prop in args) {
-                Player.mpv.setProperty(prop, args[prop]);
-            }
+            // player popup
+            Interface.playerPopup();
         }).catch(error => {
             console.error('MPV error', error);
             Notify.snack('MPV error: ' + error.message)
@@ -39,13 +41,16 @@ const Player = {
     quit: () => {
         // trakt
         Trakt.scrobble('stop');
-        Player.config.model = undefined;
 
         $('#playing').hide();
 
         Player.mpv.quit();
         Loading.close();
         nw.global.playerPopup && nw.global.playerPopup.close(true);
+
+        Player.config.model = undefined;
+        Player.config.states = undefined;
+        Player.config.popup = false;
 
         // reset details window
         Details.previous = {
@@ -59,6 +64,16 @@ const Player = {
 
         Player.mpv.on('statuschange', states => {
             Player.config.states = states;
+
+            if (states.fullscreen && !Player.config.popup) {
+                console.log('show popup')
+                nw.global.playerPopup.show();
+                Player.config.popup = true;
+            } else if (!states.fullscreen && Player.config.popup) {
+                console.log('hide popup')
+                nw.global.playerPopup.hide();
+                Player.config.popup = false;
+            }
         });
 		Player.mpv.on('seek', timepositions => {
 			if (!Player.config.states.pause) Trakt.scrobble('start');

@@ -269,7 +269,6 @@ const Interface = {
             win.enterFullscreen();
             $('.nav.bigpicture > div').addClass('fa-compress').removeClass('fa-arrows-alt');
             DB.store(true, 'bigPicture');
-            Player.showPopup = true;
 
             if (onStart) {
                 $('.nav.bigpicture').hide();
@@ -282,28 +281,27 @@ const Interface = {
             win.leaveFullscreen();
             $('.nav.bigpicture > div').addClass('fa-arrows-alt').removeClass('fa-compress');
             DB.store(false, 'bigPicture');
-            Player.showPopup = false;
         }
 
         setTimeout(() => Player.setMPV(DB.get('mpv')), 100);
     },
-    playerPopup: () => {
+    playerPopup: (show) => {
         nw.Window.open('app/playerPopup.html', {
             width: 250,
             height: 100,
             always_on_top: true,
             resizable: false,
-            show: true,
+            show: (DB.get('player_options').fullscreen || win.isFullscreen),
             frame: false,
             show_in_taskbar: false,
             transparent: true
         }, function (new_win) {
-            console.debug('Player popup opened');
+            //new_win.showDevTools();
+            console.debug('Player popup spawned');
 
             nw.global.playerAPI = Player;
 
             nw.global.playerPopup = new_win;
-            nw.global.playerPopup.showDevTools();
             nw.global.playerPopup.x = screen.availWidth - 250;
             nw.global.playerPopup.y = 0;
             nw.global.playerPopup.on('closed', () => {
