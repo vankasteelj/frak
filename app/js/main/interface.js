@@ -289,7 +289,7 @@ const Interface = {
     },
     playerPopup: () => {
         nw.Window.open('app/playerPopup.html', {
-            width: 100,
+            width: 250,
             height: 100,
             always_on_top: true,
             resizable: false,
@@ -299,13 +299,17 @@ const Interface = {
             transparent: true
         }, function (new_win) {
             console.debug('Player popup opened');
+
+            nw.global.playerAPI = Player;
+
             nw.global.playerPopup = new_win;
-            //nw.global.playerPopup.showDevTools();
-            nw.global.playerPopup.x = screen.availWidth - 100;
+            nw.global.playerPopup.showDevTools();
+            nw.global.playerPopup.x = screen.availWidth - 250;
             nw.global.playerPopup.y = 0;
             nw.global.playerPopup.on('closed', () => {
+                delete nw.global.playerAPI;
+                delete nw.global.playerPopup;
                 console.debug('Player popup closed');
-                Player.quit();
             });
         });
     }
