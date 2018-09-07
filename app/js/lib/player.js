@@ -34,7 +34,7 @@ const Player = {
             Interface.playerPopup();
         }).catch(error => {
             console.error('MPV error', error);
-            Notify.snack('MPV error: ' + error.message)
+            Notify.snack('MPV error: ' + error.message || error.verbose);
         });
     },
 
