@@ -81,6 +81,7 @@ const Details = {
         }
 
         d['ep-title'] && $('#details-metadata .ep-title').show().text(d['ep-title']) || $('#details-metadata .ep-title').hide();
+        d['trailer'] && $('#details-metadata .trailer').attr('onClick', `Interface.playTrailer('${d.trailer}')`) || $('#details-metadata .trailer').hide();
         $('#details-metadata .synopsis').text(d.synopsis == 'No overview found.' ? i18n.__('No synopsis available') : d.synopsis || i18n.__('No synopsis available'));
 
         d.year && $('#details-metadata .year').text(d.year).show() || $('#details-metadata .year').hide();
@@ -162,7 +163,8 @@ const Details = {
                 year: file.metadata.movie.year,
                 rating: parseFloat(file.metadata.movie.rating).toFixed(1),
                 runtime: file.metadata.movie.runtime,
-                genres: file.metadata.movie.genres
+                genres: file.metadata.movie.genres,
+                trailer: file.metadata.movie.trailer
             });
 
             Images.get.movie(file.metadata.movie.ids).then(images => {
@@ -190,7 +192,8 @@ const Details = {
                 year: file.metadata.show.year,
                 rating: parseFloat(file.metadata.show.rating).toFixed(1),
                 runtime: file.metadata.show.runtime,
-                genres: file.metadata.show.genres
+                genres: file.metadata.show.genres,
+                trailer: file.metadata.show.trailer
             });
 
             Images.get.show(file.metadata.show.ids).then(images => {
@@ -237,7 +240,8 @@ const Details = {
                 runtime: item.movie.runtime,
                 genres: item.movie.genres,
                 fanart: item.movie.images.fanart || item.movie.images.poster,
-                poster: item.movie.images.poster || item.movie.images.fanart
+                poster: item.movie.images.poster || item.movie.images.fanart,
+                trailer: item.movie.trailer
             }, from);
 
             let offline = Search.offline(item);
@@ -262,7 +266,8 @@ const Details = {
                 runtime: item.show.runtime,
                 genres: item.show.genres,
                 fanart: item.show.images.fanart || item.show.images.poster,
-                poster: item.show.images.poster || item.show.images.fanart
+                poster: item.show.images.poster || item.show.images.fanart,
+                trailer: item.show.trailer
             }, from);
 
             let offline = Search.offline(item);

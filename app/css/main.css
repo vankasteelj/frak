@@ -1045,10 +1045,29 @@ input:checked + .slider:before {
     float: right;
     width: calc(100% - 166px);
     overflow-y: scroll;
-    height: 196px;
+    height: 166px;
     padding-right: 10px;
     text-align: justify;
     font-size: 16px;
+}
+
+#details-metadata .md-buttons {
+    float: right;
+    width: calc(100% - 166px);
+    height: 30px;
+    padding-right: 10px;
+    font-size: 13px;
+}
+
+#details-metadata .md-buttons > div {
+    float: left;
+    height: 30px;
+    line-height: 20px;
+    padding: 5px;
+    margin-right: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all .5s;
 }
 
 #details-sources,

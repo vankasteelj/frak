@@ -423,7 +423,8 @@ select.dropdown {
 #navbar .nav,
 #settings .locals .option .pathbox .paths li,
 #settings .mpv input,
-#details-metadata .md-line {
+#details-metadata .md-line,
+#details-metadata .md-buttons {
     color: #ccc;
 }
 
@@ -460,7 +461,8 @@ select.dropdown {
 #settings .mpv input,
 #details-sources .item:hover,
 #details-loading .sub:hover,
-#discover .disc-search input {
+#discover .disc-search input,
+#details-metadata .md-buttons > div:hover {
     background-color: rgba(255, 255, 255, .1);
 }
 
