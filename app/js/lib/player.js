@@ -17,9 +17,13 @@ const Player = {
 
         Player.mpv.isRunning() && Player.quit() || Player.handleEvents();
 
+        // player popup
+        Interface.playerPopup();
+
         Player.mpv.start().then(() => Player.mpv.load(file)).then(() => {
             console.info('Playing:', file);
 
+            // mpv properties setup
             Player.mpv.observeProperty('percent-pos', 50);
             Player.mpv.observeProperty('fullscreen', 51);
             for (let prop in args) {
@@ -29,9 +33,6 @@ const Player = {
             // trakt
             Player.config.model = model;
 			Trakt.scrobble('start');
-
-            // player popup
-            Interface.playerPopup();
         }).catch(error => {
             console.error('MPV error', error);
             Notify.snack('MPV error: ' + error.message || error.verbose);
@@ -65,7 +66,7 @@ const Player = {
         Player.mpv.on('statuschange', states => {
             Player.config.states = states;
 
-            if (states.fullscreen && !Player.config.popup && DB.get('bigPicture')) {
+            if (states.fullscreen && !Player.config.popup && sessionStorage.screens <= 1) {
                 console.log('Player popup shown');
                 nw.global.playerPopup.show();
                 Player.config.popup = true;
