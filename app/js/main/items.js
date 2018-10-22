@@ -534,7 +534,7 @@ const Items = {
 
             $(`#${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show();
             $(`.${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show();
-            // do the rating
+            if ($('#details .id').text() == item[item.type].ids.slug) $('#details .corner-rating span').text(item.rating).parent().show();
         }
     },
 

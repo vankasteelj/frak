@@ -333,7 +333,8 @@ input {
 }
 
 #collection .fanart .corner-rating,
-#trakt .fanart .corner-rating {
+#trakt .fanart .corner-rating,
+#details .md-box .corner-rating {
     width: 0;
     height: 0;
     border-style: solid;
@@ -346,7 +347,8 @@ input {
 }
 
 #collection .fanart .corner-rating span,
-#trakt .fanart .corner-rating span {
+#trakt .fanart .corner-rating span,
+#details .md-box .corner-rating span {
     color: #fff !important;
     font-size: 12px;
     position: absolute;

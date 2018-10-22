@@ -98,31 +98,36 @@ const Details = {
             $('#details-metadata .genres').hide();
         }
 
+        //rate 
+        let traktrating = DB.get('traktratings').find((i) => i[i.type].ids.slug == d.ids.slug);
+        if (traktrating && d.rating) {
+            $('#details .corner-rating span').text(traktrating.rating).parent().show();
+            $('#details-metadata .rating').attr('onClick', `Details.rate('${d.ids.slug}')`).css('cursor','pointer');
+        }
+
         // search online
-        if (Object.keys(Plugins.loaded).length) {
-            let type = d.data.show && 'show' || d.data.movie && 'movie';
-            if (type) {
-                let keywords = d.data[type].title;
+        let type = d.data.show && 'show' || d.data.movie && 'movie';
+        if (Object.keys(Plugins.loaded).length && type) {
+            let keywords = d.data[type].title;
 
-                if (d.data.show) {
-                    let s = Misc.pad(d.data.next_episode.season);
-                    let e = Misc.pad(d.data.next_episode.number);
-                    keywords += ` s${s}e${e}`;
-                }
-
-                keywords = keywords
-                    .replace('\'', '')
-                    .replace(/\W/ig, ' ')
-                    .replace(/\s+/g, ' ')
-                    .toLowerCase();
-
-                $('#query').val(keywords);
-                $('#query').keypress((e) => {
-                    if (e.which === 13) $('#details-sources .query .search').click();
-                });
-                $('#details-sources .query .search').click();
-                $('#details-sources .query').show();
+            if (d.data.show) {
+                let s = Misc.pad(d.data.next_episode.season);
+                let e = Misc.pad(d.data.next_episode.number);
+                keywords += ` s${s}e${e}`;
             }
+
+            keywords = Misc.latinize(keywords)
+                .replace('\'', '')
+                .replace(/\W/ig, ' ')
+                .replace(/\s+/g, ' ')
+                .toLowerCase();
+
+            $('#query').val(keywords);
+            $('#query').keypress((e) => {
+                if (e.which === 13) $('#details-sources .query .search').click();
+            });
+            $('#details-sources .query .search').click();
+            $('#details-sources .query').show();
         }
 
         $('#details').show();
@@ -401,5 +406,62 @@ const Details = {
                 $next_episode.click();
             });
         }
+    },
+
+    rate: (slug) => {
+        let $this = $('#details .rating');
+        $('.popover').remove();
+
+        if (!$this.attr('initialized')) {
+            let isRated = $('#details .corner-rating span').text();
+
+            let content = '';
+
+            let ratings = ['Weak Sauce :(', 'Terrible', 'Bad', 'Poor', 'Meh', 'Fair', 'Good', 'Great', 'Superb', 'Totally Ninja!'];
+
+            for (let i = 10; i > 0; i--) {
+                let id = 'rating-' + i + '-' + Date.now();
+
+                content += `<input id="${id}" type="radio" class="rating-${i}" name="rating" value="${i}" ${isRated == i ? 'checked=1' : ''}/>`+
+                    `<label for="${id}" title="" class="rating-${i}">${i}</label>`
+            }
+
+            $this.popover({
+                placement: 'bottom',
+                trigger: 'focus',
+                html: true
+            }).on('shown.bs.popover', () => {
+                setTimeout(() => {
+                    document.getElementsByClassName('popover-content')[0].innerHTML = '<div class="rating-hearts">' + content + '</div>';
+
+                    $('.popover').find('label').off('mouseover').on('mouseover', function () {
+                        let t = $('#' + $(this).attr('for'));
+                        let e = t.val();
+                        $('.popover-title').html(isRated == e ? i18n.__('Unrate this') : `<b>${e}</b> &mdash; ${i18n.__(ratings[e-1])}`);
+                    }).off('mouseleave').on('mouseleave', () => {
+                        $('.popover-title').text($this.data('original-title'));
+                    }).off('click').on('click', function (e) {
+                        e.preventDefault();
+
+                        let t = $('#' + $(this).attr('for'));
+                        let score = t.val();
+
+                        let item = JSON.parse($(`#${slug} .data`).text());
+                        if (isRated == score) {
+                            Trakt.rate('remove', item);
+                        } else {
+                            Trakt.rate('add', item, score);
+                        }
+
+                        $this.removeAttr('initialized');
+                        $this.popover('destroy');
+                    })
+                }, 0);
+            });
+
+            $this.attr('initialized', 1);
+        }
+
+        $this.popover('toggle');
     }
 }

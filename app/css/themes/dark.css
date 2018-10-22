@@ -52,6 +52,7 @@
 
 #collection .fanart .corner-rating span,
 #trakt .fanart .corner-rating span,
+#details .poster .corner-rating span,
 #trakt #history .sxe {
     font-weight: normal;
     font-family: 'Proxima Nova Bold';
