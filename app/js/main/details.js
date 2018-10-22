@@ -86,7 +86,7 @@ const Details = {
 
         d.year && $('#details-metadata .year').text(d.year).show() || $('#details-metadata .year').hide();
         d.runtime && $('#details-metadata .runtime').text(`${d.runtime} ${i18n.__('min')}`).show() || $('#details-metadata .runtime').hide();
-        d.rating && $('#details-metadata .rating').text(`${d.rating} / 10`).show() || $('#details-metdata .runtime').hide();
+        d.rating && $('#details-metadata .rating').text(`${d.rating} / 10`).show() || $('#details-metdata .rating').hide();
 
         if (d.genres) {
             let genre = Array();
