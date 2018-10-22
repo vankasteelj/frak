@@ -110,31 +110,29 @@ const Trakt = {
         return Trakt.client.sync.ratings[method](post).then(() => {
             let ratings = DB.get('traktratings');
 
-            switch (method) {
-                case 'add':
-                    let pushable = {
-                        rated_at: (new Date()).toISOString(),
-                        rating: score,
-                        type: type
-                    }
-                    pushable[type] = {
-                        ids: model.ids,
-                        title: model.title,
-                        year: model.year
-                    }
-                    ratings.push(pushable);
-                    break;
-                case 'remove':
-                    ratings = ratings.filter(i => {
-                        if (!i[type]) {
-                            return true;
-                        } else {
-                            return i[type].ids.slug !== model.ids.slug;
-                        }
-                    });
-                    break;
-                default:
-                    break;
+
+            // remove
+            ratings = ratings.filter(i => {
+                if (!i[type]) {
+                    return true;
+                } else {
+                    return i[type].ids.slug !== model.ids.slug;
+                }
+            });
+
+            // add if needed
+            if (method == 'add') {
+                let pushable = {
+                    rated_at: (new Date()).toISOString(),
+                    rating: score,
+                    type: type
+                }
+                pushable[type] = {
+                    ids: model.ids,
+                    title: model.title,
+                    year: model.year
+                }
+                ratings.push(pushable);
             }
 
             DB.store(ratings, 'traktratings');
