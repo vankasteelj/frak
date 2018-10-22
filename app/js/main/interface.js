@@ -283,7 +283,7 @@ const Interface = {
             DB.store(false, 'bigPicture');
         }
 
-        setTimeout(() => Player.setMPV(DB.get('mpv')), 100);
+        setTimeout(() => Player.setMPV(DB.get('mpv')), 400);
     },
     playerPopup: (show) => {
         nw.Window.open('app/playerPopup.html', {

@@ -65,12 +65,12 @@ const Player = {
         Player.mpv.on('statuschange', states => {
             Player.config.states = states;
 
-            if (states.fullscreen && !Player.config.popup) {
-                console.log('show popup')
+            if (states.fullscreen && !Player.config.popup && DB.get('bigPicture')) {
+                console.log('show popup');
                 nw.global.playerPopup.show();
                 Player.config.popup = true;
             } else if (!states.fullscreen && Player.config.popup) {
-                console.log('hide popup')
+                console.log('hide popup');
                 nw.global.playerPopup.hide();
                 Player.config.popup = false;
             }
@@ -146,6 +146,7 @@ const Player = {
 
         // is it a portable win32?
         if (process.platform == 'win32' && fs.existsSync('./mpv/mpv.exe')) {
+            DB.store('./mpv/mpv.exe', 'mpv');
             Player.setMPV('./mpv/mpv.exe');
             return;
         }
