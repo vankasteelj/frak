@@ -66,11 +66,11 @@ const Player = {
             Player.config.states = states;
 
             if (states.fullscreen && !Player.config.popup && DB.get('bigPicture')) {
-                console.log('show popup');
+                console.log('Player popup shown');
                 nw.global.playerPopup.show();
                 Player.config.popup = true;
             } else if (!states.fullscreen && Player.config.popup) {
-                console.log('hide popup');
+                console.log('Player popup hidden');
                 nw.global.playerPopup.hide();
                 Player.config.popup = false;
             }

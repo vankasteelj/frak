@@ -285,13 +285,13 @@ const Interface = {
 
         setTimeout(() => Player.setMPV(DB.get('mpv')), 400);
     },
-    playerPopup: (show) => {
+    playerPopup: () => {
         nw.Window.open('app/playerPopup.html', {
             width: 250,
             height: 100,
             always_on_top: true,
             resizable: false,
-            show: (DB.get('player_options').fullscreen || win.isFullscreen),
+            show: false,
             frame: false,
             show_in_taskbar: false,
             transparent: true
