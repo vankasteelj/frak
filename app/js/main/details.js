@@ -86,7 +86,7 @@ const Details = {
 
         d.year && $('#details-metadata .year').text(d.year).show() || $('#details-metadata .year').hide();
         d.runtime && $('#details-metadata .runtime').text(`${d.runtime} ${i18n.__('min')}`).show() || $('#details-metadata .runtime').hide();
-        d.rating && $('#details-metadata .rating').text(`${d.rating} / 10`).show() || $('#details-metdata .rating').hide();
+        $('#details-metadata .rating').text(`${d.rating || 0} / 10`).show();
 
         if (d.genres) {
             let genre = Array();
@@ -100,10 +100,8 @@ const Details = {
 
         //rate 
         let traktrating = DB.get('traktratings').find((i) => i[i.type].ids.slug == d.ids.slug);
-        if (traktrating && d.rating) {
-            $('#details .corner-rating span').text(traktrating.rating).parent().show();
-            $('#details-metadata .rating').attr('onClick', `Details.rate('${d.ids.slug}')`).css('cursor','pointer');
-        }
+        traktrating && $('#details .corner-rating span').text(traktrating.rating).parent().show();
+        $('#details-metadata .rating').attr('onClick', `Details.rate('${d.ids.slug}')`).css('cursor','pointer');
 
         // search online
         let type = d.data.show && 'show' || d.data.movie && 'movie';
