@@ -7,16 +7,7 @@ const Misc = {
 
     // USERINTERACTION: restart app (used by Keyboard.setupShortcuts)
     restartApp: () => {
-        const argv = gui.App.fullArgv;
-        const CWD = process.cwd();
-
-        argv.push(CWD);
-        spawn(process.execPath, argv, {
-            cwd: CWD,
-            detached: true,
-            stdio: ['ignore', 'ignore', 'ignore']
-        }).unref();
-        gui.App.quit();
+        chrome.runtime.reload();
     },
 
     // AUTO: build the right click menu(s) on demand
