@@ -88,6 +88,9 @@ const Player = {
             $('#streaminfo .control .play').addClass('fa-pause').removeClass('fa-play');
         });
         Player.mpv.on('stopped', () => {
+            // bypass https://github.com/00SteinsGate00/Node-MPV/issues/49
+            if (!Player.config.model) return;
+
             console.info('MPV stopped');
             Player.quit();
         });
