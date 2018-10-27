@@ -1047,7 +1047,8 @@ input:checked + .slider:before {
     float: right;
     width: calc(100% - 166px);
     overflow-y: scroll;
-    height: 166px;
+    height: 156px;
+    margin-bottom: 10px;
     padding-right: 10px;
     text-align: justify;
     font-size: 16px;
