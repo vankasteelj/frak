@@ -302,6 +302,7 @@ const Interface = {
             nw.global.playerAPI = Player;
 
             nw.global.playerPopup = new_win;
+            nw.global.playerPopup.blur();
             nw.global.playerPopup.x = screen.availWidth - 250;
             nw.global.playerPopup.y = 0;
             nw.global.playerPopup.on('closed', () => {
