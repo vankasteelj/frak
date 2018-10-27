@@ -125,8 +125,6 @@ const Player = {
         let options = DB.get('player_options');
 
         return [
-            //'--log-file=output.txt',
-            '--save-position-on-quit',
             options.multimonitor && (sessionStorage.screens >= options.monitor) ? '--screen=' + (options.monitor - 1) : '', 
             (options.fullscreen || win.isFullscreen) ? '--fs' : '',
             options.fullscreen && options.multimonitor && (sessionStorage.screens >= options.monitor) ? '--fs-screen=' + (options.monitor - 1) : '',
