@@ -521,8 +521,19 @@ const Details = {
             $(`#${model.ids.slug}`).remove();
         }
     },
+
     buttonAsWatched: () => {
         $('#details .md-buttons .watched').addClass('selected').attr('title', i18n.__('Use the History tab to mark as unwatched')).removeAttr('onclick');
         $('#details .md-buttons .watched i18n').text(i18n.__('Marked as seen'));
+    },
+
+    openTraktPage: () => {
+        let base = Details.model.metadata || Details.model;
+        
+        if (base.movie) {
+            Misc.openExternal(`https://trakt.tv/movies/${base.movie.ids.slug}`);
+        } else {
+           let episode = base.episode || base.next_episode; Misc.openExternal(`https://trakt.tv/shows/${base.show.ids.slug}/seasons/${episode.season}/episodes/${episode.number}`);
+        }
     }
 }

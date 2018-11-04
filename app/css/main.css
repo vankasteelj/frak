@@ -1020,6 +1020,30 @@ input:checked + .slider:before {
     border-radius: 3px;
 }
 
+#details-metadata .poster .openTrakt {
+    top: 200px;
+    height: 35px;
+    position: relative;
+    background: rgba(0, 0, 0, 0.6);
+    font-family: "Proxima Nova";;
+    line-height: 34px;
+    text-align: center;
+    font-size: 0.9em;
+    cursor: pointer;
+    opacity: 0;
+    transition: all .5s;
+}
+#details-metadata .poster:hover .openTrakt {
+    opacity: 1;
+}
+
+#details-metadata .poster .openTrakt > div {
+    font-size: 25px;
+    top: -1px;
+    color: rgba(255, 0, 0, .8);
+    position: relative;
+}
+
 #details-metadata .md-line {
     float: right;
     width: calc(100% - 166px);
@@ -1068,7 +1092,7 @@ input:checked + .slider:before {
     line-height: 20px;
     padding: 5px;
     margin-right: 10px;
-    border-radius: 10px;
+    border-radius: 5x;
     cursor: pointer;
     transition: all .5s;
 }
