@@ -342,10 +342,19 @@ const Details = {
         });
     },
 
-    loadNext: () => {
+    loadNext: (fromDetails) => {
         let $next_episode = $(`#${Details.model.show.ids.slug}`);
+
         if (!$next_episode.length) {
-            Details.closeDetails();
+            if (fromDetails) {
+                setTimeout(() => {
+                    $('#details-sources').show();
+                    $('#details-loading').hide();
+                    $('#details-spinner').hide();
+                }, 50);
+            } else {
+                Details.closeDetails();
+            }
             return;
         }
 
@@ -357,7 +366,7 @@ const Details = {
         $('#details-spinner').hide();
         $('#details-next').show();
 
-        $('#details-next .content .next-title span').text(`S${Misc.pad(data.next_episode.season)}E${Misc.pad(data.next_episode.number)} - ` + data.next_episode.title);
+        $('#details-next .content .next-title span').text(`S${Misc.pad(data.next_episode.season)}E${Misc.pad(data.next_episode.number)}` + (data.next_episode.title ? ` - ${data.next_episode.title}` : ''));
 
         $('#playnext').on('click', () => {
             Details.closeDetails();
@@ -365,7 +374,7 @@ const Details = {
         });
     },
 
-    loadLocalNext: () => {
+    loadLocalNext: (fromDetails) => {
         let collection = DB.get('local_shows');
 
         let findShow = (title) => collection.find((show) => show.metadata.show.title === title);
@@ -384,8 +393,17 @@ const Details = {
 
         if (next) {
             let $next_episode = $(`#${Misc.slugify(next)}`);
+
             if (!$next_episode.length) {
-                Details.closeDetails();
+                if (fromDetails) {
+                    setTimeout(() => {
+                        $('#details-sources').show();
+                        $('#details-loading').hide();
+                        $('#details-spinner').hide();
+                    }, 50);
+                } else {
+                    Details.closeDetails();
+                }
                 return;
             }
 
@@ -397,7 +415,7 @@ const Details = {
             $('#details-spinner').hide();
             $('#details-next').show();
 
-            $('#details-next .content .next-title span').text(`S${Misc.pad(data.metadata.episode.season)}E${Misc.pad(data.metadata.episode.number)} - ` + data.metadata.episode.title);
+            $('#details-next .content .next-title span').text(`S${Misc.pad(data.metadata.episode.season)}E${Misc.pad(data.metadata.episode.number)}` + (data.metadata.episode.title ? ` - ${data.metadata.episode.title}` : ''));
 
             $('#playnext').on('click', () => {
                 Details.closeDetails();
@@ -461,5 +479,50 @@ const Details = {
         }
 
         $this.popover('toggle');
+    },
+
+    markAsWatched: () => {
+        let base = Details.model.metadata || Details.model;
+        let type, model;
+        
+        if (base.movie) {
+            type = 'movies';
+            model = base.movie;
+        } else {
+            type = 'episodes';
+            model = base.episode || base.next_episode;
+        }
+
+        let post = {};
+        let item = {ids: model.ids};
+        post[type] = [item];
+
+        console.info('Mark as watched:', model.ids.slug);
+        Trakt.client.sync.history.add(post);
+
+        Details.buttonAsWatched();
+
+        if (type === 'episodes') {
+            setTimeout(() => {
+                $('#details-sources').hide();
+                $('#details-loading').hide();
+                $('#details-spinner').show();
+            }, 50);
+
+            // display spinner on list
+            model.show && $(`#${model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
+
+            setTimeout(() => {
+                Trakt.reload(true).then(collections => {
+                    base.episode ? Details.loadLocalNext(true) : Details.loadNext(true);
+                });
+            }, 300);
+        } else {
+            $(`#${model.ids.slug}`).remove();
+        }
+    },
+    buttonAsWatched: () => {
+        $('#details .md-buttons .watched').addClass('selected').attr('title', i18n.__('Use the History tab to mark as unwatched')).removeAttr('onclick');
+        $('#details .md-buttons .watched i18n').text(i18n.__('Marked as seen'));
     }
 }

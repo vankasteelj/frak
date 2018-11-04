@@ -467,6 +467,16 @@ select.dropdown {
     background-color: rgba(255, 255, 255, .1);
 }
 
+#details-metadata .md-buttons .watched.selected {
+    cursor: default;!important
+}
+#details-metadata .md-buttons .watched.selected:hover {
+    background: none;!important
+}
+#details-metadata .md-buttons .watched.selected > div {
+    color: #8e44ad;
+}
+
 #details #details-back:hover,
 #details-metadata .md-line span:before,
 .rating-hearts:not(:checked) > label {

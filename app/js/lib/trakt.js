@@ -202,6 +202,8 @@ const Trakt = {
         Trakt.client.scrobble[action](post).catch(console.error);
 
         if (progress > 80 && action === 'stop') {
+            Details.buttonAsWatched();
+
             if (Player.config.model.metadata) {
                 // local item
                 if (type == 'episode') {
