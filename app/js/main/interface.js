@@ -263,9 +263,36 @@ const Interface = {
     },
 
     bigPicture: (onStart) => {
+        let scale = {
+            '1': {
+                zoomLevel: 4,
+                osc: 1.5
+            },
+            '1.25': {
+                zoomLevel: 3,
+                osc: 1.3
+            },
+            '1.5': {
+                zoomLevel: 2,
+                osc: 1.1
+            },
+            '1.75': {
+                zoomLevel: 1,
+                osc: 1.0
+            },
+            '2': {
+                zoomLevel: 0,
+                osc: 0.8
+            },
+            '2.25': {
+                zoomLevel: 0,
+                osc: 0.8
+            },
+        }
+
         if (!DB.get('bigPicture')) {
             console.info('Entering Big Picture mode');
-            win.zoomLevel = 4;
+            win.zoomLevel = scale[nw.Screen.screens[0].scaleFactor] ? scale[nw.Screen.screens[0].scaleFactor].zoomLevel : 4;
             win.enterFullscreen();
             $('.nav.bigpicture > div').addClass('fa-compress').removeClass('fa-arrows-alt');
             DB.store(true, 'bigPicture');

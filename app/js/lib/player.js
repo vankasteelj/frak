@@ -123,6 +123,10 @@ const Player = {
 
     getOptions: () => {
         let options = DB.get('player_options');
+        let scale = options.scale;
+        if (win.zoomLevel > 0) {
+            scale = scale[nw.Screen.screens[0].scaleFactor] ? scale[nw.Screen.screens[0].scaleFactor].osc : 1.5;
+        }
 
         return [
             options.multimonitor && (sessionStorage.screens >= options.monitor) ? '--screen=' + (options.monitor - 1) : '', 
@@ -136,7 +140,7 @@ const Player = {
             '--sub-scale=' + options.scale,
             '--contrast=' + options.contrast,
             '--saturation=' + options.saturation,
-            `--script-opts=osc-layout=${options.layout},osc-seekbarstyle=${options.seekbar},osc-scalewindowed=${options.scale},osc-scalefullscreen=${options.scale*1.2},osc-valign=0.9,osc-timetotal=yes,osc-boxalpha=160,osc-vidscale=no`
+            `--script-opts=osc-layout=${options.layout},osc-seekbarstyle=${options.seekbar},osc-scalewindowed=${scale},osc-scalefullscreen=${scale*1.2},osc-valign=0.9,osc-timetotal=yes,osc-boxalpha=160,osc-vidscale=no`
         ].filter(n => n);
     },
 
