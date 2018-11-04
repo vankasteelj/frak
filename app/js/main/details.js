@@ -158,7 +158,7 @@ const Details = {
             let file = Details.getData(elm);
 
             Details.loadDetails({
-                id: Misc.slugify(file.path),
+                id: file.metadata.movie.ids.slug,
                 data: file,
                 ids: file.metadata.movie.ids,
                 title: file.metadata.movie.title,
@@ -168,7 +168,7 @@ const Details = {
                 runtime: file.metadata.movie.runtime,
                 genres: file.metadata.movie.genres,
                 trailer: file.metadata.movie.trailer
-            });
+            }, 'locals');
 
             Images.get.movie(file.metadata.movie.ids).then(images => {
                 file.metadata.movie.images = images;
@@ -186,9 +186,9 @@ const Details = {
             let file = Details.getData(elm);
 
             Details.loadDetails({
-                id: Misc.slugify(file.path),
+                id: file.metadata.show.ids.slug,
                 data: file,
-                ids: file.metadata.episode.ids,
+                ids: file.metadata.show.ids,
                 title: file.metadata.show.title,
                 'ep-title': `S${Misc.pad(file.metadata.episode.season)}E${Misc.pad(file.metadata.episode.number)}` + (file.metadata.episode.title ? ` - ${file.metadata.episode.title}`:''),
                 synopsis: file.metadata.show.overview,
@@ -197,7 +197,7 @@ const Details = {
                 runtime: file.metadata.show.runtime,
                 genres: file.metadata.show.genres,
                 trailer: file.metadata.show.trailer
-            });
+            }, 'locals');
 
             Images.get.show(file.metadata.show.ids).then(images => {
                 file.metadata.show.images = images;
@@ -462,7 +462,8 @@ const Details = {
                         let t = $('#' + $(this).attr('for'));
                         let score = t.val();
 
-                        let item = JSON.parse($(`#${slug} .data`).text());
+                        let item = Details.from == 'locals' ? Details.model.metadata : JSON.parse($(`#${slug} .data`).text());
+
                         if (isRated == score) {
                             Trakt.rate('remove', item);
                         } else {
