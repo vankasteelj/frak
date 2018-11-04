@@ -124,8 +124,8 @@ const Player = {
     getOptions: () => {
         let options = DB.get('player_options');
         let scale = options.scale;
-        if (win.zoomLevel > 0) {
-            scale = scale[nw.Screen.screens[0].scaleFactor] ? scale[nw.Screen.screens[0].scaleFactor].osc : 1.5;
+        if (DB.get('bigPicture')) {
+            scale = Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor] ? Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor].osc : 1.5;
         }
 
         return [
