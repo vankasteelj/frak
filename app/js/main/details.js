@@ -497,7 +497,7 @@ const Details = {
         let item = {ids: model.ids};
         post[type] = [item];
 
-        console.info('Mark as watched:', model.ids.slug);
+        console.info('Mark as watched:', base.movie ? model.ids.slug : `${base.show.ids.slug} ${model.season}x${model.number}`);
         Trakt.client.sync.history.add(post);
 
         Details.buttonAsWatched();

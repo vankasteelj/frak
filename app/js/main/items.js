@@ -502,7 +502,7 @@ const Items = {
         let item = {ids: model.ids};
         post[type] = [item];
 
-        console.info('Mark as watched:', model.ids.slug);
+        console.info('Mark as watched:', model.ids.slug || `${data.show.ids.slug} ${model.season}x${model.number}`);
         Trakt.client.sync.history.add(post);
 
         $(elm).addClass('selected');
