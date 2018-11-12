@@ -18,13 +18,34 @@ const Subtitles = {
         return Subtitles.client.search(opts);
     },
 
-    addSubtitle: (sub) => {
-        let item = `<div class="sub tooltipped i18n" title="${i18n.__('Load this subtitle')}" id="${sub.id}" onClick="Subtitles.select(this)">`+
-            `<div class="data">${JSON.stringify(sub)}</div>`+
-            `<div class="sublang">${Localization.nativeNames[sub.langcode] || sub.lang}</div>`+
+    addSubtitles: (subs, lang) => {
+        let language = `<div class="sublanguage tooltipped i18n" title="${i18n.__('Select this language')}">`+
+            `<div class="sublang" onClick="Subtitles.expand('${lang}')">${Localization.nativeNames[lang] || subs[0].lang}</div>`+
+            `<div class="sublangmenu" id="sub-${lang}"></div>`+
         `</div>`;
 
-        $('#subtitles .subs').append(item);
+        $('#subtitles .subs').append(language);
+        
+        for (let n in subs) {
+            let id = subs[n].id;
+            if ($(`#${id}`)[0]) continue;
+
+            let subtitle = `<div class="sub tooltipped i18n" title="${i18n.__('Load this subtitle')}" id="${id}" onClick="Subtitles.select(this)">`+
+                `<div class="data">${JSON.stringify(subs[n])}</div>`+
+                `<div class="subname">${subs[n].filename}</div>`+
+            `</div>`;
+            $(`#sub-${lang}`).append(subtitle);
+            
+            if (document.getElementById(id).offsetWidth < document.getElementById(id).scrollWidth) {
+                $(`#${id}`).addClass('scrolltext');
+            }
+        }
+        
+        $('.sublangmenu').hide();
+    },
+    expand: (lang) => {
+        let $elm = $(`#sub-${lang}`);
+        $elm.is(':visible') ? $elm.hide() : $elm.show();
     },
     select: (elm) => {
         let sub = Subtitles.getData(elm);

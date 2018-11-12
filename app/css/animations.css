@@ -172,3 +172,8 @@
 .blur {
     filter: blur(1px);
 }
+
+@keyframes marqueelike {
+	0%, 100% {margin-left:0;}
+	99.99% {margin-left:-100%;}
+ }
