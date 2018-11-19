@@ -8,6 +8,7 @@ const Loading = {
 
         Player.play(file.path, {}, Details.model);
 
+        Loading.subfails = 0;
         Loading.lookForSubtitles({
             path: file.path
         });
@@ -62,6 +63,7 @@ const Loading = {
             }, Details.model);
         };
 
+        Loading.subfails = 0;
         Loading.lookForSubtitles({
             filename: Streamer.streaminfo.file_name,
             filesize: Streamer.streaminfo.file_size
@@ -71,6 +73,10 @@ const Loading = {
     },
 
     lookForSubtitles: (file) => {
+        // API often fails: trying X times, every X milliseconds. Last try doesnt use imbdid
+        let tries = 5;
+        let retry = 5000;
+
         let data = JSON.parse($('#details > .container > .data').text());
         if (data.metadata) data = data.metadata;
         let type = data.show && 'show' || data.movie && 'movie';
@@ -81,10 +87,10 @@ const Loading = {
             subopts = file;
         }
 
-        subopts.extensions = ['srt', 'vtt', 'ass', 'txt'];
+        subopts.limit = 'all';
 
         if (type) {
-            data[type].ids && (subopts.imdbid = data[type].ids.imdb);
+            (data[type].ids && Loading.subfails <= tries - 1) && (subopts.imdbid = data[type].ids.imdb);
             
             if (type === 'show') {
                 subopts.episode = data.next_episode ? data.next_episode.number : data.episode.number;
@@ -93,20 +99,31 @@ const Loading = {
         }
 
         Subtitles.search(subopts).then(subs => {
-            let total = Object.keys(subs).length;
-            console.info('Found %d subtitles', total, subs);
+            console.info('Found subtitles', subs);
 
-            if (total) $('#subtitles').show();
+            if (Object.keys(subs).length) $('#subtitles').show();
             $('#subtitles .sub').remove();
 
             // add app language first
-            if (subs[localStorage.locale]) Subtitles.addSubtitle(subs[localStorage.locale]);
+            if (subs[localStorage.locale]) Subtitles.addSubtitles(subs[localStorage.locale], localStorage.locale);
 
             // then the other langs
             for (let lang in subs) {
                 if (localStorage.locale == lang) continue;
-                Subtitles.addSubtitle(subs[lang]);
+                Subtitles.addSubtitles(subs[lang], lang);
             }
+        }).catch(error => {
+            Loading.subfails++;
+
+            if (Loading.subfails >= tries) {
+                console.error('Subtitles.search() failed %d times -', Loading.subfails, error);
+                return;
+            }
+
+            setTimeout(() => {
+                console.info('Subtitles.search() - retry (n°%d)', Loading.subfails + 1);
+                Loading.lookForSubtitles(file);
+            }, retry);
         });
     },
 

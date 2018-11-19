@@ -1251,16 +1251,28 @@ input:checked + .slider:before {
     padding-left: 5px;
 }
 
-#details-loading #subtitles .subs .sub {
-    height: 25px;
+#details-loading #subtitles .subs .sublanguage {
+    cursor: pointer;
+    opacity: .8;
+    font-size: 15px;
     line-height: 25px;
-    padding-left: 5px;
+}
+
+#details-loading #subtitles .subs .sublanguage .sublangmenu {
+    overflow: hidden;
     font-size: 14px;
     opacity: .9;
     cursor: pointer;
 }
 
-#details-loading #subtitles .subs .sub .sublang {
+#details-loading #subtitles .subs .sublanguage .sublangmenu .scrolltext:hover {
+    animation:linear marqueelike 5s infinite;
+}
+
+#details-loading #subtitles .subs .sublanguage .sublangmenu .sub {
+    height: 23px;
+    line-height: 23px;
+    padding-left: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
