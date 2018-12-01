@@ -82,12 +82,12 @@ const Search = {
         // check if all info is there
         return Promise.all(input.map((i) => {
             return new Promise(resolve => {
-                if (!i) resolve();
+                if (!i) return resolve();
 
                 // 0 peers, 0 seeds
                 if (!i.seeds && !i.peers) {
                     Search.recalcSeeds(i).then(reseed => {
-                        if (reseed.size) {
+                        if (!reseed || reseed.size) {
                             return reseed;
                         } else {
                             // also no size
