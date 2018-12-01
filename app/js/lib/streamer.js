@@ -6,9 +6,11 @@ const Streamer = {
     getInstance: () => {
         if (Streamer.client === null) {
             Streamer.client = new (require('webtorrent'))({
-                maxConns: 40,
+                maxConns: DB.get('maxConns') || Settings.streamer.maxConns,
+                webSeeds: DB.get('webSeeds') || Settings.streamer.webSeeds,
                 tracker: {
-                    wrtc: false
+                    wrtc: false,
+                    announce: DB.get('announce') || Settings.streamer.announce
                 }
             });
         }
@@ -38,7 +40,7 @@ const Streamer = {
             console.info('Streamer stopped');
         }        
     },
-    magnetTimeout: 10000,
+    magnetTimeout: DB.get('magnetTimeout') || Settings.streamer.magnetTimeout,
     fetchTorrent: (magnet) => {
         return new Promise((resolve, reject) => {
             let client = Streamer.getInstance();
@@ -94,6 +96,7 @@ const Streamer = {
             try {
                 torrent.createServer().listen(serverPort);
 
+                Streamer.streaminfo.port = serverPort;
                 Streamer.streaminfo.url = 'http://127.0.0.1:' + serverPort + '/' + Streamer.streaminfo.file_index;
 
                 resolve(Streamer.streaminfo.url);
