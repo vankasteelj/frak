@@ -84,7 +84,7 @@ body {
     color: #fff;
 }
 
-input {
+input, textarea {
     border-color: transparent;
 }
 
@@ -425,6 +425,7 @@ select.dropdown {
 #settings .locals .option .pathbox .paths li,
 #settings .mpv input,
 #settings .streamer input,
+#settings .streamer textarea,
 #details-metadata .md-line,
 #details-metadata .md-buttons {
     color: #ccc;
@@ -462,6 +463,7 @@ select.dropdown {
 #settings .locals .option .pathbox .paths,
 #settings .mpv input,
 #settings .streamer input,
+#settings .streamer textarea,
 #details-sources .item:hover,
 #details-loading .sub:hover,
 #discover .disc-search input,

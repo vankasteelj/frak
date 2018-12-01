@@ -11,7 +11,7 @@ const Streamer = {
                 webSeeds: _soptions.webSeeds,
                 tracker: {
                     wrtc: false,
-                    announce: _soptions.announce
+                    announce: _soptions.announce || []
                 }
             });
         }

@@ -123,7 +123,7 @@ a {
     border-radius: 3px;
 }
 
-input {
+input, textarea {
     border-width: 1px;
     border-style: solid;
     padding-left: 1px;
@@ -160,6 +160,7 @@ input {
 
 ::-webkit-scrollbar {
     width: 5px;
+    height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -862,7 +863,8 @@ input {
 }
 
 #settings .mpv input,
-#settings .streamer input {
+#settings .streamer input,
+#settings .streamer textarea {
     cursor: pointer;
     height: 30px;
     padding: 10px;
@@ -870,6 +872,20 @@ input {
     width: 150px;
     font-family: monospace;
     font-size: 12px;
+}
+
+#settings .streamer #announceopt {
+    height: 100px;
+}
+#settings .streamer #announceopt .action {
+    line-height: 0;
+}
+#settings .streamer textarea {
+    line-height: 18px;
+    height: 100px;
+    resize: none;
+    overflow: scroll;
+    white-space: nowrap;
 }
 
 #settings .mpv #fakempvpath {

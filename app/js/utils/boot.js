@@ -227,6 +227,10 @@ const Boot = {
         for (let o in streamer_options) {
             let c = o.match('webSeeds') ? 'checked' : 'value';
             document.querySelector(`#${o}`)[c] = streamer_options[o];
+            
+            if (o == 'announce') {
+                document.querySelector(`#${o}`)[c] = streamer_options[o].join(',\n');
+            }
         }
     },
 
@@ -286,6 +290,10 @@ const Boot = {
 
             document.querySelector(`#${o}`).addEventListener('change', (evt) => {
                 streamer_options[o] = document.querySelector(`#${o}`)[c];
+
+                if (o == 'announce') {
+                    streamer_options[o] = document.querySelector(`#${o}`)[c].replace(/\s/gm,'').split(',');
+                }
                 console.log('Streamer setting `%s` changed to:', o, streamer_options[o]);
                 DB.store(streamer_options, 'streamer_options');
             });

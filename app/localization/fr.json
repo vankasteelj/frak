@@ -194,5 +194,7 @@
 	"Magnet timeout (milliseconds)": "Délai d'expiration du torrent",
 	"Use web seeds (BEP19)": "Activer BEP19 (web seeds)",
 	"Default: 30": "Par défaut : 30",
-	"Default: 10000": "Par défaut : 10000"
+	"Default: 10000": "Par défaut : 10000",
+	"Fallback tracker list": "Trackers de secours",
+	"Separate each tracker with a comma": "Séparez chaque tracker par une virgule"
 }
