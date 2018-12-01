@@ -45,7 +45,7 @@ const Settings = {
         magnetTimeout: 10000,
         maxConns: 30,
         webSeeds: true,
-        announce: [
+        /*announce: [
             'udp://tracker.leechers-paradise.org:6969/announce',
             'udp://tracker.coppersurfer.tk:6969/announce',
             'udp://glotorrents.pw:6969/announce','udp://exodus.desync.com:6969/announce',
@@ -57,6 +57,6 @@ const Settings = {
             'wss://tracker.openwebtorrent.com',       
             'wss://tracker.fastcast.nz',        
             'wss://tracker.btorrent.xyz'
-        ]
+        ]*/
     }
 }

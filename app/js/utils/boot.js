@@ -216,6 +216,18 @@ const Boot = {
                 $('#mpvmonitoroption').show();
             }
         }
+
+        // default streamer options
+        let streamer_options = DB.get('streamer_options');
+        let _soptions = Settings.streamer;
+        streamer_options = Object.assign(_soptions, streamer_options);
+        DB.store(streamer_options, 'streamer_options');
+        
+        // setup streamer options
+        for (let o in streamer_options) {
+            let c = o.match('webSeeds') ? 'checked' : 'value';
+            document.querySelector(`#${o}`)[c] = streamer_options[o];
+        }
     },
 
     setupInputs: () => {
@@ -265,6 +277,17 @@ const Boot = {
                     }
                 }
                 Player.setMPV(DB.get('mpv'));
+            });
+        }
+
+        let streamer_options = DB.get('streamer_options');
+        for (let o in streamer_options) {
+            let c = o.match('webSeeds') ? 'checked' : 'value';
+
+            document.querySelector(`#${o}`).addEventListener('change', (evt) => {
+                streamer_options[o] = document.querySelector(`#${o}`)[c];
+                console.log('Streamer setting `%s` changed to:', o, streamer_options[o]);
+                DB.store(streamer_options, 'streamer_options');
             });
         }
 

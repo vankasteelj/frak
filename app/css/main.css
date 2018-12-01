@@ -861,7 +861,8 @@ input {
     display: none;
 }
 
-#settings .mpv input {
+#settings .mpv input,
+#settings .streamer input {
     cursor: pointer;
     height: 30px;
     padding: 10px;

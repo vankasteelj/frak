@@ -188,5 +188,11 @@
 	"Use the History tab to mark as unwatched": "Utilisez l'onglet Historique pour marquer comme non-vu",
 	"Marked as seen": "Marqué comme vu",
 	"See details": "Plus d'infos",
-	"Select this language": "Choisir cette langue"
+	"Select this language": "Choisir cette langue",
+	"Streamer": "Streamer",
+	"Max connections": "Connexions simultanées",
+	"Magnet timeout (milliseconds)": "Délai d'expiration du torrent",
+	"Use web seeds (BEP19)": "Activer BEP19 (web seeds)",
+	"Default: 30": "Par défaut : 30",
+	"Default: 10000": "Par défaut : 10000"
 }

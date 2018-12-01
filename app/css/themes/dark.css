@@ -424,6 +424,7 @@ select.dropdown {
 #navbar .nav,
 #settings .locals .option .pathbox .paths li,
 #settings .mpv input,
+#settings .streamer input,
 #details-metadata .md-line,
 #details-metadata .md-buttons {
     color: #ccc;
@@ -460,6 +461,7 @@ select.dropdown {
 
 #settings .locals .option .pathbox .paths,
 #settings .mpv input,
+#settings .streamer input,
 #details-sources .item:hover,
 #details-loading .sub:hover,
 #discover .disc-search input,

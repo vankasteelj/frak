@@ -5,12 +5,13 @@ const Streamer = {
     streaminfo: {},
     getInstance: () => {
         if (Streamer.client === null) {
+            let _soptions = DB.get('streamer_options');
             Streamer.client = new (require('webtorrent'))({
-                maxConns: DB.get('maxConns') || Settings.streamer.maxConns,
-                webSeeds: DB.get('webSeeds') || Settings.streamer.webSeeds,
+                maxConns: _soptions.maxConns,
+                webSeeds: _soptions.webSeeds,
                 tracker: {
                     wrtc: false,
-                    announce: DB.get('announce') || Settings.streamer.announce
+                    announce: _soptions.announce
                 }
             });
         }
@@ -40,7 +41,6 @@ const Streamer = {
             console.info('Streamer stopped');
         }        
     },
-    magnetTimeout: DB.get('magnetTimeout') || Settings.streamer.magnetTimeout,
     fetchTorrent: (magnet) => {
         return new Promise((resolve, reject) => {
             let client = Streamer.getInstance();
@@ -50,7 +50,7 @@ const Streamer = {
 
             let timeout = setTimeout(() => {
                 reject(new Error('Streamer - magnet timed out'));
-            }, Streamer.magnetTimeout);
+            }, DB.get('streamer_options').magnetTimeout);
 
             torrent.on('metadata', () => {
                 clearTimeout(timeout);
