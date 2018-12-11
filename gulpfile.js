@@ -113,24 +113,24 @@ gulp.task('run', () => {
 
         // path to nw binary
         switch (platform.slice(0, 3)) {
-        case 'osx':
-            bin += '/nwjs.app/Contents/MacOS/nwjs';
-            break;
-        case 'lin':
-            bin += '/nw';
-            break;
-        case 'win':
-            bin += '/nw.exe';
-            break;
-        default:
-            reject(new Error('Unsupported %s platform', platform));
+            case 'osx':
+                bin += '/nwjs.app/Contents/MacOS/nwjs';
+                break;
+            case 'lin':
+                bin += '/nw';
+                break;
+            case 'win':
+                bin += '/nw.exe';
+                break;
+            default:
+                reject(new Error('Unsupported %s platform', platform));
         }
 
         console.log('Running %s from cache', platform);
 
         // spawn cached binary with package.json, toggle flags
-		let dev = yargs.argv.development ? '--development' : '';
-		let bp = yargs.argv.bp ? '--bp' : '';
+        let dev = yargs.argv.development ? '--development' : '';
+        let bp = yargs.argv.bp ? '--bp' : '';
         const child = spawn(bin, ['.', dev, bp]);
 
         // nwjs console speaks to stderr
@@ -314,7 +314,7 @@ gulp.task('compress', () => {
                         resolve();
                     });
 
-            // compress with tar on unix*
+                // compress with tar on unix*
             } else {
 
                 // using the right directory
@@ -361,7 +361,9 @@ gulp.task('mpv', () => {
 
         return new Promise((resolve, reject) => {
             console.log('downloading mpv...');
-            let stream = got.stream(pkJson.mpv.url, {ecdhCurve: 'auto'}).pipe(fs.createWriteStream(path.join(temp, 'mpv.7z')));
+            let stream = got.stream(pkJson.mpv.url, {
+                ecdhCurve: 'auto'
+            }).pipe(fs.createWriteStream(path.join(temp, 'mpv.7z')));
             stream.on('finish', resolve);
         }).then(() => {
             console.log('mpv downloaded, extracting...');

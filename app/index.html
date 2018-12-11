@@ -63,13 +63,15 @@
     <div id="app">
         <section id="init">
             <div id="traktinit">
-                <img src="images/trakt-logo.png"/>
-                <p><i18n>You need a Trakt.tv account</i18n></p>
+                <img src="images/trakt-logo.png" />
+                <p>
+                    <i18n>You need a Trakt.tv account</i18n>
+                </p>
 
                 <button id="traktAuth" onClick="Trakt.login()">
                     <i18n>Connect</i18n>
                 </button>
-                <input id="traktCode" type="text" value=""/>
+                <input id="traktCode" type="text" value="" />
 
                 <a class="createaccount" onClick="Misc.openExternal('https://trakt.tv/auth/join')">
                     <i18n>Create an account online</i18n>
@@ -77,7 +79,7 @@
             </div>
             <div id="traktwelcome">
                 <div id="welcomeprofile">
-                    <img class="avatar" src="images/trakt-logo.png"/>
+                    <img class="avatar" src="images/trakt-logo.png" />
                     <p><span class="welcomemessage"></span> <span class="username"></span></p>
                 </div>
 
@@ -87,9 +89,11 @@
                 </div>
             </div>
             <div id="requirempv">
-                <img src="images/mpv-logo.png"/>
-                <p><i18n>MPV player needs to be installed</i18n></p>
-                
+                <img src="images/mpv-logo.png" />
+                <p>
+                    <i18n>MPV player needs to be installed</i18n>
+                </p>
+
                 <button id="downloadMPV" onClick="Misc.openExternal('https://mpv.io/installation/')">
                     <i18n>Download</i18n>
                 </button>
@@ -104,57 +108,73 @@
             <div class="nav movies" onClick="Interface.showMovies()">
                 <div class="fa fa-spin fa-refresh"></div>
                 <div class="fa fa-film">
-                    <div class="text"><i18n>Movies</i18n></div>
+                    <div class="text">
+                        <i18n>Movies</i18n>
+                    </div>
                 </div>
             </div>
             <div class="nav shows" onClick="Interface.showShows()">
                 <div class="fa fa-spin fa-refresh"></div>
                 <div class="fa fa-television">
-                    <div class="text"><i18n>Shows</i18n></div>
+                    <div class="text">
+                        <i18n>Shows</i18n>
+                    </div>
                 </div>
             </div>
             <div class="nav locals" onClick="Interface.showLocals()">
                 <div class="fa fa-spin fa-refresh"></div>
                 <div class="fa fa-hdd-o">
-                    <div class="text"><i18n>Local</i18n></div>
+                    <div class="text">
+                        <i18n>Local</i18n>
+                    </div>
                 </div>
             </div>
-            
+
             <div class="separator"></div>
 
             <div class="nav discover" onClick="Interface.showDiscover()">
                 <div class="fa fa-spin fa-refresh"></div>
                 <div class="fa fa-globe">
-                    <div class="text"><i18n>Discover</i18n></div>
+                    <div class="text">
+                        <i18n>Discover</i18n>
+                    </div>
                 </div>
             </div>
-            
+
             <div class="nav history" onClick="Interface.showHistory()">
                 <div class="fa fa-spin fa-refresh"></div>
                 <div class="fa fa-history">
-                    <div class="text"><i18n>History</i18n></div>
+                    <div class="text">
+                        <i18n>History</i18n>
+                    </div>
                 </div>
             </div>
 
             <div class="nav bigpicture" onClick="Interface.bigPicture()">
                 <div class="fa fa-arrows-alt">
-                    <div class="text"><i18n>Big Picture</i18n></div>
+                    <div class="text">
+                        <i18n>Big Picture</i18n>
+                    </div>
                 </div>
             </div>
             <div class="nav exitapp" onClick="win.close(true)">
                 <div class="fa fa-times-circle">
-                    <div class="text"><i18n>Exit</i18n></div>
+                    <div class="text">
+                        <i18n>Exit</i18n>
+                    </div>
                 </div>
             </div>
             <div class="nav settings" onClick="Interface.showSettings()">
                 <div class="fa fa-cogs">
-                    <div class="text"><i18n>Settings</i18n></div>
+                    <div class="text">
+                        <i18n>Settings</i18n>
+                    </div>
                 </div>
             </div>
 
             <div class="online"></div>
         </section>
-        
+
         <section id="trailer" onClick="Interface.closeTrailer()">
             <div class="spinner">
                 <div class="double-bounce1"></div>
@@ -190,17 +210,23 @@
                     </div>
                     <div class="category movies" onClick="Interface.locals.show('movies')">
                         <div class="fa fa-film">
-                            <div class="text"><i18n>Movies</i18n></div>
+                            <div class="text">
+                                <i18n>Movies</i18n>
+                            </div>
                         </div>
                     </div>
                     <div class="category shows" onClick="Interface.locals.show('shows')">
                         <div class="fa fa-television">
-                            <div class="text"><i18n>Shows</i18n></div>
+                            <div class="text">
+                                <i18n>Shows</i18n>
+                            </div>
                         </div>
                     </div>
                     <div class="category unmatched" onClick="Interface.locals.show('unmatched')">
                         <div class="fa fa-file-o">
-                            <div class="text"><i18n>Other</i18n></div>
+                            <div class="text">
+                                <i18n>Other</i18n>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -219,10 +245,10 @@
 
         <section id="trakt">
             <div class="row" id="history"></div>
-            
+
             <div class="row" id="discover">
                 <div class="disc-search">
-                    <input type="text" class="i18n" placeholder="Search for a movie or a TV Show"/>
+                    <input type="text" class="i18n" placeholder="Search for a movie or a TV Show" />
                     <div class="search fa fa-search i18n tooltipped" title="Search" onClick="Discover.search()"></div>
                 </div>
 
@@ -232,15 +258,29 @@
 
                 <dic class="disc-proposal">
                     <div class="categories">
-                        <div class="shows active" onClick="Discover.show.shows()"><i18n>Shows</i18n></div>
-                        <div class="movies" onClick="Discover.show.movies()"><i18n>Movies</i18n></div>
+                        <div class="shows active" onClick="Discover.show.shows()">
+                            <i18n>Shows</i18n>
+                        </div>
+                        <div class="movies" onClick="Discover.show.movies()">
+                            <i18n>Movies</i18n>
+                        </div>
                     </div>
                     <div class="type">
-                        <div onClick="Discover.load['trending']()" class="trending"><i18n>Trending</i18n></div>
-                        <div onClick="Discover.load['popular']()" class="popular"><i18n>Popular</i18n></div>
-                        <div onClick="Discover.load['watched']()" class="watched"><i18n>Watched</i18n></div>
-                        <div onClick="Discover.load['anticipated']()" class="anticipated"><i18n>Anticipated</i18n></div>
-                        <div onClick="Discover.load['recommended']()" class="recommended"><i18n>Recommended</i18n></div>
+                        <div onClick="Discover.load['trending']()" class="trending">
+                            <i18n>Trending</i18n>
+                        </div>
+                        <div onClick="Discover.load['popular']()" class="popular">
+                            <i18n>Popular</i18n>
+                        </div>
+                        <div onClick="Discover.load['watched']()" class="watched">
+                            <i18n>Watched</i18n>
+                        </div>
+                        <div onClick="Discover.load['anticipated']()" class="anticipated">
+                            <i18n>Anticipated</i18n>
+                        </div>
+                        <div onClick="Discover.load['recommended']()" class="recommended">
+                            <i18n>Recommended</i18n>
+                        </div>
                     </div>
                     <div class="row"></div>
                 </dic>
@@ -258,7 +298,9 @@
             <div class="about fa fa-info-circle i18n tooltipped" title="About" onClick="Interface.showAbout()"></div>
 
             <div class="setting interface">
-                <div class="title"><i18n>Interface</i18n></div>
+                <div class="title">
+                    <i18n>Interface</i18n>
+                </div>
                 <div class="option">
                     <div class="text">
                         <i18n>Language</i18n>
@@ -331,7 +373,9 @@
                 </div>
             </div>
             <div class="setting locals">
-                <div class="title"><i18n>Local library</i18n></div>
+                <div class="title">
+                    <i18n>Local library</i18n>
+                </div>
                 <div class="option localbox">
                     <div class="text">
                         <i18n>Search paths</i18n>
@@ -339,7 +383,7 @@
                     <div class="action">
                         <div class="pathbox">
                             <div class="paths"></div>
-                            <input id="hidden-input-local" type="file" nwdirectory/>
+                            <input id="hidden-input-local" type="file" nwdirectory />
                             <button onClick="Interface.addLocalPath()">
                                 <i18n>Add</i18n>
                             </button>
@@ -361,14 +405,16 @@
                 </div>
             </div>
             <div class="setting mpv">
-                <div class="title"><i18n>Player</i18n></div>
+                <div class="title">
+                    <i18n>Player</i18n>
+                </div>
                 <div class="option" id="mpvexec">
                     <div class="text">
                         <i18n>Path to MPV</i18n>
                     </div>
                     <div class="action">
-                        <input id="mpvpath" type="file"/>
-                        <input id="fakempvpath" class="i18n" placeholder="Select an executable" type="text" readonly onClick="Interface.setMPVPath()"/>
+                        <input id="mpvpath" type="file" />
+                        <input id="fakempvpath" class="i18n" placeholder="Select an executable" type="text" readonly onClick="Interface.setMPVPath()" />
                     </div>
                 </div>
                 <div class="option">
@@ -414,7 +460,7 @@
                         <i18n>OSC scale factor</i18n>
                     </div>
                     <div class="action">
-                        <input id="scale" class="i18n" type="text" placeholder="Default: 1.0"/>
+                        <input id="scale" class="i18n" type="text" placeholder="Default: 1.0" />
                     </div>
                 </div>
                 <div class="option">
@@ -461,7 +507,7 @@
                         ⤷&nbsp;<i18n>Which one?</i18n>
                     </div>
                     <div class="action">
-                        <input id="monitor" class="i18n" type="text" placeholder="1 to 32"/>
+                        <input id="monitor" class="i18n" type="text" placeholder="1 to 32" />
                     </div>
                 </div>
                 <div class="option">
@@ -469,7 +515,7 @@
                         <i18n>Contrast</i18n>
                     </div>
                     <div class="action">
-                        <input id="contrast" class="i18n" type="text" placeholder="-100 to 100"/>
+                        <input id="contrast" class="i18n" type="text" placeholder="-100 to 100" />
                     </div>
                 </div>
                 <div class="option">
@@ -477,7 +523,7 @@
                         <i18n>Saturation</i18n>
                     </div>
                     <div class="action">
-                        <input id="saturation" class="i18n" type="text" placeholder="-100 to 100"/>
+                        <input id="saturation" class="i18n" type="text" placeholder="-100 to 100" />
                     </div>
                 </div>
                 <div class="option">
@@ -498,7 +544,7 @@
                         <i18n>Subtitles size</i18n>
                     </div>
                     <div class="action">
-                        <input id="sub_size" class="i18n" type="text" placeholder="Default: 55"/>
+                        <input id="sub_size" class="i18n" type="text" placeholder="Default: 55" />
                     </div>
                 </div>
                 <div class="option">
@@ -506,7 +552,7 @@
                         <i18n>Subtitles color</i18n>
                     </div>
                     <div class="action">
-                        <input id="sub_color" class="i18n" type="color" list="subs_colors"/>
+                        <input id="sub_color" class="i18n" type="color" list="subs_colors" />
                         <datalist id="subs_colors">
                             <option>#ffffff</option>
                             <option>#ffff00</option>
@@ -519,13 +565,15 @@
                 </div>
             </div>
             <div class="setting streamer">
-                <div class="title"><i18n>Streamer</i18n></div>
+                <div class="title">
+                    <i18n>Streamer</i18n>
+                </div>
                 <div class="option">
                     <div class="text">
                         <i18n>Max connections</i18n>
                     </div>
                     <div class="action">
-                        <input id="maxConns" class="i18n" type="text" placeholder="Default: 30"/>
+                        <input id="maxConns" class="i18n" type="text" placeholder="Default: 30" />
                     </div>
                 </div>
                 <div class="option">
@@ -533,7 +581,7 @@
                         <i18n>Magnet timeout (milliseconds)</i18n>
                     </div>
                     <div class="action">
-                        <input id="magnetTimeout" class="i18n" type="text" placeholder="Default: 10000"/>
+                        <input id="magnetTimeout" class="i18n" type="text" placeholder="Default: 10000" />
                     </div>
                 </div>
                 <div id="announceopt" class="option">
@@ -559,10 +607,14 @@
                 </div>
             </div>
             <div class="setting plugins">
-                <div class="title"><i18n>Plugins</i18n></div>
+                <div class="title">
+                    <i18n>Plugins</i18n>
+                </div>
             </div>
             <div class="setting application">
-                <div class="title"><i18n>Application</i18n></div>
+                <div class="title">
+                    <i18n>Application</i18n>
+                </div>
                 <div class="option">
                     <div class="text">
                         <i18n>Reset default settings</i18n>
@@ -581,7 +633,7 @@
             <div class="container">
                 <div class="data"></div>
                 <div id="details-back" onClick="Details.closeDetails()" class="fa fa-arrow-left i18n tooltipped" title="Go back"></div>
-                
+
                 <div id="details-metadata">
                     <div class="ids">
                         <div class="id"></div>
@@ -596,7 +648,7 @@
                     </div>
                     <div class="md-box">
                         <div class="poster">
-                            <div class="openTrakt i18n"  title="Open on Trakt.tv" onclick="Details.openTraktPage()">
+                            <div class="openTrakt i18n" title="Open on Trakt.tv" onclick="Details.openTraktPage()">
                                 <div class="trakt-icon-trakt"></div>&nbsp;
                                 <i18n>See details</i18n>
                             </div>
@@ -624,15 +676,17 @@
 
                 <div id="details-sources">
                     <div class="query">
-                        <input id="query" class="i18n" type="text" placeholder="Search"/>
+                        <input id="query" class="i18n" type="text" placeholder="Search" />
                         <div class="search fa fa-search i18n tooltipped" title="Search" onClick="Search.query()"></div>
                     </div>
                     <div class="sources row"></div>
                     <div class="drop-area">
-                        <p><i18n>Drop a magnet or a video file</i18n></p>
+                        <p>
+                            <i18n>Drop a magnet or a video file</i18n>
+                        </p>
                     </div>
                 </div>
-                
+
                 <div id="details-spinner">
                     <div class="spinner">
                         <div class="double-bounce1"></div>
@@ -641,7 +695,9 @@
                 </div>
 
                 <div id="details-loading">
-                    <div class="title"><i18n>Now playing</i18n></div>
+                    <div class="title">
+                        <i18n>Now playing</i18n>
+                    </div>
                     <div id="streaminfo">
                         <div class="file">
                             <div class="filename">
@@ -670,18 +726,27 @@
                         </div>
                         <div class="player">
                             <div class="control">
-                                <div class="fa fa-fast-backward i18n tooltipped" title="Seek backward" onClick="Player.mpv.seek(-10)"></div><div class="fa fa-stop i18n tooltipped" title="Stop" onClick="Player.quit()"></div><div class="play fa fa-pause i18n tooltipped" title="Play/Pause" onClick="Player.mpv.togglePause()"></div><div class="fa fa-fast-forward i18n tooltipped" title="Seek forward" onClick="Player.mpv.seek(10)"></div><span class="separator"></span><div class="fa fa-font fa-font-small i18n tooltipped" title="Smaller font" onClick="Player.subFontSize(-5)"></div><div class="fa fa-font i18n tooltipped" title="Bigger font" onClick="Player.subFontSize(+5)"></div>
+                                <div class="fa fa-fast-backward i18n tooltipped" title="Seek backward" onClick="Player.mpv.seek(-10)"></div>
+                                <div class="fa fa-stop i18n tooltipped" title="Stop" onClick="Player.quit()"></div>
+                                <div class="play fa fa-pause i18n tooltipped" title="Play/Pause" onClick="Player.mpv.togglePause()"></div>
+                                <div class="fa fa-fast-forward i18n tooltipped" title="Seek forward" onClick="Player.mpv.seek(10)"></div><span class="separator"></span>
+                                <div class="fa fa-font fa-font-small i18n tooltipped" title="Smaller font" onClick="Player.subFontSize(-5)"></div>
+                                <div class="fa fa-font i18n tooltipped" title="Bigger font" onClick="Player.subFontSize(+5)"></div>
                             </div>
                         </div>
                     </div>
                     <div id="subtitles">
-                        <div class="title"><i18n>Subtitles</i18n></div>
+                        <div class="title">
+                            <i18n>Subtitles</i18n>
+                        </div>
                         <div class="subs"></div>
                     </div>
                 </div>
 
                 <div id="details-next">
-                    <div class="title"><i18n>Next episode</i18n></div>
+                    <div class="title">
+                        <i18n>Next episode</i18n>
+                    </div>
                     <div class="content">
                         <div class="next-title">
                             <i18n>Ready to play</i18n> - <span></span>
@@ -699,33 +764,39 @@
 
         <section id="about">
             <div class="background" onClick="Interface.closeAbout()"></div>
-            
+
             <div class="content">
                 <div class="fa fa-github repolink i18n tooltipped" title="Get the source code"></div>
                 <h3>Frak <span class="version"></span></h3>
-                <h4><i18n>A frakingly good multimedia center</i18n></h4>
+                <h4>
+                    <i18n>A frakingly good multimedia center</i18n>
+                </h4>
 
                 <div class="technologies">
-                    <h5><i18n>Built with:</i18n></h5>
+                    <h5>
+                        <i18n>Built with:</i18n>
+                    </h5>
                     <div class="icons">
-                        <img src="images/about/nodejs.png" class="tooltipped" title="NodeJS" onClick="Misc.openExternal('http://nodejs.org/')"/>
-                        <img src="images/about/html.png" class="tooltipped" title="HTML5" onClick="Misc.openExternal('https://www.w3.org/standards/')"/>                        
+                        <img src="images/about/nodejs.png" class="tooltipped" title="NodeJS" onClick="Misc.openExternal('http://nodejs.org/')" />
+                        <img src="images/about/html.png" class="tooltipped" title="HTML5" onClick="Misc.openExternal('https://www.w3.org/standards/')" />
                     </div>
                     <div class="icons icons-2">
-                        <img src="images/about/nwjs.png" class="tooltipped" title="NW.js" onClick="Misc.openExternal('http://nwjs.io/')"/>
-                        <img src="images/about/mpv.png" class="tooltipped" title="mpv" onClick="Misc.openExternal('https://mpv.io/')"/>
-                        <img src="images/about/bootstrap.png" class="tooltipped" title="Bootstrap" onClick="Misc.openExternal('http://getbootstrap.com/')"/>
-                        <img src="images/about/jquery.png" class="tooltipped" title="jQuery" onClick="Misc.openExternal('https://jquery.com/')"/>
+                        <img src="images/about/nwjs.png" class="tooltipped" title="NW.js" onClick="Misc.openExternal('http://nwjs.io/')" />
+                        <img src="images/about/mpv.png" class="tooltipped" title="mpv" onClick="Misc.openExternal('https://mpv.io/')" />
+                        <img src="images/about/bootstrap.png" class="tooltipped" title="Bootstrap" onClick="Misc.openExternal('http://getbootstrap.com/')" />
+                        <img src="images/about/jquery.png" class="tooltipped" title="jQuery" onClick="Misc.openExternal('https://jquery.com/')" />
                     </div>
                 </div>
                 <div class="services">
-                    <h5><i18n>Thanks to:</i18n></h5>
+                    <h5>
+                        <i18n>Thanks to:</i18n>
+                    </h5>
                     <div class="icons">
-                        <img src="images/about/trakt.png" class="tooltipped" title="Trakt" onClick="Misc.openExternal('https://trakt.tv/')"/>
-                        <img src="images/about/tmdb.png" class="tooltipped" title="TheMovieDB" onClick="Misc.openExternal('https://www.themoviedb.org/')"/>
-                        <img src="images/about/tvdb.png" class="tooltipped" title="TheTVDB" onClick="Misc.openExternal('http://thetvdb.com/')"/>
-                        <img src="images/about/fanart.png" class="tooltipped" title="Fanart.tv" onClick="Misc.openExternal('http://fanart.tv/')"/>
-                        <img src="images/about/opensubtitles.png" class="tooltipped" title="OpenSubtitles" onClick="Misc.openExternal('http://opensubtitles.org/')"/>
+                        <img src="images/about/trakt.png" class="tooltipped" title="Trakt" onClick="Misc.openExternal('https://trakt.tv/')" />
+                        <img src="images/about/tmdb.png" class="tooltipped" title="TheMovieDB" onClick="Misc.openExternal('https://www.themoviedb.org/')" />
+                        <img src="images/about/tvdb.png" class="tooltipped" title="TheTVDB" onClick="Misc.openExternal('http://thetvdb.com/')" />
+                        <img src="images/about/fanart.png" class="tooltipped" title="Fanart.tv" onClick="Misc.openExternal('http://fanart.tv/')" />
+                        <img src="images/about/opensubtitles.png" class="tooltipped" title="OpenSubtitles" onClick="Misc.openExternal('http://opensubtitles.org/')" />
                     </div>
                 </div>
             </div>
@@ -737,13 +808,17 @@
                 <div class="warning">
                     <i18n>By activating the optional third-party search plugins, you might encounter torrents that are illegal to download in your country. Downloading and sharing files that are protected under the intellectual property and/or copyrights, without consent of the right holders, is punishable of fines, and even prison, in most countries. No further notice will be issued.</i18n>
                 </div>
-                <button onClick="Interface.hideWarning()"><i18n>I understand</i18n></button>
+                <button onClick="Interface.hideWarning()">
+                    <i18n>I understand</i18n>
+                </button>
             </div>
         </div>
 
         <div id="playing">
             <div class="fa fa-share"></div>
-            <span><i18n>Return to details</i18n></span>
+            <span>
+                <i18n>Return to details</i18n>
+            </span>
         </div>
 
         <div id="notification-snack" onClick="$(this).hide()"></div>
@@ -758,6 +833,7 @@
             Interface.focus(true);
             console.timeEnd('Application ready');
         });
+
     </script>
 
 </body>

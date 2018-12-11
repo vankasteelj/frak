@@ -1,49 +1,58 @@
 <html>
-    <head>
-        <style>
-            body {
-                background: transparent;
-                margin: 0;
-                padding: 0;
-                opacity: 0;
-            }
-            body:hover {
-                opacity: 1;
-            }
-            .button {
-                color: #fff;
-                height: 46px;
-                margin-top: 10px;
-                line-height: 46px;
-                text-align: center;
-                margin-left: 20px;
-                width: 52px;
-                font-size: 25px;
-                border-style: solid;
-                font-family: monospace;
-                border-radius: 14px;
-                border-width: 1.5px;
-                border-color: rgba(255,255,255,0.3);
-                background-color: rgba(0,0,0,0.6);
-                cursor: default;
-                user-select: none;
-                float: right;
-            }
-            #quit {
-                margin-left: 20px;
-                margin-right: 10px;
-            }
-            #biggersub,#smallersub {
-                height: 40px;
-                width: 40px;
-                line-height: 40px;
-                margin-top: 14px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="button" id="quit" onclick="nw.global.playerAPI.quit()">X</div>
-        <div class="button" id="biggersub" onClick="nw.global.playerAPI.subFontSize(+5)">A</div>
-        <div class="button" id="smallersub" onClick="nw.global.playerAPI.subFontSize(-5)">a</div>
-    </body>
+
+<head>
+    <style>
+        body {
+            background: transparent;
+            margin: 0;
+            padding: 0;
+            opacity: 0;
+        }
+
+        body:hover {
+            opacity: 1;
+        }
+
+        .button {
+            color: #fff;
+            height: 46px;
+            margin-top: 10px;
+            line-height: 46px;
+            text-align: center;
+            margin-left: 20px;
+            width: 52px;
+            font-size: 25px;
+            border-style: solid;
+            font-family: monospace;
+            border-radius: 14px;
+            border-width: 1.5px;
+            border-color: rgba(255, 255, 255, 0.3);
+            background-color: rgba(0, 0, 0, 0.6);
+            cursor: default;
+            user-select: none;
+            float: right;
+        }
+
+        #quit {
+            margin-left: 20px;
+            margin-right: 10px;
+        }
+
+        #biggersub,
+        #smallersub {
+            height: 40px;
+            width: 40px;
+            line-height: 40px;
+            margin-top: 14px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="button" id="quit" onclick="nw.global.playerAPI.quit()">X</div>
+    <div class="button" id="biggersub" onClick="nw.global.playerAPI.subFontSize(+5)">A</div>
+    <div class="button" id="smallersub" onClick="nw.global.playerAPI.subFontSize(-5)">a</div>
+</body>
+
 </html>

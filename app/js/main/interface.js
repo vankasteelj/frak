@@ -74,7 +74,7 @@ const Interface = {
         $('#settings').hide();
         $('#navbar .movies').addClass('active');
         DB.store('movies', 'last_tab');
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
     },
     // USER INTERACTION: click navbar
     showShows: () => {
@@ -87,7 +87,7 @@ const Interface = {
         $('#settings').hide();
         $('#navbar .shows').addClass('active');
         DB.store('shows', 'last_tab');
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
     },
     // USER INTERACTION: click navbar
     showLocals: () => {
@@ -102,7 +102,7 @@ const Interface = {
         $('#locals .categories').show();
         $('#locals .items').hide();
         DB.store('locals', 'last_tab');
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
     },
     // USER INTERACTION: click navbar
     showSettings: () => {
@@ -118,17 +118,17 @@ const Interface = {
     // USER INTERACTION: click navbar
     showHistory: () => {
         Collection.get.history().then(() => {
-            window.scrollTo(0,0);
+            window.scrollTo(0, 0);
             setTimeout(() => {
-				$('#navbar .nav').removeClass('active');
-				$('#navbar .history').addClass('active');
-				$('#collection #shows').hide();
-				$('#collection #locals').hide();
-				$('#collection #movies').hide();
-				$('#settings').hide();
+                $('#navbar .nav').removeClass('active');
+                $('#navbar .history').addClass('active');
+                $('#collection #shows').hide();
+                $('#collection #locals').hide();
+                $('#collection #movies').hide();
+                $('#settings').hide();
                 $('#trakt #discover').hide();
-				$('#trakt #history').show();
-			}, 0);
+                $('#trakt #history').show();
+            }, 0);
         });
         $('#navbar .nav').removeClass('active');
         $('#navbar .history').addClass('active');
@@ -142,7 +142,7 @@ const Interface = {
     // USER INTERACTION: click navbar
     showDiscover: () => {
         Discover.load.trending().then(() => {
-            window.scrollTo(0,0);
+            window.scrollTo(0, 0);
             setTimeout(() => {
                 $('#navbar .nav').removeClass('active');
                 $('#collection #shows').hide();
@@ -177,7 +177,10 @@ const Interface = {
             .attr('src', `http://www.youtube.com/embed/${ytc}?autoplay=1&VQ=HD720`)
             .attr('frameborder', '0')
             .attr('allowfullscreen', '1')
-            .css({'width': '100%', 'height': '100%'});
+            .css({
+                'width': '100%',
+                'height': '100%'
+            });
 
         $('#trailer .video').append(iframe);
         $('#trailer').show();
@@ -229,18 +232,34 @@ const Interface = {
     },
 
     switchCollectionSize: (wasBig) => {
-        console.info('Switching to %s items', wasBig ? 'smaller':'bigger');
+        console.info('Switching to %s items', wasBig ? 'smaller' : 'bigger');
 
         let size = {
-            from: wasBig ? {sm: 12, md: 6, lg: 4} : {sm: 6, md: 4, lg: 3},
-            to: wasBig ? {sm: 6, md: 4, lg: 3} : {sm: 12, md: 6, lg: 4}
+            from: wasBig ? {
+                sm: 12,
+                md: 6,
+                lg: 4
+            } : {
+                sm: 6,
+                md: 4,
+                lg: 3
+            },
+            to: wasBig ? {
+                sm: 6,
+                md: 4,
+                lg: 3
+            } : {
+                sm: 12,
+                md: 6,
+                lg: 4
+            }
         }
 
         $(`.col-sm-${size.from.sm}`).addClass(`col-sm-${size.to.sm}`).removeClass(`col-sm-${size.from.sm}`);
         $(`.col-md-${size.from.md}`).addClass(`col-md-${size.to.md}`).removeClass(`col-md-${size.from.md}`);
         $(`.col-lg-${size.from.lg}`).addClass(`col-lg-${size.to.lg}`).removeClass(`col-lg-${size.from.lg}`);
     },
-    
+
     setMPVPath: () => {
         document.querySelector('#mpvpath').click();
     },
@@ -254,7 +273,7 @@ const Interface = {
 
     showWarning: () => {
         if (DB.get('legal_notice_read')) return;
-        
+
         $('#legal').show();
     },
     hideWarning: () => {

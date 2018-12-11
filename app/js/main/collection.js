@@ -9,9 +9,9 @@ const Collection = {
         // should trakt update?
         Trakt.last_activities().then(activities => {
             if (
-				(activities > (DB.get('traktsync') || 0))
-				|| (Date.now() - (DB.get('traktsync') || 0) > 3600000)
-			) {
+                (activities > (DB.get('traktsync') || 0)) ||
+                (Date.now() - (DB.get('traktsync') || 0) > 3600000)
+            ) {
                 console.info('Fetching from remote server...');
                 Collection.get.traktcached();
                 Promise.all([
@@ -72,7 +72,7 @@ const Collection = {
             if (update) return;
 
             setTimeout(() => {
-                if (!Player.mpv && !(process.platform == 'win32' &&  fs.existsSync('./mpv/mpv.exe'))) {
+                if (!Player.mpv && !(process.platform == 'win32' && fs.existsSync('./mpv/mpv.exe'))) {
                     Interface.requireMPV();
                 } else {
                     Interface.showMain();
@@ -156,11 +156,11 @@ const Collection = {
                 console.info('All images found for trakt movies');
 
                 // sort
-                collection = collection.sort(function(a, b){
-                    if(a.listed_at > b.listed_at) {
+                collection = collection.sort(function (a, b) {
+                    if (a.listed_at > b.listed_at) {
                         return -1;
                     }
-                    if(a.listed_at < b.listed_at) {
+                    if (a.listed_at < b.listed_at) {
                         return 1;
                     }
                     return 0;
@@ -188,11 +188,11 @@ const Collection = {
                 console.info('All images found for trakt shows');
 
                 // sort
-                collection = shows.sort(function(a, b){
-                    if(a.next_episode.first_aired > b.next_episode.first_aired) {
+                collection = shows.sort(function (a, b) {
+                    if (a.next_episode.first_aired > b.next_episode.first_aired) {
                         return -1;
                     }
-                    if(a.next_episode.first_aired < b.next_episode.first_aired) {
+                    if (a.next_episode.first_aired < b.next_episode.first_aired) {
                         return 1;
                     }
                     return 0;
@@ -259,11 +259,11 @@ const Collection = {
                 console.info('All images found for the history');
 
                 // sort
-                collection = collection.sort(function(a, b){
-                    if(a.index < b.index) {
+                collection = collection.sort(function (a, b) {
+                    if (a.index < b.index) {
                         return -1;
                     }
-                    if(a.index > b.index) {
+                    if (a.index > b.index) {
                         return 1;
                     }
                     return 0;
@@ -372,7 +372,8 @@ const Collection = {
     hiddenMovies: {
         verify: () => {
             let db = DB.get('hiddenmovies') || {};
-            for (let movie in db) if (db[movie] < Date.now()) delete db[movie];
+            for (let movie in db)
+                if (db[movie] < Date.now()) delete db[movie];
             DB.store(db, 'hiddenmovies');
         },
         add: (slug, time) => {

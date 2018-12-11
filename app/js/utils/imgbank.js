@@ -24,7 +24,7 @@ const IB = {
         if (urls.fanart) db[id].fanart = urls.fanart;
 
         db[id].ttl = Date.now();
-        
+
         return IB._save(db);
     },
     get: (ids) => {

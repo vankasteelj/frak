@@ -34,7 +34,7 @@ const Loading = {
 
         Loading.update = setInterval(() => {
             let downloaded = parseInt(Streamer.streaminfo.stats.downloaded_percent, 10);
-            
+
             if (downloaded == 100) {
                 nw.Window.get().setProgressBar(0);
                 $('#streaminfo .connection').hide();
@@ -46,12 +46,12 @@ const Loading = {
             let uspeed = Misc.fileSize(Streamer.streaminfo.stats.upload_speed);
             let size = Misc.fileSize(Streamer.streaminfo.file_size);
 
-            nw.Window.get().setProgressBar(downloaded/100);
+            nw.Window.get().setProgressBar(downloaded / 100);
             $('#streaminfo .status span').text(i18n.__('%s%% of %s', downloaded, size));
             $('#streaminfo .remaining span').text(time);
             $('#streaminfo .peers span').text(Streamer.streaminfo.stats.total_peers);
-            $('#streaminfo .download span').text(dspeed+'/s');
-            $('#streaminfo .upload span').text(uspeed+'/s');
+            $('#streaminfo .download span').text(dspeed + '/s');
+            $('#streaminfo .upload span').text(uspeed + '/s');
         }, 1000);
 
         let startPlayer = () => {
@@ -91,7 +91,7 @@ const Loading = {
 
         if (type) {
             (data[type].ids && Loading.subfails <= tries - 1) && (subopts.imdbid = data[type].ids.imdb);
-            
+
             if (type === 'show') {
                 subopts.episode = data.next_episode ? data.next_episode.number : data.episode.number;
                 subopts.season = data.next_episode ? data.next_episode.season : data.episode.season;

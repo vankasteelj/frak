@@ -29,15 +29,15 @@ const Settings = {
         multimonitor: false,
         monitor: 1,
     },
-    apikeys: (function () { 
+    apikeys: (function () {
         return JSON.parse(
-            atob('eyJ0cmFrdF9pZCI6ImY3YjY1MjhhYzhiY2IzNjc0MjJhZWU1MWNlYjkwZ'+
-                 'Dg2ZDdlMzcyYzMyNzljMDQ1NGIyYTk2ZTEzZGQzYTc1NDIiLCJ0cmFrdF'+
-                 '9zZWNyZXQiOiI5MTY3NWM2M2NjNzljOTRkYzE1NzliNTExMjVjMmQwYjA'+
-                 '5NTQ5MDFjMmFjZTA0ODNlZDQzN2Q1NDBjMjg2OWZhIiwiZmFuYXJ0Ijoi'+
-                 'MjVkNjAwNzVjYjVmNTk4Mjg0ZjU1OGRjZmYzNThkNzQiLCJ0dmRiIjoiN'+
-                 'DkwODNDQjIxNkMwMzdEMCIsInRtZGIiOiIyNzA3NTI4MmUzOWVlYTc2Ym'+
-                 'Q5NjI2ZWU1ZDNlNzY3YiIsIm9wZW5zdWJ0aXRsZXMiOiJmcmFrIn0='
+            atob('eyJ0cmFrdF9pZCI6ImY3YjY1MjhhYzhiY2IzNjc0MjJhZWU1MWNlYjkwZ' +
+                'Dg2ZDdlMzcyYzMyNzljMDQ1NGIyYTk2ZTEzZGQzYTc1NDIiLCJ0cmFrdF' +
+                '9zZWNyZXQiOiI5MTY3NWM2M2NjNzljOTRkYzE1NzliNTExMjVjMmQwYjA' +
+                '5NTQ5MDFjMmFjZTA0ODNlZDQzN2Q1NDBjMjg2OWZhIiwiZmFuYXJ0Ijoi' +
+                'MjVkNjAwNzVjYjVmNTk4Mjg0ZjU1OGRjZmYzNThkNzQiLCJ0dmRiIjoiN' +
+                'DkwODNDQjIxNkMwMzdEMCIsInRtZGIiOiIyNzA3NTI4MmUzOWVlYTc2Ym' +
+                'Q5NjI2ZWU1ZDNlNzY3YiIsIm9wZW5zdWJ0aXRsZXMiOiJmcmFrIn0='
             )
         );
     })(),
@@ -48,14 +48,14 @@ const Settings = {
         announce: [
             'udp://tracker.leechers-paradise.org:6969/announce',
             'udp://tracker.coppersurfer.tk:6969/announce',
-            'udp://glotorrents.pw:6969/announce','udp://exodus.desync.com:6969/announce',
+            'udp://glotorrents.pw:6969/announce', 'udp://exodus.desync.com:6969/announce',
             'udp://tracker.opentrackr.org:1337/announce',
-            'udp://9.rarbg.com:2710/announce',        
-            'udp://tracker.openbittorrent.com:80',       
-            'udp://tracker.publicbt.com:80/announce',        
-            'udp://tracker.empire-js.us:1337',       
-            'wss://tracker.openwebtorrent.com',       
-            'wss://tracker.fastcast.nz',        
+            'udp://9.rarbg.com:2710/announce',
+            'udp://tracker.openbittorrent.com:80',
+            'udp://tracker.publicbt.com:80/announce',
+            'udp://tracker.empire-js.us:1337',
+            'wss://tracker.openwebtorrent.com',
+            'wss://tracker.fastcast.nz',
             'wss://tracker.btorrent.xyz'
         ]
     }

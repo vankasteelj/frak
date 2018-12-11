@@ -22,7 +22,7 @@ const Search = {
             console.error('Search.query', err);
         });
     },
-    
+
     online: (keywords, type) => {
         console.info('Searching for \'%s\' [%s]', keywords, type);
 
@@ -50,7 +50,7 @@ const Search = {
         let library = DB.get(`local_${type}s`);
 
         if (!id || !library) return;
-        
+
         let find = (slug) => library.findIndex((item) => item.metadata[type].ids.slug === slug);
         let found = find(id);
 
@@ -170,7 +170,7 @@ const Search = {
             }
 
             // sort by score (and then seeds, and then ratio)
-            out = out.sort((a,b) => {
+            out = out.sort((a, b) => {
                 if (a.score > b.score) return -1;
                 if (a.score < b.score) return 1;
                 if (a.seeds > b.seeds) return -1;
@@ -178,19 +178,19 @@ const Search = {
                 if (a.ratio > b.ratio) return -1;
                 if (a.ratio < b.ratio) return 1;
                 return 0;
-            });    
+            });
 
             return out;
         });
     },
 
     addLocal: (data) => {
-        let item = `<div class="item local" id="local-file" onClick="Details.loadLocal(this)">`+
-            `<div class="data">${JSON.stringify(data)}</div>`+
-            `<div class="fa fa-hdd-o"></div>`+
-            `<div class="title">${data.filename}</div>`+
-        `</div>`;
-        
+        let item = `<div class="item local" id="local-file" onClick="Details.loadLocal(this)">` +
+                `<div class="data">${JSON.stringify(data)}</div>` +
+                `<div class="fa fa-hdd-o"></div>` +
+                `<div class="title">${data.filename}</div>` +
+            `</div>`;
+
         $('#details-sources .sources').append(item);
 
         $(`#local-file .fa-hdd-o`).off('contextmenu').on('contextmenu', (e) => {
@@ -204,13 +204,13 @@ const Search = {
             if (!data) continue;
 
             let id = Date.now();
-            let item = `<div class="item remote" onClick="Details.loadRemote('${data.magnet}')" id="${id}">`+
-                `<div class="data">${JSON.stringify(data)}</div>`+
-                `<div class="fa fa-magnet" title="${i18n.__('Open the magnet link')}"></div>`+
-                `<div class="title">${data.name}</div>`+
-                `<div class="size">${Misc.fileSize(data.size) || i18n.__('Unknown')}</div>`+
-                `<div class="fa fa-bolt ${Search.matchScore(data.score)}" title="${i18n.__('Seeds: %s', data.seeds)}, ${i18n.__('Peers: %s', data.peers)}"></div>`+
-            `</div>`;
+            let item = `<div class="item remote" onClick="Details.loadRemote('${data.magnet}')" id="${id}">` +
+                    `<div class="data">${JSON.stringify(data)}</div>` +
+                    `<div class="fa fa-magnet" title="${i18n.__('Open the magnet link')}"></div>` +
+                    `<div class="title">${data.name}</div>` +
+                    `<div class="size">${Misc.fileSize(data.size) || i18n.__('Unknown')}</div>` +
+                    `<div class="fa fa-bolt ${Search.matchScore(data.score)}" title="${i18n.__('Seeds: %s', data.seeds)}, ${i18n.__('Peers: %s', data.peers)}"></div>` +
+                `</div>`;
 
             $('#details-sources .sources').append(item);
             $(`#${id} .fa-magnet`).on('click', (e) => {
@@ -225,14 +225,14 @@ const Search = {
     },
 
     calcScore: (ratio, seeds, freeseeds) => {
-            let score = 0;
-            score += ratio > 1 ? 1:0;               // +1 for more seeds than peers
-            score += Math.floor(freeseeds/5)/10;    // +0.1 by 5 free peers
-            score -= seeds < 5 ? 2:0;             // -2 for less than 5 seeds
-            score -= seeds < 15 ? 1:0;            // -1 for less than 15 seeds
-            
-            //scores: 0 is bad, 1.2 is usable, 2 is good enough, 3 is good, 5 is great, >10 is awesome
-            return score;
+        let score = 0;
+        score += ratio > 1 ? 1 : 0; // +1 for more seeds than peers
+        score += Math.floor(freeseeds / 5) / 10; // +0.1 by 5 free peers
+        score -= seeds < 5 ? 2 : 0; // -2 for less than 5 seeds
+        score -= seeds < 15 ? 1 : 0; // -1 for less than 15 seeds
+
+        //scores: 0 is bad, 1.2 is usable, 2 is good enough, 3 is good, 5 is great, >10 is awesome
+        return score;
     },
 
     matchScore: (score) => {
@@ -255,7 +255,7 @@ const Search = {
                 data.seeds = i.seeds;
                 data.peers = i.peers;
                 resolve(data);
-            }).catch(()=>{
+            }).catch(() => {
                 resolve();
             });
         });
@@ -263,7 +263,7 @@ const Search = {
 
     recalcSize: (data) => {
         return new Promise(resolve => {
-            let wtorrent = new (require('webtorrent'))();
+            let wtorrent = new(require('webtorrent'))();
             let done;
 
             setTimeout(() => {
@@ -272,7 +272,7 @@ const Search = {
                 resolve();
             }, 3500);
 
-            wtorrent.add(data.magnet, (t) => {        
+            wtorrent.add(data.magnet, (t) => {
                 data.size = t.length
 
                 wtorrent.destroy();

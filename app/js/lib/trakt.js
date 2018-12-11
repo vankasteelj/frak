@@ -1,14 +1,14 @@
 'use strict'
 
 const Trakt = {
-    client: new (require('trakt.tv'))({
+    client: new(require('trakt.tv'))({
         client_id: Settings.apikeys.trakt_id,
         client_secret: Settings.apikeys.trakt_secret,
         plugins: {
             ondeck: require('trakt.tv-ondeck'),
             matcher: require('trakt.tv-matcher')
         },
-		debug: true
+        debug: true
     }),
 
     reconnect: () => {
@@ -101,9 +101,12 @@ const Trakt = {
             }
         }
 
-        let data = {rating: score, ids: model.ids};
+        let data = {
+            rating: score,
+            ids: model.ids
+        };
         let post = {};
-        post[type+'s'] = [data];
+        post[type + 's'] = [data];
 
         console.info('Trakt - %s rating for %s', method, model.ids.slug);
 
@@ -193,8 +196,12 @@ const Trakt = {
             }
         }
 
-        let post = {progress: progress};
-        let item = {ids: model.ids};
+        let post = {
+            progress: progress
+        };
+        let item = {
+            ids: model.ids
+        };
 
         post[type] = item;
 

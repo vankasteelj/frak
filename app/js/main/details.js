@@ -22,7 +22,7 @@ const Details = {
 
         Items.getImage(url).then(state => {
             if (!state) return;
-            
+
             if (type == 'poster') {
                 $('#details .poster').css('background-image', `url('${url}')`);
             } else {
@@ -43,7 +43,7 @@ const Details = {
 
             if (Player.mpv.isRunning() || Streamer.client) {
                 $('#details-sources').hide();
-                $('#details-loading').show();                
+                $('#details-loading').show();
             }
 
             return;
@@ -101,7 +101,7 @@ const Details = {
         //rate 
         let traktrating = DB.get('traktratings').find((i) => i[i.type].ids.slug == d.ids.slug);
         traktrating && $('#details .corner-rating span').text(traktrating.rating).parent().show();
-        $('#details-metadata .rating').attr('onClick', `Details.rate('${d.ids.slug}')`).css('cursor','pointer');
+        $('#details-metadata .rating').attr('onClick', `Details.rate('${d.ids.slug}')`).css('cursor', 'pointer');
 
         // search online
         let type = d.data.show && 'show' || d.data.movie && 'movie';
@@ -152,7 +152,7 @@ const Details = {
         window.scrollTo(0, (Details.fromScroll || 0));
         $('#details').hide();
     },
-    
+
     local: {
         movie: (elm) => {
             let file = Details.getData(elm);
@@ -190,7 +190,7 @@ const Details = {
                 data: file,
                 ids: file.metadata.show.ids,
                 title: file.metadata.show.title,
-                'ep-title': `S${Misc.pad(file.metadata.episode.season)}E${Misc.pad(file.metadata.episode.number)}` + (file.metadata.episode.title ? ` - ${file.metadata.episode.title}`:''),
+                'ep-title': `S${Misc.pad(file.metadata.episode.season)}E${Misc.pad(file.metadata.episode.number)}` + (file.metadata.episode.title ? ` - ${file.metadata.episode.title}` : ''),
                 synopsis: file.metadata.show.overview,
                 year: file.metadata.show.year,
                 rating: parseFloat(file.metadata.show.rating).toFixed(1),
@@ -208,7 +208,7 @@ const Details = {
 
             Search.addLocal(file);
         },
-    
+
         unmatched: (elm) => {
             let file = Details.getData(elm);
 
@@ -262,7 +262,7 @@ const Details = {
                 data: item,
                 ids: item.show.ids,
                 title: item.show.title,
-                'ep-title': `S${Misc.pad(item.next_episode.season)}E${Misc.pad(item.next_episode.number)}` + (item.next_episode.title ? ` - ${item.next_episode.title}`:''),
+                'ep-title': `S${Misc.pad(item.next_episode.season)}E${Misc.pad(item.next_episode.number)}` + (item.next_episode.title ? ` - ${item.next_episode.title}` : ''),
                 synopsis: item.show.overview,
                 year: item.show.year,
                 rating: parseFloat(item.show.rating).toFixed(1),
@@ -389,7 +389,7 @@ const Details = {
 
             return episode && episode.path;
         };
-        let next = findNext(s, e+1) || findNext(s, e+2) || findNext(s+1, 1);
+        let next = findNext(s, e + 1) || findNext(s, e + 2) || findNext(s + 1, 1);
 
         if (next) {
             let $next_episode = $(`#${Misc.slugify(next)}`);
@@ -438,7 +438,7 @@ const Details = {
             for (let i = 10; i > 0; i--) {
                 let id = 'rating-' + i + '-' + Date.now();
 
-                content += `<input id="${id}" type="radio" class="rating-${i}" name="rating" value="${i}" ${isRated == i ? 'checked=1' : ''}/>`+
+                content += `<input id="${id}" type="radio" class="rating-${i}" name="rating" value="${i}" ${isRated == i ? 'checked=1' : ''}/>` +
                     `<label for="${id}" title="" class="rating-${i}">${i}</label>`
             }
 
@@ -485,7 +485,7 @@ const Details = {
     markAsWatched: () => {
         let base = Details.model.metadata || Details.model;
         let type, model;
-        
+
         if (base.movie) {
             type = 'movies';
             model = base.movie;
@@ -495,7 +495,9 @@ const Details = {
         }
 
         let post = {};
-        let item = {ids: model.ids};
+        let item = {
+            ids: model.ids
+        };
         post[type] = [item];
 
         console.info('Mark as watched:', base.movie ? model.ids.slug : `${base.show.ids.slug} ${model.season}x${model.number}`);
@@ -530,11 +532,12 @@ const Details = {
 
     openTraktPage: () => {
         let base = Details.model.metadata || Details.model;
-        
+
         if (base.movie) {
             Misc.openExternal(`https://trakt.tv/movies/${base.movie.ids.slug}`);
         } else {
-           let episode = base.episode || base.next_episode; Misc.openExternal(`https://trakt.tv/shows/${base.show.ids.slug}/seasons/${episode.season}/episodes/${episode.number}`);
+            let episode = base.episode || base.next_episode;
+            Misc.openExternal(`https://trakt.tv/shows/${base.show.ids.slug}/seasons/${episode.season}/episodes/${episode.number}`);
         }
     }
 }

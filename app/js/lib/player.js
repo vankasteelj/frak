@@ -32,7 +32,7 @@ const Player = {
 
             // trakt
             Player.config.model = model;
-			Trakt.scrobble('start');
+            Trakt.scrobble('start');
         }).catch(error => {
             console.error('MPV error', error);
             Notify.snack('MPV error: ' + error.message || error.verbose);
@@ -76,9 +76,9 @@ const Player = {
                 Player.config.popup = false;
             }
         });
-		Player.mpv.on('seek', timepositions => {
-			if (!Player.config.states.pause) Trakt.scrobble('start');
-		});
+        Player.mpv.on('seek', timepositions => {
+            if (!Player.config.states.pause) Trakt.scrobble('start');
+        });
         Player.mpv.on('paused', () => {
             Trakt.scrobble('pause');
             $('#streaminfo .control .play').addClass('fa-play').removeClass('fa-pause');
@@ -110,10 +110,10 @@ const Player = {
         let binary = p || DB.get('mpv');
         let options = Player.getOptions();
 
-        Player.mpv = new (require('node-mpv'))({
+        Player.mpv = new(require('node-mpv'))({
             binary: binary,
             auto_restart: false,
-			debug: true
+            debug: true
         }, options);
 
         $('#settings .mpv #fakempvpath').val(binary);
@@ -129,7 +129,7 @@ const Player = {
         }
 
         return [
-            options.multimonitor && (sessionStorage.screens >= options.monitor) ? '--screen=' + (options.monitor - 1) : '', 
+            options.multimonitor && (sessionStorage.screens >= options.monitor) ? '--screen=' + (options.monitor - 1) : '',
             (options.fullscreen || win.isFullscreen) ? '--fs' : '',
             options.fullscreen && options.multimonitor && (sessionStorage.screens >= options.monitor) ? '--fs-screen=' + (options.monitor - 1) : '',
             options.sub_auto ? '' : '--sid=no',
@@ -182,7 +182,7 @@ const Player = {
 
         for (let folderName of searchPaths) {
             if (found) break;
-            
+
             console.info('Looking for mpv in', folderName);
 
             let fileStream = readdirp({

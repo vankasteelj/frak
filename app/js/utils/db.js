@@ -8,8 +8,10 @@ const DB = {
     },
     get: (key) => {
         let data = localStorage[key];
-        try {data = JSON.parse(data)} catch (e) {}
-        
+        try {
+            data = JSON.parse(data)
+        } catch (e) {}
+
         return data;
     },
     reset: () => {

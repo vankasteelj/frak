@@ -37,7 +37,7 @@ const Gamepad = {
             'A', 'B', 'X', 'Y',
             'LB', 'RB', 'LT', 'RT',
             'Back', 'Start',
-            'Axis-L', 'Axis-R', 
+            'Axis-L', 'Axis-R',
             'Up', 'Down', 'Left', 'Right',
             'SUPER'
         ],
@@ -51,7 +51,7 @@ const Gamepad = {
         setInterval(Gamepad.update, 100);
     },
 
-    update: function() {
+    update: function () {
         Gamepad.API.buttonsCache = [];
         for (let k = 0; k < Gamepad.API.buttonsStatus.length; k++) {
             Gamepad.API.buttonsCache[k] = Gamepad.API.buttonsStatus[k];
@@ -61,7 +61,7 @@ const Gamepad = {
         let pressed = [];
         if (c.buttons) {
             for (let b = 0, t = c.buttons.length; b < t; b++) {
-                if(c.buttons[b].pressed) {
+                if (c.buttons[b].pressed) {
                     pressed.push(Gamepad.API.buttons[b]);
                 }
             }

@@ -73,6 +73,8 @@
 
         // Global variables
         "PKJSON": true,
+        "escape": true,
+        "chrome": true,
 
         // Modules
         "i18n": true,

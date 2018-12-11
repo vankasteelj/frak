@@ -6,7 +6,7 @@ const Streamer = {
     getInstance: () => {
         if (Streamer.client === null) {
             let _soptions = DB.get('streamer_options');
-            Streamer.client = new (require('webtorrent'))({
+            Streamer.client = new(require('webtorrent'))({
                 maxConns: _soptions.maxConns,
                 webSeeds: _soptions.webSeeds,
                 tracker: {
@@ -39,7 +39,7 @@ const Streamer = {
             Streamer.client.destroy();
             Streamer.client = null;
             console.info('Streamer stopped');
-        }        
+        }
     },
     fetchTorrent: (magnet) => {
         return new Promise((resolve, reject) => {
@@ -120,7 +120,7 @@ const Streamer = {
         } else if (!isFinite(time_left)) {
             time_left = undefined;
         }
-        
+
         Streamer.streaminfo.stats = {
             total_peers: torrent.numPeers,
             download_speed: torrent.downloadSpeed,

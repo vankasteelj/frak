@@ -4,7 +4,7 @@ const defaultURL = 'api-fetch.website';
 const getMovies = (query) => {
     let url = 'https://movies-v2.' + defaultURL;
 
-    return got(url + '/movies/1?keywords='+escape(query), {
+    return got(url + '/movies/1?keywords=' + escape(query), {
         json: true,
         timeout: 3500
     }).then(res => {
@@ -13,7 +13,7 @@ const getMovies = (query) => {
 
         let torrents = result.torrents.en;
         let results = [];
-        
+
 
         for (let q in torrents) {
             let item = torrents[q];
@@ -21,10 +21,10 @@ const getMovies = (query) => {
                 name: function () {
                     try {
                         return unescape(item.url.match('\&dn=.*?\&tr')[0]
-                            .replace('&dn=', '')
-                            .replace('&tr', ''))
-                            .replace(/\+/g,' ');
-                    } catch(e) {
+                                .replace('&dn=', '')
+                                .replace('&tr', ''))
+                            .replace(/\+/g, ' ');
+                    } catch (e) {
                         return [
                             result.title,
                             '(' + result.year + ')',
@@ -51,7 +51,7 @@ const getShows = (query) => {
     let season = 0;
     let episode = 0;
 
-    let isconform = function() {
+    let isconform = function () {
         let s = query.match(/s+\d{2}/);
         let e = query.match(/e+\d{2}/);
         if (s && e) {
@@ -95,14 +95,14 @@ const getShows = (query) => {
                 name: function () {
                     try {
                         return unescape(item.url.match('\&dn=.*?\&tr')[0]
-                            .replace('&dn=', '')
-                            .replace('&tr', ''))
-                            .replace(/\+/g, ' '); 
+                                .replace('&dn=', '')
+                                .replace('&tr', ''))
+                            .replace(/\+/g, ' ');
                     } catch (e) {
                         return [
                             serie.title,
                             '(' + serie.year + ')',
-                           's'+pad(season)+'e'+pad(episode),
+                           's' + pad(season) + 'e' + pad(episode),
                             q,
                             '-',
                             item.provider

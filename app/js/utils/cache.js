@@ -5,11 +5,11 @@ const Cache = {
     create: () => {
         try {
             fs.mkdirSync(Cache.dir);
-        } catch(e) {}
+        } catch (e) {}
     },
     delete: () => {
         try {
             fs.removeSync(Cache.dir);
-        } catch(e) {}
+        } catch (e) {}
     }
 }

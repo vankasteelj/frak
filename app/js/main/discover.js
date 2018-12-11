@@ -25,7 +25,7 @@ const Discover = {
             $('#discover .disc-results .row').html('');
             $('#discover .disc-results').show();
             for (let item of items) {
-                let i = Items['constructDiscover'+item.type.charAt(0).toUpperCase() + item.type.slice(1)](item);
+                let i = Items['constructDiscover' + item.type.charAt(0).toUpperCase() + item.type.slice(1)](item);
                 $('#discover .disc-results .row').append(i);
             }
 
@@ -57,11 +57,11 @@ const Discover = {
             console.info('All images found for the search');
 
             // sort
-            collection = collection.sort(function(a, b){
-                if(a.score > b.score) {
+            collection = collection.sort(function (a, b) {
+                if (a.score > b.score) {
                     return -1;
                 }
-                if(a.score < b.score) {
+                if (a.score < b.score) {
                     return 1;
                 }
                 return 0;
@@ -70,7 +70,7 @@ const Discover = {
             return collection;
         }).catch(console.error);
     },
-    
+
     load: {
         trending: () => {
             Discover.reset();
@@ -234,7 +234,7 @@ const Discover = {
             }
         }
     },
-    
+
     reset: () => {
         $('#discover .disc-results').hide();
         $('#discover .disc-proposal .row').html('');
@@ -254,7 +254,7 @@ const Discover = {
 
             Discover.reset();
 
-            let shows = DB.get('traktshows'+key) || [];
+            let shows = DB.get('traktshows' + key) || [];
             $('#discover #disc-spinner').hide();
             for (let show of shows) {
                 let item = Items.constructDiscoverShow(show);
@@ -276,7 +276,7 @@ const Discover = {
 
             Discover.reset();
 
-            let movies = DB.get('traktmovies'+key) || [];
+            let movies = DB.get('traktmovies' + key) || [];
             $('#discover .disc-proposal .row').html('');
             $('#discover #disc-spinner').hide();
             for (let movie of movies) {
@@ -311,11 +311,11 @@ const Discover = {
                 console.info('All images found for movies');
 
                 // sort
-                collection = collection.sort(function(a, b){
-                    if(a.index < b.index) {
+                collection = collection.sort(function (a, b) {
+                    if (a.index < b.index) {
                         return -1;
                     }
-                    if(a.index > b.index) {
+                    if (a.index > b.index) {
                         return 1;
                     }
                     return 0;
@@ -346,11 +346,11 @@ const Discover = {
                 console.info('All images found for shows');
 
                 // sort
-                collection = collection.sort(function(a, b){
-                    if(a.index < b.index) {
+                collection = collection.sort(function (a, b) {
+                    if (a.index < b.index) {
                         return -1;
                     }
-                    if(a.index > b.index) {
+                    if (a.index > b.index) {
                         return 1;
                     }
                     return 0;
@@ -374,7 +374,7 @@ const Discover = {
         let type = data.movie ? 'movie' : 'show';
 
         let post = {};
-        post[type+'s'] = [data[type]];
+        post[type + 's'] = [data[type]];
         $(`#${id}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
 
         Trakt.client.sync.watchlist.add(post).then((res) => {

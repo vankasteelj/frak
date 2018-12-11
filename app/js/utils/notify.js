@@ -16,10 +16,10 @@ const Notify = {
             .addClass('slideNotification')
             .delay(duration)
             .queue(() => $snack
-                            .hide('fast')
-                            .removeClass('slideNotification')
-                            .dequeue());
-    }, 
+                .hide('fast')
+                .removeClass('slideNotification')
+                .dequeue());
+    },
 
     // request attention when in bg
     requestAttention: () => {

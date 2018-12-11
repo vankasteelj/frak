@@ -12,7 +12,7 @@ const Keyboard = {
                 Misc.restartApp();
             }
         });
-		
+
         document.addEventListener('keydown', (key) => {
             if (key.key === 'Escape') { // escape
                 if ($('#details').is(':visible')) {

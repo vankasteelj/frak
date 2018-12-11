@@ -2,34 +2,34 @@ const Boot = {
 
     // STARTUP: load app: ui,settings,features
     load: () => {
-        Localization.setupLocalization();                   // localize
-        Cache.create();                                     // create tmp dir
-        Plugins.load();                                     // load search plugins
-        Boot.setupSettings();                               // setup settings popup
-        Boot.checkVisible();                                // nwjs window position
-        Boot.setupScreens();                                // nwjs screen listener
-        Boot.setupInputs();                                 // browse button
-        Keyboard.setupShortcuts();                          // keyboard shortcuts
-        Player.findMpv();                                   // player
-        Update.checkUpdates();                              // update
-        Boot.setupVersion();                                // version number
-        Boot.online();                                      // check if online
-        Dragdrop.setup();                                   // allow drag&drop
-        //Gamepad.init();                                   // gamepad support
-        
+        Localization.setupLocalization();       // localize
+        Cache.create();                         // create tmp dir
+        Plugins.load();                         // load search plugins
+        Boot.setupSettings();                   // setup settings popup
+        Boot.checkVisible();                    // nwjs window position
+        Boot.setupScreens();                    // nwjs screen listener
+        Boot.setupInputs();                     // browse button
+        Keyboard.setupShortcuts();              // keyboard shortcuts
+        Player.findMpv();                       // player
+        Update.checkUpdates();                  // update
+        Boot.setupVersion();                    // version number
+        //Boot.online();                        // check if online
+        Dragdrop.setup();                       // allow drag&drop
+        //Gamepad.init();                       // gamepad support
+
         // right clicks
         document.addEventListener('contextmenu', (e) => e.preventDefault());
         Boot.setupRightClicks('input[type=text], textarea');
 
-        // on app open, load file if used 'open with'
+        // TODO: on app open, load file if used 'open with'
         // let file = gui.App.argv.slice(-1).pop();
     },
 
-    // STARTUP: check if online
+    // STARTUP: check if online TODO
     online: () => {
         let online = window.navigator.onLine;
         let localip = '127.0.0.1';
-        
+
         require('dns').lookup(require('os').hostname(), function (err, add, fam) {
             if (!err) localip = add;
             DB.store(localip, 'localip');
@@ -40,17 +40,19 @@ const Boot = {
         } else {
             DB.get('online') && DB.store(false, 'online') && console.info('No internet connection');
         }
-        setTimeout(() => {Boot.online()}, 3000);
+        setTimeout(() => {
+            Boot.online()
+        }, 3000);
     },
 
     setupScreens: () => {
         nw.Screen.Init();
         sessionStorage.screens = Object.keys(nw.Screen.screens).length;
-        
+
         if (sessionStorage.screens > 1) {
             console.info('Multiple monitors (%s) detected', sessionStorage.screens);
         }
-        
+
         nw.Screen.on('displayAdded', () => {
             sessionStorage.screens = Object.keys(nw.Screen.screens).length;
             console.info('Multiple monitors (%s) detected', sessionStorage.screens);
@@ -62,7 +64,7 @@ const Boot = {
             Player.setMPV(DB.get('mpv'));
         });
     },
-    
+
     // STARTUP: builds right click menu
     setupRightClicks: (toFind) => {
         let inputs = $(toFind);
@@ -136,7 +138,7 @@ const Boot = {
             if (!win.isMaximized) DB.store(false, 'wasMaximized');
         });
         win.on('minimize', () => {
-           win.isMaximized = DB.get('wasMaximized');
+            win.isMaximized = DB.get('wasMaximized');
         });
     },
 
@@ -222,12 +224,12 @@ const Boot = {
         let _soptions = Settings.streamer;
         streamer_options = Object.assign(_soptions, streamer_options);
         DB.store(streamer_options, 'streamer_options');
-        
+
         // setup streamer options
         for (let o in streamer_options) {
             let c = o.match('webSeeds') ? 'checked' : 'value';
             document.querySelector(`#${o}`)[c] = streamer_options[o];
-            
+
             if (o == 'announce') {
                 document.querySelector(`#${o}`)[c] = streamer_options[o].join(',\n');
             }
@@ -292,7 +294,7 @@ const Boot = {
                 streamer_options[o] = document.querySelector(`#${o}`)[c];
 
                 if (o == 'announce') {
-                    streamer_options[o] = document.querySelector(`#${o}`)[c].replace(/\s/gm,'').split(',');
+                    streamer_options[o] = document.querySelector(`#${o}`)[c].replace(/\s/gm, '').split(',');
                 }
                 console.log('Streamer setting `%s` changed to:', o, streamer_options[o]);
                 DB.store(streamer_options, 'streamer_options');

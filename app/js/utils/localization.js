@@ -80,7 +80,7 @@ const Localization = {
             // insert element in dropdown
             let lang = Localization.availableLocales[i];
             let native = Localization.nativeNames[lang];
-            $('#app-language').append('<option value="'+lang+'">'+native+'</option>');
+            $('#app-language').append('<option value="' + lang + '">' + native + '</option>');
 
             // select if active
             if (lang === i18n.getLocale()) {

@@ -2,13 +2,13 @@
 
 const Local = {
     scans: 0,
-    client: new (require('local-video-library'))(Settings.apikeys.trakt_id, [process.env.HOME || path.join(process.env.HOMEDRIVE, process.env.HOMEPATH)]),
-    
+    client: new(require('local-video-library'))(Settings.apikeys.trakt_id, [process.env.HOME || path.join(process.env.HOMEDRIVE, process.env.HOMEPATH)]),
+
     scan: () => {
         console.info('Scanning local drive')
         return Local.client.scan();
     },
-    
+
     update: (library) => {
         console.info('Scanning local drive (update)');
         return Local.client.update(library);
@@ -50,7 +50,11 @@ const Local = {
                     let found = findShow(file.metadata.show.title);
 
                     if (!found) {
-                        let newShow = {metadata: {show: file.metadata.show}};
+                        let newShow = {
+                            metadata: {
+                                show: file.metadata.show
+                            }
+                        };
 
                         newShow.seasons = {};
                         newShow.seasons[s] = {};
@@ -115,7 +119,7 @@ const Local = {
 
         DB.store(paths, 'local_paths');
         Local.setupPaths();
-        
+
         setTimeout(() => {
             $('#navbar .locals .fa-spin').css('opacity', 1)
             Collection.get.local()

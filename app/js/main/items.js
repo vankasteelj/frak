@@ -7,7 +7,7 @@ const Items = {
         return new Promise(resolve => {
             let cache = new Image();
             cache.src = url;
-            
+
             cache.onload = () => {
                 resolve(true);
             }
@@ -24,32 +24,40 @@ const Items = {
             id: movie.movie.ids.slug,
             data: JSON.stringify(movie),
             rating: Misc.percentage(movie.movie.rating),
-            size: DB.get('small_items') ? {sm: 6, md: 4, lg: 3} : {sm: 12, md: 6, lg: 4}
+            size: DB.get('small_items') ? {
+                sm: 6,
+                md: 4,
+                lg: 3
+            } : {
+                sm: 12,
+                md: 6,
+                lg: 4
+            }
         }
 
-        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">`+
-            `<span class="data">${d.data}</span>`+
-            `<div class="fanart">`+
-                `<div class="corner-rating"><span></span></div>`+
-                `<img class="base" src="images/placeholder.png">`+
-                `<div class="shadow"></div>`+
-                `<div class="titles">`+
-                    `<h3>${movie.movie.title}<span class="year">${movie.movie.year || ''}</span></h3>`+
-                `</div>`+
-            `</div>`+
-            `<div class="quick-icons">`+
-                `<div class="actions">`+
-                    `<div class="watched trakt-icon-check-thick tooltipped i18n" title="${i18n.__('Mark as watched')}" onClick="Items.markAsWatched(this)"></div>`+
-                    `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>`+
-                    `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.movie(this)"></div>`+
-                `</div>`+
-                `<div class="metadata">`+
-                    `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">`+
-                        `<div class="fa fa-heart"></div>`+
-                        `${d.rating}&nbsp%`+
-                `</div>`+
-            `</div>`+
-        `</div>`;
+        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
+                `<span class="data">${d.data}</span>` +
+                `<div class="fanart">` +
+                    `<div class="corner-rating"><span></span></div>` +
+                    `<img class="base" src="images/placeholder.png">` +
+                    `<div class="shadow"></div>` +
+                    `<div class="titles">` +
+                        `<h3>${movie.movie.title}<span class="year">${movie.movie.year || ''}</span></h3>` +
+                    `</div>` +
+                `</div>` +
+                `<div class="quick-icons">` +
+                    `<div class="actions">` +
+                        `<div class="watched trakt-icon-check-thick tooltipped i18n" title="${i18n.__('Mark as watched')}" onClick="Items.markAsWatched(this)"></div>` +
+                        `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>` +
+                        `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.movie(this)"></div>` +
+                    `</div>` +
+                    `<div class="metadata">` +
+                        `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
+                        `<div class="fa fa-heart"></div>` +
+                        `${d.rating}&nbsp%` +
+                    `</div>` +
+                `</div>` +
+            `</div>`;
 
         Items.getImage(d.image, movie.movie.ids).then(state => {
             state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
@@ -62,12 +70,14 @@ const Items = {
             labels['Mark as watched'] = () => $(`#${d.id} .watched`).click();
             labels['separator'] = true;
             labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`);
-            labels['Remove from watchlist'] = () => Trakt.client.sync.watchlist.remove({movies: [movie.movie]}).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(movie.movie.ids.slug)).catch(console.error);
+            labels['Remove from watchlist'] = () => Trakt.client.sync.watchlist.remove({
+                movies: [movie.movie]
+            }).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(movie.movie.ids.slug)).catch(console.error);
             labels['submenu'] = {
                 title: 'Hide for...',
                 labels: {
-                    '7 days': () => Collection.hiddenMovies.add(movie.movie.ids.slug, (Date.now() + (7*24*60*60*1000))) && $(`#${d.id}`).remove(),
-                    '30 days': () => Collection.hiddenMovies.add(movie.movie.ids.slug, (Date.now() + (30*24*60*60*1000))) && $(`#${d.id}`).remove()
+                    '7 days': () => Collection.hiddenMovies.add(movie.movie.ids.slug, (Date.now() + (7 * 24 * 60 * 60 * 1000))) && $(`#${d.id}`).remove(),
+                    '30 days': () => Collection.hiddenMovies.add(movie.movie.ids.slug, (Date.now() + (30 * 24 * 60 * 60 * 1000))) && $(`#${d.id}`).remove()
                 }
             }
             let menu = Misc.customContextMenu(labels);
@@ -83,37 +93,45 @@ const Items = {
             sxe: `s${Misc.pad(show.next_episode.season)}e${Misc.pad(show.next_episode.number)}`,
             data: JSON.stringify(show),
             rating: Misc.percentage(show.show.rating),
-            size: DB.get('small_items') ? {sm: 6, md: 4, lg: 3} : {sm: 12, md: 6, lg: 4}
+            size: DB.get('small_items') ? {
+                sm: 6,
+                md: 4,
+                lg: 3
+            } : {
+                sm: 12,
+                md: 6,
+                lg: 4
+            }
         }
 
-        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">`+
-            `<span class="data">${d.data}</span>`+
-            `<div class="fanart">`+
-                `<div class="corner-rating"><span></span></div>`+
-                `<img class="base" src="images/placeholder.png">`+
-                `<div class="shadow"></div>`+
-                `<div class="titles">`+
-                    `<h4>`+
-                        `<span class="sxe">${d.sxe}</span>`+
-                        `<span class="unseen tooltipped i18n" title="${i18n.__('This episode and %s other(s) left to watch', show.unseen - 1)}">+${show.unseen - 1}</span>`+
-                        `<span class="ep-title">${show.next_episode.title || ''}</span>`+
-                    `</h4><br/>`+
-                    `<h3>${show.show.title}<span class="year">${show.show.year || ''}</span></h3>`+
-                `</div>`+
-            `</div>`+
-            `<div class="quick-icons">`+
-                `<div class="actions">`+
-                    `<div class="watched trakt-icon-check-thick tooltipped i18n" title="${i18n.__('Mark as watched')}" onClick="Items.markAsWatched(this)"></div>`+
-                    `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${show.show.trailer}')"></div>`+
-                    `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.episode(this)"></div>`+
-                `</div>`+
-                `<div class="metadata">`+
-                    `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">`+
-                        `<div class="fa fa-heart"></div>`+
-                        `${d.rating}&nbsp;%`+
-                `</div>`+
-            `</div>`+
-        `</div>`;
+        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
+                `<span class="data">${d.data}</span>` +
+                `<div class="fanart">` +
+                    `<div class="corner-rating"><span></span></div>` +
+                    `<img class="base" src="images/placeholder.png">` +
+                    `<div class="shadow"></div>` +
+                    `<div class="titles">` +
+                        `<h4>` +
+                            `<span class="sxe">${d.sxe}</span>` +
+                            `<span class="unseen tooltipped i18n" title="${i18n.__('This episode and %s other(s) left to watch', show.unseen - 1)}">+${show.unseen - 1}</span>` +
+                            `<span class="ep-title">${show.next_episode.title || ''}</span>` +
+                        `</h4><br/>` +
+                        `<h3>${show.show.title}<span class="year">${show.show.year || ''}</span></h3>` +
+                    `</div>` +
+                `</div>` +
+                `<div class="quick-icons">` +
+                    `<div class="actions">` +
+                        `<div class="watched trakt-icon-check-thick tooltipped i18n" title="${i18n.__('Mark as watched')}" onClick="Items.markAsWatched(this)"></div>` +
+                        `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${show.show.trailer}')"></div>` +
+                        `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.episode(this)"></div>` +
+                    `</div>` +
+                    `<div class="metadata">` +
+                        `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
+                        `<div class="fa fa-heart"></div>` +
+                        `${d.rating}&nbsp;%` +
+                    `</div>` +
+                `</div>` +
+            `</div>`;
 
         Items.getImage(d.image, show.show.ids).then(state => {
             state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
@@ -128,10 +146,15 @@ const Items = {
             labels['separator'] = true;
             if (show.next_episode.number == 1 && show.next_episode.season == 1) {
                 labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`);
-                labels['Remove from watchlist'] = () => Trakt.client.sync.watchlist.remove({shows: [show.show]}).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(show.show.ids.slug)).catch(console.error);
+                labels['Remove from watchlist'] = () => Trakt.client.sync.watchlist.remove({
+                    shows: [show.show]
+                }).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(show.show.ids.slug)).catch(console.error);
             } else {
                 labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}/seasons/${show.next_episode.season}/episodes/${show.next_episode.number}`);
-                labels['Hide this show'] = () => Trakt.client.users.hidden.add({section: 'progress_watched', shows: [show.show]}).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(show.show.ids.slug)).catch(console.error);
+                labels['Hide this show'] = () => Trakt.client.users.hidden.add({
+                    section: 'progress_watched',
+                    shows: [show.show]
+                }).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(show.show.ids.slug)).catch(console.error);
             }
             let menu = Misc.customContextMenu(labels);
             $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
@@ -145,10 +168,10 @@ const Items = {
             data: JSON.stringify(movie)
         }
 
-        let item = `<div class="local-item tooltipped" onClick="Details.local.movie(this)" id="${d.id}" title="${movie.filename + ' - ' + Misc.fileSize(movie.size)}">`+
-            `<span class="data">${d.data}</span>`+
-            `<span class="title">${movie.metadata.movie.title}</span>`+
-        `</div>`;
+        let item = `<div class="local-item tooltipped" onClick="Details.local.movie(this)" id="${d.id}" title="${movie.filename + ' - ' + Misc.fileSize(movie.size)}">` +
+                `<span class="data">${d.data}</span>` +
+                `<span class="title">${movie.metadata.movie.title}</span>` +
+            `</div>`;
 
         setTimeout(() => {
             let labels = {};
@@ -170,10 +193,10 @@ const Items = {
             data: JSON.stringify(file)
         }
 
-        let item = `<div class="local-item tooltipped" onClick="Details.local.unmatched(this)" id="${d.id}" title="${file.filename + ' - ' + Misc.fileSize(file.size)}">`+
-            `<span class="data">${d.data}</span>`+
-            `<span class="title">${file.filename}</span>`+
-        `</div>`;
+        let item = `<div class="local-item tooltipped" onClick="Details.local.unmatched(this)" id="${d.id}" title="${file.filename + ' - ' + Misc.fileSize(file.size)}">` +
+                `<span class="data">${d.data}</span>` +
+                `<span class="title">${file.filename}</span>` +
+            `</div>`;
 
         setTimeout(() => {
             let labels = {};
@@ -229,10 +252,10 @@ const Items = {
             return str;
         })();
 
-        let item = `<div class="local-item" id="${d.id}" onClick="Interface.locals.showSeasons('${d.id}')">`+
-            `<span class="title">${show.metadata.show.title}</span>`+
-            `<div class="seasons">${seasons}</div>`+
-        `</div>`;
+        let item = `<div class="local-item" id="${d.id}" onClick="Interface.locals.showSeasons('${d.id}')">` +
+                `<span class="title">${show.metadata.show.title}</span>` +
+                `<div class="seasons">${seasons}</div>` +
+            `</div>`;
 
         return item;
     },
@@ -244,7 +267,15 @@ const Items = {
             title: show.episode.title || '',
             data: JSON.stringify(show),
             rating: Misc.percentage(show.show.rating),
-            size: DB.get('small_items') ? {sm: 3, md: 2, lg: 1} : {sm: 4, md: 3, lg: 2},
+            size: DB.get('small_items') ? {
+                sm: 3,
+                md: 2,
+                lg: 1
+            } : {
+                sm: 4,
+                md: 3,
+                lg: 2
+            },
             watched_at: (function () {
                 let d = new Date(show.watched_at);
                 return d.toLocaleDateString() + ' ' + Misc.pad(d.getHours()) + ':' + Misc.pad(d.getMinutes());
@@ -252,31 +283,31 @@ const Items = {
             watched_id: show.id
         }
 
-        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg} ${d.id}" id="${d.watched_id}">`+
-            `<span class="data">${d.data}</span>`+
-            `<div class="fanart">`+
-                `<div class="corner-rating"><span></span></div>`+
-                `<img class="base" src="images/posterholder.png">`+
-            `</div>`+
-            `<div class="quick-icons">`+
-                `<div class="actions">`+
-                    `<div class="watched trakt-icon-check-thick tooltipped i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched('${d.watched_id}')"></div>`+
-                `</div>`+
-                `<div class="metadata">`+
-                    `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.watched_id}')">`+
-                        `<div class="fa fa-heart"></div>`+
-                        `${d.rating}&nbsp;%`+
-                    `</div>`+
-                `</div>`+
-            `</div>`+
-            `<div class="titles">`+
-                `<div class="title">`+
-                    `<span class="sxe">${d.sxe}</span>&nbsp`+
-                    `<span>${d.title}</span>`+
-                `</div>`+
-                `<span class="datetime">${d.watched_at}</span>`+
-            `</div>`+
-        `</div>`;
+        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg} ${d.id}" id="${d.watched_id}">` +
+                `<span class="data">${d.data}</span>` +
+                `<div class="fanart">` +
+                    `<div class="corner-rating"><span></span></div>` +
+                    `<img class="base" src="images/posterholder.png">` +
+                `</div>` +
+                `<div class="quick-icons">` +
+                    `<div class="actions">` +
+                        `<div class="watched trakt-icon-check-thick tooltipped i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched('${d.watched_id}')"></div>` +
+                    `</div>` +
+                    `<div class="metadata">` +
+                        `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.watched_id}')">` +
+                        `<div class="fa fa-heart"></div>` +
+                            `${d.rating}&nbsp;%` +
+                        `</div>` +
+                    `</div>` +
+                `</div>` +
+                `<div class="titles">` +
+                    `<div class="title">` +
+                        `<span class="sxe">${d.sxe}</span>&nbsp` +
+                        `<span>${d.title}</span>` +
+                    `</div>` +
+                    `<span class="datetime">${d.watched_at}</span>` +
+                `</div>` +
+            `</div>`;
 
         Items.getImage(d.image, show.show.ids).then(state => {
             state && $(`#${d.watched_id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.watched_id} .fanart img`).css('opacity', '0');
@@ -291,7 +322,15 @@ const Items = {
             title: movie.movie.title,
             data: JSON.stringify(movie),
             rating: Misc.percentage(movie.movie.rating),
-            size: DB.get('small_items') ? {sm: 3, md: 2, lg: 1} : {sm: 4, md: 3, lg: 2},
+            size: DB.get('small_items') ? {
+                sm: 3,
+                md: 2,
+                lg: 1
+            } : {
+                sm: 4,
+                md: 3,
+                lg: 2
+            },
             watched_at: (function () {
                 let d = new Date(movie.watched_at);
                 return d.toLocaleDateString() + ' ' + Misc.pad(d.getHours()) + ':' + Misc.pad(d.getMinutes());
@@ -299,30 +338,30 @@ const Items = {
             watched_id: movie.id
         }
 
-        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg} ${d.id}" id="${d.watched_id}">`+
-            `<span class="data">${d.data}</span>`+
-            `<div class="fanart">`+
-                `<div class="corner-rating"><span></span></div>`+
-                `<img class="base" src="images/posterholder.png">`+
-            `</div>`+
-            `<div class="quick-icons">`+
-                `<div class="actions">`+
-                    `<div class="watched trakt-icon-check-thick tooltipped i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched('${d.watched_id}')"></div>`+
-                `</div>`+
-                `<div class="metadata">`+
-                    `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.watched_id}')">`+
-                        `<div class="fa fa-heart"></div>`+
-                        `${d.rating}&nbsp;%`+
-                    `</div>`+
-                `</div>`+
-            `</div>`+
-            `<div class="titles">`+
-                `<div class="title">`+
-                    `<span>${d.title}</span>`+
-                `</div>`+
-                `<span class="datetime">${d.watched_at}</span>`+
-            `</div>`+
-        `</div>`;
+        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg} ${d.id}" id="${d.watched_id}">` +
+                `<span class="data">${d.data}</span>` +
+                `<div class="fanart">` +
+                    `<div class="corner-rating"><span></span></div>` +
+                    `<img class="base" src="images/posterholder.png">` +
+                `</div>` +
+                `<div class="quick-icons">` +
+                    `<div class="actions">` +
+                        `<div class="watched trakt-icon-check-thick tooltipped i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched('${d.watched_id}')"></div>` +
+                    `</div>` +
+                    `<div class="metadata">` +
+                        `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.watched_id}')">` +
+                            `<div class="fa fa-heart"></div>` +
+                            `${d.rating}&nbsp;%` +
+                        `</div>` +
+                    `</div>` +
+                `</div>` +
+                `<div class="titles">` +
+                    `<div class="title">` +
+                        `<span>${d.title}</span>` +
+                    `</div>` +
+                    `<span class="datetime">${d.watched_at}</span>` +
+                `</div>` +
+            `</div>`;
 
         Items.getImage(d.image, movie.movie.ids).then(state => {
             state && $(`#${d.watched_id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.watched_id} .fanart img`).css('opacity', '0');
@@ -332,21 +371,31 @@ const Items = {
     },
     constructHistoryMore: () => {
         let d = {
-            size: DB.get('small_items') ? {sm: 3, md: 2, lg: 1} : {sm: 4, md: 3, lg: 2}
+            size: DB.get('small_items') ? {
+                sm: 3,
+                md: 2,
+                lg: 1
+            } : {
+                sm: 4,
+                md: 3,
+                lg: 2
+            }
         }
 
-        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="showMore">`+
-            `<div class="showMore_button" onClick="Collection.get.historyMore()">`+
-                `<div class="fa fa-search-plus"></div>`+
-                `<div class="showMore_text">${i18n.__('Show more')}</div>`+
-            `</div>`+
-        `</div>`;
+        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="showMore">` +
+                `<div class="showMore_button" onClick="Collection.get.historyMore()">` +
+                    `<div class="fa fa-search-plus"></div>` +
+                    `<div class="showMore_text">${i18n.__('Show more')}</div>` +
+                `</div>` +
+            `</div>`;
 
         return item;
     },
     constructDiscoverShow: (show) => {
         // standardize output
-        if (!show.show) show = {show: show};
+        if (!show.show) show = {
+            show: show
+        };
 
         // inject s01e01 for watch now
         show.next_episode = {
@@ -361,41 +410,49 @@ const Items = {
                 if (show.watchers) return i18n.__('%s people watching', Misc.numberWithCommas(show.watchers));
                 if (show.list_count) return i18n.__('Present in %s lists', Misc.numberWithCommas(show.list_count));
                 if (show.watcher_count) return i18n.__('Played by %s people', Misc.numberWithCommas(show.watcher_count));
-                
+
                 return false;
             })(),
             data: JSON.stringify(show),
             rating: Misc.percentage(show.show.rating),
-            size: DB.get('small_items') ? {sm: 6, md: 4, lg: 3} : {sm: 12, md: 6, lg: 4},
+            size: DB.get('small_items') ? {
+                sm: 6,
+                md: 4,
+                lg: 3
+            } : {
+                sm: 12,
+                md: 6,
+                lg: 4
+            },
             watchlisted: DB.get('traktshowscollection') && DB.get('traktshowscollection').find(o => o.show.ids.slug === show.show.ids.slug)
         }
 
-        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">`+
-            `<span class="data">${d.data}</span>`+
-            `<div class="fanart">`+
-                `<div class="corner-rating"><span></span></div>`+
-                `<img class="base" src="images/placeholder.png">`+
-                `<div class="shadow"></div>`+
-                `<div class="titles">`+
-                    `<h4>`+
-                        `<span class="ep-title">${d.key}</span>`+
-                    `</h4><br/>`+
-                    `<h3>${show.show.title}<span class="year">${show.show.year || ''}</span></h3>`+
-                `</div>`+
-            `</div>`+
-            `<div class="quick-icons">`+
-                `<div class="actions">`+
-                    `<div class="watchlist trakt-icon-list-thick tooltipped i18n" title="${i18n.__('Add to watchlist')}" onClick="Discover.addToWatchlist(this)"></div>`+
-                    `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${show.show.trailer}')"></div>`+
-                    `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.episode(this, 'discover')"></div>`+
-                `</div>`+
-                `<div class="metadata">`+
-                    `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">`+
-                        `<div class="fa fa-heart"></div>`+
-                        `${d.rating}&nbsp;%`+
-                `</div>`+
-            `</div>`+
-        `</div>`;
+        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
+                `<span class="data">${d.data}</span>` +
+                `<div class="fanart">` +
+                    `<div class="corner-rating"><span></span></div>` +
+                    `<img class="base" src="images/placeholder.png">` +
+                    `<div class="shadow"></div>` +
+                    `<div class="titles">` +
+                        `<h4>` +
+                            `<span class="ep-title">${d.key}</span>` +
+                        `</h4><br/>` +
+                        `<h3>${show.show.title}<span class="year">${show.show.year || ''}</span></h3>` +
+                    `</div>` +
+                `</div>` +
+                `<div class="quick-icons">` +
+                    `<div class="actions">` +
+                        `<div class="watchlist trakt-icon-list-thick tooltipped i18n" title="${i18n.__('Add to watchlist')}" onClick="Discover.addToWatchlist(this)"></div>` +
+                        `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${show.show.trailer}')"></div>` +
+                        `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.episode(this, 'discover')"></div>` +
+                    `</div>` +
+                    `<div class="metadata">` +
+                        `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
+                        `<div class="fa fa-heart"></div>` +
+                        `${d.rating}&nbsp;%` +
+                    `</div>` +
+                `</div>` +
+            `</div>`;
 
         Items.getImage(d.image, show.show.ids).then(state => {
             state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
@@ -409,7 +466,9 @@ const Items = {
             show.show.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).click());
             labels['Add to watchlist'] = () => $(`#${d.id} .watchlist`).click();
             labels['separator'] = true;
-            show.show.source == 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.shows.hide({id: show.show.ids.slug}).then(() => DB.store(0, 'lastrecommendedsync')).then(() => $(`#${d.id}`).remove()));
+            show.show.source == 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.shows.hide({
+                id: show.show.ids.slug
+            }).then(() => DB.store(0, 'lastrecommendedsync')).then(() => $(`#${d.id}`).remove()));
             labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`);
             let menu = Misc.customContextMenu(labels);
             $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
@@ -419,7 +478,9 @@ const Items = {
     },
     constructDiscoverMovie: (movie) => {
         // standardize output
-        if (!movie.movie) movie = {movie: movie};
+        if (!movie.movie) movie = {
+            movie: movie
+        };
 
         let d = {
             image: Images.reduce(movie.movie.images.fanart) || movie.movie.images.poster,
@@ -428,41 +489,49 @@ const Items = {
                 if (movie.watchers) return i18n.__('%s people watching', Misc.numberWithCommas(movie.watchers));
                 if (movie.list_count) return i18n.__('Present in %s lists', Misc.numberWithCommas(movie.list_count));
                 if (movie.watcher_count) return i18n.__('Played by %s people', Misc.numberWithCommas(movie.watcher_count));
-                
+
                 return false;
             })(),
             data: JSON.stringify(movie),
             rating: Misc.percentage(movie.movie.rating),
-            size: DB.get('small_items') ? {sm: 6, md: 4, lg: 3} : {sm: 12, md: 6, lg: 4},
+            size: DB.get('small_items') ? {
+                sm: 6,
+                md: 4,
+                lg: 3
+            } : {
+                sm: 12,
+                md: 6,
+                lg: 4
+            },
             watchlisted: DB.get('traktmoviescollection').find(o => o.movie.ids.slug === movie.movie.ids.slug)
         }
 
-        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">`+
-            `<span class="data">${d.data}</span>`+
-            `<div class="fanart">`+
-                `<div class="corner-rating"><span></span></div>`+
-                `<img class="base" src="images/placeholder.png">`+
-                `<div class="shadow"></div>`+
-                `<div class="titles">`+
-                    `<h4>`+
-                        `<span class="ep-title">${d.key}</span>`+
-                    `</h4><br/>`+
-                    `<h3>${movie.movie.title}<span class="year">${movie.movie.year || ''}</span></h3>`+
-                `</div>`+
-            `</div>`+
-            `<div class="quick-icons">`+
-                `<div class="actions">`+
-                    `<div class="watchlist trakt-icon-list-thick tooltipped i18n" title="${i18n.__('Add to watchlist')}" onClick="Discover.addToWatchlist(this)"></div>`+
-                    `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>`+
-                    `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.movie(this, 'discover')"></div>`+
-                `</div>`+
-                `<div class="metadata">`+
-                    `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">`+
-                        `<div class="fa fa-heart"></div>`+
-                        `${d.rating}&nbsp;%`+
-                `</div>`+
-            `</div>`+
-        `</div>`;
+        let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
+                `<span class="data">${d.data}</span>` +
+                `<div class="fanart">` +
+                    `<div class="corner-rating"><span></span></div>` +
+                    `<img class="base" src="images/placeholder.png">` +
+                    `<div class="shadow"></div>` +
+                    `<div class="titles">` +
+                        `<h4>` +
+                            `<span class="ep-title">${d.key}</span>` +
+                        `</h4><br/>` +
+                        `<h3>${movie.movie.title}<span class="year">${movie.movie.year || ''}</span></h3>` +
+                    `</div>` +
+                `</div>` +
+                `<div class="quick-icons">` +
+                    `<div class="actions">` +
+                        `<div class="watchlist trakt-icon-list-thick tooltipped i18n" title="${i18n.__('Add to watchlist')}" onClick="Discover.addToWatchlist(this)"></div>` +
+                        `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>` +
+                        `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.movie(this, 'discover')"></div>` +
+                    `</div>` +
+                    `<div class="metadata">` +
+                        `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
+                        `<div class="fa fa-heart"></div>` +
+                        `${d.rating}&nbsp;%` +
+                    `</div>` +
+                `</div>` +
+            `</div>`;
 
         Items.getImage(d.image, movie.movie.ids).then(state => {
             state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
@@ -476,7 +545,9 @@ const Items = {
             movie.movie.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).click());
             labels['Add to watchlist'] = () => $(`#${d.id} .watchlist`).click();
             labels['separator'] = true;
-            movie.movie.source == 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.movies.hide({id: movie.movie.ids.slug}).then(() => DB.store(0, 'lastrecommendedsync')).then(() => $(`#${d.id}`).remove()));
+            movie.movie.source == 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.movies.hide({
+                id: movie.movie.ids.slug
+            }).then(() => DB.store(0, 'lastrecommendedsync')).then(() => $(`#${d.id}`).remove()));
             labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`);
             let menu = Misc.customContextMenu(labels);
             $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
@@ -489,7 +560,7 @@ const Items = {
         let data = JSON.parse($(`#${id} .data`).text());
 
         let type, model;
-        
+
         if (data.movie) {
             type = 'movies';
             model = data.movie;
@@ -499,7 +570,9 @@ const Items = {
         }
 
         let post = {};
-        let item = {ids: model.ids};
+        let item = {
+            ids: model.ids
+        };
         post[type] = [item];
 
         console.info('Mark as watched:', model.ids.slug || `${data.show.ids.slug} ${model.season}x${model.number}`);
@@ -514,7 +587,9 @@ const Items = {
     },
 
     markAsUnWatched: (id) => {
-        Trakt.client.sync.history.remove({ids:[id]});
+        Trakt.client.sync.history.remove({
+            ids: [id]
+        });
         $(`#${id} .watched`).removeClass('selected');
 
         setTimeout(() => {
@@ -552,7 +627,7 @@ const Items = {
             for (let i = 10; i > 0; i--) {
                 let id = 'rating-' + i + '-' + Date.now();
 
-                content += `<input id="${id}" type="radio" class="rating-${i}" name="rating" value="${i}" ${isRated == i ? 'checked=1' : ''}/>`+
+                content += `<input id="${id}" type="radio" class="rating-${i}" name="rating" value="${i}" ${isRated == i ? 'checked=1' : ''}/>` +
                     `<label for="${id}" title="" class="rating-${i}">${i}</label>`
             }
 

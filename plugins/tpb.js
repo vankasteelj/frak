@@ -13,7 +13,9 @@ const get = (keywords, cfg = {}) => {
         cfg.cat || 200
     ].join('/');
 
-    return got(reqURL, {timeout:3500}).then(response => {
+    return got(reqURL, {
+        timeout: 3500
+    }).then(response => {
 
         if (!response.body) {
             throw new Error('Error at fetching TPB');
@@ -62,8 +64,12 @@ module.exports = {
         let req = {};
 
         switch (opts.type) {
-            case 'show': req.cat = '205,208'; break;
-            case 'movie': req.cat = '201,202,207'; break;
+            case 'show':
+                req.cat = '205,208';
+                break;
+            case 'movie':
+                req.cat = '201,202,207';
+                break;
         }
 
         return get(opts.keywords, req)

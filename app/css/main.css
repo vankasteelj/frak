@@ -123,7 +123,8 @@ a {
     border-radius: 3px;
 }
 
-input, textarea {
+input,
+textarea {
     border-width: 1px;
     border-style: solid;
     padding-left: 1px;
@@ -565,7 +566,8 @@ input, textarea {
 }
 
 #collection .local-item {
-    line-height: 58px; /* because of border-bottom 1px */
+    line-height: 58px;
+    /* because of border-bottom 1px */
 }
 
 #locals {
@@ -707,6 +709,7 @@ input, textarea {
     position: absolute;
     bottom: 60px;
 }
+
 #navbar .nav.exitapp {
     position: absolute;
     display: none;
@@ -877,9 +880,11 @@ input, textarea {
 #settings .streamer #announceopt {
     height: 100px;
 }
+
 #settings .streamer #announceopt .action {
     line-height: 0;
 }
+
 #settings .streamer textarea {
     line-height: 18px;
     height: 100px;
@@ -1042,7 +1047,8 @@ input:checked + .slider:before {
     height: 35px;
     position: relative;
     background: rgba(0, 0, 0, 0.6);
-    font-family: "Proxima Nova";;
+    font-family: "Proxima Nova";
+    ;
     line-height: 34px;
     text-align: center;
     font-size: 0.9em;
@@ -1050,6 +1056,7 @@ input:checked + .slider:before {
     opacity: 0;
     transition: all .5s;
 }
+
 #details-metadata .poster:hover .openTrakt {
     opacity: 1;
 }
@@ -1226,8 +1233,8 @@ input:checked + .slider:before {
     border-style: dashed;
     border-width: 2px;
     border-color: #bbb;
-    background: rgba(187,187,187,.2);
-    opacity: .7;   
+    background: rgba(187, 187, 187, .2);
+    opacity: .7;
 }
 
 #details-sources .drop-area p {
@@ -1283,7 +1290,7 @@ input:checked + .slider:before {
 }
 
 #details-loading #subtitles .subs .sublanguage .sublangmenu .scrolltext:hover {
-    animation:linear marqueelike 5s infinite;
+    animation: linear marqueelike 5s infinite;
 }
 
 #details-loading #subtitles .subs .sublanguage .sublangmenu .sub {

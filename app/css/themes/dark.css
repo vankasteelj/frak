@@ -84,7 +84,8 @@ body {
     color: #fff;
 }
 
-input, textarea {
+input,
+textarea {
     border-color: transparent;
 }
 
@@ -371,7 +372,7 @@ input, textarea {
 }
 
 .rating-hearts:hover > label {
-    color: #ddd!important;
+    color: #ddd !important;
 }
 
 .popover.bottom > .arrow:after {
@@ -472,11 +473,15 @@ select.dropdown {
 }
 
 #details-metadata .md-buttons .watched.selected {
-    cursor: default;!important
+    cursor: default;
+     !important
 }
+
 #details-metadata .md-buttons .watched.selected:hover {
-    background: none;!important
+    background: none;
+     !important
 }
+
 #details-metadata .md-buttons .watched.selected > div {
     color: #8e44ad;
 }
