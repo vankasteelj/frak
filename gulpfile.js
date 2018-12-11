@@ -153,33 +153,6 @@ gulp.task('run', () => {
     });
 });
 
-// build app from sources
-gulp.task('build', (callback) => {
-    runSequence('nwjs', 'clean:nwjs', 'mpv', callback);
-});
-
-// remove unused libraries
-gulp.task('clean:nwjs', () => {
-    return Promise.all(parsePlatforms().map((platform) => {
-        let dirname = path.join(releasesDir, pkJson.name, platform);
-        return del([
-            dirname + '/pdf*',
-            dirname + '/chrome*',
-            dirname + '/nacl*',
-            dirname + '/payload*',
-            dirname + '/nwjc*',
-            dirname + '/credit*',
-            dirname + '/debug*',
-            dirname + '/swift*'
-        ]);
-    }));
-});
-
-// create redistribuable packages
-gulp.task('dist', (callback) => {
-    runSequence('build', 'compress', 'deb', 'nsis', callback);
-});
-
 // default is help, because we can!
 gulp.task('default', () => {
     console.log([
@@ -406,3 +379,26 @@ gulp.task('mpv', () => {
         });
     }));
 });
+
+// remove unused libraries
+gulp.task('clean:nwjs', () => {
+    return Promise.all(parsePlatforms().map((platform) => {
+        let dirname = path.join(releasesDir, pkJson.name, platform);
+        return del([
+            dirname + '/pdf*',
+            dirname + '/chrome*',
+            dirname + '/nacl*',
+            dirname + '/payload*',
+            dirname + '/nwjc*',
+            dirname + '/credit*',
+            dirname + '/debug*',
+            dirname + '/swift*'
+        ]);
+    }));
+});
+
+// build app from sources
+gulp.task('build', gulp.series('nwjs', 'clean:nwjs', 'mpv'));
+
+// create redistribuable packages
+gulp.task('dist', gulp.series('build', 'compress', 'deb', 'nsis'));
