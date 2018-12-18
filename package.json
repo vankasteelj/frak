@@ -42,7 +42,7 @@
         "local-video-library": "^1.1.0",
         "mdata": "^0.1.1",
         "node-mpv": "github:00SteinsGate00/Node-MPV#Node-MPV-2",
-        "opensubtitles-api": "^4.1.0",
+        "opensubtitles-api": "^5.0.0",
         "readdirp": "^2.2.1",
         "trakt.tv": "^7.0.0",
         "trakt.tv-matcher": "^5.2.0",
