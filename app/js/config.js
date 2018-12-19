@@ -46,7 +46,6 @@ const Settings = {
         maxConns: 30,
         webSeeds: true,
         announce: [
-            'udp://tracker.leechers-paradise.org:6969/announce',
             'udp://tracker.coppersurfer.tk:6969/announce',
             'udp://glotorrents.pw:6969/announce', 'udp://exodus.desync.com:6969/announce',
             'udp://tracker.opentrackr.org:1337/announce',
