@@ -36,7 +36,6 @@
     },
     "dependencies": {
         "cheerio": "^0.22.0",
-        "cloudscraper": "^2.0.0",
         "fs-extra": "^7.0.1",
         "got": "^9.5.0",
         "i18n": "^0.8.3",
