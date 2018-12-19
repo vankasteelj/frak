@@ -9,7 +9,8 @@ const Images = {
     client: new(require('mdata'))({
         fanart: Settings.apikeys.fanart,
         tmdb: Settings.apikeys.tmdb,
-        tvdb: Settings.apikeys.tvdb
+        tvdb: Settings.apikeys.tvdb,
+        omdb: Settings.apikeys.omdb
     }),
 
     get: {
@@ -52,15 +53,7 @@ const Images = {
                     });
                 }
             })
-        },
-        /*episode: (args) => {
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    return resolve(Images.defaults);
-                }, Images.timeout)
-                return Images.client.images.episode(args).then(resolve)
-            })
-        }*/
+        }
     },
 
     reduce: (link, full) => {

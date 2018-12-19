@@ -45,7 +45,7 @@ const Plugins = {
         });
     },
     addToSettings: (plugin) => {
-        let id = Date.now();
+        let id = plugin.name.toLowerCase().replace(/\s/g, '-');
         let item = `<div class="option">`+
             `<div class="text">${plugin.name}</div>`+
             `<div class="action">`+

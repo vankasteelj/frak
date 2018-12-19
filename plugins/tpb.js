@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 const got = require('got');
-const defaultURL = 'https://thepiratebay.org';
+const defaultURL = 'https://openpirate.org';
 
 const get = (keywords, cfg = {}) => {
 
