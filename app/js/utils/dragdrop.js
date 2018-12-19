@@ -58,21 +58,42 @@ const Dragdrop = {
             $('#details-sources .sources').removeClass('blur');
 
             let file = e.dataTransfer.files[0];
-            let ext = path.extname(file.name).toLowerCase();
 
-            if (file != null) {
-                Dragdrop.handle(file.path, 'video');
-            } else {
-                Dragdrop.handle(e.dataTransfer.getData('text/plain'), 'magnet');
+            if (file != null) { // we have a file
+                let ext = path.extname(file.name).toLowerCase();
+                if (ext === '.torrent') { // a torrent
+                    return Dragdrop.handle(file.path, 'torrent');
+                } else if (['.mkv','.avi','.mp4','.m4v','.mts','.m2ts'].indexOf(ext) != -1) { // a video file
+                    return Dragdrop.handle(file.path, 'video');
+                }
+            } else { // we have a link
+                let link = e.dataTransfer.getData('text/plain');
+                if (link.slice(0,6) === 'magnet') { // a magnet
+                    return Dragdrop.handle(link, 'magnet');
+                }
             }
 
+            // unsupported
+            console.log('Unable to handle drop for:', file || link);
             return false;
         };
     },
     handle: (data, type) => {
         // in details view
-        if ($('#details').css('display') != 'none' && !Streamer.client) {
-            type === 'magnet' ? Details.loadRemote(data) : Details.loadVideo(data);
+        if ($('#details').css('display') === 'none' && Streamer.client) return;
+
+        switch(type) {
+            case 'magnet': 
+                Details.loadRemote(data);
+                break;
+            case 'video': 
+                Details.loadVideo(data);
+                break;
+            case 'torrent': 
+                Details.loadRemote(data);
+                break;
+            default:
+                console.error('Dragdrop.handle(): no `type` passed');
         }
     }
 };
