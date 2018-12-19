@@ -521,7 +521,7 @@ const Details = {
                 });
             }, 300);
         } else {
-            $(`#${model.ids.slug}`).remove();
+            $(`#${model.ids.slug}`).hide();
         }
     },
 
