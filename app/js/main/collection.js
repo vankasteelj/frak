@@ -287,11 +287,12 @@ const Collection = {
     show: {
         shows: (shows = []) => {
             $('#collection #shows').html('');
+            let items = [];
             for (let show of shows) {
                 if (DB.get('hiddenitems') && DB.get('hiddenitems')[show.show.ids.slug]) continue;
-                let item = Items.constructShow(show);
-                $('#collection #shows').append(item);
+                items.push(Items.constructShow(show));
             }
+            $('#collection #shows').append(items);
             Items.applyRatings(DB.get('traktratings'));
 
             if (!$('#collection #shows .grid-item').length) {
@@ -301,14 +302,15 @@ const Collection = {
         movies: (movies = []) => {
             $('#collection #movies').html('');
             let untrack = Array();
+            let items = [];
             for (let movie of movies) {
                 if (!movie.movie.released || new Date(movie.movie.released.split('-')).valueOf() > Date.now() || DB.get('hiddenmovies')[movie.movie.ids.slug] || (DB.get('hiddenitems') && DB.get('hiddenitems')[movie.movie.ids.slug])) {
                     untrack.push(movie.movie.title);
                     continue;
                 }
-                let item = Items.constructMovie(movie);
-                $('#collection #movies').append(item);
+                items.push(Items.constructMovie(movie));
             }
+            $('#collection #movies').append(items);
             Items.applyRatings(DB.get('traktratings'));
 
             if (!$('#collection #movies .grid-item').length) {
@@ -323,31 +325,34 @@ const Collection = {
                 if (!movies.length) return;
                 $('#collection #locals .waitforlibrary').hide();
                 $('#collection #locals .categories .movies').show();
+                let items = [];
                 for (let movie of movies) {
                     if ($(`#${Misc.slugify(movie.path)}`).length) continue;
-                    let item = Items.constructLocalMovie(movie);
-                    $('#collection #locals .movies .row').append(item);
+                    items.push(Items.constructLocalMovie(movie));
                 }
+                $('#collection #locals .movies .row').append(items);
             },
             shows: (shows = []) => {
                 $('#collection #locals .shows .row').html('');
                 if (!shows.length) return;
                 $('#collection #locals .waitforlibrary').hide();
                 $('#collection #locals .categories .shows').show();
+                let items = [];
                 for (let show of shows) {
-                    let item = Items.constructLocalShow(show);
-                    $('#collection #locals .shows .row').append(item);
+                    items.push(Items.constructLocalShow(show));
                 }
+                $('#collection #locals .shows .row').append(items);
             },
             unmatched: (unmatched = []) => {
                 $('#collection #locals .unmatched .row').html('');
                 if (!unmatched.length) return;
                 $('#collection #locals .waitforlibrary').hide();
                 $('#collection #locals .categories .unmatched').show();
+                let items = [];
                 for (let unmatch of unmatched) {
-                    let item = Items.constructLocalUnmatched(unmatch);
-                    $('#collection #locals .unmatched .row').append(item);
+                    items.push(Items.constructLocalUnmatched(unmatch));
                 }
+                $('#collection #locals .unmatched .row').append(items);
             }
         },
         history: (collection = [], update = false) => {
@@ -357,22 +362,22 @@ const Collection = {
                 $('#trakt #history').html('');
             }
 
+            let items = [];
             for (let i of collection) {
-                let item;
                 if (i.type == 'movie') {
-                    item = Items.constructHistoryMovie(i);
+                    items.push(Items.constructHistoryMovie(i));
                 } else {
-                    item = Items.constructHistoryShow(i);
+                    items.push(Items.constructHistoryShow(i));
                 }
-
-                $('#trakt #history').append(item);
             }
 
-            if (!$('#trakt #history .grid-item').length) {
-                return $('#trakt #history').append(Items.constructMessage('No history found, watch something before checking back here.'));
+            if (!items.length) {
+                items.push(Items.constructMessage('No history found, watch something before checking back here.'));
+            } else {
+                items.push(Items.constructHistoryMore());
             }
 
-            $('#trakt #history').append(Items.constructHistoryMore());
+            $('#trakt #history').append(items);
             Items.applyRatings(DB.get('traktratings'));
         }
     },

@@ -244,7 +244,7 @@ const Items = {
                         }
                         let menu = Misc.customContextMenu(labels);
                         $(`#${epid}`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
-                    }, 400);
+                    }, 300);
                 }
                 str += `</div>`;
             }
