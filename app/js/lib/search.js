@@ -113,7 +113,7 @@ const Search = {
                 let name = Misc.slugify(i.name);
                 foundNames.indexOf(name) === -1 && foundNames.push(name) || dupNames.push(name);
 
-                let matched = i.magnet.match(/btih:(.*?)\&/i);
+                let matched = i.magnet.match(/btih:(.*?)($|\&)/i);
                 if (!matched) continue;
 
                 let btih = matched[1].toLowerCase();
@@ -137,7 +137,7 @@ const Search = {
                 // where to push?
                 let name = Misc.slugify(i.name);
 
-                let matched = i.magnet.match(/btih:(.*?)\&/i);
+                let matched = i.magnet.match(/btih:(.*?)($|\&)/i);
                 if (!matched) continue;
 
                 let btih = matched[1].toLowerCase();
