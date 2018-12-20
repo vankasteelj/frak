@@ -55,23 +55,39 @@ const Trakt = {
         Collection.load();
     },
 
-    last_activities: () => {
+    last_activities: (type) => {
         return Trakt.client.sync.last_activities().then(results => {
-            return Math.max.apply(Math, [
-                new Date(results.episodes.watchlisted_at).valueOf(),
-                new Date(results.shows.watchlisted_at).valueOf(),
-                new Date(results.movies.watchlisted_at).valueOf(),
-                new Date(results.episodes.watched_at).valueOf(),
-                new Date(results.movies.watched_at).valueOf()
-            ]);
-        }).catch(console.error)
+            if (type === 'rate') {
+                return Math.max.apply(Math, [
+                    new Date(results.movies.rated_at).valueOf(),
+                    new Date(results.shows.rated_at).valueOf()
+                ]);
+            } else {
+                return Math.max.apply(Math, [
+                    new Date(results.episodes.watchlisted_at).valueOf(),
+                    new Date(results.shows.watchlisted_at).valueOf(),
+                    new Date(results.movies.watchlisted_at).valueOf(),
+                    new Date(results.episodes.watched_at).valueOf(),
+                    new Date(results.movies.watched_at).valueOf()
+                ]);
+            }
+        }).catch(console.error);
     },
 
     getRatings: () => {
-        return Trakt.client.sync.ratings.get().then(ratings => {
-            DB.store(ratings, 'traktratings');
-            return Items.applyRatings(ratings);
-        });
+        return Trakt.last_activities('rate').then(activities => {
+            if (activities > (DB.get('traktsyncrating') || 0)) {
+                console.info('Fetching ratings from remote server');
+                return Trakt.client.sync.ratings.get().then(ratings => {
+                    DB.store(ratings, 'traktratings');
+                    DB.store(Date.now(), 'traktsyncrating');
+                    return ratings;
+                });
+            } else {
+                console.info('Using cached ratings');
+                return DB.get('traktratings');
+            }
+        }).then(Items.applyRatings);
     },
 
     rate: (method, item, score) => {

@@ -7,7 +7,7 @@ const Collection = {
         Collection.hiddenMovies.verify();
 
         // should trakt update?
-        Trakt.last_activities().then(activities => {
+        Trakt.last_activities('watch').then(activities => {
             if (
                 (activities > (DB.get('traktsync') || 0)) ||
                 (Date.now() - (DB.get('traktsync') || 0) > 3600000)
