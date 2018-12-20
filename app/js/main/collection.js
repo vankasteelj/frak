@@ -14,13 +14,15 @@ const Collection = {
             ) {
                 console.info('Fetching from remote server...');
                 Collection.get.traktcached();
-                Promise.all([
-                    Collection.get.traktshows(),
-                    Collection.get.traktmovies()
-                ]).then((collections) => {
-                    Collection.get.traktcached();
-                    Collection.hiddenItems.reset();
-                    Trakt.getRatings();
+                Collection.get.traktwatched().then(() => {
+                    Promise.all([
+                        Collection.get.traktshows(),
+                        Collection.get.traktmovies()
+                    ]).then((collections) => {
+                        Collection.get.traktcached();
+                        Collection.hiddenItems.reset();
+                        Trakt.getRatings();
+                    });
                 })
             } else {
                 console.info('We got cached trakt data');
@@ -36,7 +38,7 @@ const Collection = {
         traktshows: (update) => {
             $('#navbar .shows .fa-spin').css('opacity', update ? 0 : 1);
 
-            return Trakt.client.ondeck.getAll().then(results => {
+            return Trakt.client.ondeck.getAll(DB.get('watchedShows') || []).then(results => {
                 console.info('Trakt.tv - "show watchlist" collection recieved');
 
                 DB.store(Date.now(), 'traktsync');
@@ -136,6 +138,12 @@ const Collection = {
             }).then(collection => {
                 return Collection.show.history(collection, true);
             }).catch(console.error)
+        },
+        traktwatched: () => {
+            return Trakt.client.sync.watched({type: 'shows',extended: 'full,noseasons'})
+                .then(watchedShows => DB.store(watchedShows, 'watchedShows'))
+                .then(() => Trakt.client.sync.watched({type: 'movies'}))
+                .then(watchedMovies => DB.store(watchedMovies, 'watchedMovies'));
         }
     },
 
