@@ -1761,6 +1761,14 @@ select.dropdown {
     margin-left: 55px;
 }
 
+#discover .grid-item > .watched {
+    filter: grayscale(70%) opacity(20%);
+    transition: all .5s;
+}
+#discover .grid-item:hover > .watched {
+    filter: grayscale(10%) opacity(90%);
+}
+
 /* discover END */
 
 /* row message */

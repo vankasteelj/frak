@@ -424,7 +424,15 @@ const Items = {
                 md: 6,
                 lg: 4
             },
-            watchlisted: DB.get('traktshowscollection') && DB.get('traktshowscollection').find(o => o.show.ids.slug === show.show.ids.slug)
+            watchlisted: (() => {
+                let want = DB.get('traktshowscollection').find(o => o.show.ids.slug === show.show.ids.slug);
+                let watched = DB.get('watchedShows').find(o => o.show.ids.slug === show.show.ids.slug);
+                return Boolean(want || watched);
+            })(),
+            watched: (() => {
+                let ws = DB.get('watchedShows').find(o => o.show.ids.slug === show.show.ids.slug);
+                return ws && ws.plays >= ws.show.aired_episodes;
+            })()
         }
 
         let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
@@ -459,6 +467,7 @@ const Items = {
             !show.show.trailer && $(`#${d.id} .trailer`).hide();
             !d.key && $(`#${d.id} .ep-title`).hide();
             d.watchlisted && $(`#${d.id} .watchlist`)[0] && ($(`#${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>');
+            d.watched && $(`#${d.id} .fanart`).addClass('watched');
 
             // right click menu
             let labels = {};
@@ -503,7 +512,8 @@ const Items = {
                 md: 6,
                 lg: 4
             },
-            watchlisted: DB.get('traktmoviescollection').find(o => o.movie.ids.slug === movie.movie.ids.slug)
+            watchlisted: DB.get('traktmoviescollection').find(o => o.movie.ids.slug === movie.movie.ids.slug),
+            watched: DB.get('watchedMovies').find(o => o.movie.ids.slug === movie.movie.ids.slug)
         }
 
         let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
@@ -538,6 +548,7 @@ const Items = {
             !movie.movie.trailer && $(`#${d.id} .trailer`).hide();
             !d.key && $(`#${d.id} .ep-title`).hide();
             d.watchlisted && $(`#${d.id} .watchlist`)[0] && ($(`#${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>');
+            d.watched && $(`#${d.id} .fanart`).addClass('watched');
 
             // right click menu
             let labels = {};
