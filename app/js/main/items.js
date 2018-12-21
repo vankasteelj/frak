@@ -1,15 +1,26 @@
 'use strict'
 
 const Items = {
-    getImage: (url, ids) => {
-        if (!url) return Promise.resolve(false);
+    getImage: (url, ids, type, route) => {
+        if (!url && !ids && !type && !route) return Promise.resolve(false);
+
+        if (!url) {
+            console.log('Items.getImage', url, ids, type, route);
+            return Images.get[type](ids).then(images => {
+                if (images && images[route]) {
+                    return Items.getImage(images[route]);
+                } else {
+                    return false;
+                }
+            });
+        }
 
         return new Promise(resolve => {
             let cache = new Image();
             cache.src = url;
 
             cache.onload = () => {
-                resolve(true);
+                resolve(url);
             }
             cache.onerror = (e) => {
                 if (ids) IB.remove(ids);
@@ -59,8 +70,8 @@ const Items = {
                 `</div>` +
             `</div>`;
 
-        Items.getImage(d.image, movie.movie.ids).then(state => {
-            state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
+        Items.getImage(d.image, movie.movie.ids, 'movie', 'fanart').then((img) => {
+            img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !movie.movie.trailer && $(`#${d.id} .trailer`).hide();
 
             // right click menu
@@ -133,8 +144,8 @@ const Items = {
                 `</div>` +
             `</div>`;
 
-        Items.getImage(d.image, show.show.ids).then(state => {
-            state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
+        Items.getImage(d.image, show.show.ids, 'show', 'fanart').then(img => {
+            img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !show.show.trailer && $(`#${d.id} .trailer`).hide();
             if (show.unseen - 1 <= 0) $(`#${d.id} .unseen`).hide();
 
@@ -273,8 +284,8 @@ const Items = {
                 `</div>` +
             `</div>`;
 
-        Items.getImage(d.image, show.show.ids).then(state => {
-            state && $(`#${d.watched_id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.watched_id} .fanart img`).css('opacity', '0');
+        Items.getImage(d.image, show.show.ids, 'show', 'poster').then(img => {
+            img && $(`#${d.watched_id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.watched_id} .fanart img`).css('opacity', '0');
         });
 
         return item;
@@ -327,8 +338,8 @@ const Items = {
                 `</div>` +
             `</div>`;
 
-        Items.getImage(d.image, movie.movie.ids).then(state => {
-            state && $(`#${d.watched_id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.watched_id} .fanart img`).css('opacity', '0');
+        Items.getImage(d.image, movie.movie.ids, 'movie', 'poster').then(img => {
+            img && $(`#${d.watched_id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.watched_id} .fanart img`).css('opacity', '0');
         });
 
         return item;
@@ -426,8 +437,8 @@ const Items = {
                 `</div>` +
             `</div>`;
 
-        Items.getImage(d.image, show.show.ids).then(state => {
-            state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
+        Items.getImage(d.image, show.show.ids, 'show', 'fanart').then(img => {
+            img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !show.show.trailer && $(`#${d.id} .trailer`).hide();
             !d.key && $(`#${d.id} .ep-title`).hide();
             d.watchlisted && $(`#${d.id} .watchlist`)[0] && ($(`#${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>');
@@ -507,8 +518,8 @@ const Items = {
                 `</div>` +
             `</div>`;
 
-        Items.getImage(d.image, movie.movie.ids).then(state => {
-            state && $(`#${d.id} .fanart`).css('background-image', `url('${d.image}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
+        Items.getImage(d.image, movie.movie.ids, 'movie', 'fanart').then(img => {
+            img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
             !movie.movie.trailer && $(`#${d.id} .trailer`).hide();
             !d.key && $(`#${d.id} .ep-title`).hide();
             d.watchlisted && $(`#${d.id} .watchlist`)[0] && ($(`#${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>');
@@ -532,8 +543,11 @@ const Items = {
     },
     markAsWatched: (elm) => {
         let id = $(elm).context.offsetParent.id || $(elm).context.id;
-        let data = JSON.parse($(`#${id} .data`).text());
 
+        $(elm).addClass('selected');
+        $(`#${id}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
+        
+        let data = JSON.parse($(`#${id} .data`).text());
         let type, model;
 
         if (data.movie) {
@@ -551,26 +565,19 @@ const Items = {
         post[type] = [item];
 
         console.info('Mark as watched:', model.ids.slug || `${data.show.ids.slug} ${model.season}x${model.number}`);
-        Trakt.client.sync.history.add(post);
 
-        $(elm).addClass('selected');
-        $(`#${id}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
 
-        setTimeout(() => {
-            Trakt.reload(true);
-        }, 300);
+        Trakt.client.sync.history.add(post).finally(() => Trakt.reload(true));
     },
 
     markAsUnWatched: (id) => {
+        $(`#${id} .watched`).removeClass('selected');
         Trakt.client.sync.history.remove({
             ids: [id]
-        });
-        $(`#${id} .watched`).removeClass('selected');
-
-        setTimeout(() => {
+        }).finally(() => {
             Trakt.reload();
             $(`#${id}`).remove();
-        }, 300);
+        });
     },
 
     applyRatings: (ratings = []) => {

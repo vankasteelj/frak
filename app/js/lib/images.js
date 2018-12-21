@@ -1,7 +1,6 @@
 'use strict';
 
 const Images = {
-    timeout: 5000,
     defaults: {
         fanart: null,
         poster: null,
@@ -15,44 +14,20 @@ const Images = {
 
     get: {
         movie: (args) => {
-            return new Promise(resolve => {
-                let timed = setTimeout(() => {
-                    console.info('Images.get.movie() timed out', args);
-                    return resolve(Images.defaults);
-                }, Images.timeout);
-
-                let cached = IB.get(args);
-                if (cached) {
-                    clearTimeout(timed);
-                    return resolve(cached);
-                } else {
-                    return Images.client.images.movie(args).then((response) => {
-                        IB.store(response, args);
-                        clearTimeout(timed);
-                        return resolve(response);
-                    });
-                }
-            })
+            let cached = IB.get(args);
+            if (cached) return Promise.resolve(cached);
+            return Images.client.images.movie(args).then((response) => {
+                IB.store(response, args);
+                return response;
+            });
         },
         show: (args) => {
-            return new Promise(resolve => {
-                let timed = setTimeout(() => {
-                    console.info('Images.get.show() timed out', args);
-                    return resolve(Images.defaults);
-                }, Images.timeout);
-
-                let cached = IB.get(args);
-                if (cached) {
-                    clearTimeout(timed);
-                    return resolve(cached);
-                } else {
-                    return Images.client.images.show(args).then((response) => {
-                        IB.store(response, args);
-                        clearTimeout(timed);
-                        return resolve(response);
-                    });
-                }
-            })
+            let cached = IB.get(args);
+            if (cached) return Promise.resolve(cached);
+            return Images.client.images.show(args).then((response) => {
+                IB.store(response, args);
+                return response;
+            });
         }
     },
 

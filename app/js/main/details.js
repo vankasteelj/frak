@@ -20,13 +20,13 @@ const Details = {
     loadImage: (url, type) => {
         url = Images.reduce(url, type === 'poster');
 
-        Items.getImage(url).then(state => {
-            if (!state) return;
+        Items.getImage(url).then(img => {
+            if (!img) return;
 
             if (type == 'poster') {
-                $('#details .poster').css('background-image', `url('${url}')`);
+                $('#details .poster').css('background-image', `url('${img}')`);
             } else {
-                $('#details .background').css('background-image', `url('${url}')`).css('opacity', 0.7);
+                $('#details .background').css('background-image', `url('${img}')`).css('opacity', 0.7);
             }
         });
     },
@@ -410,12 +410,13 @@ const Details = {
             let data = JSON.parse($next_episode.find('.data').text());
             console.info('Next episode is ready', data);
 
-            $('#details-sources').hide();
-            $('#details-loading').hide();
-            $('#details-spinner').hide();
-            $('#details-next').show();
-
             $('#details-next .content .next-title span').text(`S${Misc.pad(data.metadata.episode.season)}E${Misc.pad(data.metadata.episode.number)}` + (data.metadata.episode.title ? ` - ${data.metadata.episode.title}` : ''));
+            setTimeout(() => {
+                $('#details-sources').hide();
+                $('#details-loading').hide();
+                $('#details-spinner').hide();
+                $('#details-next').show();
+            }, 50);
 
             $('#playnext').on('click', () => {
                 Details.closeDetails();

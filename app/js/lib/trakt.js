@@ -76,7 +76,7 @@ const Trakt = {
 
     getRatings: () => {
         return Trakt.last_activities('rate').then(activities => {
-            if (activities > (DB.get('traktsyncrating') || 0)) {
+            if (!DB.get('traktratings') || activities > (DB.get('traktsyncrating') || 0)) {
                 console.info('Fetching ratings from remote server');
                 return Trakt.client.sync.ratings.get().then(ratings => {
                     DB.store(ratings, 'traktratings');
@@ -164,8 +164,11 @@ const Trakt = {
         delete localStorage.traktmoviescollection;
         delete localStorage.traktshows;
         delete localStorage.traktshowscollection;
-        delete localStorage.traktratings;
         delete localStorage.traktsync;
+        if (!update) {
+            delete localStorage.traktsyncrating;
+            delete localStorage.traktratings;
+        }
 
         return Promise.all([
             Collection.get.traktshows(update),
@@ -230,9 +233,7 @@ const Trakt = {
             if (Player.config.model.metadata) {
                 // local item
                 if (type == 'episode') {
-                    setTimeout(() => {
-                        Details.loadLocalNext();
-                    }, 50);
+                    Details.loadLocalNext();
                 }
             } else {
                 // trakt list
