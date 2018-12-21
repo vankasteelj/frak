@@ -28,6 +28,8 @@ const IB = {
         return IB._save(db);
     },
     get: (ids) => {
+        if (!ids) return false;
+
         let id = ids.imdb;
         let db = IB._load();
 

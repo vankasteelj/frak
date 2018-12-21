@@ -150,11 +150,7 @@ const Collection = {
             let collection = Array();
 
             return Promise.all(movies.map((movie) => {
-                return Images.get.movie({
-                    imdb: movie.movie.ids.imdb,
-                    tmdb: movie.movie.ids.tmdb
-                }).then(images => {
-                    movie.movie.images = images;
+                return Images.get.movie(movie.movie.ids).then(images => {
                     collection.push(movie);
                     return movie;
                 });
@@ -180,15 +176,10 @@ const Collection = {
         traktshows: (shows) => {
             let collection = Array();
 
-            return Promise.all(shows.map((item) => {
-                return Images.get.show({
-                    imdb: item.show.ids.imdb,
-                    tmdb: item.show.ids.tmbd,
-                    tvdb: item.show.ids.tvdb
-                }).then(images => {
-                    item.show.images = images;
-                    collection.push(item);
-                    return item;
+            return Promise.all(shows.map((show) => {
+                return Images.get.show(show.show.ids).then(images => {
+                    collection.push(show);
+                    return show;
                 });
             })).then(() => {
                 console.info('All images found for trakt shows');
@@ -274,12 +265,7 @@ const Collection = {
             return Promise.all(items.map((item, index) => {
                 let type = item.type == 'movie' ? 'movie' : 'show';
 
-                return Images.get[type]({
-                    imdb: item[type].ids.imdb,
-                    tmdb: item[type].ids.tmdb,
-                    tvdb: item[type].ids.tvdb
-                }).then(images => {
-                    item[type].images = images;
+                return Images.get[type](item[type].ids).then(images => {
                     item.index = index;
                     collection.push(item);
                     return item;

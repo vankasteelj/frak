@@ -71,8 +71,8 @@ const Details = {
             d.ids.tvdb && $('#details-metadata .ids .tvdb').text(d.ids.tvdb);
         }
 
-        Details.loadImage(d.fanart, 'fanart');
-        Details.loadImage(d.poster, 'poster');
+        Details.loadImage(IB.get(d.ids).fanart, 'fanart');
+        Details.loadImage(IB.get(d.ids).poster, 'poster');
 
         $('#details-metadata .title').text(d.title);
 
@@ -171,8 +171,6 @@ const Details = {
             }, 'locals');
 
             Images.get.movie(file.metadata.movie.ids).then(images => {
-                file.metadata.movie.images = images;
-
                 Details.loadImage(images.fanart || images.poster, 'fanart');
                 Details.loadImage(images.poster || images.fanart, 'poster');
             });
@@ -200,8 +198,6 @@ const Details = {
             }, 'locals');
 
             Images.get.show(file.metadata.show.ids).then(images => {
-                file.metadata.show.images = images;
-
                 Details.loadImage(images.fanart || images.poster, 'fanart');
                 Details.loadImage(images.poster || images.fanart, 'poster');
             });
@@ -242,8 +238,6 @@ const Details = {
                 rating: parseFloat(item.movie.rating).toFixed(1),
                 runtime: item.movie.runtime,
                 genres: item.movie.genres,
-                fanart: item.movie.images.fanart || item.movie.images.poster,
-                poster: item.movie.images.poster || item.movie.images.fanart,
                 trailer: item.movie.trailer
             }, from);
 
@@ -268,8 +262,6 @@ const Details = {
                 rating: parseFloat(item.show.rating).toFixed(1),
                 runtime: item.show.runtime,
                 genres: item.show.genres,
-                fanart: item.show.images.fanart || item.show.images.poster,
-                poster: item.show.images.poster || item.show.images.fanart,
                 trailer: item.show.trailer
             }, from);
 

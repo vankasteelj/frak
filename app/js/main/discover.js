@@ -48,7 +48,6 @@ const Discover = {
                 tmdb: item[type].ids.tmdb,
                 tvdb: item[type].ids.tvdb
             }).then(images => {
-                item[type].images = images;
                 item.index = index;
                 collection.push(item);
                 return item;
@@ -299,11 +298,7 @@ const Discover = {
                 index++;
 
                 let obj = movie.movie ? movie.movie : movie;
-                return Images.get.movie({
-                    imdb: obj.ids.imdb,
-                    tmdb: obj.ids.tmdb
-                }).then(images => {
-                    obj.images = images;
+                return Images.get.movie(obj.ids).then(images => {
                     collection.push(movie);
                     return movie;
                 });
@@ -333,12 +328,7 @@ const Discover = {
                 index++;
 
                 let obj = item.show ? item.show : item;
-                return Images.get.show({
-                    imdb: obj.ids.imdb,
-                    tmdb: obj.ids.tmbd,
-                    tvdb: obj.ids.tvdb
-                }).then(images => {
-                    obj.images = images;
+                return Images.get.show(obj.ids).then(images => {
                     collection.push(item);
                     return item;
                 });

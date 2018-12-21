@@ -5,7 +5,6 @@ const Items = {
         if (!url && !ids && !type && !route) return Promise.resolve(false);
 
         if (!url) {
-            console.log('Items.getImage', url, ids, type, route);
             return Images.get[type](ids).then(images => {
                 if (images && images[route]) {
                     return Items.getImage(images[route]);
@@ -31,7 +30,7 @@ const Items = {
 
     constructMovie: (movie) => {
         let d = {
-            image: Images.reduce(movie.movie.images.fanart) || movie.movie.images.poster,
+            image: Images.reduce(IB.get(movie.movie.ids).fanart) || IB.get(movie.movie.ids).poster,
             id: movie.movie.ids.slug,
             data: JSON.stringify(movie),
             rating: Misc.percentage(movie.movie.rating),
@@ -99,7 +98,7 @@ const Items = {
     },
     constructShow: (show) => {
         let d = {
-            image: Images.reduce(show.show.images.fanart) || show.show.images.poster,
+            image: Images.reduce(IB.get(show.show.ids).fanart) || IB.get(show.show.ids).poster,
             id: show.show.ids.slug,
             sxe: `s${Misc.pad(show.next_episode.season)}e${Misc.pad(show.next_episode.number)}`,
             data: JSON.stringify(show),
@@ -236,7 +235,7 @@ const Items = {
     },
     constructHistoryShow: (show) => {
         let d = {
-            image: show.show.images.poster || Images.reduce(show.show.images.fanart),
+            image: IB.get(show.show.ids).poster || Images.reduce(IB.get(show.show.ids).fanart),
             id: show.show.ids.slug,
             sxe: `${show.episode.season}x${Misc.pad(show.episode.number)}`,
             title: show.episode.title || '',
@@ -292,7 +291,7 @@ const Items = {
     },
     constructHistoryMovie: (movie) => {
         let d = {
-            image: movie.movie.images.poster || Images.reduce(movie.movie.images.fanart),
+            image: IB.get(movie.movie.ids).poster || Images.reduce(IB.get(movie.movie.ids).fanart),
             id: movie.movie.ids.slug,
             title: movie.movie.title,
             data: JSON.stringify(movie),
@@ -379,7 +378,7 @@ const Items = {
         }
 
         let d = {
-            image: Images.reduce(show.show.images.fanart) || show.show.images.poster,
+            image: Images.reduce(IB.get(show.show.ids).fanart) || IB.get(show.show.ids).poster,
             id: show.show.ids.slug,
             key: (function () {
                 if (show.watchers) return i18n.__('%s people watching', Misc.numberWithCommas(show.watchers));
@@ -467,7 +466,7 @@ const Items = {
         };
 
         let d = {
-            image: Images.reduce(movie.movie.images.fanart) || movie.movie.images.poster,
+            image: Images.reduce(IB.get(movie.movie.ids).fanart) || IB.get(movie.movie.ids).poster,
             id: movie.movie.ids.slug,
             key: (function () {
                 if (movie.watchers) return i18n.__('%s people watching', Misc.numberWithCommas(movie.watchers));

@@ -40,7 +40,7 @@
         "got": "^9.5.0",
         "i18n": "^0.8.3",
         "local-video-library": "^1.2.0",
-        "mdata": "^1.0.0",
+        "mdata": "^1.0.1",
         "node-mpv": "github:00SteinsGate00/Node-MPV#Node-MPV-2",
         "opensubtitles-api": "^5.0.0",
         "readdirp": "^2.2.1",
