@@ -168,22 +168,10 @@ const Items = {
             data: JSON.stringify(movie)
         }
 
-        let item = `<div class="local-item tooltipped" onClick="Details.local.movie(this)" id="${d.id}" title="${movie.filename + ' - ' + Misc.fileSize(movie.size)}">` +
+        let item = `<div class="local-item local-context tooltipped" onClick="Details.local.movie(this)" id="${d.id}" title="${movie.filename + ' - ' + Misc.fileSize(movie.size)}">` +
                 `<span class="data">${d.data}</span>` +
                 `<span class="title">${movie.metadata.movie.title}</span>` +
             `</div>`;
-
-        setTimeout(() => {
-            let labels = {};
-            labels['Play now'] = () => $(`#${d.id}`).click();
-            labels['Show in file explorer'] = () => {
-                console.info('[File explorer opened] Showing', movie.path);
-                gui.Shell.showItemInFolder(path.normalize(movie.path));
-                Notify.snack(i18n.__('Opening the file location'));
-            }
-            let menu = Misc.customContextMenu(labels);
-            $(`#${d.id}`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
-        }, 500);
 
         return item;
     },
@@ -193,22 +181,10 @@ const Items = {
             data: JSON.stringify(file)
         }
 
-        let item = `<div class="local-item tooltipped" onClick="Details.local.unmatched(this)" id="${d.id}" title="${file.filename + ' - ' + Misc.fileSize(file.size)}">` +
+        let item = `<div class="local-item local-context tooltipped" onClick="Details.local.unmatched(this)" id="${d.id}" title="${file.filename + ' - ' + Misc.fileSize(file.size)}">` +
                 `<span class="data">${d.data}</span>` +
                 `<span class="title">${file.filename}</span>` +
             `</div>`;
-
-        setTimeout(() => {
-            let labels = {};
-            labels['Play now'] = () => $(`#${d.id}`).click();
-            labels['Show in file explorer'] = () => {
-                console.info('[File explorer opened] Showing', file.path);
-                gui.Shell.showItemInFolder(path.normalize(file.path));
-                Notify.snack(i18n.__('Opening the file location'));
-            }
-            let menu = Misc.customContextMenu(labels);
-            $(`#${d.id}`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
-        }, 500);
 
         return item;
     },
@@ -232,19 +208,7 @@ const Items = {
                     let data = show.seasons[s].episodes[e];
                     data.metadata.show = show.metadata.show;
 
-                    str += `<div class="episode tooltipped e${e}" onClick="Details.local.episode(this)" id="${epid}" title="${data.filename + ' - ' + Misc.fileSize(data.size)}"><span class="data">${JSON.stringify(data)}</span><span class="e-title">${title ? sxe + ' - ' + title : sxe}</span></div>`;
-
-                    setTimeout(() => {
-                        let labels = {};
-                        labels['Play now'] = () => $(`#${epid}`).click();
-                        labels['Show in file explorer'] = () => {
-                            console.info('[File explorer opened] Showing', data.path);
-                            gui.Shell.showItemInFolder(path.normalize(data.path));
-                            Notify.snack(i18n.__('Opening the file location'));
-                        }
-                        let menu = Misc.customContextMenu(labels);
-                        $(`#${epid}`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
-                    }, 500);
+                    str += `<div class="episode local-context tooltipped e${e}" onClick="Details.local.episode(this)" id="${epid}" title="${data.filename + ' - ' + Misc.fileSize(data.size)}"><span class="data">${JSON.stringify(data)}</span><span class="e-title">${title ? sxe + ' - ' + title : sxe}</span></div>`;
                 }
                 str += `</div>`;
             }

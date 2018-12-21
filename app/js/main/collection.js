@@ -73,13 +73,11 @@ const Collection = {
 
             if (update) return;
 
-            setTimeout(() => {
-                if (!Player.mpv && !(process.platform == 'win32' && fs.existsSync('./mpv/mpv.exe'))) {
-                    Interface.requireMPV();
-                } else {
-                    Interface.showMain();
-                }
-            }, 100);
+            if (!Player.mpv && !(process.platform == 'win32' && fs.existsSync('./mpv/mpv.exe'))) {
+                Interface.requireMPV();
+            } else {
+                setTimeout(Interface.showMain, 0);
+            }
         },
         local: () => {
             let collection = DB.get('local_library');
@@ -92,7 +90,7 @@ const Collection = {
             $('#collection #locals .waitforlibrary .scanning').show();
 
             let method = collection ? 'update' : 'scan';
-            method == 'update' && $('#locals .refreshing').show() && collection.length && Collection.format.locals(DB.get('local_library'));
+            method == 'update' && $('#locals .refreshing').show();
 
             Local.scans++;
 
@@ -228,7 +226,6 @@ const Collection = {
             $('#collection #locals .categories .shows').hide();
             $('#collection #locals .categories .unmatched').hide();
 
-
             let movies = collection.movies.sort(alphabetical);
             DB.store(movies, 'local_movies');
             Collection.show.locals.movies(movies);
@@ -244,6 +241,30 @@ const Collection = {
                 $('#collection #locals .waitforlibrary .spinner').css('visibility', 'hidden');
                 $('#collection #locals .waitforlibrary .scanning').hide();
                 $('#collection #locals .waitforlibrary .notfound').show();
+            } else {
+                // build context menu without hogging
+                let items = document.getElementsByClassName('local-context');
+                let i = 0;
+                let doLoop = () => {
+                    if (i < items.length) buildContext();
+                };
+                let buildContext = () => {
+                    let item = items.item(i);
+                    let file = JSON.parse(item.firstChild.innerText);
+
+                    let menu = Misc.customContextMenu({
+                        'Play now': () => item.click(),
+                        'Show in file explorer': () => {
+                            console.info('[File explorer opened] Showing', file.path);
+                            gui.Shell.showItemInFolder(path.normalize(file.path));
+                            Notify.snack(i18n.__('Opening the file location'));
+                        }
+                    });
+                    item.oncontextmenu = (e) => menu.popup(e.clientX, e.clientY);
+                    i++;
+                    setTimeout(doLoop, 0);
+                }
+                doLoop();
             }
         },
 
