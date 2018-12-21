@@ -183,7 +183,7 @@ const Items = {
             }
             let menu = Misc.customContextMenu(labels);
             $(`#${d.id}`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
-        }, 300);
+        }, 500);
 
         return item;
     },
@@ -208,7 +208,7 @@ const Items = {
             }
             let menu = Misc.customContextMenu(labels);
             $(`#${d.id}`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
-        }, 300);
+        }, 500);
 
         return item;
     },
@@ -244,7 +244,7 @@ const Items = {
                         }
                         let menu = Misc.customContextMenu(labels);
                         $(`#${epid}`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
-                    }, 300);
+                    }, 500);
                 }
                 str += `</div>`;
             }
