@@ -71,9 +71,6 @@ const Details = {
             d.ids.tvdb && $('#details-metadata .ids .tvdb').text(d.ids.tvdb);
         }
 
-        Details.loadImage(IB.get(d.ids).fanart, 'fanart');
-        Details.loadImage(IB.get(d.ids).poster, 'poster');
-
         $('#details-metadata .title').text(d.title);
 
         if (d.title.length > 40) {
@@ -241,6 +238,9 @@ const Details = {
                 trailer: item.movie.trailer
             }, from);
 
+            Details.loadImage(IB.get(item.movie.ids).fanart, 'fanart');
+            Details.loadImage(IB.get(item.movie.ids).poster, 'poster');
+
             let offline = Search.offline(item);
             if (offline) {
                 console.info('Found match in local library', offline);
@@ -264,6 +264,9 @@ const Details = {
                 genres: item.show.genres,
                 trailer: item.show.trailer
             }, from);
+
+            Details.loadImage(IB.get(item.show.ids).fanart, 'fanart');
+            Details.loadImage(IB.get(item.show.ids).poster, 'poster');
 
             let offline = Search.offline(item);
             if (offline) {
