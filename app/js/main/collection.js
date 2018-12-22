@@ -13,7 +13,7 @@ const Collection = {
                 (Date.now() - (DB.get('traktsync') || 0) > 3600000)
             ) {
                 console.info('Fetching from remote server...');
-                Collection.get.traktcached();
+                Collection.get.traktcached(); // display what we have while we update
                 Collection.get.traktwatched().then(() => {
                     Promise.all([
                         Collection.get.traktshows(),
