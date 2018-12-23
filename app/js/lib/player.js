@@ -35,7 +35,7 @@ const Player = {
             Trakt.scrobble('start');
         }).catch(error => {
             console.error('MPV error', error);
-            Notify.snack('MPV error: ' + error.message || error.verbose);
+            Notify.snack('MPV error: ' + error.verbose || error.message);
         });
     },
 
