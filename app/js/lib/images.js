@@ -15,7 +15,7 @@ const Images = {
     get: {
         movie: (args) => {
             let cached = IB.get(args);
-            if (cached) return Promise.resolve(cached);
+            if (Object.keys(cached).length) return Promise.resolve(cached);
             console.debug('Movie - getting poster/fanart for', args);
             return Images.client.images.movie(args).then((response) => {
                 IB.store(response, args);
@@ -24,7 +24,7 @@ const Images = {
         },
         show: (args) => {
             let cached = IB.get(args);
-            if (cached) return Promise.resolve(cached);
+            if (Object.keys(cached).length) return Promise.resolve(cached);
             console.debug('Show - getting poster/fanart for', args);
             return Images.client.images.show(args).then((response) => {
                 IB.store(response, args);
