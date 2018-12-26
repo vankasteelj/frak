@@ -265,7 +265,7 @@ const Items = {
                 `</div>` +
                 `<div class="quick-icons">` +
                     `<div class="actions">` +
-                        `<div class="watched trakt-icon-check-thick tooltipped i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched('${d.watched_id}')"></div>` +
+                        `<div class="watched trakt-icon-check-thick tooltipped i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched('${d.watched_id}', '${d.id}')"></div>` +
                     `</div>` +
                     `<div class="metadata">` +
                         `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.watched_id}')">` +
@@ -320,7 +320,7 @@ const Items = {
                 `</div>` +
                 `<div class="quick-icons">` +
                     `<div class="actions">` +
-                        `<div class="watched trakt-icon-check-thick tooltipped i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched('${d.watched_id}')"></div>` +
+                        `<div class="watched trakt-icon-check-thick tooltipped i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched('${d.watched_id}', '${d.id}')"></div>` +
                     `</div>` +
                     `<div class="metadata">` +
                         `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.watched_id}')">` +
@@ -400,11 +400,11 @@ const Items = {
             },
             watchlisted: (() => {
                 let want = DB.get('traktshowscollection').find(o => o.show.ids.slug === show.show.ids.slug);
-                let watched = DB.get('watchedShows').find(o => o.show.ids.slug === show.show.ids.slug);
+                let watched = WB.find.show(show.show.ids.slug);
                 return Boolean(want || watched);
             })(),
             watched: (() => {
-                let ws = DB.get('watchedShows').find(o => o.show.ids.slug === show.show.ids.slug);
+                let ws = WB.find.show(show.show.ids.slug);
                 return ws && ws.plays >= ws.show.aired_episodes;
             })()
         }
@@ -487,7 +487,7 @@ const Items = {
                 lg: 4
             },
             watchlisted: DB.get('traktmoviescollection').find(o => o.movie.ids.slug === movie.movie.ids.slug),
-            watched: DB.get('watchedMovies').find(o => o.movie.ids.slug === movie.movie.ids.slug)
+            watched: WB.find.movie(movie.movie.ids.slug)
         }
 
         let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
@@ -566,16 +566,18 @@ const Items = {
         console.info('Mark as watched:', model.ids.slug || `${data.show.ids.slug} ${model.season}x${model.number}`);
 
         Trakt.client.sync.history.add(post).finally(() => Trakt.reload(true));
+        WB.markAsWatched(data);
     },
 
-    markAsUnWatched: (id) => {
-        $(`#${id} .watched`).removeClass('selected');
+    markAsUnWatched: (watched_id, id) => {
+        $(`#${watched_id} .watched`).removeClass('selected');
         Trakt.client.sync.history.remove({
-            ids: [id]
+            ids: [watched_id]
         }).finally(() => {
             Trakt.reload();
-            $(`#${id}`).remove();
+            $(`#${watched_id}`).remove();
         });
+        WB.markAsUnwatched(id);
     },
 
     applyRatings: (ratings = []) => {

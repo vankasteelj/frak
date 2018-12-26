@@ -25,6 +25,7 @@
     <script src="js/utils/boot.js" type="application/javascript"></script>
     <script src="js/utils/db.js" type="application/javascript"></script>
     <script src="js/utils/imgbank.js" type="application/javascript"></script>
+    <script src="js/utils/watchedbank.js" type="application/javascript"></script>
     <script src="js/utils/keyboard.js" type="application/javascript"></script>
     <script src="js/utils/localization.js" type="application/javascript"></script>
     <script src="js/utils/misc.js" type="application/javascript"></script>
@@ -84,6 +85,12 @@
                 <div class="spinner">
                     <div class="double-bounce1"></div>
                     <div class="double-bounce2"></div>
+                </div>
+
+                <div class="reset">
+                    <button class="disconnect" onClick="DB.reset()">
+                        <i18n>Stuck? Click here to reset the app.</i18n>
+                    </button>
                 </div>
             </div>
             <div id="requirempv">

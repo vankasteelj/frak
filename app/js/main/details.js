@@ -238,8 +238,8 @@ const Details = {
                 trailer: item.movie.trailer
             }, from);
 
-            Details.loadImage(Images.get.movie(item.movie.ids).fanart, 'fanart');
-            Details.loadImage(Images.get.movie(item.movie.ids).poster, 'poster');
+            Details.loadImage(IB.get(item.movie.ids).fanart, 'fanart');
+            Details.loadImage(IB.get(item.movie.ids).poster, 'poster');
 
             let offline = Search.offline(item);
             if (offline) {
@@ -265,8 +265,8 @@ const Details = {
                 trailer: item.show.trailer
             }, from);
 
-            Details.loadImage(Images.get.show(item.show.ids).fanart, 'fanart');
-            Details.loadImage(Images.get.show(item.show.ids).poster, 'poster');
+            Details.loadImage(IB.get(item.show.ids).fanart, 'fanart');
+            Details.loadImage(IB.get(item.show.ids).poster, 'poster');
 
             let offline = Search.offline(item);
             if (offline) {
@@ -498,6 +498,7 @@ const Details = {
 
         console.info('Mark as watched:', base.movie ? model.ids.slug : `${base.show.ids.slug} ${model.season}x${model.number}`);
         Trakt.client.sync.history.add(post);
+        WB.markAsWatched(base);
 
         Details.buttonAsWatched();
 

@@ -41,6 +41,8 @@ const Interface = {
         }
         $('#welcomeprofile').show();
         $('#traktwelcome .spinner').show();
+
+        setTimeout(() => $('#traktwelcome button').show(), 30000); // display reset if still here after 30sec
     },
 
     // AUTO: from welcome page

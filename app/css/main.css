@@ -276,6 +276,17 @@ textarea {
     font-size: 13px;
 }
 
+#traktwelcome button {
+    border: 0;
+    background: transparent;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    opacity: 0.4;
+    font-size: 0.9em;
+    display: none;
+}
+
 
 /* traktwelcome END */
 

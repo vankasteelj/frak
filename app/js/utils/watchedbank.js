@@ -1,0 +1,79 @@
+'use strict'
+
+const WB = {
+    store: {
+        movies: (watchedMovies) => DB.store(watchedMovies, 'watchedMovies'),
+        shows: (watchedShows) => DB.store(watchedShows, 'watchedShows')
+    },
+    get: {
+        movies: () => DB.get('watchedMovies') || [],
+        shows: () => DB.get('watchedShows') || []
+    },
+    find: {
+        movie: (id) => DB.get('watchedMovies').find(o => o.movie.ids.slug === id),
+        show: (id) => DB.get('watchedShows').find(o => o.show.ids.slug === id)
+    },
+    markAsWatched: (data) => {
+        let db, found;
+        if (data.movie) {
+            db = WB.get.movies();
+            found = db.find((movie, index) => {
+                if (movie.movie.ids.slug === data.movie.ids.slug) {
+                    db[index].plays++;
+                    return true;
+                }
+                return false;
+            });
+            if (!found) {
+                db.push({
+                    plays: 1,
+                    movie: data.movie
+                });
+            }
+            WB.store.movies(db);
+        } else {
+            db = WB.get.shows();
+            found = db.find((show, index) => {
+                if (show.show.ids.slug === data.show.ids.slug) {
+                    db[index].plays++;
+                    return true;
+                }
+                return false;
+            });
+            if (!found) {
+                db.push({
+                    plays: 1,
+                    show: data.show
+                });
+            }
+            WB.store.shows(db);
+        }
+    },
+    markAsUnwatched: (slug) => {
+        let mdb = WB.get.movies();
+        let sdb = WB.get.shows();
+
+        mdb.find((movie, index) => {
+            if (movie.movie.ids.slug === slug) {
+                mdb[index].plays--;
+                if (!mdb[index].plays) {
+                    mdb.splice(index, 1);
+                }
+                return true;
+            }
+            return false;
+        });
+        sdb.find((show, index) => {
+            if (show.show.ids.slug === slug) {
+                sdb[index].plays--;
+                if (!sdb[index].plays) {
+                    sdb.splice(index, 1);
+                }
+                return true;
+            }
+            return false;
+        });
+        WB.store.movies(mdb);
+        WB.store.shows(sdb);
+    }
+}
