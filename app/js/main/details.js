@@ -61,8 +61,8 @@ const Details = {
             $('#playing').hide();
         }
 
-        $('#details .id').text(d.id);
-        $('#details .data').text(JSON.stringify(d.data));
+        $('#details').find('.id').text(d.id);
+        $('#details').find('.data').text(JSON.stringify(d.data));
 
         if (d.ids) {
             d.ids.imdb && $('#details-metadata .ids .imdb').text(d.ids.imdb);
@@ -238,8 +238,8 @@ const Details = {
                 trailer: item.movie.trailer
             }, from);
 
-            Details.loadImage(IB.get(item.movie.ids).fanart, 'fanart');
-            Details.loadImage(IB.get(item.movie.ids).poster, 'poster');
+            Details.loadImage(Images.get.movie(item.movie.ids).fanart, 'fanart');
+            Details.loadImage(Images.get.movie(item.movie.ids).poster, 'poster');
 
             let offline = Search.offline(item);
             if (offline) {
@@ -265,8 +265,8 @@ const Details = {
                 trailer: item.show.trailer
             }, from);
 
-            Details.loadImage(IB.get(item.show.ids).fanart, 'fanart');
-            Details.loadImage(IB.get(item.show.ids).poster, 'poster');
+            Details.loadImage(Images.get.show(item.show.ids).fanart, 'fanart');
+            Details.loadImage(Images.get.show(item.show.ids).poster, 'poster');
 
             let offline = Search.offline(item);
             if (offline) {
@@ -458,7 +458,7 @@ const Details = {
                         let t = $('#' + $(this).attr('for'));
                         let score = t.val();
 
-                        let item = Details.from == 'locals' ? Details.model.metadata : JSON.parse($(`#${slug} .data`).text());
+                        let item = Details.from == 'locals' ? Details.model.metadata : JSON.parse($(`#${slug}`).find('.data').text());
 
                         if (isRated == score) {
                             Trakt.rate('remove', item);

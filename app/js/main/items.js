@@ -30,7 +30,7 @@ const Items = {
 
     constructMovie: (movie) => {
         let d = {
-            image: Images.reduce(IB.get(movie.movie.ids).fanart) || IB.get(movie.movie.ids).poster,
+            image: Images.reduce(Images.get.movie(movie.movie.ids).fanart) || Images.get.movie(movie.movie.ids).poster,
             id: movie.movie.ids.slug,
             data: JSON.stringify(movie),
             rating: Misc.percentage(movie.movie.rating),
@@ -98,7 +98,7 @@ const Items = {
     },
     constructShow: (show) => {
         let d = {
-            image: Images.reduce(IB.get(show.show.ids).fanart) || IB.get(show.show.ids).poster,
+            image: Images.reduce(Images.get.show(show.show.ids).fanart) || Images.get.show(show.show.ids).poster,
             id: show.show.ids.slug,
             sxe: `s${Misc.pad(show.next_episode.season)}e${Misc.pad(show.next_episode.number)}`,
             data: JSON.stringify(show),
@@ -235,7 +235,7 @@ const Items = {
     },
     constructHistoryShow: (show) => {
         let d = {
-            image: IB.get(show.show.ids).poster || Images.reduce(IB.get(show.show.ids).fanart),
+            image: Images.get.show(show.show.ids).poster || Images.reduce(Images.get.show(show.show.ids).fanart),
             id: show.show.ids.slug,
             sxe: `${show.episode.season}x${Misc.pad(show.episode.number)}`,
             title: show.episode.title || '',
@@ -291,7 +291,7 @@ const Items = {
     },
     constructHistoryMovie: (movie) => {
         let d = {
-            image: IB.get(movie.movie.ids).poster || Images.reduce(IB.get(movie.movie.ids).fanart),
+            image: Images.get.movie(movie.movie.ids).poster || Images.reduce(Images.get.movie(movie.movie.ids).fanart),
             id: movie.movie.ids.slug,
             title: movie.movie.title,
             data: JSON.stringify(movie),
@@ -378,7 +378,7 @@ const Items = {
         }
 
         let d = {
-            image: Images.reduce(IB.get(show.show.ids).fanart) || IB.get(show.show.ids).poster,
+            image: Images.reduce(Images.get.show(show.show.ids).fanart) || Images.get.show(show.show.ids).poster,
             id: show.show.ids.slug,
             key: (function () {
                 if (show.watchers) return i18n.__('%s people watching', Misc.numberWithCommas(show.watchers));
@@ -466,7 +466,7 @@ const Items = {
         };
 
         let d = {
-            image: Images.reduce(IB.get(movie.movie.ids).fanart) || IB.get(movie.movie.ids).poster,
+            image: Images.reduce(Images.get.movie(movie.movie.ids).fanart) || Images.get.movie(movie.movie.ids).poster,
             id: movie.movie.ids.slug,
             key: (function () {
                 if (movie.watchers) return i18n.__('%s people watching', Misc.numberWithCommas(movie.watchers));
@@ -546,7 +546,7 @@ const Items = {
         $(elm).addClass('selected');
         $(`#${id}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
         
-        let data = JSON.parse($(`#${id} .data`).text());
+        let data = JSON.parse($(`#${id}`).find('.data').text());
         let type, model;
 
         if (data.movie) {
@@ -564,7 +564,6 @@ const Items = {
         post[type] = [item];
 
         console.info('Mark as watched:', model.ids.slug || `${data.show.ids.slug} ${model.season}x${model.number}`);
-
 
         Trakt.client.sync.history.add(post).finally(() => Trakt.reload(true));
     },
@@ -632,7 +631,7 @@ const Items = {
                         let t = $('#' + $(this).attr('for'));
                         let score = t.val();
 
-                        let item = JSON.parse($(`#${slug} .data`).text());
+                        let item = JSON.parse($(`#${slug}`).find('.data').text());
                         if (isRated == score) {
                             Trakt.rate('remove', item);
                         } else {

@@ -253,7 +253,7 @@ const Trakt = {
                         });
                     }, 300);
                 } else {
-                    $(`#${Player.config.model.movie.ids.slug}`).remove();
+                    $(`#${Player.config.model.movie.ids.slug}`).hide();
                 }
             }
         }
