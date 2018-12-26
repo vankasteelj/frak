@@ -68,6 +68,7 @@
         "Loading": true,
         "DB": true,
         "IB": true,
+        "WB": true,
         "Settings": true,
         "Cache": true,
 

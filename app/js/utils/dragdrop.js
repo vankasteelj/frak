@@ -67,14 +67,14 @@ const Dragdrop = {
                     return Dragdrop.handle(file.path, 'video');
                 }
             } else { // we have a link
-                let link = e.dataTransfer.getData('text/plain');
-                if (link.slice(0,6) === 'magnet') { // a magnet
-                    return Dragdrop.handle(link, 'magnet');
+                file = e.dataTransfer.getData('text/plain');
+                if (file.slice(0,6) === 'magnet') { // a magnet
+                    return Dragdrop.handle(file, 'magnet');
                 }
             }
 
             // unsupported
-            console.log('Unable to handle drop for:', file || link);
+            console.log('Unable to handle drop for:', file);
             return false;
         };
     },
