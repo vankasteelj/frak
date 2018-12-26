@@ -28,19 +28,19 @@ const IB = {
         return IB._save(db);
     },
     get: (ids) => {
-        if (!ids) return false;
+        if (!ids) return {};
 
         let id = ids.imdb;
         let db = IB._load();
 
         if (db[id] && Date.now() - db[id].ttl > 15 * 24 * 60 * 60 * 1000) {
-            return false; // invalidate cache every 15 days
+            return {}; // invalidate cache every 15 days
         }
         if (db[id] && (!db[id].poster || !db[id].fanart)) {
-            return false; // only return full objects
+            return {}; // only return full objects
         }
 
-        return db[id];
+        return db[id] || {};
     },
     remove: (ids) => {
         let id = ids.imdb;

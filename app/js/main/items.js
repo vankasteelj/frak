@@ -235,7 +235,7 @@ const Items = {
     },
     constructHistoryShow: (show) => {
         let d = {
-            image: Images.get.show(show.show.ids).poster || Images.reduce(Images.get.show(show.show.ids).fanart),
+            image: IB.get(show.show.ids).poster || Images.reduce(IB.get(show.show.ids).fanart),
             id: show.show.ids.slug,
             sxe: `${show.episode.season}x${Misc.pad(show.episode.number)}`,
             title: show.episode.title || '',
@@ -378,7 +378,7 @@ const Items = {
         }
 
         let d = {
-            image: Images.reduce(Images.get.show(show.show.ids).fanart) || Images.get.show(show.show.ids).poster,
+            image: Images.reduce(IB.get(show.show.ids).fanart) || IB.get(show.show.ids).poster,
             id: show.show.ids.slug,
             key: (function () {
                 if (show.watchers) return i18n.__('%s people watching', Misc.numberWithCommas(show.watchers));

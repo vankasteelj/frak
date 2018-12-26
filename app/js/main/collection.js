@@ -261,15 +261,20 @@ const Collection = {
 
         trakthistory: (items) => {
             let collection = Array();
+            let dupes = [];
 
             return Promise.all(items.map((item, index) => {
                 let type = item.type == 'movie' ? 'movie' : 'show';
 
-                return Images.get[type](item[type].ids).then(images => {
-                    item.index = index;
-                    collection.push(item);
+                item.index = index;
+                collection.push(item);
+
+                if (dupes.indexOf(item[type].ids.slug) !== -1) {
                     return item;
-                });
+                } else {
+                    dupes.push(item[type].ids.slug);
+                    return Images.get[type](item[type].ids);
+                }
             })).then(() => {
                 console.info('All images found for the history');
 
