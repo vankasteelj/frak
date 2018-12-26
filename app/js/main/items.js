@@ -30,7 +30,7 @@ const Items = {
 
     constructMovie: (movie) => {
         let d = {
-            image: Images.reduce(Images.get.movie(movie.movie.ids).fanart) || Images.get.movie(movie.movie.ids).poster,
+            image: Images.reduce(IB.get(movie.movie.ids).fanart) || IB.get(movie.movie.ids).poster,
             id: movie.movie.ids.slug,
             data: JSON.stringify(movie),
             rating: Misc.percentage(movie.movie.rating),
@@ -98,7 +98,7 @@ const Items = {
     },
     constructShow: (show) => {
         let d = {
-            image: Images.reduce(Images.get.show(show.show.ids).fanart) || Images.get.show(show.show.ids).poster,
+            image: Images.reduce(IB.get(show.show.ids).fanart) || IB.get(show.show.ids).poster,
             id: show.show.ids.slug,
             sxe: `s${Misc.pad(show.next_episode.season)}e${Misc.pad(show.next_episode.number)}`,
             data: JSON.stringify(show),
@@ -291,7 +291,7 @@ const Items = {
     },
     constructHistoryMovie: (movie) => {
         let d = {
-            image: Images.get.movie(movie.movie.ids).poster || Images.reduce(Images.get.movie(movie.movie.ids).fanart),
+            image: IB.get(movie.movie.ids).poster || Images.reduce(IB.get(movie.movie.ids).fanart),
             id: movie.movie.ids.slug,
             title: movie.movie.title,
             data: JSON.stringify(movie),
@@ -466,7 +466,7 @@ const Items = {
         };
 
         let d = {
-            image: Images.reduce(Images.get.movie(movie.movie.ids).fanart) || Images.get.movie(movie.movie.ids).poster,
+            image: Images.reduce(IB.get(movie.movie.ids).fanart) || IB.get(movie.movie.ids).poster,
             id: movie.movie.ids.slug,
             key: (function () {
                 if (movie.watchers) return i18n.__('%s people watching', Misc.numberWithCommas(movie.watchers));
