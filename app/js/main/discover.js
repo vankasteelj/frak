@@ -231,6 +231,47 @@ const Discover = {
                     Discover.show[lastTab]('recommended');
                 }).catch(console.error);
             }
+        },
+        top50: () => {
+            Discover.reset();
+
+            let lastTab = $('#discover .disc-proposal .categories .movies').hasClass('active') ? 'movies' : 'shows';
+
+            $('#discover .type div').removeClass('active');
+            $('#discover .type .top50').addClass('active');
+
+            // cache for 1 day
+            if (DB.get('lasttop50sync') && (Date.now() - DB.get('lasttop50sync') < 24 * 60 * 60 * 1000)) {
+                console.info('Trakt - top 50 movies/shows already in cache');
+                Discover.show[lastTab]('top50');
+                return Promise.resolve();
+            } else {
+                console.info('Trakt - loading top50 movies/shows');
+                return Trakt.client.users.list.items.get({
+                    username: 'justin',
+                    id: 'imdb-top-rated-movies',
+                    extended: 'full',
+                    limit: '50'
+                }).then((data) => {
+                    for (let movie in data) data[movie].source = 'top50';
+                    return Discover.format.traktmovies(data);
+                }).then((collection) => {
+                    DB.store(collection, 'traktmoviestop50');
+                    return Trakt.client.users.list.items.get({
+                        username: 'justin',
+                        id: 'imdb-top-rated-tv-shows',
+                        extended: 'full',
+                        limit: '50'
+                    });
+                }).then((data) => {
+                    for (let show in data) data[show].source = 'top50';
+                    return Discover.format.traktshows(data);
+                }).then((collection) => {
+                    DB.store(collection, 'traktshowstop50');
+                    DB.store(Date.now(), 'lasttop50sync');
+                    Discover.show[lastTab]('top50');
+                }).catch(console.error);
+            }
         }
     },
 
