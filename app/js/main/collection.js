@@ -106,7 +106,7 @@ const Collection = {
                 }
 
                 Collection.format.locals(results);
-            }).catch(console.error)
+            }).then(Local.share.build).catch(console.error)
         },
         history: () => {
             $('#navbar .history .fa-spin').css('opacity', 1);

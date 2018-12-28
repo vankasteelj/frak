@@ -13,7 +13,7 @@ const Boot = {
         Player.findMpv();                       // player
         Update.checkUpdates();                  // update
         Boot.setupVersion();                    // version number
-        //Boot.online();                        // check if online
+        Boot.online();                          // check if online
         Dragdrop.setup();                       // allow drag&drop
         //Gamepad.init();                       // gamepad support
 

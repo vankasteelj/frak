@@ -8,6 +8,7 @@ const fs = require('fs-extra');
 const zlib = require('zlib');
 const spawn = require('child_process').spawn;
 const https = require('https');
+const http = require('http');
 const crypt = require('crypto');
 const i18n = require('i18n');
 const got = require('got');
