@@ -150,7 +150,6 @@ const Local = {
             */
 
 
-
             //build json
             let movies = DB.get('local_movies');
             let shows = DB.get('local_shows');
@@ -209,7 +208,7 @@ const Local = {
                         res.writeHead(200, {'Content-Type': 'application/json'});
                         res.write(JSON.stringify({
                             file: file,
-                            url: json.server.ip + ':' + Local.server.playPort
+                            url: `http://${json.server.ip}:${Local.server.playPort}`
                         }));
                         res.end();
                     });
@@ -221,8 +220,23 @@ const Local = {
         },
         find: () => {
             let ip = DB.get('localip');
-            
-            //TODO: loop all 255 localip to try and find an available server.
+            let baseIp = ip.match(/\d+\.\d+\.\d+\./)[0];
+            let range = [1, 254];
+            let ips = [];
+
+            for (let i = range[0]; i <= range[1]; i++) ips.push(baseIp+i);
+
+            Promise.all(ips.map(ip => {
+              return new Promise((resolve, reject) => {
+                got('http://'+ip+':3000', {timeout:300}).then(res => {
+                  resolve(ip);
+                }).catch(() => resolve());
+              });
+            })).then((responses) => {
+                responses = responses.filter(Boolean); // remove empty from array
+                responses = responses.filter(n => n !== ip); // remove this machine
+                console.log('Available local servers:', responses);
+            }).catch(console.error);
         }
     }
 }
