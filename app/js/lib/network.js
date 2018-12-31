@@ -17,7 +17,7 @@ const Network = {
                 if (Network.connectedServers[existing].ip === servers[toAdd].ip) exists = true;
             }
             if (!exists && (DB.get('localip') !== servers[toAdd].ip)) {
-                console.log('Network: new local server found', servers[toAdd]);
+                console.log('Network: local server found (%s - %s)', servers[toAdd].name, servers[toAdd].ip);
                 Network.connectedServers.push(servers[toAdd]);
                 Network.checkServer(servers[toAdd]);
             }
@@ -27,7 +27,10 @@ const Network = {
         got(`http://${server.ip}:${Network.ports.main}`, {
             timeout: 1000,
             headers: {
-                'client': DB.get('localip')
+                'client': {
+                    ip: DB.get('localip'),
+                    name: process.env.COMPUTERNAME
+                }
             }
         }).then(res => {
             let body = JSON.parse(res.body);
@@ -77,7 +80,7 @@ const Network = {
                 res.write(JSON.stringify(json));
                 res.end();
                 
-                Network.addServers([{ip: req.headers.client}]);
+                Network.addServers([req.headers.client]);
 
             // on POST, serve the file to a new server and send back the url
             } else if (req.method === 'POST') {
@@ -104,7 +107,7 @@ const Network = {
                         readStream.pipe(res2);
                     }).listen(Network.ports.play);
 
-                    console.log('Serving \'%s\' on port %d (requested by %s)', file.filename, Network.ports.play, req.headers.client);
+                    console.log('Serving \'%s\' on port %d (requested by %s - %s)', file.filename, Network.ports.play, req.headers.client.name, req.headers.client.ip);
 
                     res.writeHead(200, {'Content-Type': 'application/json'});
                     res.write(JSON.stringify({
@@ -132,7 +135,10 @@ const Network = {
             got('http://'+ip+':3000', {
                 timeout: 500,
                 headers: {
-                    'client': DB.get('localip')
+                    'client': {
+                        ip: DB.get('localip'),
+                        name: process.env.COMPUTERNAME
+                    }
                 }
             }).then(res => {
                 resolve(JSON.parse(res.body));
