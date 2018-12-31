@@ -25,7 +25,6 @@ const Network = {
     },
     checkServer: (server) => {
         got(`http://${server.ip}:${Network.ports.main}`, {
-            timeout: 1000,
             headers: {
                 'client': JSON.stringify({
                     ip: DB.get('localip'),
@@ -43,7 +42,7 @@ const Network = {
                 }
             }
 
-            setTimeout(() => Network.checkServer(server), 10000);
+            setTimeout(() => Network.checkServer(server), 30000);
         }).catch(() => {
             for (let existing in Network.connectedServers) {
                 if (Network.connectedServers[existing].ip === server.ip) {
