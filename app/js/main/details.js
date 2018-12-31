@@ -338,7 +338,7 @@ const Details = {
     },
 
     loadNext: (fromDetails) => {
-        let $next_episode = $(`#${Details.model.show.ids.slug}`);
+        let $next_episode = $(`#collection #${Details.model.show.ids.slug}`);
 
         if (!$next_episode.length) {
             if (fromDetails) {
@@ -387,7 +387,7 @@ const Details = {
         let next = findNext(s, e + 1) || findNext(s, e + 2) || findNext(s + 1, 1);
 
         if (next) {
-            let $next_episode = $(`#${Misc.slugify(next)}`);
+            let $next_episode = $(`#locals #${Misc.slugify(next)}`);
 
             if (!$next_episode.length) {
                 if (fromDetails) {
@@ -510,7 +510,7 @@ const Details = {
             }, 50);
 
             // display spinner on list
-            model.show && $(`#${model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
+            model.show && $(`#collection #${model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
 
             setTimeout(() => {
                 Trakt.reload(true).then(collections => {
@@ -518,7 +518,7 @@ const Details = {
                 });
             }, 300);
         } else {
-            $(`#${model.ids.slug}`).hide();
+            $(`#collection #${model.ids.slug}`).hide();
         }
     },
 

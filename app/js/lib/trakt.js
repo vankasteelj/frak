@@ -245,7 +245,7 @@ const Trakt = {
                     }, 50);
 
                     // display spinner on list
-                    Player.config.model.show && $(`#${Player.config.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
+                    Player.config.model.show && $(`#collection #${Player.config.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
 
                     setTimeout(() => {
                         Trakt.reload(true).then(collections => {
@@ -253,7 +253,7 @@ const Trakt = {
                         });
                     }, 300);
                 } else {
-                    $(`#${Player.config.model.movie.ids.slug}`).hide();
+                    $(`#collection #${Player.config.model.movie.ids.slug}`).hide();
                 }
             }
         }
