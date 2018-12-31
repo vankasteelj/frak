@@ -27,10 +27,10 @@ const Network = {
         got(`http://${server.ip}:${Network.ports.main}`, {
             timeout: 1000,
             headers: {
-                'client': {
+                'client': JSON.stringify({
                     ip: DB.get('localip'),
                     name: process.env.COMPUTERNAME
-                }
+                })
             }
         }).then(res => {
             let body = JSON.parse(res.body);
@@ -73,14 +73,16 @@ const Network = {
 
         //serve json
         Network.servers.main = http.createServer((req, res) => {
+            let client = JSON.parse(req.headers.client);
+
             // on GET, register the client and send back the json api
             if (req.method === 'GET') {
                 //req.headers.client is the client IP
                 res.writeHead(200, {'Content-Type': 'application/json'});
                 res.write(JSON.stringify(json));
                 res.end();
-                
-                Network.addServers([req.headers.client]);
+
+                Network.addServers([client]);
 
             // on POST, serve the file to a new server and send back the url
             } else if (req.method === 'POST') {
@@ -107,7 +109,7 @@ const Network = {
                         readStream.pipe(res2);
                     }).listen(Network.ports.play);
 
-                    console.log('Serving \'%s\' on port %d (requested by %s - %s)', file.filename, Network.ports.play, req.headers.client.name, req.headers.client.ip);
+                    console.log('Serving \'%s\' on port %d (requested by %s - %s)', file.filename, Network.ports.play, client.name, client.ip);
 
                     res.writeHead(200, {'Content-Type': 'application/json'});
                     res.write(JSON.stringify({
@@ -135,10 +137,10 @@ const Network = {
             got('http://'+ip+':3000', {
                 timeout: 500,
                 headers: {
-                    'client': {
+                    'client': JSON.stringify({
                         ip: DB.get('localip'),
                         name: process.env.COMPUTERNAME
-                    }
+                    })
                 }
             }).then(res => {
                 resolve(JSON.parse(res.body));
