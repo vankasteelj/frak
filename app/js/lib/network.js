@@ -9,6 +9,46 @@ const Network = {
         main: null,
         play: null
     },
+    connectedServers: [],
+    addServers: (servers = []) => { // [{ip,name}]
+        for (let toAdd in servers) {
+            let exists;
+            for (let existing in Network.connectedServers) {
+                if (Network.connectedServers[existing].ip === servers[toAdd].ip) exists = true;
+            }
+            if (!exists) {
+                console.log('Network: new local server found', servers[toAdd]);
+                Network.connectedServers.push(servers[toAdd]);
+                Network.checkServer(servers[toAdd]);
+            }
+        }
+    },
+    checkServer: (server) => {
+        got(`http://${server.ip}:${Network.ports.main}`, {
+            timeout: 500,
+            headers: {
+                'client': DB.get('localip')
+            }
+        }).then(res => {
+            let body = JSON.parse(res.body);
+
+            for (let existing in Network.connectedServers) {
+                if (Network.connectedServers[existing].ip === server.ip) {
+                    Network.connectedServers[existing].movies = body.movies;
+                    Network.connectedServers[existing].shows = body.shows;
+                }
+            }
+
+            setTimeout(() => Network.checkServer(server), 10000);
+        }).catch(() => {
+            for (let existing in Network.connectedServers) {
+                if (Network.connectedServers[existing].ip === server.ip) {
+                    Network.connectedServers.splice(existing, 1);
+                    console.log('Network: %s disconnected', server.name);
+                }
+            }
+        });
+    },
     buildMainServer: () => {
         //build json
         let movies = DB.get('local_movies');
@@ -33,7 +73,7 @@ const Network = {
         Network.servers.main = http.createServer((req, res) => {
             // on GET, send back the json api
             if (req.method === 'GET') {
-                console.log('GET from', req.headers.client);
+                //req.headers.client is the client IP
                 res.writeHead(200, {'Content-Type': 'application/json'});
                 res.write(JSON.stringify(json));
                 res.end();
@@ -63,7 +103,7 @@ const Network = {
                         readStream.pipe(res2);
                     }).listen(Network.ports.play);
 
-                    console.log('Serving \'%s\' on port %d (requested by %s)', file.filename, Network.ports.play, res.headers.client);
+                    console.log('Serving \'%s\' on port %d (requested by %s)', file.filename, Network.ports.play, req.headers.client);
 
                     res.writeHead(200, {'Content-Type': 'application/json'});
                     res.write(JSON.stringify({
@@ -88,7 +128,7 @@ const Network = {
         Promise.all(ips.map(ip => {
           return new Promise((resolve, reject) => {
             got('http://'+ip+':3000', {
-                timeout: 300,
+                timeout: 500,
                 headers: {
                     'client': DB.get('localip')
                 }
@@ -100,7 +140,8 @@ const Network = {
         })).then((responses) => {
             responses = responses.filter(n => n); // remove empty from array
             responses = responses.filter(n => n.ip !== ip); // remove this machine
-            console.log('Available local servers:', responses); // TODO: store availabel servers and have a method to add/remove
+            Network.addServers(responses);
+            setTimeout(Network.findPeers, 1000);
         }).catch(console.error);
     }
 };
