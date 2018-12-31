@@ -236,10 +236,11 @@ const Collection = {
                 // build context menu without hogging
                 let items = document.getElementsByClassName('local-context');
                 let i = 0;
-                let doLoop = () => {
+                let doLoop, buildContext;
+                doLoop = () => {
                     if (i < items.length) buildContext();
                 };
-                let buildContext = () => {
+                buildContext = () => {
                     let item = items.item(i);
                     let file = JSON.parse(item.firstChild.innerText);
 
@@ -254,7 +255,7 @@ const Collection = {
                     item.oncontextmenu = (e) => menu.popup(e.clientX, e.clientY);
                     i++;
                     setTimeout(doLoop, 0);
-                }
+                };
                 doLoop();
             }
         },
