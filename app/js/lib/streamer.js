@@ -112,7 +112,7 @@ const Streamer = {
         let downloaded = torrent.files[Streamer.streaminfo.file_index].downloaded || 0;
 
         let percent = (100 / Streamer.streaminfo.file_size) * downloaded;
-        if (percent >= 100) percent = 100;
+        if (percent >= 99.99) percent = 100;
 
         let time_left = Math.round((Streamer.streaminfo.file_size - downloaded) / torrent.downloadSpeed);
         if (isNaN(time_left) || time_left < 0) {
