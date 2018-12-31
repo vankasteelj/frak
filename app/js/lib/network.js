@@ -39,7 +39,7 @@ const Network = {
                 }
             }
 
-            setTimeout(() => Network.checkServer(server), 60000);
+            setTimeout(() => Network.checkServer(server), 10000);
         }).catch(() => {
             for (let existing in Network.connectedServers) {
                 if (Network.connectedServers[existing].ip === server.ip) {
@@ -71,12 +71,14 @@ const Network = {
 
         //serve json
         Network.servers.main = http.createServer((req, res) => {
-            // on GET, send back the json api
+            // on GET, register the client and send back the json api
             if (req.method === 'GET') {
                 //req.headers.client is the client IP
                 res.writeHead(200, {'Content-Type': 'application/json'});
                 res.write(JSON.stringify(json));
                 res.end();
+                
+                Network.addServers([{ip: req.headers.client}]);
 
             // on POST, serve the file to a new server and send back the url
             } else if (req.method === 'POST') {
@@ -142,7 +144,6 @@ const Network = {
             responses = responses.filter(n => n); // remove empty from array
             responses = responses.filter(n => n.ip !== ip); // remove this machine
             Network.addServers(responses);
-            setTimeout(Network.findPeers, 60000);
         }).catch(console.error);
     }
 };
