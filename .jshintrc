@@ -37,6 +37,7 @@
         "crypt": true,
         "fs": true,
         "gui": true,
+        "http": true,
         "https": true,
         "path": true,
         "spawn": true,

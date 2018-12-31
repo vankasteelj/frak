@@ -2,12 +2,6 @@
 
 const Local = {
     scans: 0,
-    server: {
-        json: null,
-        jsonPort: 3000,
-        playing: null,
-        playPort: 3001
-    },
     client: new(require('local-video-library'))(Settings.apikeys.trakt_id, [process.env.HOME || path.join(process.env.HOMEDRIVE, process.env.HOMEPATH)]),
 
     scan: () => {
@@ -141,102 +135,5 @@ const Local = {
         $('#collection #locals .categories .unmatched').hide();
 
         Collection.get.local();
-    },
-    share: {
-        build: () => {
-            /*  api is: 
-                    - GET: http://some-ip:3000 => sends JSON of available movies/shows
-                    - POST the file you want to http://some-ip:3000 => sends back a playable url for that file
-            */
-
-
-            //build json
-            let movies = DB.get('local_movies');
-            let shows = DB.get('local_shows');
-
-            let json = {
-                movies: movies,
-                shows: shows,
-                server: {
-                    ip: DB.get('localip'),
-                    name: process.env.COMPUTERNAME
-                }
-            };
-
-            // only one server running at a time
-            if (Local.server.json) {
-                Local.server.json.close();
-                Local.server.json = null;
-            }
-
-            //serve json
-            Local.server.json = http.createServer((req, res) => {
-                // on GET, send back the json api
-                if (req.method === 'GET') {
-                    res.writeHead(200, {'Content-Type': 'application/json'});
-                    res.write(JSON.stringify(json));
-                    res.end();
-                    
-                // on POST, serve the file to a new server and send back the url
-                } else if (req.method === 'POST') {
-                    let body = '';
-                    req.on('data', (data) => {
-                        body += data;
-                    });
-                    req.on('end', () => {
-                        let file = JSON.parse(body);
-
-                        // only one server running at a time
-                        if (Local.server.playing) {
-                            Local.server.playing.close();
-                            Local.server.playing = null;
-                        }
-                        // serve the file
-                        console.log(req,res)
-                        Local.server.playing = http.createServer((req, res) => {
-                            res.writeHead(200, {
-                                'Content-Type': 'video/mp4',
-                                'Content-Length': file.size
-                            });
-                            let readStream = fs.createReadStream(file.path);
-                            readStream.pipe(res);
-                        }).listen(Local.server.playPort);
-
-                        // TODO: add file.request
-                        console.log('Serving \'%s\' on port %d (requested by %s)', file.filename, Local.server.playPort, file.request);
-
-                        res.writeHead(200, {'Content-Type': 'application/json'});
-                        res.write(JSON.stringify({
-                            file: file,
-                            url: `http://${json.server.ip}:${Local.server.playPort}`
-                        }));
-                        res.end();
-                    });
-                }
-            });
-
-            Local.server.json.listen(Local.server.jsonPort);
-            console.log('Local server running on port %d', Local.server.jsonPort);
-        },
-        find: () => {
-            let ip = DB.get('localip');
-            let baseIp = ip.match(/\d+\.\d+\.\d+\./)[0];
-            let range = [1, 254];
-            let ips = [];
-
-            for (let i = range[0]; i <= range[1]; i++) ips.push(baseIp+i);
-
-            Promise.all(ips.map(ip => {
-              return new Promise((resolve, reject) => {
-                got('http://'+ip+':3000', {timeout:300}).then(res => {
-                  resolve(ip);
-                }).catch(() => resolve());
-              });
-            })).then((responses) => {
-                responses = responses.filter(Boolean); // remove empty from array
-                responses = responses.filter(n => n !== ip); // remove this machine
-                console.log('Available local servers:', responses);
-            }).catch(console.error);
-        }
     }
 }
