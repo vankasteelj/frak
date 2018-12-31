@@ -17,7 +17,7 @@ const Network = {
                 if (Network.connectedServers[existing].ip === servers[toAdd].ip) exists = true;
             }
             if (!exists && (DB.get('localip') !== servers[toAdd].ip)) {
-                console.log('Network: local server found (%s - %s)', servers[toAdd].name, servers[toAdd].ip);
+                console.log('Network: local server found (%s @ %s)', servers[toAdd].ip, servers[toAdd].name);
                 Network.connectedServers.push(servers[toAdd]);
                 Network.checkServer(servers[toAdd]);
             }
@@ -47,7 +47,7 @@ const Network = {
             for (let existing in Network.connectedServers) {
                 if (Network.connectedServers[existing].ip === server.ip) {
                     Network.connectedServers.splice(existing, 1);
-                    console.log('Network: %s disconnected', server.name);
+                    console.log('Network: %s @ %s disconnected', server.ip, server.name);
                 }
             }
         });
@@ -108,7 +108,7 @@ const Network = {
                         readStream.pipe(res2);
                     }).listen(Network.ports.play);
 
-                    console.log('Serving \'%s\' on port %d (requested by %s - %s)', file.filename, Network.ports.play, client.name, client.ip);
+                    console.log('Serving \'%s\' on port %d (requested by %s @ %s)', file.filename, Network.ports.play, client.ip, client.name);
 
                     res.writeHead(200, {'Content-Type': 'application/json'});
                     res.write(JSON.stringify({
@@ -121,7 +121,7 @@ const Network = {
         });
 
         Network.servers.main.listen(Network.ports.main);
-        console.log('Local server running on port %d', Network.ports.main);
+        console.log('Local server running on http://%s:%d', json.ip, Network.ports.main);
         Network.findPeers();
     },
     findPeers: () => {
