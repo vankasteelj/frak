@@ -10,13 +10,13 @@ const Network = {
         play: null
     },
     connectedServers: [],
-    addServers: (servers = []) => { // [{ip,name}]
+    addServers: (servers = []) => {
         for (let toAdd in servers) {
             let exists;
             for (let existing in Network.connectedServers) {
                 if (Network.connectedServers[existing].ip === servers[toAdd].ip) exists = true;
             }
-            if (!exists) {
+            if (!exists && (DB.get('localip') !== servers[toAdd].ip)) {
                 console.log('Network: new local server found', servers[toAdd]);
                 Network.connectedServers.push(servers[toAdd]);
                 Network.checkServer(servers[toAdd]);
@@ -34,6 +34,7 @@ const Network = {
 
             for (let existing in Network.connectedServers) {
                 if (Network.connectedServers[existing].ip === server.ip) {
+                    Network.connectedServers[existing].name = body.name;
                     Network.connectedServers[existing].movies = body.movies;
                     Network.connectedServers[existing].shows = body.shows;
                 }
@@ -57,10 +58,8 @@ const Network = {
         let json = {
             movies: movies,
             shows: shows,
-            server: {
-                ip: DB.get('localip'),
-                name: process.env.COMPUTERNAME
-            }
+            ip: DB.get('localip'),
+            name: process.env.COMPUTERNAME
         };
 
         // only one main server running at a time
@@ -110,7 +109,7 @@ const Network = {
                     res.writeHead(200, {'Content-Type': 'application/json'});
                     res.write(JSON.stringify({
                         file: file,
-                        url: `http://${json.server.ip}:${Network.port.play}`
+                        url: `http://${json.ip}:${Network.port.play}`
                     }));
                     res.end();
                 });
@@ -122,8 +121,8 @@ const Network = {
         Network.findPeers();
     },
     findPeers: () => {
-        let ip = DB.get('localip');
-        let baseIp = ip.match(/\d+\.\d+\.\d+\./)[0];
+        let localip = DB.get('localip');
+        let baseIp = localip.match(/\d+\.\d+\.\d+\./)[0];
         let ips = [];
 
         for (let i = 1; i < 255; i++) ips.push(baseIp+i);
@@ -136,13 +135,11 @@ const Network = {
                     'client': DB.get('localip')
                 }
             }).then(res => {
-                let data = JSON.parse(res.body);
-                resolve(data.server);
+                resolve(JSON.parse(res.body));
             }).catch(() => resolve());
           });
         })).then((responses) => {
             responses = responses.filter(n => n); // remove empty from array
-            responses = responses.filter(n => n.ip !== ip); // remove this machine
             Network.addServers(responses);
         }).catch(console.error);
     }
