@@ -117,6 +117,7 @@ const Network = {
 
         Network.servers.main.listen(Network.ports.main);
         console.log('Local server running on port %d', Network.ports.main);
+        Network.findPeers();
     },
     findPeers: () => {
         let ip = DB.get('localip');
@@ -141,7 +142,7 @@ const Network = {
             responses = responses.filter(n => n); // remove empty from array
             responses = responses.filter(n => n.ip !== ip); // remove this machine
             Network.addServers(responses);
-            setTimeout(Network.findPeers, 1000);
+            setTimeout(Network.findPeers, 10000);
         }).catch(console.error);
     }
 };
