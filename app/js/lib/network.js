@@ -25,7 +25,7 @@ const Network = {
     },
     checkServer: (server) => {
         got(`http://${server.ip}:${Network.ports.main}`, {
-            timeout: 500,
+            timeout: 1000,
             headers: {
                 'client': DB.get('localip')
             }
@@ -39,7 +39,7 @@ const Network = {
                 }
             }
 
-            setTimeout(() => Network.checkServer(server), 10000);
+            setTimeout(() => Network.checkServer(server), 60000);
         }).catch(() => {
             for (let existing in Network.connectedServers) {
                 if (Network.connectedServers[existing].ip === server.ip) {
@@ -142,7 +142,7 @@ const Network = {
             responses = responses.filter(n => n); // remove empty from array
             responses = responses.filter(n => n.ip !== ip); // remove this machine
             Network.addServers(responses);
-            setTimeout(Network.findPeers, 10000);
+            setTimeout(Network.findPeers, 60000);
         }).catch(console.error);
     }
 };
