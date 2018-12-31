@@ -29,7 +29,7 @@ const Network = {
             for (let existing in Network.peers) {
                 if (Network.peers[existing].ip === server.ip) {
                     Network.peers[existing] = JSON.parse(res.body);
-                    Network.getFreePort().then(port => {
+                    Network.getFreePort(server.ip).then(port => {
                         Network.peers[existing].port = port;
                     });
                 }
@@ -115,7 +115,6 @@ const Network = {
                     // serve the file on assigned port
                     for (let existing in Network.peers) {
                         if (Network.peers[existing].ip === client.ip) {
-
                             // only one play server running at a time
                             if (Network.peers[existing].playing) {
                                 Network.peers[existing].playing.close();
@@ -138,7 +137,7 @@ const Network = {
                             });
                             res.write(JSON.stringify({
                                 file: file,
-                                url: `http://${json.ip}:${port}`
+                                url: `http://${json.ip}:${Network.peers[existing].port}`
                             }));
                             res.end();
                         }
@@ -151,10 +150,11 @@ const Network = {
         console.log('Network: local server running on http://%s:%d', json.ip, Network.port);
         Network.findPeers();
     },
-    getFreePort: (port = Network.port+1) => {
+    getFreePort: (ip, port = Network.port+1) => {
         return new Promise((resolve, reject) => {
             for (let existing in Network.peers) {
-                if (Network.peers[existing].port === port) return resolve(Network.getFreePort(port+=1));
+                if (Network.peers[existing].port === port && Network.peers[existing].ip === ip) return resolve(port);
+                if (Network.peers[existing].port === port && Network.peers[existing].ip !== ip) return resolve(Network.getFreePort(port+=1));
             }
 
             let server = http.createServer();
@@ -169,6 +169,21 @@ const Network = {
             });
 
             server.listen(port);
+        });
+    },
+    getFileFromPeer: (file, peer) => {
+        return got(`http://${peer.ip}`, {
+            method: 'POST',
+            port: Network.port,
+            headers: {
+                client: JSON.stringify({
+                    ip: DB.get('localip'),
+                    name: process.env.COMPUTERNAME
+                })
+            },
+            body: JSON.stringify(file)
+        }).then((res) => {
+            return JSON.parse(res.body);
         });
     }
 };
