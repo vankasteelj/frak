@@ -97,9 +97,11 @@ const Network = {
     // expose the api and gets ready for playback
     buildMainServer: () => {
         // only one main server running at a time
+        let wasRunning;
         if (Network.server) {
             Network.server.close();
             Network.server = null;
+            wasRunning = true;
         }
         
         // serve json
@@ -144,7 +146,8 @@ const Network = {
         });
 
         Network.server.listen(Network.port);
-        console.info('Network: local server running on http://%s:%d', Network.jsonApi.ip, Network.port);
+
+        if (!wasRunning) console.info('Network: local server running on http://%s:%d', Network.jsonApi.ip, Network.port);
     },
 
     // on demand from peer
@@ -225,7 +228,7 @@ const Network = {
     // update local library with client's available items
     rearrangeLocals: () => {
         // local collection
-        const collection = Array.from(Network.jsonApi.available);
+        const collection = DB.get('local_library');
         let items = 0;
 
         // add each available item (and its source);

@@ -106,6 +106,7 @@ const Collection = {
                 }
 
                 if (Network.peers.length) {
+                    Network.buildJsonApi();
                     Network.rearrangeLocals();
                 } else {
                     Collection.format.locals(results);
