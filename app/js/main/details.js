@@ -216,7 +216,13 @@ const Details = {
             Boot.setupRightClicks('#query');
 
             Details.closeRemote().then(() => {
-                Player.play(file.path);
+                if (file.source) {
+                    Network.getFileFromPeer(file).then(url => {
+                        Player.play(url);
+                    })
+                } else {
+                    Player.play(file.path);
+                }
             });
         }
     },
