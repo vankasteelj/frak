@@ -28,7 +28,11 @@ const Network = {
         }).then(res => {
             for (let existing in Network.peers) {
                 if (Network.peers[existing].ip === server.ip) {
-                    Network.peers[existing] = JSON.parse(res.body);
+                    let body = JSON.parse(res.body);
+                    Network.peers[existing].movies = body.movies;
+                    Network.peers[existing].shows = body.shows;
+                    Network.peers[existing].name = body.name;
+                    
                     Network.getFreePort(server.ip).then(port => {
                         Network.peers[existing].port = port;
                     });
@@ -115,6 +119,7 @@ const Network = {
                     // serve the file on assigned port
                     for (let existing in Network.peers) {
                         if (Network.peers[existing].ip === client.ip) {
+                            console.log('BUILD PLAY SERVER')
                             Network.buildPlayServer(file, existing);
 
                             res.writeHead(200, {
@@ -142,17 +147,20 @@ const Network = {
             Network.peers[clientId].playing = null;
         }
 
-        // TODO: this is f**king heavy on the CPU
+        let fileStream = fs.createReadStream(file.path);
+
         Network.peers[clientId].playing = http.createServer((req, res) => {
+            console.log('Network: serving \'%s\' to %s @ %s', file.filename, Network.peers[clientId].ip, Network.peers[clientId].name);
             res.writeHead(200, {
                 'Content-Type': 'video/mp4',
                 'Content-Length': file.size
             });
-            fs.createReadStream(file.path, {highWaterMark: 256 * 1024}).pipe(res);
+            fileStream.pipe(res);
         });
+
         Network.peers[clientId].playing.listen(Network.peers[clientId].port);
 
-        console.log('Network: serving \'%s\' on port %d (requested by %s @ %s)', file.filename, Network.peers[clientId].port, Network.peers[clientId].ip, Network.peers[clientId].name);
+        console.log('Network: \'%s\' ready on port %d (requested by %s @ %s)', file.filename, Network.peers[clientId].port, Network.peers[clientId].ip, Network.peers[clientId].name);
     },
     getFreePort: (ip, port = Network.port+1) => {
         return new Promise((resolve, reject) => {
