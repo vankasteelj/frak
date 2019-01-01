@@ -13,6 +13,20 @@ const Loading = {
             path: file.path
         });
     },
+    shared: (file) => {
+        Network.getFileFromPeer(file).then(url => {
+            $('#streaminfo .filename span').text(file.filename);
+            $('#streaminfo .source span').text(url);
+            $('#streaminfo .connection').hide();
+            Player.play(url, {}, Details.model);
+        });
+
+        Loading.subfails = 0;
+        Loading.lookForSubtitles({
+            filename: file.filename,
+            filesize: file.size
+        });
+    },
     remote: (url) => {
         let localUrl = DB.get('localip') ? url.replace('127.0.0.1', DB.get('localip')) : url;
 

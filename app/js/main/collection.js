@@ -105,8 +105,13 @@ const Collection = {
                     $('#locals .refreshing').hide();
                 }
 
-                Collection.format.locals(results);
-            }).catch(console.error)
+                if (Network.peers.length) {
+                    Network.buildJsonApi();
+                    Network.rearrangeLocals();
+                } else {
+                    Collection.format.locals(results);
+                }
+            }).then(Network.init).catch(console.error)
         },
         history: () => {
             $('#navbar .history .fa-spin').css('opacity', 1);
@@ -201,15 +206,8 @@ const Collection = {
             }).catch(console.error);
         },
 
-        locals: (items) => {
+        locals: (items, rearrange) => {
             let collection = Local.buildVideoLibrary(items);
-
-            let alphabetical = (a, b) => {
-                let c = (a.title && b.title) ? 'title' : 'filename';
-                if (a[c] < b[c]) return -1
-                if (a[c] > b[c]) return 1;
-                return 0;
-            }
 
             $('#collection #locals .waitforlibrary').show();
             $('#collection #locals .waitforlibrary .spinner').css('visibility', 'visible');
@@ -217,15 +215,14 @@ const Collection = {
             $('#collection #locals .categories .shows').hide();
             $('#collection #locals .categories .unmatched').hide();
 
-            let movies = collection.movies.sort(alphabetical);
-            DB.store(movies, 'local_movies');
+            let movies = Misc.sortAlphabetical(collection.movies);
             Collection.show.locals.movies(movies);
 
-            let shows = collection.shows.sort(alphabetical);
+            let shows = Misc.sortAlphabetical(collection.shows);
             DB.store(shows, 'local_shows');
             Collection.show.locals.shows(shows);
 
-            let unmatched = collection.unmatched.sort(alphabetical);
+            let unmatched = Misc.sortAlphabetical(collection.unmatched);
             Collection.show.locals.unmatched(unmatched);
 
             if (!movies.length && !shows.length && !unmatched.length) {
@@ -236,25 +233,31 @@ const Collection = {
                 // build context menu without hogging
                 let items = document.getElementsByClassName('local-context');
                 let i = 0;
-                let doLoop = () => {
+                let doLoop, buildContext;
+                doLoop = () => {
                     if (i < items.length) buildContext();
                 };
-                let buildContext = () => {
+                buildContext = () => {
                     let item = items.item(i);
                     let file = JSON.parse(item.firstChild.innerText);
+                    let context = {
+                        'Play now': () => item.click()
+                    };
+                    if (!file.source) {
+                        context = Object.assign(context, {
+                            'Show in file explorer': () => {
+                                console.info('[File explorer opened] Showing', file.path);
+                                gui.Shell.showItemInFolder(path.normalize(file.path));
+                                Notify.snack(i18n.__('Opening the file location'));
+                            }
+                        });
+                    }
 
-                    let menu = Misc.customContextMenu({
-                        'Play now': () => item.click(),
-                        'Show in file explorer': () => {
-                            console.info('[File explorer opened] Showing', file.path);
-                            gui.Shell.showItemInFolder(path.normalize(file.path));
-                            Notify.snack(i18n.__('Opening the file location'));
-                        }
-                    });
+                    let menu = Misc.customContextMenu(context);
                     item.oncontextmenu = (e) => menu.popup(e.clientX, e.clientY);
                     i++;
                     setTimeout(doLoop, 0);
-                }
+                };
                 doLoop();
             }
         },

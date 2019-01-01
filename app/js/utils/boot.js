@@ -13,7 +13,7 @@ const Boot = {
         Player.findMpv();                       // player
         Update.checkUpdates();                  // update
         Boot.setupVersion();                    // version number
-        //Boot.online();                        // check if online
+        Boot.online();                          // check if online
         Dragdrop.setup();                       // allow drag&drop
         //Gamepad.init();                       // gamepad support
 
@@ -30,7 +30,7 @@ const Boot = {
         let online = window.navigator.onLine;
         let localip = '127.0.0.1';
 
-        require('dns').lookup(require('os').hostname(), function (err, add, fam) {
+        dns.lookup(require('os').hostname(), function (err, add, fam) {
             if (!err) localip = add;
             DB.store(localip, 'localip');
         });
@@ -42,7 +42,7 @@ const Boot = {
         }
         setTimeout(() => {
             Boot.online()
-        }, 3000);
+        }, 5000);
     },
 
     setupScreens: () => {
