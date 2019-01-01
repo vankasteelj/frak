@@ -143,16 +143,12 @@ const Network = {
         }
 
         // TODO: this is f**king heavy on the CPU
-        Network.peers[clientId].playing = http.createServer((req2, res2) => {
-            res2.writeHead(200, {
+        Network.peers[clientId].playing = http.createServer((req, res) => {
+            res.writeHead(200, {
                 'Content-Type': 'video/mp4',
                 'Content-Length': file.size
             });
-            fs.readFile(file.path, (err, data) => {
-                res2.end(data);
-            });
-            //let readStream = fs.createReadStream(file.path);
-            //readStream.pipe(res2);
+            fs.createReadStream(file.path, {highWaterMark: 256 * 1024}).pipe(res);
         });
         Network.peers[clientId].playing.listen(Network.peers[clientId].port);
 
