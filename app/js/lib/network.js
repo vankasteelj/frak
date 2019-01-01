@@ -121,6 +121,7 @@ const Network = {
                                 Network.peers[existing].playing = null;
                             }
 
+                            // TODO: this is f**king heavy on the CPU
                             Network.peers[existing].playing = http.createServer((req2, res2) => {
                                 res2.writeHead(200, {
                                     'Content-Type': 'video/mp4',
