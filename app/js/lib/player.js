@@ -53,6 +53,8 @@ const Player = {
         Player.config.states = undefined;
         Player.config.popup = false;
 
+        Player.setMPV();
+
         // reset details window
         Details.previous = {
             id: undefined,
@@ -118,7 +120,6 @@ const Player = {
 
         $('#settings .mpv #fakempvpath').val(binary);
         Player.config.events = false;
-        console.debug('MPV player ready', options);
     },
 
     getOptions: () => {
