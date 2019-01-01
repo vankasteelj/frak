@@ -23,12 +23,12 @@ const Network = {
             }
         }
         
-        if (added) setTimeout(Network.rearrangeLocals, 500);
+        if (added) setTimeout(Network.rearrangeLocals, 2000);
     },
 
     // verify periodically if the peer is still connected
     checkPeer: (server) => {
-        got(`http://${server.ip}:${Network.port}`, Network.headers).then(res => {
+        got(`http://${server.ip}:${Network.port}`, {headers:Network.headers}).then(res => {
             for (let existing in Network.peers) {
                 if (Network.peers[existing].ip === server.ip) {
                     const body = JSON.parse(res.body);
@@ -62,9 +62,10 @@ const Network = {
 
         Promise.all(ips.map(ip => {
             return new Promise((resolve, reject) => {
-                got('http://' + ip + ':' + Network.port, Object.assign({
-                    timeout: 500
-                }, Network.headers)).then(res => {
+                got('http://' + ip + ':' + Network.port, {
+                    timeout: 500,
+                    headers: Network.headers
+                }).then(res => {
                     resolve(JSON.parse(res.body));
                 }).catch(() => resolve());
             });
@@ -86,12 +87,10 @@ const Network = {
     // headers used when talking to a peer
     buildHeaders: () => {
         Network.headers = {
-            headers: {
-                client: JSON.stringify({
-                    ip: Network.jsonApi.ip,
-                    name: process.env.COMPUTERNAME
-                })
-            }
+            client: JSON.stringify({
+                ip: Network.jsonApi.ip,
+                name: process.env.COMPUTERNAME
+            })
         };
     },
 
@@ -105,6 +104,7 @@ const Network = {
         
         // serve json
         Network.server = http.createServer((req, res) => {
+            try{
             const client = JSON.parse(req.headers.client);
 
             if (req.method === 'GET') { // on GET, register the client and send back the json api
@@ -117,7 +117,7 @@ const Network = {
                 Network.addPeers([client]);
 
             } else if (req.method === 'POST') { // on POST, serve the file to a new server and send back the url
-                const body = '';
+                let body = '';
                 req.on('data', (data) => {
                     body += data;
                 });
@@ -140,6 +140,7 @@ const Network = {
                     }
                 });
             }
+            }catch(e){console.error(e)}
         });
 
         Network.server.listen(Network.port);
@@ -211,20 +212,20 @@ const Network = {
 
     // promise: sends back an url
     getFileFromPeer: (file) => {
-        console.log('getFileFromPeer', file)
-        return got(`http://${file.source}`, Object.assign({
+        return got(`http://${file.source}`, {
             method: 'POST',
             port: Network.port,
-            body: JSON.stringify(file)
-        }, Network.headers)).then((res) => {
+            body: JSON.stringify(file),
+            headers: Network.headers
+        }).then((res) => {
             return JSON.parse(res.body).url;
-        });
+        }).catch(console.error);
     },
 
     // update local library with client's available items
     rearrangeLocals: () => {
         // local collection
-        const collection = Network.jsonApi.available;
+        const collection = Array.from(Network.jsonApi.available);
         let items = 0;
 
         // add each available item (and its source);

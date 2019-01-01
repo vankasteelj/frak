@@ -211,11 +211,10 @@ const Collection = {
             $('#collection #locals .categories .unmatched').hide();
 
             let movies = Misc.sortAlphabetical(collection.movies);
-            if (!rearrange) DB.store(movies, 'local_movies');
             Collection.show.locals.movies(movies);
 
             let shows = Misc.sortAlphabetical(collection.shows);
-            if (!rearrange) DB.store(shows, 'local_shows');
+            DB.store(shows, 'local_shows');
             Collection.show.locals.shows(shows);
 
             let unmatched = Misc.sortAlphabetical(collection.unmatched);
