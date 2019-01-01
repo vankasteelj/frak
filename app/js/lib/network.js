@@ -148,8 +148,11 @@ const Network = {
                 'Content-Type': 'video/mp4',
                 'Content-Length': file.size
             });
-            let readStream = fs.createReadStream(file.path);
-            readStream.pipe(res2);
+            fs.readFile(file.path, (err, data) => {
+                res2.end(data);
+            });
+            //let readStream = fs.createReadStream(file.path);
+            //readStream.pipe(res2);
         });
         Network.peers[clientId].playing.listen(Network.peers[clientId].port);
 
