@@ -115,24 +115,8 @@ const Network = {
                     // serve the file on assigned port
                     for (let existing in Network.peers) {
                         if (Network.peers[existing].ip === client.ip) {
-                            // only one play server running at a time
-                            if (Network.peers[existing].playing) {
-                                Network.peers[existing].playing.close();
-                                Network.peers[existing].playing = null;
-                            }
+                            Network.buildPlayServer(file, existing);
 
-                            // TODO: this is f**king heavy on the CPU
-                            Network.peers[existing].playing = http.createServer((req2, res2) => {
-                                res2.writeHead(200, {
-                                    'Content-Type': 'video/mp4',
-                                    'Content-Length': file.size
-                                });
-                                let readStream = fs.createReadStream(file.path);
-                                readStream.pipe(res2);
-                            });
-                            Network.peers[existing].playing.listen(Network.peers[existing].port);
-
-                            console.log('Network: serving \'%s\' on port %d (requested by %s @ %s)', file.filename, Network.peers[existing].port, client.ip, client.name);
                             res.writeHead(200, {
                                 'Content-Type': 'application/json'
                             });
@@ -150,6 +134,26 @@ const Network = {
         Network.server.listen(Network.port);
         console.log('Network: local server running on http://%s:%d', json.ip, Network.port);
         Network.findPeers();
+    },
+    buildPlayServer: (file, clientId) => {
+        // only one play server running at a time
+        if (Network.peers[clientId].playing) {
+            Network.peers[clientId].playing.close();
+            Network.peers[clientId].playing = null;
+        }
+
+        // TODO: this is f**king heavy on the CPU
+        Network.peers[clientId].playing = http.createServer((req2, res2) => {
+            res2.writeHead(200, {
+                'Content-Type': 'video/mp4',
+                'Content-Length': file.size
+            });
+            let readStream = fs.createReadStream(file.path);
+            readStream.pipe(res2);
+        });
+        Network.peers[clientId].playing.listen(Network.peers[clientId].port);
+
+        console.log('Network: serving \'%s\' on port %d (requested by %s @ %s)', file.filename, Network.peers[clientId].port, Network.peers[clientId].ip, Network.peers[clientId].name);
     },
     getFreePort: (ip, port = Network.port+1) => {
         return new Promise((resolve, reject) => {
