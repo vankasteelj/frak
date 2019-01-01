@@ -204,28 +204,21 @@ const Collection = {
         locals: (items) => {
             let collection = Local.buildVideoLibrary(items);
 
-            let alphabetical = (a, b) => {
-                let c = (a.title && b.title) ? 'title' : 'filename';
-                if (a[c] < b[c]) return -1
-                if (a[c] > b[c]) return 1;
-                return 0;
-            }
-
             $('#collection #locals .waitforlibrary').show();
             $('#collection #locals .waitforlibrary .spinner').css('visibility', 'visible');
             $('#collection #locals .categories .movies').hide();
             $('#collection #locals .categories .shows').hide();
             $('#collection #locals .categories .unmatched').hide();
 
-            let movies = collection.movies.sort(alphabetical);
+            let movies = Misc.sortAlphabetical(collection.movies);
             DB.store(movies, 'local_movies');
             Collection.show.locals.movies(movies);
 
-            let shows = collection.shows.sort(alphabetical);
+            let shows = Misc.sortAlphabetical(collection.shows);
             DB.store(shows, 'local_shows');
             Collection.show.locals.shows(shows);
 
-            let unmatched = collection.unmatched.sort(alphabetical);
+            let unmatched = Misc.sortAlphabetical(collection.unmatched);
             Collection.show.locals.unmatched(unmatched);
 
             if (!movies.length && !shows.length && !unmatched.length) {

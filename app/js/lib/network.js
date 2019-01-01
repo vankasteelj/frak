@@ -3,38 +3,37 @@
 const Network = {
     port: 3250,
     server: null,
+    headers: {},
+    jsonApi: {},
     peers: [],
+
+    // when a new connection occurs
     addPeers: (servers = []) => {
         for (let toAdd in servers) {
             let exists;
             for (let existing in Network.peers) {
                 if (Network.peers[existing].ip === servers[toAdd].ip) exists = true;
             }
-            if (!exists && (DB.get('localip') !== servers[toAdd].ip)) {
+            if (!exists && (Network.jsonApi.ip !== servers[toAdd].ip)) {
                 console.log('Network: peer connected (%s @ %s)', servers[toAdd].ip, servers[toAdd].name);
                 Network.peers.push(servers[toAdd]);
                 Network.checkPeer(servers[toAdd]);
             }
         }
     },
+
+    // verify periodically if the peer is still connected
     checkPeer: (server) => {
-        got(`http://${server.ip}:${Network.port}`, {
-            headers: {
-                'client': JSON.stringify({
-                    ip: DB.get('localip'),
-                    name: process.env.COMPUTERNAME
-                })
-            }
-        }).then(res => {
+        got(`http://${server.ip}:${Network.port}`, Network.headers).then(res => {
             for (let existing in Network.peers) {
                 if (Network.peers[existing].ip === server.ip) {
-                    let body = JSON.parse(res.body);
+                    const body = JSON.parse(res.body);
                     Network.peers[existing].movies = body.movies;
                     Network.peers[existing].shows = body.shows;
                     Network.peers[existing].name = body.name;
 
                     Network.getFreePort(server.ip).then(port => {
-                        Network.peers[existing].port = port;
+                        Network.peers[existing].assignedPort = port;
                     });
                 }
             }
@@ -49,24 +48,20 @@ const Network = {
             }
         });
     },
+
+    // discover peers on the same subnet e.g. 192.168.1.[1-254];
     findPeers: () => {
-        let localip = DB.get('localip');
-        let baseIp = localip.match(/\d+\.\d+\.\d+\./)[0];
-        let ips = [];
+        const localip = Network.jsonApi.ip;
+        const baseIp = localip.match(/\d+\.\d+\.\d+\./)[0];
+        const ips = [];
 
         for (let i = 1; i < 255; i++) ips.push(baseIp + i);
 
         Promise.all(ips.map(ip => {
             return new Promise((resolve, reject) => {
-                got('http://' + ip + ':' + Network.port, {
-                    timeout: 500,
-                    headers: {
-                        'client': JSON.stringify({
-                            ip: DB.get('localip'),
-                            name: process.env.COMPUTERNAME
-                        })
-                    }
-                }).then(res => {
+                got('http://' + ip + ':' + Network.port, Object.assign({
+                    timeout: 500
+                }, Network.headers)).then(res => {
                     resolve(JSON.parse(res.body));
                 }).catch(() => resolve());
             });
@@ -75,48 +70,58 @@ const Network = {
             Network.addPeers(responses);
         }).catch(console.error);
     },
-    buildMainServer: () => {
-        //build json
-        let movies = DB.get('local_movies');
-        let shows = DB.get('local_shows');
 
-        let json = {
-            movies: movies,
-            shows: shows,
+    // the exposed api on main server
+    buildJsonApi: () => {
+        Network.jsonApi = {
+            movies: DB.get('local_movies'),
+            shows: DB.get('local_shows'),
             ip: DB.get('localip'),
             name: process.env.COMPUTERNAME
         };
+    },
 
+    // headers used when talking to a peer
+    buildHeaders: () => {
+        Network.headers = {
+            headers: {
+                client: JSON.stringify({
+                    ip: Network.jsonApi.ip,
+                    name: process.env.COMPUTERNAME
+                })
+            }
+        };
+    },
+
+    // expose the api and gets ready for playback
+    buildMainServer: () => {
         // only one main server running at a time
         if (Network.server) {
             Network.server.close();
             Network.server = null;
         }
-
-        //serve json
+        
+        // serve json
         Network.server = http.createServer((req, res) => {
-            let client = JSON.parse(req.headers.client);
+            const client = JSON.parse(req.headers.client);
 
-            // on GET, register the client and send back the json api
-            if (req.method === 'GET') {
+            if (req.method === 'GET') { // on GET, register the client and send back the json api
                 res.writeHead(200, {
                     'Content-Type': 'application/json'
                 });
-                res.write(JSON.stringify(json));
+                res.write(JSON.stringify(Network.jsonApi));
                 res.end();
 
                 Network.addPeers([client]);
 
-                // on POST, serve the file to a new server and send back the url
-            } else if (req.method === 'POST') {
-                let body = '';
+            } else if (req.method === 'POST') { // on POST, serve the file to a new server and send back the url
+                const body = '';
                 req.on('data', (data) => {
                     body += data;
                 });
                 req.on('end', () => {
-                    let file = JSON.parse(body);
+                    const file = JSON.parse(body);
 
-                    // serve the file on assigned port
                     for (let existing in Network.peers) {
                         if (Network.peers[existing].ip === client.ip) {
                             Network.buildPlayServer(file, existing);
@@ -126,7 +131,7 @@ const Network = {
                             });
                             res.write(JSON.stringify({
                                 file: file,
-                                url: `http://${json.ip}:${Network.peers[existing].port}`
+                                url: `http://${Network.jsonApi.ip}:${Network.peers[existing].assignedPort}`
                             }));
                             res.end();
                         }
@@ -136,25 +141,27 @@ const Network = {
         });
 
         Network.server.listen(Network.port);
-        console.log('Network: local server running on http://%s:%d', json.ip, Network.port);
-        Network.findPeers();
+        console.info('Network: local server running on http://%s:%d', Network.jsonApi.ip, Network.port);
     },
+
+    // on demand from peer
     buildPlayServer: (file, clientId) => {
         // only one play server running at a time
-        if (Network.peers[clientId].playing) {
-            Network.peers[clientId].playing.close();
-            Network.peers[clientId].playing = null;
+        if (Network.peers[clientId].playbackServer) {
+            Network.peers[clientId].playbackServer.close();
+            Network.peers[clientId].playbackServer = null;
         }
 
-        Network.peers[clientId].playing = http.createServer((req, res) => {
-            let range = req.headers.range;
+        // serve the file on assigned port
+        Network.peers[clientId].playbackServer = http.createServer((req, res) => {
+            const range = req.headers.range;
 
-            if (range) {
-                let parts = range.replace(/bytes=/, "").split("-");
-                let start = parseInt(parts[0], 10);
-                let end = parts[1] ? parseInt(parts[1], 10) : file.size - 1;
-                let chunksize = (end - start) + 1;
-                let fileStream = fs.createReadStream(file.path, {start, end});
+            if (range) { // this allows seeking on client
+                const parts = range.replace(/bytes=/, "").split("-");
+                const start = parseInt(parts[0], 10);
+                const end = parts[1] ? parseInt(parts[1], 10) : file.size - 1;
+                const chunksize = (end - start) + 1;
+                const fileStream = fs.createReadStream(file.path, {start, end});
 
                 res.writeHead(206, {
                     'Content-Range': `bytes ${start}-${end}/${file.size}`,
@@ -172,18 +179,20 @@ const Network = {
             }
         });
 
-        Network.peers[clientId].playing.listen(Network.peers[clientId].port);
+        Network.peers[clientId].playbackServer.listen(Network.peers[clientId].assignedPort);
 
-        console.log('Network: \'%s\' ready to stream on port %d (requested by %s @ %s)', file.filename, Network.peers[clientId].port, Network.peers[clientId].ip, Network.peers[clientId].name);
+        console.log('Network: \'%s\' ready to stream on port %d (requested by %s @ %s)', file.filename, Network.peers[clientId].assignedPort, Network.peers[clientId].ip, Network.peers[clientId].name);
     },
+
+    // tries defined port for main server + 1, then keeps trying until a free port is found
     getFreePort: (ip, port = Network.port + 1) => {
         return new Promise((resolve, reject) => {
             for (let existing in Network.peers) {
-                if (Network.peers[existing].port === port && Network.peers[existing].ip === ip) return resolve(port);
-                if (Network.peers[existing].port === port && Network.peers[existing].ip !== ip) return resolve(Network.getFreePort(port += 1));
+                if (Network.peers[existing].assignedPort === port && Network.peers[existing].ip === ip) return resolve(port);
+                if (Network.peers[existing].assignedPort === port && Network.peers[existing].ip !== ip) return resolve(Network.getFreePort(port += 1));
             }
 
-            let server = http.createServer();
+            const server = http.createServer();
 
             server.once('error', (err) => {
                 return resolve(Network.getFreePort(port += 1));
@@ -197,19 +206,29 @@ const Network = {
             server.listen(port);
         });
     },
+
+    // promise: sends back an object {file: {...}, url: '...'}
     getFileFromPeer: (file, peer) => {
-        return got(`http://${peer.ip}`, {
+        return got(`http://${peer.ip}`, Object.assign({
             method: 'POST',
             port: Network.port,
-            headers: {
-                client: JSON.stringify({
-                    ip: DB.get('localip'),
-                    name: process.env.COMPUTERNAME
-                })
-            },
             body: JSON.stringify(file)
-        }).then((res) => {
+        }, Network.headers)).then((res) => {
             return JSON.parse(res.body);
         });
+    },
+
+    init: () => {
+        // build json api
+        Network.buildJsonApi();
+
+        // set the headers we'll need to send on each request
+        Network.buildHeaders();
+
+        // fire up the server
+        Network.buildMainServer();
+
+        // search for peers on local network
+        Network.findPeers();
     }
 };

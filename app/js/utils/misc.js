@@ -182,5 +182,15 @@ const Misc = {
         
         let latin_map = JSON.parse(decodeURIComponent(escape(atob(base64map))));
         return str.replace(/[^A-Za-z0-9\[\] ]/g, (a) => latin_map[a] || a);
+    },
+
+    sortAlphabetical: (obj) => {
+        let alphabetical = (a, b) => {
+            let c = (a.title && b.title) ? 'title' : 'filename';
+            if (a[c] < b[c]) return -1
+            if (a[c] > b[c]) return 1;
+            return 0;
+        };
+        return obj.sort(alphabetical);
     }
 };
