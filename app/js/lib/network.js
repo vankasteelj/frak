@@ -18,6 +18,8 @@ const Network = {
                 console.log('Network: peer connected (%s @ %s)', servers[toAdd].ip, servers[toAdd].name);
                 Network.peers.push(servers[toAdd]);
                 Network.checkPeer(servers[toAdd]);
+
+                //Network.rearrangeLocals();
             }
         }
     },
@@ -28,8 +30,7 @@ const Network = {
             for (let existing in Network.peers) {
                 if (Network.peers[existing].ip === server.ip) {
                     const body = JSON.parse(res.body);
-                    Network.peers[existing].movies = body.movies;
-                    Network.peers[existing].shows = body.shows;
+                    Network.peers[existing].available = body.available;
                     Network.peers[existing].name = body.name;
 
                     Network.getFreePort(server.ip).then(port => {
@@ -74,8 +75,7 @@ const Network = {
     // the exposed api on main server
     buildJsonApi: () => {
         Network.jsonApi = {
-            movies: DB.get('local_movies'),
-            shows: DB.get('local_shows'),
+            available: DB.get('local_library'),
             ip: DB.get('localip'),
             name: process.env.COMPUTERNAME
         };
@@ -216,6 +216,23 @@ const Network = {
         }, Network.headers)).then((res) => {
             return JSON.parse(res.body);
         });
+    },
+
+    // update local library with client's available items
+    rearrangeLocals: () => {
+        // local collection
+        const collection = Network.jsonApi.available;
+
+        // add each available item (and its source);
+        for (let i in Network.peers) {
+            for (let j in Network.peers[i].available) {
+                collection.push(Object.assign(Network.peers[i].available[j], {
+                    source: Network.peers[i].ip
+                }));
+            }
+        }
+
+        Collection.format.locals(collection);
     },
 
     init: () => {
