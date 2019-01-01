@@ -286,6 +286,16 @@ const Details = {
         });
     },
 
+    loadShared: (elm) => {
+        Details.closeRemote().then(() => {
+            let file = Details.getData(elm);
+
+            Loading.shared(file);
+            $('#details-loading').show();
+            $('#details-sources').hide();
+        });
+    },
+
     loadVideo: (file) => {
         Details.closeRemote().then(() => {
             let data = {

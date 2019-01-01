@@ -9,6 +9,7 @@ const Network = {
 
     // when a new connection occurs
     addPeers: (servers = []) => {
+        let added;
         for (let toAdd in servers) {
             let exists;
             for (let existing in Network.peers) {
@@ -18,10 +19,11 @@ const Network = {
                 console.log('Network: peer connected (%s @ %s)', servers[toAdd].ip, servers[toAdd].name);
                 Network.peers.push(servers[toAdd]);
                 Network.checkPeer(servers[toAdd]);
-
-                //Network.rearrangeLocals();
+                added = true;
             }
         }
+        
+        if (added) setTimeout(Network.rearrangeLocals, 500);
     },
 
     // verify periodically if the peer is still connected
@@ -207,14 +209,15 @@ const Network = {
         });
     },
 
-    // promise: sends back an object {file: {...}, url: '...'}
-    getFileFromPeer: (file, peer) => {
-        return got(`http://${peer.ip}`, Object.assign({
+    // promise: sends back an url
+    getFileFromPeer: (file) => {
+        console.log('getFileFromPeer', file)
+        return got(`http://${file.source}`, Object.assign({
             method: 'POST',
             port: Network.port,
             body: JSON.stringify(file)
         }, Network.headers)).then((res) => {
-            return JSON.parse(res.body);
+            return JSON.parse(res.body).url;
         });
     },
 
@@ -222,16 +225,19 @@ const Network = {
     rearrangeLocals: () => {
         // local collection
         const collection = Network.jsonApi.available;
+        let items = 0;
 
         // add each available item (and its source);
         for (let i in Network.peers) {
             for (let j in Network.peers[i].available) {
+                items++;
                 collection.push(Object.assign(Network.peers[i].available[j], {
                     source: Network.peers[i].ip
                 }));
             }
         }
 
+        console.info('Network: found %d available file(s) on %d peer(s)', items, Network.peers.length);
         Collection.format.locals(collection);
     },
 

@@ -106,7 +106,7 @@ const Collection = {
                 }
 
                 Collection.format.locals(results);
-            }).then(Network.buildMainServer).catch(console.error)
+            }).then(Network.init).catch(console.error)
         },
         history: () => {
             $('#navbar .history .fa-spin').css('opacity', 1);
@@ -201,7 +201,7 @@ const Collection = {
             }).catch(console.error);
         },
 
-        locals: (items) => {
+        locals: (items, rearrange) => {
             let collection = Local.buildVideoLibrary(items);
 
             $('#collection #locals .waitforlibrary').show();
@@ -211,11 +211,11 @@ const Collection = {
             $('#collection #locals .categories .unmatched').hide();
 
             let movies = Misc.sortAlphabetical(collection.movies);
-            DB.store(movies, 'local_movies');
+            if (!rearrange) DB.store(movies, 'local_movies');
             Collection.show.locals.movies(movies);
 
             let shows = Misc.sortAlphabetical(collection.shows);
-            DB.store(shows, 'local_shows');
+            if (!rearrange) DB.store(shows, 'local_shows');
             Collection.show.locals.shows(shows);
 
             let unmatched = Misc.sortAlphabetical(collection.unmatched);
@@ -236,15 +236,20 @@ const Collection = {
                 buildContext = () => {
                     let item = items.item(i);
                     let file = JSON.parse(item.firstChild.innerText);
+                    let context = {
+                        'Play now': () => item.click()
+                    };
+                    if (!file.source) {
+                        context = Object.assign(context, {
+                            'Show in file explorer': () => {
+                                console.info('[File explorer opened] Showing', file.path);
+                                gui.Shell.showItemInFolder(path.normalize(file.path));
+                                Notify.snack(i18n.__('Opening the file location'));
+                            }
+                        });
+                    }
 
-                    let menu = Misc.customContextMenu({
-                        'Play now': () => item.click(),
-                        'Show in file explorer': () => {
-                            console.info('[File explorer opened] Showing', file.path);
-                            gui.Shell.showItemInFolder(path.normalize(file.path));
-                            Notify.snack(i18n.__('Opening the file location'));
-                        }
-                    });
+                    let menu = Misc.customContextMenu(context);
                     item.oncontextmenu = (e) => menu.popup(e.clientX, e.clientY);
                     i++;
                     setTimeout(doLoop, 0);

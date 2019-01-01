@@ -181,6 +181,7 @@ const Items = {
         let item = `<div class="local-item local-context tooltipped" onClick="Details.local.movie(this)" id="${d.id}" title="${movie.filename + ' - ' + Misc.fileSize(movie.size)}">` +
                 `<span class="data">${d.data}</span>` +
                 `<span class="title">${movie.metadata.movie.title}</span>` +
+                (movie.source ? `<span class="peer fa fa-download" title="${i18n.__('Shared by %s', movie.source)}"></span>` : '') +
             `</div>`;
 
         return item;
@@ -194,6 +195,7 @@ const Items = {
         let item = `<div class="local-item local-context tooltipped" onClick="Details.local.unmatched(this)" id="${d.id}" title="${file.filename + ' - ' + Misc.fileSize(file.size)}">` +
                 `<span class="data">${d.data}</span>` +
                 `<span class="title">${file.filename}</span>` +
+                (file.source ? `<span class="peer fa fa-download" title="${i18n.__('Shared by %s', file.source)}"></span>` : '') +
             `</div>`;
 
         return item;
@@ -218,7 +220,11 @@ const Items = {
                     let data = show.seasons[s].episodes[e];
                     data.metadata.show = show.metadata.show;
 
-                    str += `<div class="episode local-context tooltipped e${e}" onClick="Details.local.episode(this)" id="${epid}" title="${data.filename + ' - ' + Misc.fileSize(data.size)}"><span class="data">${JSON.stringify(data)}</span><span class="e-title">${title ? sxe + ' - ' + title : sxe}</span></div>`;
+                    str += `<div class="episode local-context tooltipped e${e}" onClick="Details.local.episode(this)" id="${epid}" title="${data.filename + ' - ' + Misc.fileSize(data.size)}">` + 
+                            `<span class="data">${JSON.stringify(data)}</span>` +
+                            `<span class="e-title">${title ? sxe + ' - ' + title : sxe}</span>` +
+                            (data.source ? `<span class="peer fa fa-download" title="${i18n.__('Shared by %s', data.source)}"></span>` : '') +
+                        `</div>`;
                 }
                 str += `</div>`;
             }

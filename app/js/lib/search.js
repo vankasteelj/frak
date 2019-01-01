@@ -185,9 +185,9 @@ const Search = {
     },
 
     addLocal: (data) => {
-        let item = `<div class="item local" id="local-file" onClick="Details.loadLocal(this)">` +
+        let item = `<div class="item local" id="local-file" onClick="${data.source ? 'Details.loadShared(this)' : 'Details.loadLocal(this)'}">` +
                 `<div class="data">${JSON.stringify(data)}</div>` +
-                `<div class="fa fa-hdd-o"></div>` +
+                (data.source ? `<div class="fa fa-download" title="${i18n.__('Shared by %s', data.source)}"></div>` : `<div class="fa fa-hdd-o"></div>`) +
                 `<div class="title">${data.filename}</div>` +
             `</div>`;
 
