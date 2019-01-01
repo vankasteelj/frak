@@ -23,7 +23,7 @@ const Network = {
             }
         }
         
-        if (added) setTimeout(Network.rearrangeLocals, 2000);
+        if (added) setTimeout(Network.rearrangeLocals, 5000);
     },
 
     // verify periodically if the peer is still connected

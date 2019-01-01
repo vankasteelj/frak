@@ -105,7 +105,11 @@ const Collection = {
                     $('#locals .refreshing').hide();
                 }
 
-                Collection.format.locals(results);
+                if (Network.peers.length) {
+                    Network.rearrangeLocals();
+                } else {
+                    Collection.format.locals(results);
+                }
             }).then(Network.init).catch(console.error)
         },
         history: () => {
