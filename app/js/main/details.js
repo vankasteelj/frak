@@ -552,5 +552,30 @@ const Details = {
             let episode = base.episode || base.next_episode;
             Misc.openExternal(`https://trakt.tv/shows/${base.show.ids.slug}/seasons/${episode.season}/episodes/${episode.number}`);
         }
+    },
+
+    keepWatchingOn: (peer) => {
+        Player.mpv.getProperty('percent-pos').then(position => {
+            let file;
+            if (Details.from === 'locals') {
+                file = Details.model
+            } else {
+                file = {
+                    filename: Streamer.streaminfo.file_name,
+                    path: path.join(Cache.dir, Streamer.streaminfo.file_name),
+                    size: Streamer.streaminfo.file_size
+                }
+            }
+
+            file.playback = position;
+            console.log('send playback (%s) of file %s on %s', position, file.filename, peer.ip);
+
+            got(`http://${peer.ip}`, {
+                method: 'POST',
+                port: Network.port,
+                body: JSON.stringify(file),
+                headers: Network.headers
+            });
+        });
     }
 }

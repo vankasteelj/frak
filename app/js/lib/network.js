@@ -128,16 +128,28 @@ const Network = {
 
                     for (let existing in Network.peers) {
                         if (Network.peers[existing].ip === client.ip) {
-                            Network.buildPlayServer(file, existing);
+                            
+                            if (file.playback) {
+                                if (false) return; //TODO: option to disallow 'resume playback'
+                                
+                                Network.getFileFromPeer(file).then(url => {
+                                    Player.play(url, {
+                                        'percent-pos': file.playback
+                                    });
+                                });
+                            } else {
+                                Network.buildPlayServer(file, existing);
 
-                            res.writeHead(200, {
-                                'Content-Type': 'application/json'
-                            });
-                            res.write(JSON.stringify({
-                                file: file,
-                                url: `http://${Network.jsonApi.ip}:${Network.peers[existing].assignedPort}`
-                            }));
-                            res.end();
+                                res.writeHead(200, {
+                                    'Content-Type': 'application/json'
+                                });
+                                res.write(JSON.stringify({
+                                    file: file,
+                                    url: `http://${Network.jsonApi.ip}:${Network.peers[existing].assignedPort}`
+                                }));
+                                res.end();
+
+                            }
                         }
                     }
                 });
