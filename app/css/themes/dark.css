@@ -118,6 +118,16 @@ textarea {
     color: #fafafa;
 }
 
+#details #keepWatching .selector,
+#details #keepWatching .casting {
+    background-color: #1d1d1d;
+    color: #fafafa;
+}
+
+#details #keepWatching .selector .list {
+    background-color: #2d2d2d;
+}
+
 #collection .quick-icons,
 #trakt .quick-icons {
     background-color: #1d1d1d;

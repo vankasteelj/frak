@@ -202,5 +202,8 @@
 	"Reality": "Téléréalité",
 	"Stuck? Click here to reset the app.": "Coincé ? Cliquez ici pour remettre à zéro.",
 	"Top 50": "Top 50",
-	"Shared by %s": "Partagé par %s"
+	"Shared by %s": "Partagé par %s",
+	"Cast to:": "Caster vers :",
+	"Keep watching on...": "Continuer à regarder ailleurs...",
+	"Currently casting to %s": "Cast en cours sur %s"
 }

@@ -115,7 +115,7 @@ const Loading = {
         Subtitles.search(subopts).then(subs => {
             console.info('Found subtitles', subs);
 
-            if (Object.keys(subs).length) $('#subtitles').show();
+            if (Object.keys(subs).length) $('#subtitles').css('visibility', 'visible');
             $('#subtitles .sub').remove();
 
             // add app language first

@@ -130,13 +130,9 @@ const Network = {
                         if (Network.peers[existing].ip === client.ip) {
                             
                             if (file.playback) {
-                                if (false) return; //TODO: option to disallow 'resume playback'
-                                
-                                Network.getFileFromPeer(file).then(url => {
-                                    Player.play(url, {
-                                        'percent-pos': file.playback
-                                    });
-                                });
+                                Network.resumePlayback(file);
+                                res.writeHead(200);
+                                res.end();
                             } else {
                                 Network.buildPlayServer(file, existing);
 
@@ -234,7 +230,9 @@ const Network = {
             headers: Network.headers
         }).then((res) => {
             return JSON.parse(res.body).url;
-        }).catch(console.error);
+        }).catch(err => {
+            console.error('Network.getFileFromPeer()', err);
+        });
     },
 
     // update local library with client's available items
@@ -255,6 +253,22 @@ const Network = {
 
         console.info('Network: found %d available file(s) on %d peer(s)', items, Network.peers.length);
         Collection.format.locals(collection);
+    },
+
+    resumePlayback: (data) => {
+        if (false) return; //TODO: option to disallow 'resume playback'
+
+        if (data.file) {
+            Network.getFileFromPeer(data.file).then(url => {
+                Player.play(url, {
+                    'percent-pos': data.position
+                });
+            });            
+        } else {
+            Player.play(data.url, {
+                'percent-pos': data.position
+            });
+        }
     },
 
     init: () => {

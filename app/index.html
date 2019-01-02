@@ -750,6 +750,9 @@
                         </div>
                         <div class="subs"></div>
                     </div>
+                    <div id="cast">
+                        <div class="peers fa fa-feed i18n" title="Keep watching on..." onClick="Details.keepWatchingPopup()"></div>
+                    </div>
                 </div>
 
                 <div id="details-next">
@@ -767,6 +770,18 @@
                             <i18n>Later</i18n>
                         </button>
                     </div>
+                </div>
+            </div>
+            <div id="keepWatching">
+                <div class="backgroundPopup" onClick="Details.closeKeepWatchingPopup()"></div>
+                <div class="selector">
+                    <div class="title"><i18n>Cast to:</i18n></div>
+                    <div class="list"></div>
+                </div>
+                <div class="casting">
+                    <div class="logo fa fa-feed"></div>
+                    <p class="message"></p>
+                    <p class="ip"></p>
                 </div>
             </div>
         </section>

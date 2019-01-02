@@ -95,7 +95,7 @@ const Details = {
             $('#details-metadata .genres').hide();
         }
 
-        //rate 
+        // rate 
         let traktrating = DB.get('traktratings').find((i) => i[i.type].ids.slug == d.ids.slug);
         traktrating && $('#details .corner-rating span').text(traktrating.rating).parent().show();
         $('#details-metadata .rating').attr('onClick', `Details.rate('${d.ids.slug}')`).css('cursor', 'pointer');
@@ -289,6 +289,7 @@ const Details = {
             Loading.local(file);
             $('#details-loading').show();
             $('#details-sources').hide();
+            Details.handleCast();
         });
     },
 
@@ -299,6 +300,7 @@ const Details = {
             Loading.shared(file);
             $('#details-loading').show();
             $('#details-sources').hide();
+            Details.handleCast();
         });
     },
 
@@ -311,6 +313,7 @@ const Details = {
             Loading.local(data);
             $('#details-loading').show();
             $('#details-sources').hide();
+            Details.handleCast();
         });
     },
 
@@ -324,6 +327,7 @@ const Details = {
                 $('#details-loading').show();
                 $('#details-sources').hide();
                 $('#details-spinner').hide();
+                Details.handleCast();
             });
         }).catch((err) => {
             console.error(err);
@@ -555,27 +559,55 @@ const Details = {
     },
 
     keepWatchingOn: (peer) => {
-        Player.mpv.getProperty('percent-pos').then(position => {
-            let file;
-            if (Details.from === 'locals') {
-                file = Details.model
-            } else {
-                file = {
-                    filename: Streamer.streaminfo.file_name,
-                    path: path.join(Cache.dir, Streamer.streaminfo.file_name),
-                    size: Streamer.streaminfo.file_size
-                }
-            }
+        $('#keepWatching .message').text(i18n.__('Currently casting to %s', peer.name));
+        $('#keepWatching .ip').text(peer.ip);
+        $('#keepWatching .casting').show();
+        $('#keepWatching .selector').hide();
 
-            file.playback = position;
-            console.log('send playback (%s) of file %s on %s', position, file.filename, peer.ip);
+        Player.mpv.getProperty('percent-pos').then(position => {
+            const data = {
+                playback: true,
+                position: position
+            };
+            if (Details.from === 'locals') { // send a playback request
+                data.file = Details.model;
+                data.file.source = DB.get('localip');
+            } else { // send a link directly
+                data.url = Streamer.streaminfo.url.replace('127.0.0.1', DB.get('localip'));
+            }
 
             got(`http://${peer.ip}`, {
                 method: 'POST',
                 port: Network.port,
-                body: JSON.stringify(file),
+                body: JSON.stringify(data),
                 headers: Network.headers
             });
         });
+    },
+
+    keepWatchingPopup: () => {
+        Player.mpv.pause();
+
+        // clear popup
+        $('#keepWatching .selector .list').html('');
+        $('#keepWatching .casting').hide();
+        $('#keepWatching .selector').show();
+
+        for (let i in Network.peers) {
+            let item = `<div class="peer" onClick="Details.keepWatchingOn(Network.peers[${i}])"><span class="name">${Network.peers[i].name}</span><span class="ip">${Network.peers[i].ip}</span></div>`;
+            $('#keepWatching .selector .list').append(item);
+        }
+        $('#keepWatching').show();
+    },
+
+    closeKeepWatchingPopup: () => {
+        $('#keepWatching').hide();
+    },
+
+    handleCast: () => {
+        // peer casting
+        if (Network.peers.length && true) { // todo: have an option to disable sharing
+            $('#cast .peers').show();
+        }
     }
 }

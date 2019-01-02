@@ -193,5 +193,8 @@
 	"Default: 10000": "Default: 10000",
 	"Separate each tracker with a comma": "Separate each tracker with a comma",
 	"Shared by %s": "Shared by %s",
-	"Select this language": "Select this language"
+	"Select this language": "Select this language",
+	"Keep watching on...": "Keep watching on...",
+	"Cast to:": "Cast to:",
+	"Currently casting to %s": "Currently casting to %s"
 }

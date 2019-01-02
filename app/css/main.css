@@ -1291,7 +1291,7 @@ input:checked + .slider:before {
     width: 20%;
     float: right;
     height: 80%;
-    display: none;
+    visibility: hidden;
     overflow-y: scroll;
 }
 
@@ -1324,6 +1324,29 @@ input:checked + .slider:before {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+#details-loading #cast {
+    float: right;
+    height: 20%;
+    width: 20%;
+}
+
+#details-loading #cast .peers {
+    font-size: 20px;
+    height: 40px;
+    width: 40px;
+    margin-top: 3px;
+    padding: 10px;
+    opacity: .7;
+    cursor: pointer;
+    transition: all .3s;
+    display: none;
+    float: right;
+}
+
+#details-loading #cast .peers:hover {
+    opacity: 1;
 }
 
 #details-loading .file,
@@ -1359,6 +1382,94 @@ input:checked + .slider:before {
     font-size: 12px;
 }
 
+#details #keepWatching {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+    display: none;
+}
+
+#details #keepWatching .backgroundPopup {
+    width: 100%;
+    height: 100%;
+    opacity: .1;
+    background: black;
+}
+
+#details #keepWatching .selector,
+#details #keepWatching .casting {
+    width: 400px;
+    height: 250px;
+    position: absolute;
+    margin-left: calc(50vw - 200px);
+    margin-top: calc(50vh - 125px);
+    top: 0;
+    border-radius: 3px;
+    box-shadow: 0px 0px 10px 0px #222;
+}
+
+#details #keepWatching .casting {
+    display: none;
+}
+
+#details #keepWatching .selector .title,
+#details #keepWatching .casting .message {
+    text-align: center;
+    padding: 5px;
+    height: 20%;
+    font-size: 1.8em;
+    font-family: 'Proxima Nova Semibold';
+}
+
+#details #keepWatching .selector .list {
+    margin: 0 20px;
+    width: 90%;
+    height: 73%;
+    border-radius: 3px;
+    overflow: overlay;
+}
+
+#details #keepWatching .selector .list .peer {
+    line-height: 35px;
+    padding: 5px 10px;
+    background: rgba(200,200,200,.05);
+    cursor: pointer;
+    transition: all .5s;
+    opacity: .7;
+    margin-bottom: 1px;
+}
+
+#details #keepWatching .selector .list .peer:hover {
+    opacity: 1;
+}
+
+#details #keepWatching .selector .list .peer .name {
+    font-family: 'Proxima Nova Semibold';
+    font-size: 1.4em;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+#details #keepWatching .selector .list .peer .ip {
+    font-family: monospace;
+    opacity: .5;
+    float: right;
+}
+
+#details #keepWatching .casting .logo {
+    font-size: 5em;
+    text-align: center;
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+#details #keepWatching .casting .ip {
+    font-family: monospace;
+    text-align: center;
+    opacity: .6;
+}
 
 /* details END */
 
