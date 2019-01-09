@@ -606,7 +606,7 @@ const Details = {
             let item = `<div class="peer" onClick="Details.keepWatchingOn(Network.peers[${i}])">` +
                 `<span class="name">${Network.peers[i].name}</span>` +
                 `<span class="ip">${Network.peers[i].ip}</span>` +
-                `${Network.peers[i].casting_allowed ? '' : '<span class="castingdisallowed">(' + i18n.__("casting disabled") + ')</span>'}` +
+                `${Network.peers[i].cast_allowed ? '' : '<span class="castingdisallowed">(' + i18n.__("casting disabled") + ')</span>'}` +
             `</div>`;
             $('#keepWatching .selector .list').append(item);
         }
