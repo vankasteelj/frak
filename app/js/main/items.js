@@ -58,7 +58,7 @@ const Items = {
                 `<div class="quick-icons">` +
                     `<div class="actions">` +
                         `<div class="watched trakt-icon-check-thick tooltipped i18n" title="${i18n.__('Mark as watched')}" onClick="Items.markAsWatched(this)"></div>` +
-                        `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>` +
+                        (movie.movie.trailer ? `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>` : '') +
                         `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.movie(this)"></div>` +
                     `</div>` +
                     `<div class="metadata">` +
@@ -71,7 +71,6 @@ const Items = {
 
         Items.getImage(d.image, movie.movie.ids, 'movie', 'fanart').then((img) => {
             img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
-            !movie.movie.trailer && $(`#${d.id} .trailer`).hide();
 
             // right click menu
             let labels = {};
@@ -132,7 +131,7 @@ const Items = {
                 `<div class="quick-icons">` +
                     `<div class="actions">` +
                         `<div class="watched trakt-icon-check-thick tooltipped i18n" title="${i18n.__('Mark as watched')}" onClick="Items.markAsWatched(this)"></div>` +
-                        `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${show.show.trailer}')"></div>` +
+                        (show.show.trailer ? `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${show.show.trailer}')"></div>` : '') +
                         `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.episode(this)"></div>` +
                     `</div>` +
                     `<div class="metadata">` +
@@ -145,7 +144,6 @@ const Items = {
 
         Items.getImage(d.image, show.show.ids, 'show', 'fanart').then(img => {
             img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
-            !show.show.trailer && $(`#${d.id} .trailer`).hide();
             if (show.unseen - 1 <= 0) $(`#${d.id} .unseen`).hide();
 
             // right click menu
@@ -431,7 +429,7 @@ const Items = {
                 `<div class="quick-icons">` +
                     `<div class="actions">` +
                         `<div class="watchlist trakt-icon-list-thick tooltipped i18n" title="${i18n.__('Add to watchlist')}" onClick="Discover.addToWatchlist(this)"></div>` +
-                        `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${show.show.trailer}')"></div>` +
+                        (show.show.trailer ? `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${show.show.trailer}')"></div>` : '') +
                         `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.episode(this, 'discover')"></div>` +
                     `</div>` +
                     `<div class="metadata">` +
@@ -444,7 +442,6 @@ const Items = {
 
         Items.getImage(d.image, show.show.ids, 'show', 'fanart').then(img => {
             img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
-            !show.show.trailer && $(`#${d.id} .trailer`).hide();
             !d.key && $(`#${d.id} .ep-title`).hide();
             d.watchlisted && $(`#${d.id} .watchlist`)[0] && ($(`#${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>');
             d.watched && $(`#${d.id} .fanart`).addClass('watched');
@@ -512,7 +509,7 @@ const Items = {
                 `<div class="quick-icons">` +
                     `<div class="actions">` +
                         `<div class="watchlist trakt-icon-list-thick tooltipped i18n" title="${i18n.__('Add to watchlist')}" onClick="Discover.addToWatchlist(this)"></div>` +
-                        `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>` +
+                        (movie.movie.trailer ? `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>` : '') +
                         `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.movie(this, 'discover')"></div>` +
                     `</div>` +
                     `<div class="metadata">` +
@@ -525,7 +522,6 @@ const Items = {
 
         Items.getImage(d.image, movie.movie.ids, 'movie', 'fanart').then(img => {
             img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
-            !movie.movie.trailer && $(`#${d.id} .trailer`).hide();
             !d.key && $(`#${d.id} .ep-title`).hide();
             d.watchlisted && $(`#${d.id} .watchlist`)[0] && ($(`#${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>');
             d.watched && $(`#${d.id} .fanart`).addClass('watched');
