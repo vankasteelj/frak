@@ -17,7 +17,8 @@ const gulp = require('gulp'),
     pkJson = require('./package.json'),
     got = require('got'),
     z7 = require('node-7z-forall'),
-    temp = require('os').tmpdir();
+    temp = require('os').tmpdir(),
+    modClean = require('modclean').ModClean;
 
 /******** 
  * setup *
@@ -82,11 +83,6 @@ const parseReqDeps = () => {
             }
         });
     });
-};
-
-// console.log for thenable promises
-const log = () => {
-    console.log.apply(console, arguments);
 };
 
 // nw-builder configuration
@@ -228,7 +224,7 @@ gulp.task('nsis', () => {
                 resolve();
             });
         });
-    })).catch(log);
+    })).catch(console.log);
 });
 
 // compile debian packages
@@ -284,7 +280,7 @@ gulp.task('deb', () => {
                 resolve();
             });
         });
-    })).catch(log);
+    })).catch(console.log);
 });
 
 // package in tgz (win) or in xz (unix)
@@ -339,7 +335,7 @@ gulp.task('compress', () => {
                 });
             }
         });
-    })).catch(log);
+    })).catch(console.log);
 });
 
 // check entire sources for potential coding issues (tweak in .jshintrc)
@@ -399,8 +395,15 @@ gulp.task('clean:nwjs', () => {
     }));
 });
 
+gulp.task('clean:modclean', () => {
+    const mc = new modClean();
+    return mc.clean().then(r => {
+        console.log('ModClean: %s files/folders removed', r.deleted.length);
+    }).catch(console.log);
+});
+
 // build app from sources
-gulp.task('build', gulp.series('nwjs', 'clean:nwjs', 'mpv'));
+gulp.task('build', gulp.series('nwjs', 'clean:nwjs', 'clean:modclean', 'mpv'));
 
 // create redistribuable packages
 gulp.task('dist', gulp.series('build', 'compress', 'deb', 'nsis'));
