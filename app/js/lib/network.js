@@ -108,7 +108,6 @@ const Network = {
         
         // serve json
         Network.server = http.createServer((req, res) => {
-            try{
             const client = JSON.parse(req.headers.client);
 
             if (req.method === 'GET') { // on GET, register the client and send back the json api
@@ -152,7 +151,6 @@ const Network = {
                     }
                 });
             }
-            }catch(e){console.error(e)}
         });
 
         Network.server.listen(Network.port);
@@ -292,5 +290,18 @@ const Network = {
 
         // search for peers on local network
         Network.findPeers();
+    },
+    
+    disconnect: () => {
+        if (Network.server) {
+            Network.server.close();
+            Network.server = null;
+        }
+        Network.headers = {};
+        Network.jsonApi = {};
+        Network.peers = [];
+
+        $('#settings .localsharing .localstatus .server').text(i18n.__('not running'));
+        $('#settings .localsharing .localstatus .clients').text('');
     }
 };

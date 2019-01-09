@@ -258,12 +258,15 @@ const Boot = {
                 Network.init();
                 $('#settings .resumeplayback').show();
             } else {
+                Network.disconnect();
                 $('#settings .resumeplayback').hide();
             }
         });
 
         document.querySelector('#allow_resumeplayback').addEventListener('click', (evt) => {
             DB.store(evt.toElement.checked, 'localplayback');
+            Network.disconnect();
+            Network.init();
         });
 
         document.querySelector('#bp-button').addEventListener('click', (evt) => {
