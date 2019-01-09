@@ -34,6 +34,7 @@ const Network = {
                     const body = JSON.parse(res.body);
                     Network.peers[existing].available = body.available;
                     Network.peers[existing].name = body.name;
+                    Network.peers[existing].cast_allowed = body.cast_allowed;
 
                     Network.getFreePort(server.ip).then(port => {
                         Network.peers[existing].assignedPort = port;
