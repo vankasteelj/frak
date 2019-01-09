@@ -435,6 +435,7 @@ select.dropdown {
 #navbar .nav,
 #settings .locals .option .pathbox .paths li,
 #settings .mpv input,
+#settings .localsharing input,
 #settings .streamer input,
 #settings .streamer textarea,
 #details-metadata .md-line,
@@ -473,6 +474,7 @@ select.dropdown {
 
 #settings .locals .option .pathbox .paths,
 #settings .mpv input,
+#settings .localsharing input,
 #settings .streamer input,
 #settings .streamer textarea,
 #details-sources .item:hover,

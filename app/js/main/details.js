@@ -559,6 +559,14 @@ const Details = {
     },
 
     keepWatchingOn: (peer) => {
+        if (!peer.cast_allowed) {
+            $('#keepWatching .message').text(i18n.__('%s has disabled %s', peer.name, i18n.__('Direct playback sharing'))).css('color', '#933');
+            $('#keepWatching .casting .logo').removeClass('fa-feed').addClass('fa-warning');
+            $('#keepWatching .casting').show();
+            $('#keepWatching .selector').hide();
+            return;
+        }
+
         $('#keepWatching .message').text(i18n.__('Currently casting to %s', peer.name));
         $('#keepWatching .ip').text(peer.ip);
         $('#keepWatching .casting').show();
@@ -590,11 +598,16 @@ const Details = {
 
         // clear popup
         $('#keepWatching .selector .list').html('');
+        $('#keepWatching .casting .logo').removeClass('fa-warning').addClass('fa-feed');
         $('#keepWatching .casting').hide();
         $('#keepWatching .selector').show();
 
         for (let i in Network.peers) {
-            let item = `<div class="peer" onClick="Details.keepWatchingOn(Network.peers[${i}])"><span class="name">${Network.peers[i].name}</span><span class="ip">${Network.peers[i].ip}</span></div>`;
+            let item = `<div class="peer" onClick="Details.keepWatchingOn(Network.peers[${i}])">` +
+                `<span class="name">${Network.peers[i].name}</span>` +
+                `<span class="ip">${Network.peers[i].ip}</span>` +
+                `${Network.peers[i].casting_allowed ? '' : '<span class="castingdisallowed">(' + i18n.__("casting disabled") + ')</span>'}` +
+            `</div>`;
             $('#keepWatching .selector .list').append(item);
         }
         $('#keepWatching').show();
@@ -606,7 +619,7 @@ const Details = {
 
     handleCast: () => {
         // peer casting
-        if (Network.peers.length && true) { // todo: have an option to disable sharing
+        if (DB.get('localsharing') && DB.get('localplayback') && Network.peers.length) {
             $('#cast .peers').show();
         }
     }

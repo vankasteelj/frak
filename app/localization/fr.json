@@ -205,5 +205,15 @@
 	"Shared by %s": "Partagé par %s",
 	"Cast to:": "Caster vers :",
 	"Keep watching on...": "Continuer à regarder ailleurs...",
-	"Currently casting to %s": "Cast en cours sur %s"
+	"Currently casting to %s": "Cast en cours sur %s",
+	"Local network": "Réseau local",
+	"IP address": "Adresse IP",
+	"Share your library": "Partager les fichiers locaux",
+	"Direct playback sharing": "Autoriser le cast depuis/vers cette machine",
+	"Server:": "État du serveur :",
+	"not running": "éteint",
+	"sharing %s files (port %s)": "%s fichiers partagés (port %s)",
+	"- %s connected peer(s)": "- %s client(s) connecté(s)",
+	"casting disabled": "cast désactivé",
+	"%s has disabled %s": "%s a désactivé %s"
 }

@@ -33,6 +33,7 @@ const Boot = {
         dns.lookup(require('os').hostname(), function (err, add, fam) {
             if (!err) localip = add;
             DB.store(localip, 'localip');
+            $('#localip input').val(localip);
         });
 
         if (online) {
@@ -142,17 +143,6 @@ const Boot = {
         });
     },
 
-    // STARTUP: set up tooltips
-    setupTooltips: () => {
-        $('.tooltipped').tooltip({
-            'show': {
-                duration: 500,
-                delay: 400
-            },
-            'hide': 500
-        });
-    },
-
     // STARTUP: set up version number and repository link
     setupVersion: () => {
         $('#about .version').text(PKJSON.version);
@@ -203,6 +193,17 @@ const Boot = {
             document.querySelector('#trailers_use_mpv').checked = true;
         }
 
+        // allow local network sharing
+        if (DB.get('localsharing')) {
+            document.querySelector('#allow_localsharing').checked = true;
+            $('#settings .resumeplayback').show();
+        }
+
+        // allow direct playback feature on local network
+        if (DB.get('localplayback')) {
+            document.querySelector('#allow_resumeplayback').checked = true;
+        }
+
         // default player options
         let player_options = DB.get('player_options');
         let _poptions = Settings.player;
@@ -249,6 +250,20 @@ const Boot = {
 
         document.querySelector('#trailers_use_mpv').addEventListener('click', (evt) => {
             DB.store(evt.toElement.checked, 'trailers_use_mpv');
+        });
+
+        document.querySelector('#allow_localsharing').addEventListener('click', (evt) => {
+            DB.store(evt.toElement.checked, 'localsharing');
+            if (evt.toElement.checked) {
+                Network.init();
+                $('#settings .resumeplayback').show();
+            } else {
+                $('#settings .resumeplayback').hide();
+            }
+        });
+
+        document.querySelector('#allow_resumeplayback').addEventListener('click', (evt) => {
+            DB.store(evt.toElement.checked, 'localplayback');
         });
 
         document.querySelector('#bp-button').addEventListener('click', (evt) => {

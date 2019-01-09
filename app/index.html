@@ -413,6 +413,50 @@
                     </div>
                 </div>
             </div>
+            <div class="setting localsharing">
+                <div class="title">
+                    <i18n>Local network</i18n>
+                </div>
+                <div class="option" id="localip">
+                    <div class="text">
+                        <i18n>IP address</i18n>
+                    </div>
+                    <div class="action">
+                        <input type="text" readonly placeholder="127.0.0.1"/>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="text">
+                        <i18n>Share your library</i18n>
+                    </div>
+                    <div class="action">
+                        <i18n>no</i18n>&nbsp;
+                        <label class="switch">
+                            <input id="allow_localsharing" type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                        &nbsp;<i18n>yes</i18n>
+                    </div>
+                </div>
+                <div class="option resumeplayback">
+                    <div class="text">
+                        <i18n>Direct playback sharing</i18n>
+                    </div>
+                    <div class="action">
+                        <i18n>no</i18n>&nbsp;
+                        <label class="switch">
+                            <input id="allow_resumeplayback" type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                        &nbsp;<i18n>yes</i18n>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="text localstatus">
+                        <i18n>Server:</i18n>&nbsp;<i18n class="server">not running</i18n>&nbsp;<i18n class="clients"></i18n>
+                    </div>
+                </div>
+            </div>
             <div class="setting mpv">
                 <div class="title">
                     <i18n>Player</i18n>

@@ -80,7 +80,8 @@ const Network = {
         Network.jsonApi = {
             available: DB.get('local_library'),
             ip: DB.get('localip'),
-            name: process.env.COMPUTERNAME
+            name: process.env.COMPUTERNAME,
+            cast_allowed: Boolean(DB.get('localplayback'))
         };
     },
 
@@ -155,7 +156,10 @@ const Network = {
 
         Network.server.listen(Network.port);
 
-        if (!wasRunning) console.info('Network: local server running on http://%s:%d', Network.jsonApi.ip, Network.port);
+        if (!wasRunning) {
+            console.info('Network: local server running on http://%s:%d', Network.jsonApi.ip, Network.port);
+            $('#settings .localsharing .localstatus .server').text(i18n.__('sharing %s files (port %s)', Network.jsonApi.available.length, Network.port));
+        }
     },
 
     // on demand from peer
@@ -252,11 +256,12 @@ const Network = {
         }
 
         console.info('Network: found %d available file(s) on %d peer(s)', items, Network.peers.length);
+        $('#settings .localsharing .localstatus .clients').text(i18n.__('- %s connected peer(s)', Network.peers.length));
         Collection.format.locals(collection);
     },
 
     resumePlayback: (data) => {
-        if (false) return; //TODO: option to disallow 'resume playback'
+        if (!DB.get('localplayback')) return;
 
         if (data.file) {
             Network.getFileFromPeer(data.file).then(url => {
@@ -272,6 +277,9 @@ const Network = {
     },
 
     init: () => {
+        // option to disallow sharing alltogether 
+        if (!DB.get('localsharing')) return;
+
         // build json api
         Network.buildJsonApi();
 

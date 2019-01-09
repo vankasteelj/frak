@@ -890,6 +890,7 @@ textarea {
 }
 
 #settings .mpv input,
+#settings .localsharing input,
 #settings .streamer input,
 #settings .streamer textarea {
     cursor: pointer;
@@ -899,6 +900,19 @@ textarea {
     width: 150px;
     font-family: monospace;
     font-size: 12px;
+}
+
+#settings input:read-only {
+    cursor: default;
+}
+
+#settings .localsharing .resumeplayback {
+    display: none;
+}
+
+#settings .localsharing .localstatus {
+    font-style: italic;
+    opacity: .7;
 }
 
 #settings .streamer #announceopt {
@@ -1455,6 +1469,11 @@ input:checked + .slider:before {
     font-family: monospace;
     opacity: .5;
     float: right;
+}
+
+#details #keepWatching .selector .list .peer .castingdisallowed {
+    font-size: .8em;
+    float: left;
 }
 
 #details #keepWatching .casting .logo {
