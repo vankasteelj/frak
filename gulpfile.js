@@ -104,7 +104,7 @@ const nw = new nwBuilder({
 // start app in development
 gulp.task('run', () => {
     return new Promise((resolve, reject) => {
-        let platform = parsePlatforms()[0],
+        const platform = parsePlatforms()[0],
             bin = path.join('cache', nwVersion + '-' + flavor, platform);
 
         // path to nw binary
@@ -125,8 +125,8 @@ gulp.task('run', () => {
         console.log('Running %s from cache', platform);
 
         // spawn cached binary with package.json, toggle flags
-        let dev = yargs.argv.development ? '--development' : '';
-        let bp = yargs.argv.bp ? '--bp' : '';
+        const dev = yargs.argv.development ? '--development' : '';
+        const bp = yargs.argv.bp ? '--bp' : '';
         const child = spawn(bin, ['.', dev, bp]);
 
         // nwjs console speaks to stderr
@@ -153,13 +153,15 @@ gulp.task('run', () => {
 gulp.task('default', () => {
     console.log([
         '\nBasic usage:',
-        ' gulp run\tStart the application in dev mode',
+        ' gulp run\tStart the application',
         ' gulp build\tBuild the application',
         ' gulp dist\tCreate a redistribuable package',
         '\nAvailable options:',
-        ' --platforms=<platform>',
+        ' --development\t\t\tStart in dev mode',
+        '\tExample:   `gulp run --development`',
+        ' --platforms=<platform>\t\tBuild for specific platform(s)',
         '\tArguments: ' + availablePlatforms + ',all',
-        '\tExample:   `grunt build --platforms=all`',
+        '\tExample:   `gulp build --platforms=all`',
         '\nUse `gulp --tasks` to show the task dependency tree of gulpfile.js\n'
     ].join('\n'));
 });
@@ -168,7 +170,7 @@ gulp.task('default', () => {
 gulp.task('nwjs', () => {
     return parseReqDeps().then((requiredDeps) => {
         // required files
-        nw.options.files = ['./app/**', './package.json', './README.md', './LICENSE', './plugins'];
+        nw.options.files = ['./app/**', './package.json', './README.md', './plugins/**', './mpv/**'];
         // add node_modules
         nw.options.files = nw.options.files.concat(requiredDeps);
         // remove junk files
@@ -179,7 +181,7 @@ gulp.task('nwjs', () => {
 });
 
 // compile nsis installer
-gulp.task('nsis', () => {
+gulp.task('build:nsis', () => {
     return Promise.all(nw.options.platforms.map((platform) => {
 
         // nsis is for win only
@@ -228,7 +230,7 @@ gulp.task('nsis', () => {
 });
 
 // compile debian packages
-gulp.task('deb', () => {
+gulp.task('build:deb', () => {
     return Promise.all(nw.options.platforms.map((platform) => {
 
         // deb is for linux only
@@ -284,7 +286,7 @@ gulp.task('deb', () => {
 });
 
 // package in tgz (win) or in xz (unix)
-gulp.task('compress', () => {
+gulp.task('build:compress', () => {
     return Promise.all(nw.options.platforms.map((platform) => {
 
         // don't package win, use nsis
@@ -379,31 +381,90 @@ gulp.task('mpv', () => {
 });
 
 // remove unused libraries
-gulp.task('clean:nwjs', () => {
+gulp.task('build:nwjsclean', () => {
     return Promise.all(parsePlatforms().map((platform) => {
-        let dirname = path.join(releasesDir, pkJson.name, platform);
-        return del([
+        const dirname = path.join(releasesDir, pkJson.name, platform);
+        const removeArray = [
             dirname + '/pdf*',
             dirname + '/chrome*',
             dirname + '/nacl*',
+            dirname + '/pnacl',
             dirname + '/payload*',
             dirname + '/nwjc*',
             dirname + '/credit*',
             dirname + '/debug*',
-            dirname + '/swift*'
-        ]);
+            dirname + '/swift*',
+            dirname + '/notification_helper*',
+            dirname + '/d3dcompiler*'
+        ];
+        console.log('Removing unused %s nwjs files...', platform);
+        return del(removeArray);
     }));
 });
 
-gulp.task('clean:modclean', () => {
+// remove unused node_modules
+gulp.task('npm:modclean', () => {
     const mc = new modClean();
     return mc.clean().then(r => {
         console.log('ModClean: %s files/folders removed', r.deleted.length);
     }).catch(console.log);
 });
 
+// remove devDependencies from build folder
+gulp.task('build:prune', () => {
+    return Promise.all(nw.options.platforms.map((platform) => {
+        const dirname = path.join(releasesDir, pkJson.name, platform);
+        return new Promise((resolve, reject) => {
+            exec('cd "'+dirname+'" && npm prune', (error, stdout, stderr) => {
+                if (error || stderr) {
+                    reject(error || stderr);
+                } else {
+                    console.log(stdout);
+                    resolve();
+                }
+            });
+        });
+    }));
+});
+
+// compress with upx if available
+gulp.task('build:upx', () => {
+    return Promise.all(nw.options.platforms.map((platform) => {
+        // upx is for win only for now
+        if (platform.match(/osx|linux/) !== null) {
+            console.log('No `build:upx` task for', platform);
+            return null;
+        }
+
+        console.log('Compressing the .dll/.exe with UPX... This can take several minutes\n')
+        const dirname = path.join(releasesDir, pkJson.name, platform);
+        return new Promise((resolve, reject) => {
+            exec('cd "'+dirname+'" && upx ' + [
+                'mpv/mpv.exe',
+                'mpv/youtube-dl.exe',
+                'mpv/libaacs.dll',
+                'mpv/libbdplus.dll',
+                'frak.exe',
+                'libGLESv2.dll',
+                'node.dll',
+                'nw.dll',
+                'ffmpeg.dll'
+            ].join(' '), (error, stdout, stderr) => {
+                if (error || stderr) {
+                    console.log(error || stderr);
+                    console.log('\nSomething went wrong with UPX (is it installed and in path env variables?)... continuing anyway');
+                    resolve();
+                } else {
+                    console.log(stdout);
+                    resolve();
+                }
+            });
+        });
+    }));
+});
+
 // build app from sources
-gulp.task('build', gulp.series('nwjs', 'clean:nwjs', 'clean:modclean', 'mpv'));
+gulp.task('build', gulp.series('npm:modclean', 'mpv', 'nwjs', 'build:nwjsclean', 'build:prune', 'build:upx'));
 
 // create redistribuable packages
-gulp.task('dist', gulp.series('build', 'compress', 'deb', 'nsis'));
+gulp.task('dist', gulp.series('build', 'build:compress', 'build:deb', 'build:nsis'));
