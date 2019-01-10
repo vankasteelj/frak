@@ -411,48 +411,122 @@ gulp.task('npm:modclean', () => {
 });
 
 // remove devDependencies from build folder
-gulp.task('build:prune', () => {
+gulp.task('build:resourcehacker', () => {
     return Promise.all(nw.options.platforms.map((platform) => {
+        // reshack is for win only
+        if (platform.match(/osx|linux/) !== null) {
+            console.log('No `build:resourcehacker` task for', platform);
+            return null;
+        }
+
         const dirname = path.join(releasesDir, pkJson.name, platform);
-        return new Promise((resolve, reject) => {
-            exec('cd "'+dirname+'" && npm prune', (error, stdout, stderr) => {
-                if (error || stderr) {
-                    reject(error || stderr);
-                } else {
-                    console.log(stdout);
-                    resolve();
+        const scripts = {
+            replaceicon: [
+                `-open "${dirname}/frak.exe"`,
+                `-save "${dirname}/frak.exe"`,
+                `-action addoverwrite`,
+                `-res "${dirname}/app/images/frak-logo.ico"`,
+                `-mask ICONGROUP,IDR_MAINFRAME,1033`
+            ].join(' '),
+
+            buildversioninfo: [
+                `-open "${releasesDir}/VersionInfo1.rc"`,
+                `-save "${releasesDir}/VersionInfo1.res"`,
+                `-action compile`
+            ].join(' '),
+
+            removeversioninfo: [
+                `-open "${dirname}/frak.exe"`,
+                `-save "${dirname}/frak.exe"`,
+                `-action delete`,
+                `-mask VERSIONINFO,1,1033`
+            ].join(' '),
+
+            addversioninfo: [
+                `-open "${dirname}/frak.exe"`,
+                `-save "${dirname}/frak.exe"`,
+                `-action addoverwrite`,
+                `-res "build/VersionInfo1.res"`,
+                `-mask VERSIONINFO,1,1033`
+            ].join(' ')
+        };
+
+        const versionArray = pkJson.version.split('.');
+        const versionInfo = `
+            1 VERSIONINFO
+            FILEVERSION ${versionArray[0]},${versionArray[1]},${versionArray[2]},0
+            PRODUCTVERSION ${versionArray[0]},${versionArray[1]},${versionArray[2]},0
+            FILEOS 0x4
+            FILETYPE 0x1
+            {
+            BLOCK "StringFileInfo"
+            {
+                BLOCK "040904b0"
+                {
+                    VALUE "CompanyName", "${pkJson.name}"
+                    VALUE "FileDescription", "${pkJson.name}"
+                    VALUE "FileVersion", "${pkJson.version}"
+                    VALUE "InternalName", "nw_exe"
+                    VALUE "LegalCopyright", "Copyright 2018, The NW.js community and The Chromium Authors. All rights reserved."
+                    VALUE "OriginalFilename", "nw.exe"
+                    VALUE "ProductName", "nwjs"
+                    VALUE "ProductVersion", "${nwVersion}"
+                    VALUE "CompanyShortName", "${pkJson.name}"
+                    VALUE "ProductShortName", "${pkJson.name}"
+                    VALUE "LastChange", "${Date()}"
                 }
+            }
+
+            BLOCK "VarFileInfo"
+            {
+                VALUE "Translation", 0x0409 0x04B0  
+            }
+        }`;
+
+        let errors = [];
+        const reshack = (task, script) => {
+            return new Promise((resolve, reject) => {
+                exec('ResourceHacker ' + script + ' -log CONSOLE', (error, stdout, stderr) => {
+                    if (error || stderr) {
+                        errors.push(stderr || error);
+                        resolve();
+                    } else {
+                        console.log(task);
+                        resolve();
+                    }
+                });
             });
+        };
+
+        return reshack('replace icon', scripts.replaceicon).then(() => {
+            fs.writeFileSync('build/VersionInfo1.rc', versionInfo, (err) => {
+                if (err) throw err;
+                console.log('VersionInfo1.rc written!');
+            })
+            return reshack('build versionInfo', scripts.buildversioninfo)
+        }).then(() => reshack('remove old versionInfo', scripts.removeversioninfo)).then(() => reshack('add new versionInfo', scripts.addversioninfo)).then(() => {
+            if (errors.length) {
+                console.log('`build:resourcehacker` failed for %s\n', platform);
+                console.log(...errors);
+                console.log('\ncontinuing anyway...\n');
+            }
+            return del([
+                'build/VersionInfo1.rc',
+                'build/VersionInfo1.res'
+            ]);
         });
     }));
 });
 
-// compress with upx if available
-gulp.task('build:upx', () => {
+gulp.task('build:prune', () => {
     return Promise.all(nw.options.platforms.map((platform) => {
-        // upx is for win only for now
-        if (platform.match(/osx|linux/) !== null) {
-            console.log('No `build:upx` task for', platform);
-            return null;
-        }
-
-        console.log('Compressing the .dll/.exe with UPX... This can take several minutes\n')
         const dirname = path.join(releasesDir, pkJson.name, platform);
         return new Promise((resolve, reject) => {
-            exec('cd "'+dirname+'" && upx ' + [
-                'mpv/mpv.exe',
-                'mpv/youtube-dl.exe',
-                'mpv/libaacs.dll',
-                'mpv/libbdplus.dll',
-                'frak.exe',
-                'libGLESv2.dll',
-                'node.dll',
-                'nw.dll',
-                'ffmpeg.dll'
-            ].join(' '), (error, stdout, stderr) => {
+            exec('cd "' + dirname + '" && npm prune', (error, stdout, stderr) => {
                 if (error || stderr) {
-                    console.log(error || stderr);
-                    console.log('\nSomething went wrong with UPX (is it installed and in path env variables?)... continuing anyway');
+                    console.log('`npm prune` failed for %s\n', platform);
+                    console.log(stderr || error);
+                    console.log('\n\ncontinuing anyway...\n');
                     resolve();
                 } else {
                     console.log(stdout);
@@ -464,7 +538,7 @@ gulp.task('build:upx', () => {
 });
 
 // build app from sources
-gulp.task('build', gulp.series('npm:modclean', 'mpv', 'nwjs', 'build:nwjsclean', 'build:prune', 'build:upx'));
+gulp.task('build', gulp.series('npm:modclean', 'mpv', 'nwjs', 'build:nwjsclean', 'build:prune', 'build:resourcehacker'));
 
 // create redistribuable packages
 gulp.task('dist', gulp.series('build', 'build:compress', 'build:deb', 'build:nsis'));

@@ -1,5 +1,4 @@
-;OSU
-;Installer Source for NSIS 3.0 or higher
+;Installer Source for NSIS 3.0.4 or higher
 
 Unicode True
 !include "MUI2.nsh"
@@ -11,9 +10,12 @@ Unicode True
 !searchparse /file "..\package.json" '"name": "' APP_REAL_NAME '",'
 !searchparse /file "..\package.json" '"releaseName": "' APP_NAME '",'
 !searchreplace APP_NAME "${APP_NAME}" "-" " "
-!searchparse /file "..\package.json" '"version": "' OSU_VERSION '",'
-!searchreplace OSU_VERSION_CLEAN "${OSU_VERSION}" "-" ".0"
+!searchparse /file "..\package.json" '"version": "' APP_VERSION '",'
+!searchreplace APP_VERSION_CLEAN "${APP_VERSION}" "-" ".0"
 !searchparse /file "..\package.json" '"homepage": "' APP_URL '",'
+!searchparse /file "..\package.json" '"license": "' APP_LICENSE '",'
+!searchparse /file "..\package.json" '"icon": "' APP_ICON '",'
+!searchreplace APP_ICON_LOCAL_PATH "${APP_ICON}" "/" "\"
 !searchparse /file "..\package.json" '"name": "' DATA_FOLDER '",'
 
 ; ------------------- ;
@@ -42,22 +44,22 @@ Unicode True
 ;General Settings
 !define COMPANY_NAME "vankasteelj"
 Name "${APP_NAME}"
-Caption "${APP_NAME} ${OSU_VERSION}"
-BrandingText "${APP_NAME} ${OSU_VERSION}"
-VIAddVersionKey "ProductName" "${APP_NAME}"
-VIAddVersionKey "ProductVersion" "${OSU_VERSION}"
-VIAddVersionKey "FileDescription" "${APP_NAME} ${OSU_VERSION} Installer"
-VIAddVersionKey "FileVersion" "${OSU_VERSION}"
+Caption "${APP_NAME} ${APP_VERSION}"
+BrandingText "${APP_NAME} ${APP_VERSION}"
+VIAddVersionKey "ProductName" "NSIS Installer"
+VIAddVersionKey "ProductVersion" "3.0.4+"
+VIAddVersionKey "FileDescription" "${APP_NAME} ${APP_VERSION} Installer"
+VIAddVersionKey "FileVersion" "${APP_VERSION}"
 VIAddVersionKey "CompanyName" "${COMPANY_NAME}"
-VIAddVersionKey "LegalCopyright" "${APP_URL}"
-VIProductVersion "${OSU_VERSION_CLEAN}.0"
+VIAddVersionKey "LegalCopyright" "${APP_LICENSE}"
+VIProductVersion "${APP_VERSION_CLEAN}.0"
 
-OutFile "..\build\${APP_REAL_NAME}-${OSU_VERSION}-${ARCH}-setup.exe"
+OutFile "..\build\${APP_REAL_NAME}-${APP_VERSION}-${ARCH}-setup.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
 
 ;Default installation folder
-InstallDir "$PROGRAMFILES\${APP_NAME}"
+InstallDir "$PROGRAMFILES64\${APP_NAME}"
 
 ;Request application privileges
 ;RequestExecutionLevel user
@@ -68,12 +70,18 @@ InstallDir "$PROGRAMFILES\${APP_NAME}"
 ;     UI Settings     ;
 ; ------------------- ;
 ;Define UI settings
+!define MUI_ICON "../${APP_ICON}"
+!define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
 !define MUI_ABORTWARNING
+!define MUI_WELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\nsis3-vintage.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\orange-uninstall.bmp"
 !define MUI_FINISHPAGE_LINK "${APP_URL}"
 !define MUI_FINISHPAGE_LINK_LOCATION "${APP_URL}"
-!define MUI_FINISHPAGE_RUN "$INSTDIR\OpenSubtitles-Uploader.exe"
+!define MUI_FINISHPAGE_RUN "$INSTDIR\${APP_REAL_NAME}.exe"
 !define MUI_FINISHPAGE_SHOWREADME ""
 !define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
+!define MUI_FINISHPAGE_SHOWREADME_TEXT "$(desktopShortcut)"
+!define MUI_FINISHPAGE_SHOWREADME_FUNCTION finishpageaction
 
 ;Define the pages
 !insertmacro MUI_PAGE_WELCOME
@@ -92,9 +100,21 @@ InstallDir "$PROGRAMFILES\${APP_NAME}"
 LangString desktopShortcut ${LANG_ENGLISH} "Desktop Shortcut"
 LangString removeDataFolder ${LANG_ENGLISH} "Remove all databases and configuration files?"
 
+!insertmacro MUI_LANGUAGE "French"
+LangString desktopShortcut ${LANG_French} "Placer un raccourci sur le bureau"
+LangString removeDataFolder ${LANG_French} "Supprimer toutes les databases et les fichiers de configuration ?"
+
 ; ------------------- ;
 ;    Install code     ;
 ; ------------------- ;
+Function .onInit ; check for previous version
+    Exec "taskkill /F /IM ${APP_REAL_NAME}.exe /T"
+    ReadRegStr $0 HKCU "${UNINSTALL_KEY}" "InstallString"
+    StrCmp $0 "" done
+    StrCpy $INSTDIR $0
+done:
+FunctionEnd
+
 Section ; Main Files
 
     ;Delete existing install
@@ -128,6 +148,8 @@ Section ; Shortcuts
     IntFmt $0 "0x%08X" $0
     WriteRegDWORD HKCU "${UNINSTALL_KEY}" "EstimatedSize" "$0"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayName" "${APP_NAME}"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayVersion" "${APP_VERSION}"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "DisplayIcon" "$INSTDIR\${APP_ICON_LOCAL_PATH}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "Publisher" "${COMPANY_NAME}"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "UninstallString" "$INSTDIR\Uninstall.exe"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "InstallString" "$INSTDIR"
@@ -147,9 +169,16 @@ Section "uninstall"
     Delete "$DESKTOP\${APP_NAME}.lnk"
     
     MessageBox MB_YESNO|MB_ICONQUESTION "$(removeDataFolder)" IDNO NoUninstallData
-    RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}"
+        RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}"
     NoUninstallData:
-    DeleteRegKey HKCU "${UNINSTALL_KEY}"
-    DeleteRegKey HKCU "Software\Chromium" ;workaround for NW leftovers
+        DeleteRegKey HKCU "${UNINSTALL_KEY}"
+        DeleteRegKey HKCU "Software\Chromium" ;workaround for NW leftovers
 
 SectionEnd
+
+; ------------------ ;
+;  Desktop Shortcut  ;
+; ------------------ ;
+Function finishpageaction
+    CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${APP_REAL_NAME}.exe" "" "$INSTDIR\${APP_ICON_LOCAL_PATH}" "" "" "" "${APP_NAME}"
+FunctionEnd
