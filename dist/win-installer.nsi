@@ -99,20 +99,40 @@ InstallDir "$PROGRAMFILES64\${APP_NAME}"
 !insertmacro MUI_LANGUAGE "English"
 LangString desktopShortcut ${LANG_ENGLISH} "Desktop Shortcut"
 LangString removeDataFolder ${LANG_ENGLISH} "Remove all databases and configuration files?"
+LangString currentlyRunning ${LANG_ENGLISH} "${APP_NAME} is currently running.$\r$\nDo you want to close it now?"
 
 !insertmacro MUI_LANGUAGE "French"
 LangString desktopShortcut ${LANG_French} "Placer un raccourci sur le bureau"
 LangString removeDataFolder ${LANG_French} "Supprimer toutes les databases et les fichiers de configuration ?"
+LangString currentlyRunning ${LANG_French} "${APP_NAME} est en cours d'utilisation.$\r$\nFaut-il le fermer ?"
+
+; ------------------- ;
+;    Check Process    ;
+; ------------------- ;
+!macro isRunning un
+    Function ${un}isRunning
+        FindWindow $0 "" "${APP_REAL_NAME}"
+        StrCmp $0 0 notRunning
+        MessageBox MB_YESNO|MB_ICONEXCLAMATION "$(currentlyRunning)" /SD IDYES IDNO userQuit
+            SendMessage $0 ${WM_CLOSE} "" "${APP_REAL_NAME}"
+            Goto notRunning
+        userQuit:
+            Abort
+        notRunning:
+    FunctionEnd
+!macroend
+!insertmacro isRunning ""
+!insertmacro isRunning "un."
 
 ; ------------------- ;
 ;    Install code     ;
 ; ------------------- ;
 Function .onInit ; check for previous version
-    Exec "taskkill /F /IM ${APP_REAL_NAME}.exe /T"
+    Call isRunning
     ReadRegStr $0 HKCU "${UNINSTALL_KEY}" "InstallString"
     StrCmp $0 "" done
     StrCpy $INSTDIR $0
-done:
+    done:
 FunctionEnd
 
 Section ; Main Files
@@ -140,6 +160,12 @@ Section ; Shortcuts
     ;Working Directory
     SetOutPath "$INSTDIR"
 
+    ;Start Menu Shortcut
+    RMDir /r "$SMPROGRAMS\${APP_NAME}"
+    CreateDirectory "$SMPROGRAMS\${APP_NAME}"
+    CreateShortCut "$SMPROGRAMS\${APP_NAME}\${APP_NAME}.lnk" "$INSTDIR\${APP_REAL_NAME}.exe" "" "$INSTDIR\${APP_ICON_LOCAL_PATH}" "" "" "" "${APP_NAME}"
+    CreateShortCut "$SMPROGRAMS\${APP_NAME}\Uninstall ${APP_NAME}.lnk" "$INSTDIR\Uninstall.exe"
+
     ;Desktop Shortcut
     Delete "$DESKTOP\${APP_NAME}.lnk"
 
@@ -154,6 +180,7 @@ Section ; Shortcuts
     WriteRegStr HKCU "${UNINSTALL_KEY}" "UninstallString" "$INSTDIR\Uninstall.exe"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "InstallString" "$INSTDIR"
     WriteRegStr HKCU "${UNINSTALL_KEY}" "URLInfoAbout" "${APP_URL}"
+    WriteRegStr HKCU "${UNINSTALL_KEY}" "HelpLink" "${APP_URL}"
 
     System::Call "shell32::SHChangeNotify(i,i,i,i) (0x08000000, 0x1000, 0, 0)"
 
@@ -164,6 +191,7 @@ SectionEnd
 ; ------------------- ;
 Section "uninstall" 
 
+    Call un.isRunning
     RMDir /r "$INSTDIR"
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
     Delete "$DESKTOP\${APP_NAME}.lnk"
