@@ -85,27 +85,50 @@ const parseReqDeps = () => {
     });
 };
 
-// nw-builder configuration
-const nw = new nwBuilder({
-    files: [],
-    buildDir: releasesDir,
-    zip: false,
-    macIcns: '',
-    winIco: '',
-    version: nwVersion,
-    flavor: flavor,
-    platforms: parsePlatforms()
-}).on('log', console.log);
-
 
 /************* 
  * gulp tasks *
  *************/
+
+// download and compile nwjs
+gulp.task('nwjs', () => {
+    const nwOptions = {
+        files: ['./app/**', './package.json', './README.md', './plugins/**', './mpv/**', './node_modules/**'],
+        buildDir: releasesDir,
+        appName: pkJson.releaseName,
+        appVersion: pkJson.version,
+        zip: false,
+        version: nwVersion,
+        flavor: flavor,
+        platforms: parsePlatforms()
+    };
+
+    // windows-only (or wine): replace icon & VersionInfo1.res
+    if (currentPlatform().indexOf('win') !== -1) {
+        nwOptions.winIco = pkJson.icon;
+        nwOptions.winVersionString = {
+            Comments: pkJson.description,
+            CompanyName: pkJson.homepage,
+            FileDescription: pkJson.releaseName,
+            FileVersion: pkJson.version,
+            InternalName: pkJson.name,
+            OriginalFilename: pkJson.name + '.exe',
+            ProductName: pkJson.releaseName,
+            ProductVersion: pkJson.version
+        };
+    }
+
+    const nw = new nwBuilder(nwOptions).on('log', console.log);
+
+    return nw.build();
+});
+
+
 // start app in development
 gulp.task('run', () => {
     return new Promise((resolve, reject) => {
-        const platform = parsePlatforms()[0],
-            bin = path.join('cache', nwVersion + '-' + flavor, platform);
+        const platform = parsePlatforms()[0];
+        let bin = path.join('cache', nwVersion + '-' + flavor, platform);
 
         // path to nw binary
         switch (platform.slice(0, 3)) {
@@ -166,23 +189,9 @@ gulp.task('default', () => {
     ].join('\n'));
 });
 
-// download and compile nwjs
-gulp.task('nwjs', () => {
-    return parseReqDeps().then((requiredDeps) => {
-        // required files
-        nw.options.files = ['./app/**', './package.json', './README.md', './plugins/**', './mpv/**'];
-        // add node_modules
-        nw.options.files = nw.options.files.concat(requiredDeps);
-        // remove junk files
-        nw.options.files = nw.options.files.concat(['!./node_modules/**/*.bin', '!./node_modules/**/*.c', '!./node_modules/**/*.h', '!./node_modules/**/Makefile', '!./node_modules/**/*.h', '!./**/test*/**', '!./**/doc*/**', '!./**/example*/**', '!./**/demo*/**', '!./**/bin/**', '!./**/build/**', '!./**/.*/**']);
-
-        return nw.build();
-    });
-});
-
 // compile nsis installer
 gulp.task('build:nsis', () => {
-    return Promise.all(nw.options.platforms.map((platform) => {
+    return Promise.all(parsePlatforms().map((platform) => {
 
         // nsis is for win only
         if (platform.match(/osx|linux/) !== null) {
@@ -231,7 +240,7 @@ gulp.task('build:nsis', () => {
 
 // compile debian packages
 gulp.task('build:deb', () => {
-    return Promise.all(nw.options.platforms.map((platform) => {
+    return Promise.all(parsePlatforms().map((platform) => {
 
         // deb is for linux only
         if (platform.match(/osx|win/) !== null) {
@@ -287,7 +296,7 @@ gulp.task('build:deb', () => {
 
 // package in tgz (win) or in xz (unix)
 gulp.task('build:compress', () => {
-    return Promise.all(nw.options.platforms.map((platform) => {
+    return Promise.all(parsePlatforms().map((platform) => {
 
         // don't package win, use nsis
         if (platform.indexOf('win') !== -1) {
@@ -350,7 +359,7 @@ gulp.task('jshint', () => {
 
 // download mpv
 gulp.task('mpv', () => {
-    return Promise.all(nw.options.platforms.map((platform) => {
+    return Promise.all(parsePlatforms().map((platform) => {
         // bundled mpv is for win only
         if (platform.match(/osx|linux/) !== null) {
             console.log('No `mpv` task for', platform);
@@ -410,116 +419,9 @@ gulp.task('npm:modclean', () => {
     }).catch(console.log);
 });
 
-// remove devDependencies from build folder
-gulp.task('build:resourcehacker', () => {
-    return Promise.all(nw.options.platforms.map((platform) => {
-        // reshack is for win only
-        if (platform.match(/osx|linux/) !== null) {
-            console.log('No `build:resourcehacker` task for', platform);
-            return null;
-        }
-
-        const dirname = path.join(releasesDir, pkJson.name, platform);
-        const scripts = {
-            replaceicon: [
-                `-open "${dirname}/frak.exe"`,
-                `-save "${dirname}/frak.exe"`,
-                `-action addoverwrite`,
-                `-res "${dirname}/app/images/frak-logo.ico"`,
-                `-mask ICONGROUP,IDR_MAINFRAME,1033`
-            ].join(' '),
-
-            buildversioninfo: [
-                `-open "${releasesDir}/VersionInfo1.rc"`,
-                `-save "${releasesDir}/VersionInfo1.res"`,
-                `-action compile`
-            ].join(' '),
-
-            removeversioninfo: [
-                `-open "${dirname}/frak.exe"`,
-                `-save "${dirname}/frak.exe"`,
-                `-action delete`,
-                `-mask VERSIONINFO,1,1033`
-            ].join(' '),
-
-            addversioninfo: [
-                `-open "${dirname}/frak.exe"`,
-                `-save "${dirname}/frak.exe"`,
-                `-action addoverwrite`,
-                `-res "build/VersionInfo1.res"`,
-                `-mask VERSIONINFO,1,1033`
-            ].join(' ')
-        };
-
-        const versionArray = pkJson.version.split('.');
-        const versionInfo = `
-            1 VERSIONINFO
-            FILEVERSION ${versionArray[0]},${versionArray[1]},${versionArray[2]},0
-            PRODUCTVERSION ${versionArray[0]},${versionArray[1]},${versionArray[2]},0
-            FILEOS 0x4
-            FILETYPE 0x1
-            {
-            BLOCK "StringFileInfo"
-            {
-                BLOCK "040904b0"
-                {
-                    VALUE "CompanyName", "${pkJson.name}"
-                    VALUE "FileDescription", "${pkJson.name}"
-                    VALUE "FileVersion", "${pkJson.version}"
-                    VALUE "InternalName", "nw_exe"
-                    VALUE "LegalCopyright", "Copyright 2018, The NW.js community and The Chromium Authors. All rights reserved."
-                    VALUE "OriginalFilename", "nw.exe"
-                    VALUE "ProductName", "nwjs"
-                    VALUE "ProductVersion", "${nwVersion}"
-                    VALUE "CompanyShortName", "${pkJson.name}"
-                    VALUE "ProductShortName", "${pkJson.name}"
-                    VALUE "LastChange", "${Date()}"
-                }
-            }
-
-            BLOCK "VarFileInfo"
-            {
-                VALUE "Translation", 0x0409 0x04B0  
-            }
-        }`;
-
-        let errors = [];
-        const reshack = (task, script) => {
-            return new Promise((resolve, reject) => {
-                exec('ResourceHacker ' + script + ' -log CONSOLE', (error, stdout, stderr) => {
-                    if (error || stderr) {
-                        errors.push(stderr || error);
-                        resolve();
-                    } else {
-                        console.log(task);
-                        resolve();
-                    }
-                });
-            });
-        };
-
-        return reshack('replace icon', scripts.replaceicon).then(() => {
-            fs.writeFileSync('build/VersionInfo1.rc', versionInfo, (err) => {
-                if (err) throw err;
-                console.log('VersionInfo1.rc written!');
-            })
-            return reshack('build versionInfo', scripts.buildversioninfo)
-        }).then(() => reshack('remove old versionInfo', scripts.removeversioninfo)).then(() => reshack('add new versionInfo', scripts.addversioninfo)).then(() => {
-            if (errors.length) {
-                console.log('`build:resourcehacker` failed for %s\n', platform);
-                console.log(...errors);
-                console.log('\ncontinuing anyway...\n');
-            }
-            return del([
-                'build/VersionInfo1.rc',
-                'build/VersionInfo1.res'
-            ]);
-        });
-    }));
-});
-
+// npm prune the build/<platform>/ folder (to remove devDeps)
 gulp.task('build:prune', () => {
-    return Promise.all(nw.options.platforms.map((platform) => {
+    return Promise.all(parsePlatforms().map((platform) => {
         const dirname = path.join(releasesDir, pkJson.name, platform);
         return new Promise((resolve, reject) => {
             exec('cd "' + dirname + '" && npm prune', (error, stdout, stderr) => {
@@ -538,7 +440,7 @@ gulp.task('build:prune', () => {
 });
 
 // build app from sources
-gulp.task('build', gulp.series('npm:modclean', 'mpv', 'nwjs', 'build:nwjsclean', 'build:prune', 'build:resourcehacker'));
+gulp.task('build', gulp.series('npm:modclean', 'mpv', 'nwjs', 'build:nwjsclean', 'build:prune'));
 
 // create redistribuable packages
 gulp.task('dist', gulp.series('build', 'build:compress', 'build:deb', 'build:nsis'));
