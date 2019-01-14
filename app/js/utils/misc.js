@@ -193,5 +193,22 @@ const Misc = {
             return 0;
         };
         return obj.sort(alphabetical);
+    },
+
+    autoLaunch: (enable) => {
+        const AutoLaunch = require('auto-launch');
+        const launcher = new AutoLaunch({
+            name: PKJSON.releaseName,
+            isHidden: DB.get('startminimized')
+        });
+
+        launcher.isEnabled().then((isEnabled) => {
+            if (isEnabled && !enable) launcher.disable();
+            if (enable && !isEnabled) launcher.enable();
+            if (enable && isEnabled) {
+                launcher.disable();
+                launcher.enable();
+            }
+        });
     }
 };

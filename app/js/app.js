@@ -19,7 +19,9 @@ gui.start = () => {
                 Interface.bigPicture(true);
             }
 
-            setTimeout(resolve, 0);
+            let hidden = gui.App.argv.indexOf('--hidden') !== -1;
+
+            setTimeout(() => resolve(hidden), 0);
         } catch (err) {
             // if things go south on startup, just display devtools and log error
             console.error(err);

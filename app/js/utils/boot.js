@@ -211,6 +211,17 @@ const Boot = {
             document.querySelector('#allow_resumeplayback').checked = true;
         }
 
+        // start minimized
+        if (DB.get('startminimized')) {
+            document.querySelector('#startminimized').checked = true;
+        }
+
+        // auto-launch on start up
+        if (DB.get('autolaunch')) {
+            document.querySelector('#autolaunch').checked = true;
+            $('#autolaunchminimized').show();
+        }
+
         // default player options
         let player_options = DB.get('player_options');
         let _poptions = Settings.player;
@@ -287,6 +298,18 @@ const Boot = {
 
         document.querySelector('#tray').addEventListener('click', (evt) => {
             DB.store(evt.toElement.checked, 'minimizeToTray');
+        });
+
+        document.querySelector('#autolaunch').addEventListener('click', (evt) => {
+            DB.store(evt.toElement.checked, 'autolaunch');
+            Misc.autoLaunch(evt.toElement.checked);
+
+            $('#autolaunchminimized')[evt.toElement.checked ? 'show' : 'hide']();
+        });
+
+        document.querySelector('#startminimized').addEventListener('click', (evt) => {
+            DB.store(evt.toElement.checked, 'startminimized');
+            Misc.autoLaunch(true);
         });
 
         document.querySelector('#items-size').addEventListener('click', (evt) => {
