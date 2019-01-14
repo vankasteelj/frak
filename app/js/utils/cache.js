@@ -1,7 +1,7 @@
 'use strict';
 
 const Cache = {
-    dir: path.join(require('os').tmpdir(), PKJSON.releaseName),
+    dir: path.join(os.tmpdir(), PKJSON.releaseName),
     create: () => {
         try {
             fs.mkdirSync(Cache.dir);

@@ -44,6 +44,7 @@
         "spawn": true,
         "win": true,
         "nw": true,
+        "os": true,
 
         // JS files
         "Boot": true,

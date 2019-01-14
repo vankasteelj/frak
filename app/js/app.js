@@ -48,6 +48,7 @@ gui.App.on('open', (cmd) => {
 
 win.on('close', () => {
     Cache.delete();
+    win.tray.remove();
     nw.global.playerPopup && nw.global.playerPopup.close(true);
     win.close(true);
 });

@@ -7,7 +7,7 @@ const Themes = {
             for (let i in files) {
                 let theme = files[i].slice(0, -4);
                 $('head').append(`<link rel="stylesheet" type="text/css" href="${path.join('./css/themes', files[i])}">`);
-                $('#theme').append(`<option value="${theme}">${theme}</option>`);
+                $('#theme').append(`<option value="${theme}">${i18n.__(theme)}</option>`);
             }
         });
 

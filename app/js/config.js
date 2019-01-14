@@ -13,6 +13,7 @@ const dns = require('dns');
 const crypt = require('crypto');
 const i18n = require('i18n');
 const got = require('got');
+const os = require('os');
 const PKJSON = require('../package.json');
 
 // default settings

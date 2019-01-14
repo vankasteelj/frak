@@ -2,8 +2,9 @@ const Boot = {
 
     // STARTUP: load app: ui,settings,features
     load: () => {
-        Themes.setup();                         // theme
         Localization.setupLocalization();       // localize
+        Themes.setup();                         // theme
+        Boot.tray();                            // setup the tray
         Cache.create();                         // create tmp dir
         Plugins.load();                         // load search plugins
         Boot.setupSettings();                   // setup settings popup
@@ -17,26 +18,25 @@ const Boot = {
         Boot.online();                          // check if online
         Dragdrop.setup();                       // allow drag&drop
         //Gamepad.init();                       // gamepad support
+        Boot.idle();                            // periodically update
 
         // right clicks
         document.addEventListener('contextmenu', (e) => e.preventDefault());
         Boot.setupRightClicks('input[type=text], textarea');
-
-        // TODO: on app open, load file if used 'open with'
-        // let file = gui.App.argv.slice(-1).pop();
     },
 
-    // STARTUP: check if online TODO
+    // STARTUP: setup network connexion
     online: () => {
-        let online = window.navigator.onLine;
         let localip = '127.0.0.1';
 
-        dns.lookup(require('os').hostname(), function (err, add, fam) {
+        dns.lookup(os.hostname(), function (err, add, fam) {
             if (!err) localip = add;
             DB.store(localip, 'localip');
             $('#localip input').val(localip);
         });
 
+        /* TODO check if online or not
+        let online = window.navigator.onLine;
         if (online) {
             !DB.get('online') && DB.store(true, 'online') && console.info('App is online');
         } else {
@@ -44,7 +44,7 @@ const Boot = {
         }
         setTimeout(() => {
             Boot.online()
-        }, 5000);
+        }, 5000); */
     },
 
     setupScreens: () => {
@@ -141,6 +141,7 @@ const Boot = {
         });
         win.on('minimize', () => {
             win.isMaximized = DB.get('wasMaximized');
+            if (DB.get('minimizeToTray')) win.hide();
         });
     },
 
@@ -187,6 +188,11 @@ const Boot = {
             document.querySelector('#bp-button').checked = true;
         } else {
             $('.nav.bigpicture').hide();
+        }
+
+        // minimze to tray
+        if (DB.get('minimizeToTray')) {
+            document.querySelector('#tray').checked = true;
         }
 
         // use mpv for trailers
@@ -279,6 +285,10 @@ const Boot = {
             }
         });
 
+        document.querySelector('#tray').addEventListener('click', (evt) => {
+            DB.store(evt.toElement.checked, 'minimizeToTray');
+        });
+
         document.querySelector('#items-size').addEventListener('click', (evt) => {
             let isSmall = evt.toElement.checked;
             DB.store(isSmall, 'small_items');
@@ -341,5 +351,61 @@ const Boot = {
             let selected = $setting.val();
             DB.store(selected, 'startscreen');
         });
+    },
+
+    tray: () => {
+        win.tray = new nw.Tray({
+            title: PKJSON.releaseName,
+            icon: './app/images/frak-tray.png'
+        });
+
+        const openFromTray = () => {
+            win.show();
+        };
+
+        win.tray.tooltip = PKJSON.releaseName;
+
+        let menu = new nw.Menu();
+        menu.append(new nw.MenuItem({
+            type: 'normal',
+            label: i18n.__('Restore'),
+            click: openFromTray
+        }));
+        menu.append(new nw.MenuItem({
+            type: 'separator',
+        }));
+        menu.append(new nw.MenuItem({
+            type: 'normal',
+            label: i18n.__('Refresh Trakt (F5)'),
+            click: Trakt.reload
+        }));
+        menu.append(new nw.MenuItem({
+            type: 'normal',
+            label: i18n.__('Open cache (F10)'),
+            click: () => Misc.openExternal(Cache.dir)
+        }));
+        menu.append(new nw.MenuItem({
+            type: 'normal',
+            label: i18n.__('DevTools (Ctrl+R)'),
+            click: win.showDevTools
+        }));
+        menu.append(new nw.MenuItem({
+            type: 'separator',
+        }));
+        menu.append(new nw.MenuItem({
+            type: 'normal',
+            label: i18n.__('Close'),
+            click: win.close
+        }));
+
+        win.tray.menu = menu;
+
+        win.tray.on('click', openFromTray);
+        nw.App.on('open', openFromTray);
+    },
+
+    idle: () => {
+        setInterval(Trakt.reload, 1000*60*60*12); // refresh trakt every 12 hours;
+        setInterval(Collection.get.local, 1000*60*60*2); // refresh local library every 2 hours;
     }
 };

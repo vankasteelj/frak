@@ -7,6 +7,7 @@ const Misc = {
 
     // USERINTERACTION: restart app (used by Keyboard.setupShortcuts)
     restartApp: () => {
+        win.tray.remove();
         chrome.runtime.reload();
     },
 
@@ -145,7 +146,7 @@ const Misc = {
         let exponent, unit, units, base;
         let neg = num < 0;
 
-        switch (require('os').platform()) {
+        switch (os.platform()) {
             case 'linux':
                 base = 1024;
                 units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
