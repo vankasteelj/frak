@@ -13,7 +13,7 @@ const Boot = {
         Boot.setupInputs();                     // browse button
         Keyboard.setupShortcuts();              // keyboard shortcuts
         Player.findMpv();                       // player
-        Update.checkUpdates();                  // update
+        Update.check();                         // update
         Boot.setupVersion();                    // version number
         Boot.online();                          // check if online
         Dragdrop.setup();                       // allow drag&drop
@@ -155,9 +155,6 @@ const Boot = {
 
     // STARTUP: set up values in settings popup
     setupSettings: () => {
-        // autoupdate
-        Update.setupCheckbox();
-
         // lang dropdown
         Localization.setupDropdown();
 
@@ -172,6 +169,12 @@ const Boot = {
 
         // prepare for default details page
         Details.default = $('#details').html();
+
+        // look for updates
+        if (!(DB.get('lookForUpdates') === false)) {
+            DB.store(true, 'lookForUpdates');
+            document.querySelector('#lookForUpdates').checked = true;
+        }
 
         // is mpv shipped?
         if (process.platform == 'win32' && fs.existsSync('./mpv/mpv.exe')) {
@@ -256,6 +259,11 @@ const Boot = {
     },
 
     setupInputs: () => {
+        document.querySelector('#lookForUpdates').addEventListener('click', (evt) => {
+            DB.store(evt.toElement.checked, 'lookForUpdates');
+            Update.check();
+        });
+
         document.querySelector('#hidden-input-local').addEventListener('change', (evt) => {
             let directory = $('#hidden-input-local').val();
             Local.addPath(directory);
@@ -430,5 +438,6 @@ const Boot = {
     idle: () => {
         setInterval(Trakt.reload, 1000*60*60*12); // refresh trakt every 12 hours;
         setInterval(Collection.get.local, 1000*60*60*2); // refresh local library every 2 hours;
+        setInterval(Update.check, 1000*60*60*24*7); // check for updates every 7 days;
     }
 };

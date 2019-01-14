@@ -224,5 +224,8 @@
 	"Open cache (F10)": "Ouvrir le cache (F10)",
 	"DevTools (Ctrl+R)": "DevTools (Ctrl+R)",
 	"Auto-launch on start up": "Lancer automatiquement au démarrage",
-	"Auto-launch minimized": "Lancement automatique en mode réduit"
+	"Auto-launch minimized": "Lancement automatique en mode réduit",
+	"Update %s available": "Mise à jour %s disponible",
+	"Download it here!": "Téléchargez-la maintenant !",
+	"Look for updates": "Vérifier les mises à jour"
 }
