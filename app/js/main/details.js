@@ -584,6 +584,9 @@ const Details = {
                 data.url = Streamer.streaminfo.url.replace('127.0.0.1', DB.get('localip'));
             }
 
+            let $sub = $('.sub.active .data').text();
+            if ($sub) data.subtitle = JSON.parse($sub);
+
             got(`http://${peer.ip}`, {
                 method: 'POST',
                 port: Network.port,

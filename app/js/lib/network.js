@@ -262,16 +262,31 @@ const Network = {
     resumePlayback: (data) => {
         if (!DB.get('localplayback')) return;
 
+        const getSubtitle = () => {
+            if (data.subtitle) {
+                let subtitle = path.join(Cache.dir, data.subtitle.filename);
+
+                let selectSubtitle = () => {
+                    Player.mpv.addSubtitles(subtitle, 'cached', data.subtitle.filename, data.subtitle.langcode);
+                    console.info('Subtitle selected:', data.subtitle.langcode);
+                }
+
+                got.stream(data.subtitle.url).pipe(fs.createWriteStream(subtitle)).on('finish', selectSubtitle);
+            }
+        }
+
         if (data.file) {
             Network.getFileFromPeer(data.file).then(url => {
                 Player.play(url, {
                     'percent-pos': data.position
                 });
+                setTimeout(getSubtitle, 1000);
             });            
         } else {
             Player.play(data.url, {
                 'percent-pos': data.position
             });
+            setTimeout(getSubtitle, 1000);
         }
     },
 
