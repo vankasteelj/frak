@@ -2,7 +2,7 @@ const Boot = {
 
     // STARTUP: load app: ui,settings,features
     load: () => {
-        document.documentElement.className='dark-theme';
+        Themes.setup();                         // theme
         Localization.setupLocalization();       // localize
         Cache.create();                         // create tmp dir
         Plugins.load();                         // load search plugins

@@ -48,11 +48,18 @@
 }
 
 #about .content,
-#legal .content,
-#collection .fanart,
-#trakt .fanart,
-#details {
+#legal .content {
     background-color: var(--app-color-main);
+}
+
+#collection .fanart,
+#trakt .fanart {
+    background-color: var(--app-color-main);
+}
+
+#details {
+    background-color: #1d1d1d;
+    color: #fafafa;
 }
 
 #about .icons {
@@ -195,10 +202,10 @@
     height: 40px;
     overflow: hidden;
     white-space: nowrap;
+    background-color: var(--item-bg);
+    color: var(--item-text);
 }
 
-#collection .quick-icons,
-#trakt .quick-icons,
 #details #keepWatching .selector,
 #details #keepWatching .casting {
     background-color: var(--app-color-main);
@@ -222,7 +229,11 @@
 
 #collection .row > div,
 #discover .row > div {
-    border-color: var(--app-color-alt);
+    border-color: var(--item-border);
+}
+
+#locals .row > div {
+    border-color: var(--localitem-border);
 }
 
 #collection .row,
@@ -246,15 +257,11 @@
 
 #collection .titles h3 .year,
 #discover .titles h3 .year {
-    color: #bbb;
-}
-
-#collection .titles h3 .year,
-#discover .titles h3 .year {
     font-family: var(--font);
     font-size: 14px;
     font-weight: 400;
     padding-left: 6px;
+    color: var(--item-year);
 }
 
 #collection .titles h3,
@@ -263,19 +270,20 @@
     font-size: 18px;
     margin-top: 3px;
     padding: 10px;
-    text-shadow: 0 0 20px black;
+    text-shadow: var(--item-title-shadow);
+    color: var(--item-title);
 }
 
 #collection .titles h3,
-#discover .titles h3 {
-    background-color: rgba(0, 0, 0, 0.4);
-    color: #fafafa;
+#discover .titles h3,
+#collection .titles h4 .ep-title,
+#discover .titles h4 .ep-title {
+    background-color: var(--item-title-bg);
 }
 
 #collection .titles h4 .ep-title,
 #discover .titles h4 .ep-title {
-    background-color: rgba(0, 0, 0, 0.4);
-    color: #ddd;
+    color: var(--item-eptitle);
 }
 
 #collection .titles h4 .ep-title,
@@ -475,7 +483,7 @@
 #details .background {
     background-image: url(../images/placeholder.png);
     background-size: cover;
-    filter: var(--bg-modificator);
+    filter: blur(70px) saturate(0.8);
     height: 100%;
     opacity: 0;
     position: absolute;
@@ -606,7 +614,7 @@
 }
 
 #details-loading .sub.active {
-    background-color: var(--sub-select);
+    background-color: rgba(255, 255, 255, .2);
 }
 
 #details-metadata .ep-title {
@@ -830,8 +838,8 @@
 }
 
 #details-sources .query #query {
-    background-color: var(--search-bg);
-    color: var(--search-text);
+    background-color: rgba(245, 245, 245, .85);
+    color: #1d1d1d;
     font-family: var(--font);
     font-weight: 400;
     overflow: hidden;
@@ -870,7 +878,7 @@
 
 #details-spinner .spinner .double-bounce1,
 #details-spinner .spinner .double-bounce2 {
-    background-color: var(--loadbounce);
+    background-color: #ccc;
 }
 
 #discover {
@@ -990,7 +998,7 @@ a {
 }
 
 #discover .grid-item > .watched {
-    filter: grayscale(70%) opacity(20%);
+    filter: grayscale(70%) opacity(30%);
     transition: all .5s;
 }
 
@@ -1114,11 +1122,6 @@ a {
     line-height: 38px;
 }
 
-#locals .local-item .episode:hover {
-    background-color: var(--episode-hover);
-    color: var(--item-text);
-}
-
 #locals .local-item .peer {
     font-size: 1.5em;
     line-height: 40px;
@@ -1135,14 +1138,41 @@ a {
     font-size: 16px;
 }
 
-#locals .local-item .season.active {
-    background-color: var(--season-select);
+#locals {
+    color: var(--localitem-text);
 }
 
-#locals .local-item .season:hover,
-#locals .local-item .season.active {
-    background-color: var(--season-hover);
-    color: var(--item-text);
+#locals .local-item .season,
+#locals .local-item .episode {
+    color: var(--localitem-subtext);
+}
+
+#locals .local-item {
+    background-color: var(--localitem-main);
+}
+
+#locals .local-item:hover {
+    background-color: var(--localitem-main-hover);
+}
+
+#locals .local-item.active,
+#locals .local-item.active:hover,
+#locals .local-item .season {
+    background-color: var(--localitem-season);
+}
+
+#locals .local-item .season:hover {
+    background-color: var(--localitem-season-hover);
+}
+
+#locals .local-item .season.active,
+#locals .local-item .season.active:hover,
+#locals .local-item .episode {
+    background-color: var(--localitem-episode);
+}
+
+#locals .local-item .episode:hover {
+    background-color: var(--localitem-episode-hover);
 }
 
 #locals .local-item .title {
@@ -1161,16 +1191,6 @@ a {
     font-family: var(--font);
     font-weight: 400;
     transition: all .3s;
-}
-
-#locals .local-item.active {
-    background-color: var(--show-select);
-}
-
-#locals .local-item:hover,
-#locals .local-item.active {
-    background-color: var(--item-hover);
-    color: var(--item-text);
 }
 
 #locals .refreshing {
@@ -1201,12 +1221,6 @@ a {
 #discover .disc-results .row .notfound,
 #details #details-back {
     color: #888;
-}
-
-#locals,
-#locals .local-item .season,
-#locals .local-item .episode {
-    color: #dfdfdf;
 }
 
 #navbar {
@@ -1452,17 +1466,21 @@ a {
     background-color: var(--localpaths-bg-hover);
 }
 
-#settings .locals .option .pathbox .paths,
-#settings .mpv input,
-#settings .localsharing input,
-#settings .streamer input,
-#settings .streamer textarea,
 #details-sources .item:hover,
 #details-loading .sub:hover,
 #discover .disc-search input,
 #details-metadata .md-buttons > div:hover {
     background-color: rgba(255, 255, 255, .1);
 }
+
+#settings .locals .option .pathbox .paths,
+#settings .mpv input,
+#settings .localsharing input,
+#settings .streamer input,
+#settings .streamer textarea {
+    background-color: var(--input-bg);
+}
+
 
 #settings .locals .option.localbox {
     height: 160px;
@@ -1533,6 +1551,11 @@ a {
     padding-left: 10px;
 }
 
+#settings #theme,
+#settings #theme option {
+    text-transform: capitalize;
+}
+
 #settings .title {
     font-size: 18px;
     line-height: 20px;
@@ -1588,10 +1611,6 @@ a {
     width: 60%;
 }
 
-#trakt #history #showmore .showmore_button {
-    border-color: var(--showmore-border);
-}
-
 #trakt #history #showMore .showMore_button {
     border-style: dashed;
     border-width: 1px;
@@ -1600,6 +1619,7 @@ a {
     opacity: .5;
     transition: opacity .4s;
     width: 70%;
+    border-color: var(--app-font-color);
 }
 
 #trakt #history #showMore .showMore_text {
@@ -1658,10 +1678,9 @@ a {
     background-color: var(--app-color-alt);
 }
 
-#trakt .titles,
 #discover .disc-proposal .categories div,
 #discover .disc-proposal .type {
-    color: #fafafa;
+    color: var(--app-font-color);
 }
 
 #traktinit #traktCode {
@@ -1720,18 +1739,19 @@ a {
     margin: 15px 0;
 }
 
-#traktinit p,
-#traktwelcome p,
-#requirempv p,
-#settings .locals .option .pathbox .paths li,
-#settings .mpv input,
-#settings .localsharing input,
-#settings .streamer input,
-#settings .streamer textarea,
 #details-metadata .md-line,
 #details-metadata .md-buttons {
     color: #ccc;
 }
+
+#settings .locals .option .pathbox .paths li,
+#settings .mpv input,
+#settings .localsharing input,
+#settings .streamer input,
+#settings .streamer textarea {
+    color: var(--input-text);
+}
+
 
 #traktinit,
 #requirempv,
@@ -1740,6 +1760,7 @@ a {
     margin-top: 95px;
     text-align: center;
     width: 25%;
+    color: var(--app-font-color-dimmed);
 }
 
 #traktwelcome button {
@@ -1791,6 +1812,11 @@ a {
     color: #16a085;
 }
 
+.actions .trailer:hover {
+    background-color: #2b678f;
+    color: #fafafa;
+}
+
 .button {
     border-radius: 3px;
     cursor: pointer;
@@ -1816,7 +1842,8 @@ a {
 }
 
 .dropdown option {
-    background-color: #444;
+    background-color: var(--dropdown-bg);
+    color: var(--dropdown-text);
 }
 
 .keyboard {

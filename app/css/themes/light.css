@@ -1,0 +1,98 @@
+/* Theme file: light */
+
+.light {
+    /* fonts */
+    --font: 'Proxima Nova';
+    --font-semibold: 'Proxima Nova Semibold';
+    --font-bold: 'Proxima Nova Bold';
+
+    /* color scheme */
+    --app-color-main: #fafafa;
+    --app-color-alt: #e1e1e1;
+    --app-font-color: #1d1d1d;
+    --app-font-color-dimmed: #323232;
+
+    /* navbar */
+    --separator: rgba(60, 60, 60, .15);
+    
+    --spinner-color: #00e6ff;
+
+    --tab-text: #323232;
+    --tab-bg: transparent;
+    --tab-text-hover: #1d1d1d;
+    --tab-bg-hover: #a8dfcf;
+    --tab-text-select: #1d1d1d;
+    --tab-bg-select: #e1e1e1;
+
+    /* buttons */
+    --button-bg: #73c6b5;
+    --button-text: #fafafa;
+    --button-bg-hover: #2da991;
+    --button-text-hover: #fafafa;
+
+    --button-donothing: #777;
+    --button-warn: #c85757;
+
+    /* notification */
+    --notification-bg: rgba(11, 11, 11, .7);
+    --notification-border: #444;
+    --notification-text: #fafafa;
+    --notification-bg-hover: rgba(11, 11, 11, .9);
+    --notification-text-hover: #fff;
+
+    /* item list */
+    --item-border: rgba(60,60,60,.3);
+    --item-bg: #fafafa;
+    --item-text: #1d1d1d;
+
+    --item-title-bg: rgba(255, 255, 255, .85);
+    --item-title-shadow: none;
+    --item-title: #1d1d1d;
+    --item-year: #323232;
+    --item-eptitle: #323232;
+
+    /* lists */
+    --scrollbar-track: transparent;
+    --scrollbar: #8acfc2;
+    --scrollbar-hover: #73c6b5;
+    --waitbounce: #d0ece6;
+
+    /* local list */
+    --category-text: #323232;
+    --category-border: #aaa;
+    --category-bg: transparent;
+    --category-text-hover: #1d1d1d;
+    --category-border-hover: #888;
+    --category-bg-hover: #d0ece6;
+
+    --localitem-main: #fafafa;
+    --localitem-main-hover: #a8dfcf;
+    --localitem-season: #c8c8c8;
+    --localitem-season-hover: #a8dfcf;
+    --localitem-episode: #e1e1e1;
+    --localitem-episode-hover: #a8dfcf;
+
+    --localitem-border: rgba(60,60,60,.1);
+    --localitem-text: #1d1d1d;
+    --localitem-subtext: #323232;
+
+    /* settings */
+    --settings-lines: #3f3f3f;
+    --settings-text: #2f2f2f;
+
+    --localpaths-bg-hover: rgba(0, 0, 0, .1);
+    --localpaths-bg-select: rgba(0, 0, 0, .3);
+    --localpaths-text-select: #eee;
+
+    --yesno: #323232;
+    --slider-bg: #73c6b5;
+    --slider-selector: #fafafa;
+    --dropdown-bg: #fafafa;
+    --dropdown-text: #2f2f2f;
+    --input-placeholder: #2f2f2f;
+    --input-text: #2f2f2f;
+    --input-bg: #ccc;
+
+    /* about */
+    --icons-hover-bg: rgba(138,207,194, .2);
+}
