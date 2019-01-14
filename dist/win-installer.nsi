@@ -200,7 +200,7 @@ Section "uninstall"
         RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}"
     NoUninstallData:
         DeleteRegKey HKCU "${UNINSTALL_KEY}"
-        DeleteRegKey HKCU "Software\Chromium" ;workaround for NW leftovers
+        DeleteRegKey HKCU "Software\Microsoft\Windows\CurrentVersion\Run\{APP_NAME}"
 
 SectionEnd
 
