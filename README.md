@@ -1,6 +1,9 @@
 # Frak
 
-A frakingly good media center
+[![Dependency Status](https://david-dm.org/vankasteelj/frak/status.svg)](https://david-dm.org/vankasteelj/frak)
+[![devDependency Status](https://david-dm.org/vankasteelj/frak/dev-status.svg)](https://david-dm.org/vankasteelj/frak?type=dev)
+
+**A frakingly good media center**
 
 ![frak](https://user-images.githubusercontent.com/12599850/44541156-62447d00-a709-11e8-8a83-81fd5807d8bd.png)
 
@@ -8,7 +11,25 @@ A frakingly good media center
 - A [trakt](https://trakt.tv/) account (you'll be prompted to create one or login)
 - [MPV player](https://mpv.io/) for linux/macOS (should be automatically installed on Windows)
 
-## Set up
+## Features
+- Fully synced with Trakt.tv (watchlist, up next to watch, currently watching, watched history)
+- Search across Trakt database, watch trailers in-app, manage your lists & much more
+- Automatic subtitles search & 1-click-download
+- Multiple stream sources available: local video files, torrents, magnets and URLs
+- Your local video library is automatically parsed and sorted
+- Shared streams over the local network
+- Based on the robust 'mpv' player
+- "big picture" mode for TV & large screens
+- Auto-launch and minimize to tray support
+- Localization support
+- Theming support
+- Automatic update notification
+- Compatible with Windows (7, 8, 10), OSX and major Linux distributions
+- Hackable (written in NodeJS/HTML5/CSS3, open source, shipped with devtools)
+
+[Download the latest Frak release!](https://github.com/vankasteelj/frak/releases).
+
+## Build from sources
 - Install dependencies, download binaries:
 
         npm install -g gulp-cli
@@ -25,10 +46,7 @@ A frakingly good media center
 - Build packages and installers:
 
         gulp dist --platforms=all
-
-## Notes
-
-#### Big Picture mode
-- There is a "big picture button" option in the app settings. Using that new button will make the app fullscreen and easy to read on a TV. 
-- Starting the app with `--bp` argument will automatically use "Big Picture" mode and replace the "leave big picture" button with an "exit app" button. This is handy for gamepad/remote users (or using Steam with custom launch arguments).
-- When in "Big Picture" mode, the player will automatically start fullscreened, and a "exit player" button can be found in the top-right corner (hover it).
+        
+        
+## License
+Copyright Jean van Kasteel - GNU GPL v3.0
