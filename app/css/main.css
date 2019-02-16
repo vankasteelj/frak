@@ -430,14 +430,22 @@
     display: none;
 }
 
-#details #keepWatching .selector .list,
-#details #fileSelector .selector .list {
+#details #keepWatching .selector .list {
     background-color: var(--app-color-alt);
     border-radius: 3px;
     height: 73%;
     margin: 0 20px;
     overflow: overlay;
     width: 90%;
+}
+
+#details #fileSelector .selector .list {
+    background-color: var(--app-color-alt);
+    border-radius: 3px;
+    height: 51vh;
+    margin: 0 5vw;
+    overflow: overlay;
+    width: 60vw;
 }
 
 #details #keepWatching .selector .list .peer,
@@ -470,8 +478,7 @@
 }
 
 #details #keepWatching .selector .title,
-#details #keepWatching .casting .message,
-#details #fileSelector .selector .title {
+#details #keepWatching .casting .message {
     font-family: 'Proxima Nova Semibold';
     font-size: 1.8em;
     height: 20%;
@@ -479,9 +486,27 @@
     text-align: center;
 }
 
+#details #fileSelector .selector .title {
+    font-family: 'Proxima Nova Semibold';
+    font-size: 1.8em;
+    height: 14vh;
+    padding: 4vh;
+    text-align: center;
+}
+
 #details #keepWatching .selector,
-#details #fileSelector .selector,
 #details #keepWatching .casting {
+    border-radius: 3px;
+    box-shadow: 0 0 10px 0 #222;
+    height: 250px;
+    margin-left: calc(50vw - 200px);
+    margin-top: calc(50vh - 125px);
+    position: absolute;
+    top: 0;
+    width: 400px;
+}
+
+#details #fileSelector .selector {
     border-radius: 3px;
     box-shadow: 0 0 10px 0 #222;
     height: 70vh;

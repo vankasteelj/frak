@@ -28,7 +28,7 @@ const Streamer = {
 
             return Streamer.handleTorrent(Streamer.torrent, index);
         }).then(selectedIndex => {
-            console.log('SELECTED INDEX', selectedIndex, Streamer.torrent);
+            console.debug('Selected file index', selectedIndex);
             Streamer.startDownload(Streamer.torrent, selectedIndex);
             Streamer.handleStreaminfo(Streamer.torrent);
             return Streamer.createServer(Streamer.torrent);
