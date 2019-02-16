@@ -145,7 +145,10 @@
 #collection .fanart .corner-rating,
 #trakt .fanart .corner-rating,
 #details .md-box .corner-rating {
-    border: 0 30px 30px 0 solid transparent #b11010 transparent transparent;
+    border-bottom: 30px solid transparent;
+    border-top: 0px solid transparent;
+    border-right: 30px solid #b11010;
+    border-left: 0px solid transparent;
     display: none;
     height: 0;
     position: absolute;
