@@ -625,5 +625,29 @@ const Details = {
         if (DB.get('localsharing') && DB.get('localplayback') && Network.peers.length) {
             $('#cast .peers').show();
         }
+    },
+
+    openFileSelector: (files) => {
+        return new Promise((resolve, reject) => {
+            $('#fileSelector .selector .list').html('');
+
+            for (let i in files) {
+                let item = `<div class="item" id="${files[i].index}">` +
+                    `<span class="name">${files[i].name}</span>` +
+                `</div>`;
+                $('#fileSelector .selector .list').append(item);
+                $(`#${files[i].index}`).on('click', () => {
+                    resolve(files[i].index);
+                    $('#fileSelector').hide();
+                });
+            }
+            $('#fileSelector').show();
+        });
+    },
+    closeFileSelector: () => {
+        $('#fileSelector').hide();
+        $('#details-spinner').hide();
+        $('#details-sources').show();
+        Streamer.stop();
     }
 }

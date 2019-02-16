@@ -92,6 +92,7 @@
 #about .repolink:hover,
 #playing:hover,
 #details #keepWatching .selector .list .peer:hover,
+#details #fileSelector .selector .list .item:hover,
 #details-loading #cast .peers:hover,
 #details-metadata .poster:hover .openTrakt {
     opacity: 1;
@@ -209,6 +210,7 @@
     color: var(--item-text);
 }
 
+#details #fileSelector .selector,
 #details #keepWatching .selector,
 #details #keepWatching .casting {
     background-color: var(--app-color-main);
@@ -356,7 +358,8 @@
     width: 85%;
 }
 
-#details #keepWatching {
+#details #keepWatching,
+#details #fileSelector {
     display: none;
     height: 100%;
     position: absolute;
@@ -364,10 +367,11 @@
     z-index: 4;
 }
 
-#details #keepWatching .backgroundPopup {
+#details #keepWatching .backgroundPopup,
+#details #fileSelector .backgroundPopup {
     background: black;
     height: 100%;
-    opacity: .1;
+    opacity: .4;
     width: 100%;
 }
 
@@ -426,7 +430,8 @@
     display: none;
 }
 
-#details #keepWatching .selector .list {
+#details #keepWatching .selector .list,
+#details #fileSelector .selector .list {
     background-color: var(--app-color-alt);
     border-radius: 3px;
     height: 73%;
@@ -435,7 +440,8 @@
     width: 90%;
 }
 
-#details #keepWatching .selector .list .peer {
+#details #keepWatching .selector .list .peer,
+#details #fileSelector .selector .list .item {
     background: rgba(200, 200, 200, .05);
     cursor: pointer;
     line-height: 35px;
@@ -464,7 +470,8 @@
 }
 
 #details #keepWatching .selector .title,
-#details #keepWatching .casting .message {
+#details #keepWatching .casting .message,
+#details #fileSelector .selector .title {
     font-family: 'Proxima Nova Semibold';
     font-size: 1.8em;
     height: 20%;
@@ -473,15 +480,16 @@
 }
 
 #details #keepWatching .selector,
+#details #fileSelector .selector,
 #details #keepWatching .casting {
     border-radius: 3px;
     box-shadow: 0 0 10px 0 #222;
-    height: 250px;
-    margin-left: calc(50vw - 200px);
-    margin-top: calc(50vh - 125px);
+    height: 70vh;
+    margin-left: 15vw;
+    margin-top: 15vh;
     position: absolute;
     top: 0;
-    width: 400px;
+    width: 70vw;
 }
 
 #details .background {

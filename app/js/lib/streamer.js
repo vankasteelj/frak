@@ -2,6 +2,7 @@
 
 const Streamer = {
     client: null,
+    torrent: null,
     streaminfo: {},
     getInstance: () => {
         if (Streamer.client === null) {
@@ -22,19 +23,22 @@ const Streamer = {
         console.info('Streamer - loading', magnet.split('&')[0]);
 
         return Streamer.fetchTorrent(magnet).then(torrent => {
-            console.info('Streamer connected', torrent);
+            Streamer.torrent = torrent;
+            console.info('Streamer connected', Streamer.torrent);
 
-            return Streamer.handleTorrent(torrent, index);
-        }).then((selected) => {
-            Streamer.startDownload(selected.torrent, selected.index);
-            Streamer.handleStreaminfo(selected.torrent);
-            return Streamer.createServer(selected.torrent);
+            return Streamer.handleTorrent(Streamer.torrent, index);
+        }).then(selectedIndex => {
+            console.log('SELECTED INDEX', selectedIndex, Streamer.torrent);
+            Streamer.startDownload(Streamer.torrent, selectedIndex);
+            Streamer.handleStreaminfo(Streamer.torrent);
+            return Streamer.createServer(Streamer.torrent);
         });
     },
     stop: () => {
         clearInterval(Streamer.streaminfo.updateInterval);
         nw.Window.get().setProgressBar(0);
         Streamer.streaminfo = {};
+        Streamer.torrent = null;
 
         if (Streamer.client) {
             Streamer.client.destroy();
@@ -63,6 +67,7 @@ const Streamer = {
     },
     handleTorrent: (torrent, index) => {
         let availableFiles = [];
+
         // don't download anything (still a bug: https://github.com/webtorrent/webtorrent/issues/164)
         torrent.deselect(0, torrent.pieces.length - 1, false);
         torrent.files.forEach((file, i) => {
@@ -76,21 +81,17 @@ const Streamer = {
             }
         });
 
-        if (!index) {
-            // sort files by size to download only the largest file
-            availableFiles = availableFiles.sort((a, b) => {
-                if (a.length > b.length) return -1;
-                if (a.length < b.length) return 1;
-                return 0;
-            });
+        if (index) return index; // pre-selected index
+        if (availableFiles.length === 1) return availableFiles[0].index; // only one available file
 
-            index = availableFiles[0].index;
-        }
-
-        return {
-            torrent: torrent, 
-            index: index
-        };
+        // select manually a file, sorted alphabetically
+        availableFiles = availableFiles.sort((a, b) => {
+            if (a.name < b.name) return -1;
+            if (a.name > b.name) return 1;
+            return 0;
+        });
+        
+        return Details.openFileSelector(availableFiles);
     },
     startDownload: (torrent, index) => {
         torrent.files[index].select();
