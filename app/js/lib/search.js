@@ -203,7 +203,7 @@ const Search = {
         for (let data of results) {
             if (!data) continue;
 
-            let id = Date.now();
+            let id = data.magnet.match(/\b([A-F\d]+)\b/i)[0];
             let item = `<div class="item remote" onClick="Details.loadRemote('${data.magnet}')" id="${id}">` +
                     `<div class="data">${JSON.stringify(data)}</div>` +
                     `<div class="fa fa-magnet" title="${i18n.__('Open the magnet link')}"></div>` +
