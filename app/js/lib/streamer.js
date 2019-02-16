@@ -24,10 +24,11 @@ const Streamer = {
         return Streamer.fetchTorrent(magnet).then(torrent => {
             console.info('Streamer connected', torrent);
 
-            Streamer.handleTorrent(torrent, index);
-            Streamer.handleStreaminfo(torrent);
-
-            return Streamer.createServer(torrent);
+            return Streamer.handleTorrent(torrent, index);
+        }).then((selected) => {
+            Streamer.startDownload(selected.torrent, selected.index);
+            Streamer.handleStreaminfo(selected.torrent);
+            return Streamer.createServer(selected.torrent);
         });
     },
     stop: () => {
@@ -61,22 +62,37 @@ const Streamer = {
         });
     },
     handleTorrent: (torrent, index) => {
-        if (!index) {
-            index = 0;
+        let availableFiles = [];
+        // don't download anything (still a bug: https://github.com/webtorrent/webtorrent/issues/164)
+        torrent.deselect(0, torrent.pieces.length - 1, false);
+        torrent.files.forEach((file, i) => {
+            file.deselect();
 
-            // sort files by size
-            torrent.files = torrent.files.sort((a, b) => {
+            // check if it's a video file
+            let ext = path.extname(file.name).toLowerCase();
+            if (Settings.supportedVideoFiles.indexOf(ext) != -1) {
+                file.index = i;
+                availableFiles.push(file);
+            }
+        });
+
+        if (!index) {
+            // sort files by size to download only the largest file
+            availableFiles = availableFiles.sort((a, b) => {
                 if (a.length > b.length) return -1;
                 if (a.length < b.length) return 1;
                 return 0;
             });
+
+            index = availableFiles[0].index;
         }
 
-        // don't download anything (still a bug: https://github.com/webtorrent/webtorrent/issues/164)
-        torrent.deselect(0, torrent.pieces.length - 1, false);
-        torrent.files.forEach(file => file.deselect());
-
-        // download only the largest file
+        return {
+            torrent: torrent, 
+            index: index
+        };
+    },
+    startDownload: (torrent, index) => {
         torrent.files[index].select();
 
         Streamer.streaminfo.file_index = index;

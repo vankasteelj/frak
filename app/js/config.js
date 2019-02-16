@@ -61,5 +61,6 @@ const Settings = {
             'wss://tracker.fastcast.nz',
             'wss://tracker.btorrent.xyz'
         ]
-    }
+    },
+    supportedVideoFiles: ['.mkv','.avi','.mp4','.m4v','.mts','.m2ts']
 }

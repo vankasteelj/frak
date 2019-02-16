@@ -63,7 +63,7 @@ const Dragdrop = {
                 let ext = path.extname(file.name).toLowerCase();
                 if (ext === '.torrent') { // a torrent
                     return Dragdrop.handle(file.path, 'torrent');
-                } else if (['.mkv','.avi','.mp4','.m4v','.mts','.m2ts'].indexOf(ext) != -1) { // a video file
+                } else if (Settings.supportedVideoFiles.indexOf(ext) != -1) { // a video file
                     return Dragdrop.handle(file.path, 'video');
                 }
             } else { // we have a link
