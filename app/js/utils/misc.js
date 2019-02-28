@@ -210,5 +210,11 @@ const Misc = {
                 launcher.enable();
             }
         });
+    },
+    downloadImage: (uri, filename, callback) => {
+        request.head(uri, (err, res, body) => {
+            if (err) console.error(err);
+            request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+        });
     }
 };

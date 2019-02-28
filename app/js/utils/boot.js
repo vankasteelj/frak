@@ -6,6 +6,7 @@ const Boot = {
         Themes.setup();                         // theme
         Boot.tray();                            // setup the tray
         Cache.create();                         // create tmp dir
+        IB.create();                            // create ImagesBank folder
         Plugins.load();                         // load search plugins
         Boot.setupSettings();                   // setup settings popup
         Boot.checkVisible();                    // nwjs window position
