@@ -10,6 +10,20 @@ const IB = {
             IB.clean();
         } catch (e) {}
     },
+    reset: () => {
+        try {
+            fs.removeSync(IB.dir);
+        } catch(e) {}
+    },
+    calcSize: () => {
+        return new Promise((resolve, reject) => {
+            fs.readdir(IB.dir, (err, files) => {
+                let total = 0;
+                for (let i = 0; i < files.length; i++) total += fs.statSync(path.join(IB.dir, files[i])).size
+                resolve(parseInt(total / 1024 / 1024));
+            });
+        });
+    },
     clean: () => {
         let db = IB._load();
         let c = 0;

@@ -228,5 +228,9 @@
 	"Update %s available": "Mise à jour %s disponible",
 	"Download it here!": "Téléchargez-la maintenant !",
 	"Look for updates": "Vérifier les mises à jour",
-	"Select a file to play:": "Sélectionner un fichier :"
+	"Select a file to play:": "Sélectionner un fichier :",
+	"Locally cached images": "Cache local des images",
+	"Mb used.": "Mo utilisé(s).",
+	"Locally cached video files": "Cache local des vidéos",
+	"Gb used.": "Go utilisé(s)."
 }

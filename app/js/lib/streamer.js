@@ -99,6 +99,8 @@ const Streamer = {
         Streamer.streaminfo.file_index = index;
         Streamer.streaminfo.file_name = torrent.files[index].name;
         Streamer.streaminfo.file_size = torrent.files[index].length;
+
+        Cache.calcSize().then(s => $('#videocachesize').text(s)).catch(console.log);
     },
     handleStreaminfo: (torrent) => {
         Streamer.streaminfo.torrent = torrent;

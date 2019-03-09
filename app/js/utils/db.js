@@ -16,6 +16,8 @@ const DB = {
     },
     reset: () => {
         localStorage.clear();
+        IB.reset();
+        Cache.delete();
         win.reload();
     }
 }

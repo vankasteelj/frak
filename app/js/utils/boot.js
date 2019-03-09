@@ -257,6 +257,12 @@ const Boot = {
                 document.querySelector(`#${o}`)[c] = streamer_options[o].join(',\n');
             }
         }
+
+        // size of image cache
+        IB.calcSize().then(s => $('#imagecachesize').text(s)).catch(console.log);
+        
+        // size of video cache
+        Cache.calcSize().then(s => $('#videocachesize').text(s)).catch(console.log);
     },
 
     setupInputs: () => {
