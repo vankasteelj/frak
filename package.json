@@ -49,7 +49,7 @@
         "webtorrent-health": "^1.1.2"
     },
     "devDependencies": {
-        "del": "^3.0.0",
+        "del": "^4.0.0",
         "gulp": "^4.0.0",
         "gulp-gzip": "^1.4.2",
         "gulp-jshint": "^2.1.0",
@@ -62,10 +62,10 @@
         "node-7z-forall": "^1.0.0",
         "nw-builder": "^3.5.6",
         "run-sequence": "^2.2.1",
-        "yargs": "^12.0.5"
+        "yargs": "^13.2.2"
     },
     "nwjs": {
-        "version": "0.35.4",
+        "version": "0.36.4",
         "flavor": "sdk"
     },
     "mpv": {
