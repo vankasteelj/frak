@@ -232,5 +232,6 @@
 	"Locally cached images": "Cache local des images",
 	"Mb used.": "Mo utilisé(s).",
 	"Locally cached video files": "Cache local des vidéos",
-	"Gb used.": "Go utilisé(s)."
+	"Gb used.": "Go utilisé(s).",
+	"Default subtitles language": "Langue par défaut des sous-titres"
 }

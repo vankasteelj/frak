@@ -66,5 +66,36 @@ const Subtitles = {
         } else {
             got.stream(sub.url).pipe(fs.createWriteStream(subtitle)).on('finish', selectSubtitle);
         }
+    },
+    defaultLanguage: () => {
+        const langs = require('langs');
+        const available = langs.all();
+
+        for (let i in available) {
+            // insert element in dropdown
+            let native = available[i].local;
+            let lang2B = available[i]['2B'];
+            let lang1 = available[i]['1'];
+            $('#sub-language').append('<option value="' + lang2B + '">' + native + '</option>');
+
+            // select if active
+            if (localStorage.defaultsublocale == lang2B) {
+                $('#sub-language').val(lang2B);
+            }
+        }
+        
+        if (!localStorage.defaultsublocale) {
+            let lang2B = langs.where('1', i18n.getLocale())['2B'];
+            $('#sub-language').val(lang2B);
+            localStorage.defaultsublocale = lang2B;
+        }
+
+        // on dropdown click, change lang
+        $('#sub-language').on('change', (e) => {
+            // store new lang
+            localStorage.defaultsublocale = e.target.value;
+            // reload to use new lang
+            Player.setMPV();
+        });
     }
 }
