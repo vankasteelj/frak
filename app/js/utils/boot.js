@@ -173,7 +173,7 @@ const Boot = {
         Details.default = $('#details').html();
 
         // look for updates
-        if (!(DB.get('lookForUpdates') === false)) {
+        if (DB.get('lookForUpdates') !== false) {
             DB.store(true, 'lookForUpdates');
             document.querySelector('#lookForUpdates').checked = true;
         }

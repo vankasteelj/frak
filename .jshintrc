@@ -39,6 +39,7 @@
         "gui": true,
         "http": true,
         "https": true,
+        "request": true,
         "dns": true,
         "path": true,
         "spawn": true,
