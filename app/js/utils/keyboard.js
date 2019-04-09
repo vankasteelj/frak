@@ -46,7 +46,26 @@ const Keyboard = {
                 Trakt.reload();
             } else if (key.key === 'F10') {
                 Misc.openExternal(Cache.dir);
+            } else if (key.key.match(/[a-z]/i)) {
+                // local list jump
+                if ($('#locals').is(':visible')) {
+                    if ($(`#locals > .movies`).is(':visible')) Keyboard.findInLocals('movies', key.key);
+                    if ($(`#locals > .shows`).is(':visible')) Keyboard.findInLocals('shows', key.key);
+                    if ($(`#locals > .unmatched`).is(':visible')) Keyboard.findInLocals('unmatched', key.key);
+                }
             }
         });
     },
+    findInLocals: (category, key) => {
+        let items = $(`#locals > .${category} span.title`);
+        for (let i = 0; i < items.length; i++) {
+            let $elm = $(items[i]);
+            let pos = $elm.offset().top;
+            let firstLetter = $elm.text().slice(0,1);
+            if (key.toLowerCase() == firstLetter.toLowerCase()) {
+                window.scrollTo(0, pos);
+                return;
+            }
+        }
+    }
 };
