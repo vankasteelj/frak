@@ -36,16 +36,12 @@ const IB = {
     },
 
     _load: () => {
-        let db = localStorage['imgBank'];
-        if (db) {
-            db = JSON.parse(db);
-        } else {
-            db = {};
-        }
+        let db = DB.get('imgBank');
+        if (!db) db = {};
         return db;
     },
     _save: (db) => {
-        localStorage['imgBank'] = JSON.stringify(db);
+        DB.store(db, 'imgBank');
         return true;
     },
 

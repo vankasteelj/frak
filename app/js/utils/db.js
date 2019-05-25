@@ -3,11 +3,16 @@
 const DB = {
     store: (data, key) => {
         if (typeof data !== 'string') data = JSON.stringify(data);
-        localStorage[key] = data;
+        localStorage[key] = zlib.deflateSync(data).toString('base64');
         return true;
     },
     get: (key) => {
-        let data = localStorage[key];
+        let data = undefined;
+
+        try{
+            data = zlib.inflateSync(new Buffer(localStorage[key], 'base64')).toString();
+        } catch (e) {}
+
         try {
             data = JSON.parse(data)
         } catch (e) {}

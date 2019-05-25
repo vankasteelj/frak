@@ -103,10 +103,10 @@ const Boot = {
         const defaultHeight = PKJSON.window.height;
 
         // check stored settings or use package.json values
-        const width = parseInt(localStorage.width ? localStorage.width : defaultWidth);
-        const height = parseInt(localStorage.height ? localStorage.height : defaultHeight);
-        let x = parseInt(localStorage.posX ? localStorage.posX : -1);
-        let y = parseInt(localStorage.posY ? localStorage.posY : -1);
+        const width = parseInt(DB.get('width') ? DB.get('width') : defaultWidth);
+        const height = parseInt(DB.get('height') ? DB.get('height') : defaultHeight);
+        let x = parseInt(DB.get('posX') ? DB.get('posX') : -1);
+        let y = parseInt(DB.get('posY') ? DB.get('posY') : -1);
 
         // reset x
         if (x < 0 || (x + width) > screen.width) {
@@ -127,9 +127,9 @@ const Boot = {
 
         // remember positionning
         win.on('move', (x, y) => {
-            if (localStorage && x && y) {
-                localStorage.posX = Math.round(x);
-                localStorage.posY = Math.round(y);
+            if (DB && x && y) {
+                DB.store(Math.round(x), 'posX');
+                DB.store(Math.round(y), 'posY');
             }
         });
 
