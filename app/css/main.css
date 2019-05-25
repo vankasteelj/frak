@@ -627,6 +627,7 @@
 #details-loading .player {
     font-size: 20px;
     height: 20%;
+    user-select: none;
 }
 
 #details-loading .player .control .fa {

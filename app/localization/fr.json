@@ -233,5 +233,9 @@
 	"Mb used.": "Mo utilisé(s).",
 	"Locally cached video files": "Cache local des vidéos",
 	"Gb used.": "Go utilisé(s).",
-	"Default subtitles language": "Langue par défaut des sous-titres"
+	"Default subtitles language": "Langue par défaut des sous-titres",
+	"Subtitle delay -0.1s": "Différer les sous-titres de -0.1s",
+	"Subtitle delay +0.1s": "Différer les sous-titres +0.1s",
+	"Subtitle size: %d": "Taille des sous-titres : %d",
+	"Subtitle delay: %dms": "Sous-titres différés : %dms"
 }

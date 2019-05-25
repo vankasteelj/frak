@@ -211,9 +211,21 @@ const Player = {
         let saved = DB.get('player_options');
         saved.sub_size += n;
 
+        Player.notify(i18n.__('Subtitle size: %d', saved.sub_size));
         Player.mpv.setProperty('sub-font-size', saved.sub_size);
 
         DB.store(saved, 'player_options');
         $('#sub_size').val(saved.sub_size);
     },
+    subDelay: (n) => {
+        Player.mpv.getProperty('sub-delay').then(current => {
+            current += n;
+            Player.notify(i18n.__('Subtitle delay: %dms', current*1000))
+            Player.mpv.setProperty('sub-delay', current);
+        });
+    },
+    notify: (message) => {
+        if (!message) return;
+        Player.mpv.command("show-text",[message, "1200", "1"]);
+    }
 }

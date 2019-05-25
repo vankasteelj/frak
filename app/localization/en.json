@@ -221,5 +221,9 @@
 	"DevTools (Ctrl+R)": "DevTools (Ctrl+R)",
 	"Close": "Close",
 	"dark": "dark",
-	"light": "light"
+	"light": "light",
+    "Subtitle delay -0.1s": "Subtitle delay -0.1s",
+	"Subtitle delay +0.1s": "Subtitle delay +0.1s",
+	"Subtitle size: %d": "Subtitle size: %d",
+	"Subtitle delay: %dms": "Subtitle delay: %dms"
 }
