@@ -14,6 +14,7 @@
         "email": "vankasteelj@gmail.com"
     },
     "main": "app/index.html",
+    "dom_storage_quota": 20,
     "window": {
         "title": "Frak",
         "icon": "app/images/frak-logo.png",
