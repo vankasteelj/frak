@@ -24,9 +24,9 @@ const Localization = {
         });
 
         // set lang to stored or detected one
-        i18n.setLocale(localStorage.locale || Localization.detectedLocale);
+        i18n.setLocale(DB.get('locale') || Localization.detectedLocale);
         // store it for safety
-        localStorage.locale = localStorage.locale || Localization.detectedLocale;
+        DB.store(DB.get('locale') || Localization.detectedLocale, 'locale');
 
         // localize HTML
         Localization.localizeApp();
@@ -91,7 +91,7 @@ const Localization = {
         // on dropdown click, change lang
         $('#app-language').on('change', (e) => {
             // store new lang
-            localStorage.locale = e.target.value;
+            DB.store(e.target.value, 'locale');
             // reload to use new lang
             win.reload();
         });

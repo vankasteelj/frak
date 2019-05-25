@@ -31,14 +31,14 @@ const Trakt = {
     },
 
     disconnect: () => {
-        delete localStorage.trakt_auth;
-        delete localStorage.traktmovies;
-        delete localStorage.traktmoviescollection;
-        delete localStorage.traktshows;
-        delete localStorage.traktshowscollection;
-        delete localStorage.traktsync;
-        delete localStorage.traktratings;
-        delete localStorage.trakt_profile;
+        DB.remove('trakt_auth');
+        DB.remove('traktmovies');
+        DB.remove('traktmoviescollection');
+        DB.remove('traktshows');
+        DB.remove('traktshowscollection');
+        DB.remove('traktsync');
+        DB.remove('traktratings');
+        DB.remove('trakt_profile');
 
         win.reload();
     },
@@ -160,14 +160,14 @@ const Trakt = {
     },
 
     reload: (update) => {
-        delete localStorage.traktmovies;
-        delete localStorage.traktmoviescollection;
-        delete localStorage.traktshows;
-        delete localStorage.traktshowscollection;
-        delete localStorage.traktsync;
+        DB.remove('traktmovies');
+        DB.remove('traktmoviescollection');
+        DB.remove('traktshows');
+        DB.remove('traktshowscollection');
+        DB.remove('traktsync');
         if (!update) {
-            delete localStorage.traktsyncrating;
-            delete localStorage.traktratings;
+            DB.remove('traktsyncrating');
+            DB.remove('traktratings');
         }
 
         return Promise.all([

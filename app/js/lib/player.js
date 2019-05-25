@@ -133,7 +133,7 @@ const Player = {
             options.multimonitor && (sessionStorage.screens >= options.monitor) ? '--screen=' + (options.monitor - 1) : '',
             (options.fullscreen || win.isFullscreen) ? '--fs' : '',
             options.fullscreen && options.multimonitor && (sessionStorage.screens >= options.monitor) ? '--fs-screen=' + (options.monitor - 1) : '',
-            options.sub_auto ? localStorage.defaultsublocale ? `--slang=${localStorage.defaultsublocale}` : '' : '--sid=no',
+            options.sub_auto ? DB.get('defaultsublocale') ? `--slang=${DB.get('defaultsublocale')}` : '' : '--sid=no',
             options.centered ? '--geometry=50%' : '',
             '--sub-font-size=' + options.sub_size,
             '--sub-color=' + options.sub_color,

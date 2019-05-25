@@ -70,6 +70,7 @@ const Subtitles = {
     defaultLanguage: () => {
         const langs = require('langs');
         const available = langs.all();
+        let defaultsublocale = DB.get('defaultsublocale');
 
         for (let i in available) {
             // insert element in dropdown
@@ -79,21 +80,21 @@ const Subtitles = {
             $('#sub-language').append('<option value="' + lang2B + '">' + native + '</option>');
 
             // select if active
-            if (localStorage.defaultsublocale == lang2B) {
+            if (defaultsublocale == lang2B) {
                 $('#sub-language').val(lang2B);
             }
         }
         
-        if (!localStorage.defaultsublocale) {
+        if (!defaultsublocale) {
             let lang2B = langs.where('1', i18n.getLocale())['2B'];
             $('#sub-language').val(lang2B);
-            localStorage.defaultsublocale = lang2B;
+            DB.store(lang2B, 'defaultsublocale');
         }
 
         // on dropdown click, change lang
         $('#sub-language').on('change', (e) => {
             // store new lang
-            localStorage.defaultsublocale = e.target.value;
+            DB.store(e.target.value, 'defaultsublocale');
             // reload to use new lang
             Player.setMPV();
         });

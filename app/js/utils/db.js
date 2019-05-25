@@ -24,5 +24,8 @@ const DB = {
         IB.reset();
         Cache.delete();
         win.reload();
+    },
+    remove: (key) => {
+        localStorage.removeItem(key);
     }
 }

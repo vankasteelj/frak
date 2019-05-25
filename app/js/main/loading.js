@@ -114,16 +114,17 @@ const Loading = {
 
         Subtitles.search(subopts).then(subs => {
             console.info('Found subtitles', subs);
+            let locale = DB.get('locale');
 
             if (Object.keys(subs).length) $('#subtitles').css('visibility', 'visible');
             $('#subtitles .sub').remove();
 
             // add app language first
-            if (subs[localStorage.locale]) Subtitles.addSubtitles(subs[localStorage.locale], localStorage.locale);
+            if (subs[locale]) Subtitles.addSubtitles(subs[locale], locale);
 
             // then the other langs
             for (let lang in subs) {
-                if (localStorage.locale == lang) continue;
+                if (locale == lang) continue;
                 Subtitles.addSubtitles(subs[lang], lang);
             }
         }).catch(error => {

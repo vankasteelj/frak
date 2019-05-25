@@ -126,7 +126,7 @@ const Local = {
         }, 300);
     },
     rescan: () => {
-        delete localStorage['local_library'];
+        DB.remove('local_library');
 
         $('#collection #locals .waitforlibrary').show();
         $('#collection #locals .waitforlibrary .spinner').css('visibility', 'visible');

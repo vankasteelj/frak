@@ -5,14 +5,14 @@ const Update = {
     check: () => {
         if (!DB.get('lookForUpdates')) return;
 
-        if (localStorage.availableUpdate > PKJSON.version) {
+        if (DB.get('availableUpdate') > PKJSON.version) {
             Update.notify();
             return;
         }
 
         // only check every 7 days
-        if (parseInt(localStorage.lastUpdateCheck) + (1000*60*60*24*7) > Date.now()) return;
-        localStorage.lastUpdateCheck = Date.now();
+        if (parseInt(DB.get('lastUpdateCheck')) + (1000*60*60*24*7) > Date.now()) return;
+        DB.store(Date.now(), 'lastUpdateCheck');
         
         // fetch remote package.json
         const url = PKJSON.updateEndpoint;
@@ -27,13 +27,13 @@ const Update = {
                 const data = JSON.parse(body);
 
                 if (data.version > PKJSON.version) {
-                    localStorage.availableUpdate = data.version;
-                    localStorage.availableUpdateUrl = data.releases;
+                    DB.store(data.version, 'availableUpdate');
+                    DB.store(data.releases, 'availableUpdateUrl');
                     console.info('Update %s available:', data.version, data.releases);
                     Update.notify();
                 } else {
-                    localStorage.removeItem('availableUpdate');
-                    localStorage.removeItem('availableUpdateUrl');
+                    DB.remove('availableUpdate');
+                    DB.remove('availableUpdateUrl');
                     console.debug('No update available');
                 }
             });
@@ -43,8 +43,8 @@ const Update = {
     },
 
     notify: () => {
-        let message = `<a onClick="Misc.openExternal('${localStorage.availableUpdateUrl}')">`+
-                `<b>${i18n.__('Update %s available', localStorage.availableUpdate)}</b>`+
+        let message = `<a onClick="Misc.openExternal('${DB.get('availableUpdateUrl')}')">`+
+                `<b>${i18n.__('Update %s available', DB.get('availableUpdate'))}</b>`+
                 `<br>`+
                 `<b>${i18n.__('Download it here!')}</b>`+
             `</a>`;
