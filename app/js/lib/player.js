@@ -18,7 +18,7 @@ const Player = {
         Player.mpv.isRunning() && Player.quit() || Player.handleEvents();
 
         // player popup
-        Interface.playerPopup();
+        DB.get('bigPicture') && Interface.playerPopup();
 
         Player.mpv.start().then(() => Player.mpv.load(file)).then(() => {
             console.info('Playing:', file);
@@ -68,6 +68,7 @@ const Player = {
         Player.mpv.on('statuschange', states => {
             Player.config.states = states;
 
+            if (!nw.global.playerPopup) return;
             if (states.fullscreen && !Player.config.popup && sessionStorage.screens <= 1) {
                 console.log('Player popup shown');
                 nw.global.playerPopup.show();
