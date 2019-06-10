@@ -45,7 +45,10 @@ const Collection = {
                 DB.store(results, 'traktshows');
 
                 return Collection.format.traktshows(results.shows);
-            }).catch(console.error)
+            }).catch(e => {
+                $('#navbar .shows .fa-spin').css('opacity', 0);
+                console.error(e)
+            });
         },
         traktmovies: (update) => {
             $('#navbar .movies .fa-spin').css('opacity', update ? 0 : 1);
@@ -60,7 +63,10 @@ const Collection = {
                 DB.store(results, 'traktmovies');
 
                 return Collection.format.traktmovies(results);
-            }).catch(console.error)
+            }).catch(e => {
+                $('#navbar .movies .fa-spin').css('opacity', 0);
+                console.error(e);
+            });
         },
         traktcached: (update) => {
             let movies = DB.get('traktmoviescollection');
