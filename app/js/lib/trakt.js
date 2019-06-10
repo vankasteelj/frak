@@ -160,6 +160,16 @@ const Trakt = {
     },
 
     reload: (update) => {
+        let cached = {
+            movies: DB.get('traktmovies'),
+            moviescollection: DB.get('traktmoviescollection'),
+            shows: DB.get('traktshows'),
+            showscollection: DB.get('traktshowscollection'),
+            sync: DB.get('traktsync'),
+            syncrating: DB.get('traktsyncrating'),
+            ratings: DB.get('traktratings')
+        };
+
         DB.remove('traktmovies');
         DB.remove('traktmoviescollection');
         DB.remove('traktshows');
@@ -174,10 +184,21 @@ const Trakt = {
             Collection.get.traktshows(update),
             Collection.get.traktmovies(update)
         ]).then((collections) => {
+            if (Misc.isError(collections[0]) || Misc.isError(collections[1])) throw new Error('Trakt.reload failed');
+
             Collection.get.traktcached(update);
             Trakt.getRatings();
 
             return collections;
+        }).catch(e => {
+            console.error(e);
+            DB.store(cached.movies, 'traktmovies');
+            DB.store(cached.moviescollection, 'traktmoviescollection');
+            DB.store(cached.shows, 'traktshows');
+            DB.store(cached.showscollection, 'traktshowscollection');
+            DB.store(cached.sync, 'traktsync');
+            DB.store(cached.syncrating, 'traktsyncrating');
+            DB.store(cached.ratings, 'traktratings');
         });
     },
 

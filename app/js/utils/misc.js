@@ -217,5 +217,6 @@ const Misc = {
             IB.calcSize().then(s => $('#imagecachesize').text(s)).catch(console.log);
             request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
         });
-    }
+    },
+    isError: (e) => (e && e.stack && e.message)
 };

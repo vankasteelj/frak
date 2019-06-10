@@ -47,7 +47,7 @@ const Collection = {
                 return Collection.format.traktshows(results.shows);
             }).catch(e => {
                 $('#navbar .shows .fa-spin').css('opacity', 0);
-                console.error(e)
+                return e;
             });
         },
         traktmovies: (update) => {
@@ -65,7 +65,7 @@ const Collection = {
                 return Collection.format.traktmovies(results);
             }).catch(e => {
                 $('#navbar .movies .fa-spin').css('opacity', 0);
-                console.error(e);
+                return e;
             });
         },
         traktcached: (update) => {
