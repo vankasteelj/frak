@@ -16,15 +16,12 @@ const Items = {
 
         return new Promise(resolve => {
             let cache = new Image();
-            cache.src = url;
-
-            cache.onload = () => {
-                resolve(url);
-            }
+            cache.onload = () => resolve(url);
             cache.onerror = (e) => {
                 if (ids) IB.remove(ids);
                 resolve(false);
-            }
+            };
+            cache.src = url;
         });
     },
 
@@ -144,7 +141,7 @@ const Items = {
 
         Items.getImage(d.image, show.show.ids, 'show', 'fanart').then(img => {
             img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0');
-            if (show.unseen - 1 <= 0) $(`#${d.id} .unseen`).hide();
+            if (show.unseen - 1 > 0) $(`#${d.id} .unseen`).show();
 
             // right click menu
             let labels = {};

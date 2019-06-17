@@ -309,6 +309,7 @@
     cursor: help;
     font-weight: 700;
     padding: 3px 5px;
+    display: none;
 }
 
 #collection .titles h4,
