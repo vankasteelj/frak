@@ -82,7 +82,7 @@ const Search = {
         // check if all info is there
         return Promise.all(input.map((i) => {
             return new Promise(resolve => {
-                if (!i) return resolve();
+                if (!i || !i.magnet) return resolve();
 
                 // 0 peers, 0 seeds
                 if (!i.seeds && !i.peers) {

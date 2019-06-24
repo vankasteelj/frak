@@ -49,7 +49,7 @@ const get = (keywords, cfg = {}) => {
                 got(item.magnet).then(data => {
                     let $detail = cheerio.load(data.body);
                     let $content = cheerio.load($detail.html());
-                    let magnet = $content('.torrent-category-detail ul.download-links-dontblock li').eq(0).children('a').attr('href');
+                    let magnet = $content('.torrent-detail-page').find('a').eq(0).attr('href');
 
                     item.magnet = magnet;
                     list.push(item);
