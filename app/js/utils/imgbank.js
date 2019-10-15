@@ -1,7 +1,7 @@
 'use strict'
 
 const IB = {
-    dir: path.join(process.env.LOCALAPPDATA, PKJSON.name, 'ImagesBank'),
+    dir: path.join(process.env.LOCALAPPDATA || (process.platform == 'darwin' ? process.env.HOME + 'Library/Preferences' : process.env.HOME + "/.cache"), PKJSON.name, 'ImagesBank'),
     create: () => {
         try {
             fs.mkdirSync(IB.dir);

@@ -68,7 +68,7 @@ Section: web
 Priority: optional
 Architecture: $real_arch
 Installed-Size: $size
-Depends:
+Depends: mpv
 Maintainer: vankasteelj <vankasteelj@gmail.com>
 Description: $releaseName
  Upload your subtitles to OpenSubtitles.org

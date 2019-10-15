@@ -329,7 +329,7 @@ gulp.task('build:compress', () => {
 
                 // list of commands
                 const commands = [
-                    'cd ' + sources,
+                    'cd ' + path.join(process.cwd(), sources),
                     'tar --exclude-vcs -c ' + platformCwd + ' | $(command -v pxz || command -v xz) -T8 -7 > "' + path.join(process.cwd(), releasesDir, pkJson.name + '-' + pkJson.version + '_' + platform + '.tar.xz') + '"',
                     'echo "' + platform + ' tar packaged in ' + path.join(process.cwd(), releasesDir) + '" || echo "' + platform + ' failed to package tar"'
                 ].join(' && ');
