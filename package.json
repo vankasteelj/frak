@@ -47,7 +47,7 @@
         "trakt.tv": "^7.1.0",
         "trakt.tv-matcher": "^7.0.0",
         "trakt.tv-ondeck": "^7.0.0",
-        "webtorrent": "^0.103.1",
+        "webtorrent": "^0.107.16",
         "webtorrent-health": "^1.1.2"
     },
     "devDependencies": {
