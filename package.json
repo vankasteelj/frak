@@ -1,6 +1,6 @@
 {
     "name": "frak",
-    "releaseName": "frak",
+    "releaseName": "Frak",
     "description": "A frakingly good media center",
     "license": "GPL-3.0",
     "version": "1.3.1",
@@ -8,6 +8,7 @@
     "releases": "https://github.com/vankasteelj/frak/releases",
     "portable": false,
     "icon": "app/images/frak-logo.ico",
+    "macIcon": "app/images/frak-logo.icns",
     "updateEndpoint": "https://raw.githubusercontent.com/vankasteelj/frak/master/package.json",
     "author": {
         "name": "Jean van Kasteel",
