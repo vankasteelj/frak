@@ -100,6 +100,7 @@ gulp.task('nwjs', () => {
         zip: false,
         version: nwVersion,
         flavor: flavor,
+        macIcns: pkJson.macIcns,
         platforms: parsePlatforms()
     };
 
@@ -307,7 +308,7 @@ gulp.task('build:compress', () => {
         return new Promise((resolve, reject) => {
             console.log('Packaging tar for: %s', platform);
 
-            const sources = path.join(releasesDir, pkJson.name, platform);
+            const sources = path.join(releasesDir, pkJson.releaseName, platform);
 
             // compress with gulp on windows
             if (currentPlatform().indexOf('win') !== -1) {
@@ -329,7 +330,7 @@ gulp.task('build:compress', () => {
 
                 // list of commands
                 const commands = [
-                    'cd ' + sources,
+                    'cd ' + path.join(process.cwd(), sources),
                     'tar --exclude-vcs -c ' + platformCwd + ' | $(command -v pxz || command -v xz) -T8 -7 > "' + path.join(process.cwd(), releasesDir, pkJson.name + '-' + pkJson.version + '_' + platform + '.tar.xz') + '"',
                     'echo "' + platform + ' tar packaged in ' + path.join(process.cwd(), releasesDir) + '" || echo "' + platform + ' failed to package tar"'
                 ].join(' && ');
@@ -422,7 +423,7 @@ gulp.task('npm:modclean', () => {
 // npm prune the build/<platform>/ folder (to remove devDeps)
 gulp.task('build:prune', () => {
     return Promise.all(parsePlatforms().map((platform) => {
-        const dirname = path.join(releasesDir, pkJson.name, platform);
+        const dirname = path.join(releasesDir, pkJson.releaseName, platform);
         return new Promise((resolve, reject) => {
             exec('cd "' + dirname + '" && npm prune', (error, stdout, stderr) => {
                 if (error || stderr) {

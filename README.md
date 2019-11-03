@@ -9,7 +9,7 @@
 
 ## Prerequisites
 - A [trakt](https://trakt.tv/) account (you'll be prompted to create one or login)
-- [MPV player](https://mpv.io/) for linux/macOS (should be automatically installed on Windows)
+- [MPV player](https://mpv.io/) for macOS (should be automatically installed on Windows/Linux)
 
 ## Features
 - Fully synced with Trakt.tv (watchlist, up next to watch, currently watching, watched history)

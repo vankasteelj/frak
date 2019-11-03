@@ -33,7 +33,7 @@ mkdir -p $cwd/$package_name/usr/share/icons #icon
 
 ### COPY FILES
 #base
-cp -r $builddir/$projectName/$arch/* $cwd/$package_name/opt/$projectName/
+cp -r $builddir/$releaseName/$arch/* $cwd/$package_name/opt/$projectName/
 
 #icon
 cp app/images/os-icon.png $cwd/$package_name/usr/share/icons/opensubtitles-uploader.png
@@ -46,7 +46,7 @@ Comment=Upload your subtitles to OpenSubtitles.org
 Comment[fr]=Envoyer les sous-titres à OpenSubtitles.org
 Name=$releaseName
 X-GNOME-FullName=$releaseName
-Exec=/opt/$projectName/$projectName %F
+Exec=/opt/$projectName/$releaseName %F
 Icon=opensubtitles-uploader
 StartupNotify=false
 Terminal=false
@@ -68,7 +68,7 @@ Section: web
 Priority: optional
 Architecture: $real_arch
 Installed-Size: $size
-Depends:
+Depends: mpv, youtube-dl
 Maintainer: vankasteelj <vankasteelj@gmail.com>
 Description: $releaseName
  Upload your subtitles to OpenSubtitles.org
