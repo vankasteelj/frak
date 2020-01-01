@@ -237,5 +237,6 @@
 	"Subtitle delay -0.1s": "Différer les sous-titres de -0.1s",
 	"Subtitle delay +0.1s": "Différer les sous-titres +0.1s",
 	"Subtitle size: %d": "Taille des sous-titres : %d",
-	"Subtitle delay: %dms": "Sous-titres différés : %dms"
+	"Subtitle delay: %dms": "Sous-titres différés : %dms",
+	"Redownload image": "Re-télécharger l'image"
 }

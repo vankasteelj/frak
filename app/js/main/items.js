@@ -24,6 +24,14 @@ const Items = {
             cache.src = url;
         });
     },
+    redownloadImage: (id, url, ids, type, route) => {
+        IB.remove(ids);
+        setTimeout(() => {
+            Items.getImage(null, ids, type, route).then((img) => {
+                img && $(`#${id} .fanart`).css('background-image', `url('${img}')`) && $(`#${id} .fanart img`).css('opacity', '0');
+            });
+        }, 250);
+    },
 
     constructMovie: (movie) => {
         let d = {
@@ -76,6 +84,7 @@ const Items = {
             labels['Mark as watched'] = () => $(`#${d.id} .watched`).click();
             labels['separator'] = true;
             labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`);
+            labels['Redownload image'] = () => Items.redownloadImage(d.id, d.image, movie.movie.ids, 'movie', 'fanart');
             labels['Remove from watchlist'] = () => Trakt.client.sync.watchlist.remove({
                 movies: [movie.movie]
             }).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(movie.movie.ids.slug)).catch(console.error);
@@ -85,10 +94,10 @@ const Items = {
                     '7 days': () => Collection.hiddenMovies.add(movie.movie.ids.slug, (Date.now() + (7 * 24 * 60 * 60 * 1000))) && $(`#${d.id}`).remove(),
                     '30 days': () => Collection.hiddenMovies.add(movie.movie.ids.slug, (Date.now() + (30 * 24 * 60 * 60 * 1000))) && $(`#${d.id}`).remove()
                 }
-            }
+            };
             let menu = Misc.customContextMenu(labels);
             $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY));
-        })
+        });
 
         return item;
     },
@@ -151,11 +160,13 @@ const Items = {
             labels['separator'] = true;
             if (show.next_episode.number == 1 && show.next_episode.season == 1) {
                 labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`);
+                labels['Redownload image'] = () => Items.redownloadImage(d.id, d.image, show.show.ids, 'show', 'fanart');
                 labels['Remove from watchlist'] = () => Trakt.client.sync.watchlist.remove({
                     shows: [show.show]
                 }).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(show.show.ids.slug)).catch(console.error);
             } else {
                 labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}/seasons/${show.next_episode.season}/episodes/${show.next_episode.number}`);
+                labels['Redownload image'] = () => Items.redownloadImage(d.id, d.image, show.show.ids, 'show', 'fanart');
                 labels['Hide this show'] = () => Trakt.client.users.hidden.add({
                     section: 'progress_watched',
                     shows: [show.show]
