@@ -39,6 +39,7 @@
         "fs-extra": "^8.0.1",
         "got": "^9.6.0",
         "i18n": "^0.8.3",
+        "image-downloader": "^3.5.0",
         "langs": "2.0.0",
         "local-video-library": "^1.2.0",
         "mdata": "^1.0.1",

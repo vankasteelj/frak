@@ -211,12 +211,5 @@ const Misc = {
             }
         });
     },
-    downloadImage: (uri, filename, callback) => {
-        request.head(uri, (err, res, body) => {
-            if (err) console.error(err);
-            IB.calcSize().then(s => $('#imagecachesize').text(s)).catch(console.log);
-            request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
-        });
-    },
     isError: (e) => (e && e.stack && e.message)
 };

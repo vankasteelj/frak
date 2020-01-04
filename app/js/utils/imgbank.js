@@ -2,6 +2,7 @@
 
 const IB = {
     dir: path.join(process.env.LOCALAPPDATA || (process.platform == 'darwin' ? process.env.HOME + 'Library/Preferences' : process.env.HOME + "/.cache"), PKJSON.name, 'ImagesBank'),
+    downloader: require('image-downloader'),
     create: () => {
         try {
             fs.mkdirSync(IB.dir);
@@ -52,11 +53,11 @@ const IB = {
         if (!db[id]) db[id] = {};
         if (urls.poster) {
             db[id].poster = urls.poster;
-            Misc.downloadImage(urls.poster, path.join(IB.dir, id + 'p'));
+            IB.download(urls.poster, path.join(IB.dir, id + 'p'));
         }
         if (urls.fanart) {
             db[id].fanart = urls.fanart;
-            Misc.downloadImage(urls.fanart, path.join(IB.dir, id + 'f'));
+            IB.download(urls.fanart, path.join(IB.dir, id + 'f'));
         }
 
         db[id].ttl = Date.now();
@@ -105,5 +106,14 @@ const IB = {
         }
 
         return IB._save(db);
+    },
+    download: (uri, filename) => {
+        IB.downloader.image({
+            url: uri,
+            dest: filename,
+            extractFilename: false
+        }).then(() => {
+            IB.calcSize().then(s => $('#imagecachesize').text(s)).catch(console.log);
+        }).catch((err) => console.error(err))
     }
 }
