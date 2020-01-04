@@ -37,7 +37,7 @@
         "auto-launch": "^5.0.5",
         "cheerio": "^0.22.0",
         "fs-extra": "^8.0.1",
-        "got": "^9.6.0",
+        "got": "^10.2.1",
         "i18n": "^0.8.3",
         "image-downloader": "^3.5.0",
         "langs": "2.0.0",
@@ -53,27 +53,27 @@
         "webtorrent-health": "^1.1.2"
     },
     "devDependencies": {
-        "del": "^4.1.1",
+        "del": "^5.1.0",
         "gulp": "^4.0.2",
         "gulp-gzip": "^1.4.2",
         "gulp-jshint": "^2.1.0",
-        "gulp-load-plugins": "^1.5.0",
-        "gulp-tar": "^2.1.0",
-        "gulp-zip": "^5.0.0",
+        "gulp-load-plugins": "^2.0.1",
+        "gulp-tar": "^3.1.0",
+        "gulp-zip": "^5.0.1",
         "jshint": "^2.10.2",
         "jshint-stylish": "^2.2.1",
         "modclean": "^3.0.0-beta.1",
-        "node-7z-forall": "^1.0.0",
+        "node-7z-forall": "^1.0.4",
         "nw-builder": "^3.5.7",
         "run-sequence": "^2.2.1",
-        "yargs": "^13.2.4"
+        "yargs": "^15.1.0"
     },
     "nwjs": {
         "version": "0.36.4",
         "flavor": "sdk"
     },
     "mpv": {
-        "url": "http://mpv.srsfckn.biz/mpv-x86_64-20180731.7z",
+        "url": "https://sourceforge.net/projects/mpv-player-windows/files/64bit/mpv-x86_64-20191229-git-49cbc50.7z/download",
         "youtube-dl": "https://yt-dl.org/latest/youtube-dl.exe"
     }
 }
