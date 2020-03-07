@@ -22,7 +22,7 @@
         "frame": true,
         "show": false,
         "width": 1024,
-        "height": 623,
+        "height": 653,
         "min_width": 768,
         "min_height": 500,
         "resizable": true
@@ -69,7 +69,7 @@
         "yargs": "^15.1.0"
     },
     "nwjs": {
-        "version": "0.36.4",
+        "version": "0.44.3",
         "flavor": "sdk"
     },
     "mpv": {
