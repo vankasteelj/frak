@@ -151,7 +151,8 @@ gulp.task('run', () => {
         // spawn cached binary with package.json, toggle flags
         const dev = yargs.argv.development ? '--development' : '';
         const bp = yargs.argv.bp ? '--bp' : '';
-        const child = spawn(bin, ['.', dev, bp]);
+        const hid = yargs.argv.hidden ? '--hidden' : '';
+        const child = spawn(bin, ['.', dev, bp, hid]);
 
         // nwjs console speaks to stderr
         child.stderr.on('data', (buf) => {

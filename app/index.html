@@ -13,45 +13,6 @@
     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <link rel="stylesheet" type="text/css" href="css/animations.css" />
 
-    <script src="js/vendor/jquery.min.js" type="application/javascript"></script>
-    <script src="js/vendor/jquery-ui.min.js" type="application/javascript"></script>
-    <script src="js/vendor/bootstrap.min.js" type="application/javascript"></script>
-
-    <script src="js/config.js" type="application/javascript"></script>
-
-    <script src="js/utils/cache.js" type="application/javascript"></script>
-    <script src="js/utils/boot.js" type="application/javascript"></script>
-    <script src="js/utils/db.js" type="application/javascript"></script>
-    <script src="js/utils/imgbank.js" type="application/javascript"></script>
-    <script src="js/utils/watchedbank.js" type="application/javascript"></script>
-    <script src="js/utils/keyboard.js" type="application/javascript"></script>
-    <script src="js/utils/localization.js" type="application/javascript"></script>
-    <script src="js/utils/themes.js" type="application/javascript"></script>
-    <script src="js/utils/misc.js" type="application/javascript"></script>
-    <script src="js/utils/notify.js" type="application/javascript"></script>
-    <script src="js/utils/gamepad.js" type="application/javascript"></script>
-    <script src="js/utils/update.js" type="application/javascript"></script>
-    <script src="js/utils/dragdrop.js" type="application/javascript"></script>
-
-    <script src="js/lib/trakt.js" type="application/javascript"></script>
-    <script src="js/lib/local.js" type="application/javascript"></script>
-    <script src="js/lib/network.js" type="application/javascript"></script>
-    <script src="js/lib/images.js" type="application/javascript"></script>
-    <script src="js/lib/player.js" type="application/javascript"></script>
-    <script src="js/lib/search.js" type="application/javascript"></script>
-    <script src="js/lib/subtitles.js" type="application/javascript"></script>
-    <script src="js/lib/plugins.js" type="application/javascript"></script>
-    <script src="js/lib/streamer.js" type="application/javascript"></script>
-
-    <script src="js/main/interface.js" type="application/javascript"></script>
-    <script src="js/main/collection.js" type="application/javascript"></script>
-    <script src="js/main/items.js" type="application/javascript"></script>
-    <script src="js/main/details.js" type="application/javascript"></script>
-    <script src="js/main/loading.js" type="application/javascript"></script>
-    <script src="js/main/discover.js" type="application/javascript"></script>
-
-    <script src="js/app.js" type="application/javascript"></script>
-
     <!-- set icon and title -->
     <link rel="icon" type="image/png" href="images/frak-logo.ico" />
     <title>Frak</title>
@@ -991,20 +952,44 @@
         <div id="notification-snack" onClick="$(this).hide()"></div>
     </div>
 
-    <!-- code initialization -->
-    <script>
-        console.time('Application ready');
-        gui.start().then((hidden) => {
-            Trakt.reconnect();
-            if (!hidden) {
-                win.show(true);
-                Interface.focus(true);
-            }
-            console.timeEnd('Application ready');
-        });
-
-    </script>
-
 </body>
 
+<script src="js/vendor/jquery.min.js" type="application/javascript"></script>
+<script src="js/vendor/jquery-ui.min.js" type="application/javascript"></script>
+<script src="js/vendor/bootstrap.min.js" type="application/javascript"></script>
+
+<script src="js/config.js" type="application/javascript"></script>
+
+<script src="js/utils/cache.js" type="application/javascript"></script>
+<script src="js/utils/boot.js" type="application/javascript"></script>
+<script src="js/utils/db.js" type="application/javascript"></script>
+<script src="js/utils/imgbank.js" type="application/javascript"></script>
+<script src="js/utils/watchedbank.js" type="application/javascript"></script>
+<script src="js/utils/keyboard.js" type="application/javascript"></script>
+<script src="js/utils/localization.js" type="application/javascript"></script>
+<script src="js/utils/themes.js" type="application/javascript"></script>
+<script src="js/utils/misc.js" type="application/javascript"></script>
+<script src="js/utils/notify.js" type="application/javascript"></script>
+<script src="js/utils/gamepad.js" type="application/javascript"></script>
+<script src="js/utils/update.js" type="application/javascript"></script>
+<script src="js/utils/dragdrop.js" type="application/javascript"></script>
+
+<script src="js/lib/trakt.js" type="application/javascript"></script>
+<script src="js/lib/local.js" type="application/javascript"></script>
+<script src="js/lib/network.js" type="application/javascript"></script>
+<script src="js/lib/images.js" type="application/javascript"></script>
+<script src="js/lib/player.js" type="application/javascript"></script>
+<script src="js/lib/search.js" type="application/javascript"></script>
+<script src="js/lib/subtitles.js" type="application/javascript"></script>
+<script src="js/lib/plugins.js" type="application/javascript"></script>
+<script src="js/lib/streamer.js" type="application/javascript"></script>
+
+<script src="js/main/interface.js" type="application/javascript"></script>
+<script src="js/main/collection.js" type="application/javascript"></script>
+<script src="js/main/items.js" type="application/javascript"></script>
+<script src="js/main/details.js" type="application/javascript"></script>
+<script src="js/main/loading.js" type="application/javascript"></script>
+<script src="js/main/discover.js" type="application/javascript"></script>
+
+<script src="js/app.js" type="application/javascript"></script>
 </html>

@@ -1,35 +1,34 @@
 'use strict';
 
+console.time('Application ready');
 console.info('Opening app...');
 
 // setup window's content and start the app
-gui.start = () => {
-    return new Promise((resolve, reject) => {
-        try {
-            // Set up everything
-            Boot.load();
+try {
+    // Set up everything
+    Boot.load();
+    Trakt.reconnect();
 
-            // if started with gulp, open devtools
-            if (gui.App.argv.indexOf('--development') !== -1) {
-                console.debug('Running in development');
-                win.showDevTools();
-            }
+    // if started with gulp, open devtools
+    if (gui.App.argv.indexOf('--development') !== -1) {
+        console.debug('Running in development');
+        win.showDevTools();
+    }
 
-            if (gui.App.argv.indexOf('--bp') !== -1) {
-                Interface.bigPicture(true);
-            }
+    if (gui.App.argv.indexOf('--bp') !== -1) {
+        Interface.bigPicture(true);
+    }
 
-            let hidden = gui.App.argv.indexOf('--hidden') !== -1;
-
-            setTimeout(() => resolve(hidden), 0);
-        } catch (err) {
-            // if things go south on startup, just display devtools and log error
-            console.error(err);
-            win.showDevTools();
-            reject(err);
-        }
-    });
-};
+    if (gui.App.argv.indexOf('--hidden') == -1) {
+        win.show(true);
+        Interface.focus(true);
+    }
+    console.timeEnd('Application ready');
+} catch (err) {
+    // if things go south on startup, just display devtools and log error
+    console.error(err);
+    win.showDevTools();
+}
 
 // if app is already running, inject file if used 'open with'
 gui.App.on('open', (cmd) => {
