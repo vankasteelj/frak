@@ -3,13 +3,11 @@ const Boot = {
     // STARTUP: load app: ui,settings,features
     load: () => {
         Localization.setupLocalization();       // localize
-        Themes.setup();                         // theme
         Boot.tray();                            // setup the tray
         Cache.create();                         // create tmp dir
         IB.create();                            // create ImagesBank folder
         Plugins.load();                         // load search plugins
         Boot.setupSettings();                   // setup settings popup
-        Boot.checkVisible();                    // nwjs window position
         Boot.setupScreens();                    // nwjs screen listener
         Boot.setupInputs();                     // browse button
         Keyboard.setupShortcuts();              // keyboard shortcuts
@@ -158,7 +156,6 @@ const Boot = {
     setupSettings: () => {
         // lang dropdown
         Localization.setupDropdown();
-        Subtitles.defaultLanguage();
 
         // username
         $('#settings .trakt .username').text(DB.get('trakt_profile') && DB.get('trakt_profile').username);

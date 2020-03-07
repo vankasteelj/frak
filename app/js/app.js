@@ -20,9 +20,10 @@ try {
     }
 
     if (gui.App.argv.indexOf('--hidden') == -1) {
-        win.show(true);
+        setTimeout(() => win.show(true), 0);
         Interface.focus(true);
     }
+
     console.timeEnd('Application ready');
 } catch (err) {
     // if things go south on startup, just display devtools and log error
