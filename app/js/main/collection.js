@@ -169,15 +169,7 @@ const Collection = {
                 console.info('All images found for trakt movies');
 
                 // sort
-                collection = collection.sort(function (a, b) {
-                    if (a.listed_at > b.listed_at) {
-                        return -1;
-                    }
-                    if (a.listed_at < b.listed_at) {
-                        return 1;
-                    }
-                    return 0;
-                });
+                collection = Collection.sort.movies.listed(collection);
 
                 DB.store(collection, 'traktmoviescollection');
                 $('#navbar .movies .fa-spin').css('opacity', 0);
@@ -196,15 +188,7 @@ const Collection = {
                 console.info('All images found for trakt shows');
 
                 // sort
-                collection = shows.sort(function (a, b) {
-                    if (a.next_episode.first_aired > b.next_episode.first_aired) {
-                        return -1;
-                    }
-                    if (a.next_episode.first_aired < b.next_episode.first_aired) {
-                        return 1;
-                    }
-                    return 0;
-                });
+                collection = Collection.sort.shows.nextEpisode(collection);
 
                 DB.store(collection, 'traktshowscollection');
                 $('#navbar .shows .fa-spin').css('opacity', 0);
