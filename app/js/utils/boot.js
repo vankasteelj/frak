@@ -21,6 +21,7 @@ const Boot = {
 
         // right clicks
         document.addEventListener('contextmenu', (e) => e.preventDefault());
+        Interface.rightClickNav();
         Boot.setupRightClicks('input[type=text], textarea');
     },
 

@@ -59,9 +59,9 @@ const Misc = {
             let action = labels[label];
             let button = false;
             
-            if (label === 'separator') {
+            if (label.indexOf('separator') !== -1) {
                 button = new gui.MenuItem({type: 'separator'});
-            } else if (label === 'submenu') {
+            } else if (label.indexOf('submenu') !== -1) {
                 let submenu = new gui.Menu();
                 let title = labels[label]['title'];
                 for (let sublabel in labels[label]['labels']) {

@@ -166,6 +166,81 @@ const Interface = {
         $('#navbar .discover').addClass('active');
     },
 
+    // AUTO: right click menu on movies & shows
+    rightClickNav: () => {
+        // right click MOVIES
+        let movielabels = {};
+
+        // movie sorting
+        movielabels['submenu1'] = {
+            title: 'Sort by...',
+            labels: {
+                'Listed at': () => Collection.show.movies(Collection.sort.movies.listed()),
+                'Year': () => Collection.show.movies(Collection.sort.movies.released()),
+                'Title': () => Collection.show.movies(Collection.sort.movies.title()),
+                'Rating': () => Collection.show.movies(Collection.sort.movies.rating())
+            }
+        };
+
+        Trakt.client.genres({type: 'movies'}).then(moviegenres => {
+            // movie genres
+            movielabels['submenu2'] = {
+                title: 'Genres...',
+                labels: {
+                    'All': () => Collection.show.movies(Collection.sort.movies.listed())
+                }
+            };
+            for (let i in moviegenres) {
+                movielabels['submenu2'].labels[moviegenres[i].name] = () => Collection.show.movies(Collection.sort.movies.genre(moviegenres[i].slug));
+            }
+            throw new Error()
+        }).finally(() => {
+            // menu popup
+            let moviemenu = Misc.customContextMenu(movielabels);
+            $('.nav.movies').off('contextmenu').on('contextmenu', (e) => {
+                Interface.showMovies(); 
+                moviemenu.popup(e.clientX, e.clientY)
+            });
+        });
+
+
+        // right click SHOWS
+        let showlabels = {};
+
+        // show sorting
+        showlabels['submenu1'] = {
+            title: 'Sort by...',
+            labels: {
+                'Most recent': () => Collection.show.shows(Collection.sort.shows.nextEpisode()),
+                'Year': () => Collection.show.shows(Collection.sort.shows.firstAired()),
+                'Title': () => Collection.show.shows(Collection.sort.shows.title()),
+                'Rating': () => Collection.show.shows(Collection.sort.shows.rating()),
+                'Runtime': () => Collection.show.shows(Collection.sort.shows.runtime())
+            }
+        };
+
+        Trakt.client.genres({type: 'shows'}).then(showgenres => {
+            // show genres
+            showlabels['submenu2'] = {
+                title: 'Genres...',
+                labels: {
+                    'All': () => Collection.show.shows(Collection.sort.shows.nextEpisode())
+                }
+            };
+            for (let i in showgenres) {
+                showlabels['submenu2'].labels[showgenres[i].name] = () => Collection.show.shows(Collection.sort.shows.genre(showgenres[i].slug));
+            }
+            throw new Error()
+        }).finally(() => {
+            // menu popup
+            let showmenu = Misc.customContextMenu(showlabels);
+            $('.nav.shows').off('contextmenu').on('contextmenu', (e) => {
+                Interface.showShows(); 
+                showmenu.popup(e.clientX, e.clientY)
+            });
+        });
+    },
+
     // USER INTERACTION: click trailer item button
     playTrailer: (url) => {
         let ytc = url.split('=')[1];

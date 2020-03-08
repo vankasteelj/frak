@@ -430,5 +430,117 @@ const Collection = {
         reset: () => {
             DB.store({}, 'hiddenitems');
         }
+    },
+    
+    sort: {
+        shows : {
+            nextEpisode: (shows = DB.get('traktshowscollection')) => {
+                return shows.sort(function (a, b) {
+                    if (a.next_episode.first_aired > b.next_episode.first_aired) {
+                        return -1;
+                    }
+                    if (a.next_episode.first_aired < b.next_episode.first_aired) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            },
+            firstAired: (shows = DB.get('traktshowscollection')) => {
+                return shows.sort(function (a, b) {
+                    if (a.show.first_aired > b.show.first_aired) {
+                        return -1;
+                    }
+                    if (a.show.first_aired < b.show.first_aired) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            },
+            title: (shows = DB.get('traktshowscollection')) => {
+                return shows.sort(function (a, b) {
+                    if (a.show.title < b.show.title) {
+                        return -1;
+                    }
+                    if (a.show.title > b.show.title) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            },
+            rating: (shows = DB.get('traktshowscollection')) => {
+                return shows.sort(function (a, b) {
+                    if (a.show.rating > b.show.rating) {
+                        return -1;
+                    }
+                    if (a.show.rating < b.show.rating) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            },
+            runtime: (shows = DB.get('traktshowscollection')) => {
+                return shows.sort(function (a, b) {
+                    if (a.show.runtime < b.show.runtime) {
+                        return -1;
+                    }
+                    if (a.show.runtime > b.show.runtime) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            },
+            genre: (genre, shows = DB.get('traktshowscollection')) => {
+                return shows.filter(a => a.show.genres.indexOf(genre) !== -1);
+            }
+        },
+        movies: {
+            listed: (movies = DB.get('traktmoviescollection')) => {
+                return movies.sort(function (a, b) {
+                    if (a.listed_at > b.listed_at) {
+                        return -1;
+                    }
+                    if (a.listed_at < b.listed_at) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            },
+            title: (movies = DB.get('traktmoviescollection')) => {
+                return movies.sort(function (a, b) {
+                    if (a.movie.title < b.movie.title) {
+                        return -1;
+                    }
+                    if (a.movie.title > b.movie.title) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            },
+            released: (movies = DB.get('traktmoviescollection')) => {
+                return movies.sort(function (a, b) {
+                    if (a.movie.released > b.movie.released) {
+                        return -1;
+                    }
+                    if (a.movie.released < b.movie.released) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            },
+            rating: (movies = DB.get('traktmoviescollection')) => {
+                return movies.sort(function (a, b) {
+                    if (a.movie.rating > b.movie.rating) {
+                        return -1;
+                    }
+                    if (a.movie.rating < b.movie.rating) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            },
+            genre: (genre, movies = DB.get('traktmoviescollection')) => {
+                return movies.filter(a => a.movie.genres.indexOf(genre) !== -1);
+            }
+        }
     }
 }
