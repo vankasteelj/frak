@@ -18,7 +18,7 @@
     "dom_storage_quota": 20,
     "window": {
         "width": 1024,
-        "height": 653,
+        "height": 624,
         "title": "Frak",
         "icon": "app/images/frak-logo.png",
         "min_width": 768,
@@ -41,7 +41,7 @@
         "langs": "2.0.0",
         "local-video-library": "^1.2.0",
         "mdata": "^1.0.1",
-        "node-mpv": "github:00SteinsGate00/Node-MPV#Node-MPV-2",
+        "node-mpv": "https://github.com/00SteinsGate00/Node-MPV/archive/43e90609aa24b2b6c9958ed05658cb27947efb20.tar.gz",
         "opensubtitles-api": "^5.1.0",
         "readdirp": "^3.3.0",
         "trakt.tv": "^8.0.0",
@@ -67,11 +67,11 @@
         "yargs": "^15.1.0"
     },
     "nwjs": {
-        "version": "0.44.3",
+        "version": "0.36.4",
         "flavor": "sdk"
     },
     "mpv": {
-        "url": "https://sourceforge.net/projects/mpv-player-windows/files/64bit/mpv-x86_64-20191229-git-49cbc50.7z/download",
+        "url": "http://mpv.srsfckn.biz/mpv-x86_64-20180731.7z",
         "youtube-dl": "https://yt-dl.org/latest/youtube-dl.exe"
     }
 }

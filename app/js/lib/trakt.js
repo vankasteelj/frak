@@ -47,6 +47,7 @@ const Trakt = {
         console.info('Trakt is connected');
 
         Interface.focus(true);
+        Notify.requestAttention();
 
         DB.store(Trakt.client.export_token(), 'trakt_auth');
         Interface.traktConnected(DB.get('trakt_profile'));

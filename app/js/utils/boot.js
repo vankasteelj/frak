@@ -2,10 +2,12 @@ const Boot = {
 
     // STARTUP: load app: ui,settings,features
     load: () => {
+        Boot.checkVisible();                    // main window
         Localization.setupLocalization();       // localize
         Boot.tray();                            // setup the tray
         Cache.create();                         // create tmp dir
         IB.create();                            // create ImagesBank folder
+        Themes.setup();                         // set up theme
         Plugins.load();                         // load search plugins
         Boot.setupSettings();                   // setup settings popup
         Boot.setupScreens();                    // nwjs screen listener

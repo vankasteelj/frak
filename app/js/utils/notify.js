@@ -19,5 +19,14 @@ const Notify = {
                 .hide('fast')
                 .removeClass('slideNotification')
                 .dequeue());
+    },
+    // request attention when in bg
+    requestAttention: () => {
+        if (document.hasFocus()) {
+            return;
+        }
+
+        win.requestAttention(true);
+        win.once('focus', () => win.requestAttention(false));
     }
 };
