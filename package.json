@@ -41,7 +41,7 @@
         "langs": "2.0.0",
         "local-video-library": "^1.2.0",
         "mdata": "^1.0.1",
-        "node-mpv": "https://github.com/00SteinsGate00/Node-MPV/archive/43e90609aa24b2b6c9958ed05658cb27947efb20.tar.gz",
+        "node-mpv": "https://github.com/00SteinsGate00/Node-MPV/archive/6fc603794e364ce5ee5ad92018c9cb0dcd6a817e.tar.gz",
         "opensubtitles-api": "^5.1.0",
         "readdirp": "^3.3.0",
         "trakt.tv": "^8.0.0",
