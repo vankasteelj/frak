@@ -207,7 +207,7 @@ const Trakt = {
             return;
         }
 
-        let progress = Player.config.states['percent-pos'] || 0;
+        let progress = Player.config.states.position || 0;
         progress = parseFloat(progress.toFixed(2));
 
         let model, type, itemType;

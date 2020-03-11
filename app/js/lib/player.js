@@ -66,6 +66,9 @@ const Player = {
         if (Player.config.events) return;
 
         Player.mpv.on('statuschange', states => {
+            // workaround for https://github.com/j-holub/Node-MPV/issues/66
+            if (states['percent-pos'] && Player.config.states) Player.config.states.position = states['percent-pos'];
+
             Player.config.states = states;
 
             if (!nw.global.playerPopup) return;
