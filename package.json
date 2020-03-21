@@ -34,16 +34,16 @@
     "dependencies": {
         "auto-launch": "^5.0.5",
         "cheerio": "^0.22.0",
-        "fs-extra": "^8.1.0",
+        "fs-extra": "^9.0.0",
         "got": "^10.6.0",
-        "i18n": "^0.8.5",
+        "i18n": "^0.8.6",
         "image-downloader": "^3.5.0",
         "langs": "2.0.0",
         "local-video-library": "^1.2.0",
         "mdata": "^1.0.1",
         "node-mpv": "https://github.com/00SteinsGate00/Node-MPV/archive/6fc603794e364ce5ee5ad92018c9cb0dcd6a817e.tar.gz",
         "opensubtitles-api": "^5.1.0",
-        "readdirp": "^3.3.0",
+        "readdirp": "^3.4.0",
         "trakt.tv": "^8.0.0",
         "trakt.tv-matcher": "^8.0.0",
         "trakt.tv-ondeck": "^8.0.0",
@@ -64,7 +64,7 @@
         "node-7z-forall": "^1.0.4",
         "nw-builder": "^3.5.7",
         "run-sequence": "^2.2.1",
-        "yargs": "^15.1.0"
+        "yargs": "^15.3.1"
     },
     "nwjs": {
         "version": "0.36.4",
