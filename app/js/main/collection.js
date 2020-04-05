@@ -112,7 +112,7 @@ const Collection = {
                 }
 
                 if (Network.peers.length) {
-                    Network.buildJsonApi();
+                    Network.init();
                     Network.rearrangeLocals();
                 } else {
                     Collection.format.locals(results);

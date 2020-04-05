@@ -42,7 +42,7 @@ const Network = {
                 }
             }
 
-            setTimeout(() => Network.checkPeer(server), 30000);
+            setTimeout(() => Network.checkPeer(server), 5000);
         }).catch(() => {
             for (let existing in Network.peers) {
                 if (Network.peers[existing].ip === server.ip) {
