@@ -195,6 +195,10 @@ const Boot = {
             $('.nav.bigpicture').hide();
         }
 
+        if (DB.get('bpzoomdisable')) {
+            document.querySelector('#bpzoomdisable-button').checked = true;
+        }
+
         // minimze to tray
         if (DB.get('minimizeToTray')) {
             document.querySelector('#tray').checked = true;
@@ -310,6 +314,10 @@ const Boot = {
             } else {
                 $('.nav.bigpicture').hide();
             }
+        });
+
+        document.querySelector('#bpzoomdisable-button').addEventListener('click', (evt) => {
+            DB.store(evt.toElement.checked, 'bpzoomdisable');
         });
 
         document.querySelector('#tray').addEventListener('click', (evt) => {

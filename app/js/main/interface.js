@@ -388,7 +388,7 @@ const Interface = {
     bigPicture: (onStart) => {
         if (!DB.get('bigPicture')) {
             console.info('Entering Big Picture mode', Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor]);
-            win.zoomLevel = Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor] ? Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor].zoomLevel : 4;
+            win.zoomLevel = Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor] && !DB.get('bpzoomdisable') ? Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor].zoomLevel : 0;
             win.enterFullscreen();
             $('.nav.bigpicture > div').addClass('fa-compress').removeClass('fa-arrows-alt');
             DB.store(true, 'bigPicture');
