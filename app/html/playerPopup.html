@@ -39,7 +39,9 @@
         }
 
         #biggersub,
-        #smallersub {
+        #smallersub,
+        #subdelayminus,
+        #subdelayplus {
             height: 40px;
             width: 40px;
             line-height: 40px;
@@ -53,6 +55,8 @@
     <div class="button" id="quit" onclick="nw.global.playerAPI.quit()">X</div>
     <div class="button" id="biggersub" onClick="nw.global.playerAPI.subFontSize(+5)">A</div>
     <div class="button" id="smallersub" onClick="nw.global.playerAPI.subFontSize(-5)">a</div>
+    <div class="button" id="subdelayminus" onClick="nw.global.playerAPI.subDelay(-0.1)"><</div>
+    <div class="button" id="subdelayplus" onClick="nw.global.playerAPI.subDelay(+0.1)">></div>
 </body>
 
 </html>
