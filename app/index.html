@@ -836,8 +836,8 @@
 
                                 <span class="separator"></span>
 
-                                <div class="fa fa-outdent i18n tooltipped" title="Subtitle delay -0.1s" onClick="Player.subDelay(-0.1)"></div>
-                                <div class="fa fa-indent i18n tooltipped" title="Subtitle delay +0.1s" onClick="Player.subDelay(+0.1)"></div>
+                                <div class="fa fa-outdent i18n tooltipped" title="Subtitle delay -0.1s" onMouseDown="Player.subDelay(-0.1)" onMouseUp="Player.stopDelay()"></div>
+                                <div class="fa fa-indent i18n tooltipped" title="Subtitle delay +0.1s" onMouseDown="Player.subDelay(+0.1)" onMouseUp="Player.stopDelay()"></div>
                             </div>
                         </div>
                     </div>

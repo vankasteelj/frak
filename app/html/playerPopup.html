@@ -14,7 +14,7 @@
         }
 
         .button {
-            color: #fff;
+            color: #eee;
             height: 46px;
             margin-top: 10px;
             line-height: 46px;
@@ -28,9 +28,14 @@
             border-width: 1.5px;
             border-color: rgba(255, 255, 255, 0.3);
             background-color: rgba(0, 0, 0, 0.6);
-            cursor: default;
+            cursor: pointer;
             user-select: none;
             float: right;
+        }
+        .button:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            transition: all .4s;
         }
 
         #quit {
@@ -55,8 +60,11 @@
     <div class="button" id="quit" onclick="nw.global.playerAPI.quit()">X</div>
     <div class="button" id="biggersub" onClick="nw.global.playerAPI.subFontSize(+5)">A</div>
     <div class="button" id="smallersub" onClick="nw.global.playerAPI.subFontSize(-5)">a</div>
-    <div class="button" id="subdelayplus" onClick="nw.global.playerAPI.subDelay(+0.1)">&gt;</div>
-    <div class="button" id="subdelayminus" onClick="nw.global.playerAPI.subDelay(-0.1)">&lt;</div>
+    <div class="button" id="subdelayplus" onMouseDown="nw.global.playerAPI.subDelay(+0.1)" onMouseUp="nw.global.playerAPI.stopDelay()">&gt;</div>
+    <div class="button" id="subdelayminus" onMouseDown="nw.global.playerAPI.subDelay(-0.1)" onMouseUp="nw.global.playerAPI.stopDelay()">&lt;</div>
 </body>
+<script>
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+</script>
 
 </html>

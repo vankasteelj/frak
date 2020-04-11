@@ -221,11 +221,19 @@ const Player = {
         $('#sub_size').val(saved.sub_size);
     },
     subDelay: (n) => {
-        Player.mpv.getProperty('sub-delay').then(current => {
-            current += n;
-            Player.notify(i18n.__('Subtitle delay: %dms', current*1000))
-            Player.mpv.setProperty('sub-delay', current);
-        });
+        let delay = () => {
+            Player.mpv.getProperty('sub-delay').then(current => {
+                current += n;
+                Player.notify(i18n.__('Subtitle delay: %dms', current*1000))
+                Player.mpv.setProperty('sub-delay', current);
+            });
+        };
+        delay();
+
+        Player.timeOut = setInterval(delay, 250);
+    },
+    stopDelay: () => {
+        clearInterval(Player.timeOut);
     },
     notify: (message) => {
         if (!message) return;
