@@ -221,16 +221,21 @@ const Player = {
         $('#sub_size').val(saved.sub_size);
     },
     subDelay: (n) => {
-        let delay = () => {
+        let i = 0;
+        let delay = (d) => {
             Player.mpv.getProperty('sub-delay').then(current => {
-                current += n;
+                current += d;
                 Player.notify(i18n.__('Subtitle delay: %dms', current*1000))
                 Player.mpv.setProperty('sub-delay', current);
             });
         };
-        delay();
+        delay(n);
 
-        Player.timeOut = setInterval(delay, 250);
+        Player.timeOut = setInterval(() => {
+            if (i++ > 1) delay(n);
+            if (i > 20) delay(n*2.5);
+            if (i > 40) delay(n*5);
+        }, 200);
     },
     stopDelay: () => {
         clearInterval(Player.timeOut);

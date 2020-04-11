@@ -64,7 +64,7 @@ const Network = {
         Promise.all(ips.map(ip => {
             return new Promise((resolve, reject) => {
                 got('http://' + ip + ':' + Network.port, {
-                    timeout: 500,
+                    timeout: 1000,
                     headers: Network.headers
                 }).then(res => {
                     resolve(JSON.parse(res.body));
