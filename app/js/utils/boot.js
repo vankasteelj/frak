@@ -159,6 +159,7 @@ const Boot = {
     setupSettings: () => {
         // lang dropdown
         Localization.setupDropdown();
+        Subtitles.defaultLanguage();
 
         // username
         $('#settings .trakt .username').text(DB.get('trakt_profile') && DB.get('trakt_profile').username);
