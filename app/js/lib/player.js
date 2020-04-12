@@ -18,7 +18,7 @@ const Player = {
         Player.mpv.isRunning() && Player.quit() || Player.handleEvents();
 
         // player popup
-        DB.get('bigPicture') && Interface.playerPopup();
+        (DB.get('bigPicture') || DB.get('playerPopup')) && Interface.playerPopup();
 
         Player.mpv.start().then(() => Player.mpv.load(file)).then(() => {
             console.info('Playing:', file);

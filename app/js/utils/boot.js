@@ -191,12 +191,18 @@ const Boot = {
         // big picture button visibility
         if (DB.get('bp_button')) {
             document.querySelector('#bp-button').checked = true;
+            $('#disablezoom').show();
         } else {
             $('.nav.bigpicture').hide();
+            $('#disablezoom').hide();
         }
 
         if (DB.get('bpzoomdisable')) {
             document.querySelector('#bpzoomdisable-button').checked = true;
+        }
+
+        if (DB.get('playerPopup')) {
+            document.querySelector('#allowplayerpopup-button').checked = true;
         }
 
         // minimze to tray
@@ -311,13 +317,18 @@ const Boot = {
             DB.store(evt.toElement.checked, 'bp_button');
             if (evt.toElement.checked) {
                 $('.nav.bigpicture').show();
+                $('#disablezoom').show();
             } else {
                 $('.nav.bigpicture').hide();
+                $('#disablezoom').hide();
             }
         });
 
         document.querySelector('#bpzoomdisable-button').addEventListener('click', (evt) => {
             DB.store(evt.toElement.checked, 'bpzoomdisable');
+        });
+        document.querySelector('#allowplayerpopup-button').addEventListener('click', (evt) => {
+            DB.store(evt.toElement.checked, 'playerPopup');
         });
 
         document.querySelector('#tray').addEventListener('click', (evt) => {

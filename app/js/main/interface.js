@@ -410,8 +410,8 @@ const Interface = {
     },
     playerPopup: () => {
         nw.Window.open('app/html/playerPopup.html', {
-            width: 400,
-            height: 100,
+            width: 360,
+            height: 60,
             always_on_top: true,
             resizable: false,
             show: false,
@@ -426,7 +426,7 @@ const Interface = {
 
             nw.global.playerPopup = new_win;
             nw.global.playerPopup.blur();
-            nw.global.playerPopup.x = screen.availWidth - 400;
+            nw.global.playerPopup.x = screen.availWidth - 360;
             nw.global.playerPopup.y = 0;
             nw.global.playerPopup.on('closed', () => {
                 delete nw.global.playerAPI;
