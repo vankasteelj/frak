@@ -9,11 +9,11 @@ const Interface = {
 
     // AUTO: from lib/trakt
     traktLogin: (poll) => {
-        Misc.openExternal(poll.verification_url);
         Interface.focus(true);
         $('#traktAuth, #traktinit a').hide();
-        $('#traktinit p').text(i18n.__('Enter the code below in your browser'));
+        $('#traktinit p').text(i18n.__('Enter the code below in your browser') + ` (${poll.verification_url})`);
         $('#traktCode').val(poll.user_code).show();
+        $('#traktBrowser').show().attr('onClick', `Misc.openExternal("${poll.verification_url}")`);
         gui.Clipboard.get().set(poll.user_code); //ctrl+v easy hack
     },
 

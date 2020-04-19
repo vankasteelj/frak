@@ -1728,6 +1728,10 @@ a {
     text-align: center;
     width: 170px;
 }
+#traktinit #traktBrowser {
+    display: none;
+    margin: 20px 0 10px;
+}
 
 #traktinit a,
 #requirempv a {
