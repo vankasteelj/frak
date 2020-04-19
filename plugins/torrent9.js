@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 const got = require('got');
-const defaultURL = 'https://torrent9.uno';
+const defaultURL = 'https://ww1.torrent9.is';
 
 const get = (keywords, cfg = {}) => {
 
@@ -62,7 +62,10 @@ const get = (keywords, cfg = {}) => {
                 return;
             })
         }));
-    }).then(() => torrents).catch((err) => []);
+    }).then(() => torrents).catch((err) => {
+        console.error(err);
+        return [];
+    });
 }
 
 module.exports = {
