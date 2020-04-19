@@ -1,49 +1,46 @@
 const got = require('got');
-const defaultURL = 'api-fetch.website';
+const defaultURL = 'api-fetch.sh'; //.website, .am
 
 const getMovies = (query) => {
     let url = 'https://movies-v2.' + defaultURL;
 
     return got(url + '/movies/1?keywords=' + escape(query), {
-        json: true,
         timeout: 3500
     }).then(res => {
-        let result = res.body[0];
+        let result = JSON.parse(res.body);
         if (!result) return [];
-
-        let torrents = result.torrents.en;
         let results = [];
 
-
-        for (let q in torrents) {
-            let item = torrents[q];
-            let itemModel = {
-                name: function () {
-                    try {
-                        return unescape(item.url.match('\&dn=.*?\&tr')[0]
-                                .replace('&dn=', '')
-                                .replace('&tr', ''))
-                            .replace(/\+/g, ' ');
-                    } catch (e) {
-                        return [
-                            result.title,
-                            '(' + result.year + ')',
-                            q,
-                            '-',
-                            item.provider
-                        ].join(' ')
-                    }
-                }(),
-                magnet: item.url,
-                seeds: parseInt(item.seed),
-                peers: parseInt(item.peer),
-                size: item.size
-            };
-            results.push(itemModel);
+        for (let i in result) {
+            let item = result[i];
+            for (let q in item.torrents.en) {
+                let subitem = item.torrents.en[q];
+                let itemModel = {
+                    name: function () {
+                        try {
+                            return unescape(item.url.match('\&dn=.*?\&tr')[0]
+                                    .replace('&dn=', '')
+                                    .replace('&tr', ''))
+                                .replace(/\+/g, ' ');
+                        } catch (e) {
+                            return `${item.title}.${q}.${subitem.provider}`;
+                        }
+                    }(),
+                    magnet: subitem.url,
+                    seeds: parseInt(subitem.seed),
+                    peers: parseInt(subitem.peer),
+                    size: subitem.size,
+                    source: 'Popcorn Time'
+                };
+                results.push(itemModel);
+            }
         }
 
         return results;
-    }).catch((err) => []);
+    }).catch((err) => {
+        console.error(err);
+        return [];
+    });
 }
 
 const getShows = (query) => {
@@ -67,15 +64,14 @@ const getShows = (query) => {
     if (!isconform) throw new Error('Query is not conform, respect SxxExx model');
 
     return got(url + '/shows/1?keywords=' + escape(query), {
-        json: true,
         timeout: 3500
     }).then(res => {
-        return got(url + '/show/' + res.body[0].imdb_id, {
-            json: true,
+        let body = JSON.parse(res.body);
+        return got(url + '/show/' + body[0].imdb_id, {
             timeout: 3500
         });
     }).then(det => {
-        let serie = det.body;
+        let serie = JSON.parse(det.body);
         let episodeT = serie.episodes.filter(obj => obj.season == season && obj.episode == episode);
 
         if (!episodeT.length) {
@@ -120,7 +116,10 @@ const getShows = (query) => {
 
         return results;
 
-    }).catch((err) => []);
+    }).catch((err) => {
+        console.error(err);
+        return [];
+    });
 }
 
 module.exports = {
