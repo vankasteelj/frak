@@ -18,7 +18,7 @@ const getMovies = (query) => {
                 let itemModel = {
                     name: function () {
                         try {
-                            return unescape(item.url.match('\&dn=.*?\&tr')[0]
+                            return unescape(subitem.url.match('\&dn=.*?\&tr')[0]
                                     .replace('&dn=', '')
                                     .replace('&tr', ''))
                                 .replace(/\+/g, ' ');
