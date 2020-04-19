@@ -63,5 +63,5 @@ const Settings = {
             'wss://tracker.btorrent.xyz'
         ]
     },
-    supportedVideoFiles: ['.mkv','.avi','.mp4','.m4v','.mts','.m2ts']
+    supportedVideoFiles: ['.mkv','.avi','.mp4','.m4v','.mts','.m2ts', '.ts']
 }
