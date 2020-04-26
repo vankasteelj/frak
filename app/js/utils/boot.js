@@ -18,6 +18,7 @@ const Boot = {
         Boot.setupVersion();                    // version number
         Boot.online();                          // check if online
         Dragdrop.setup();                       // allow drag&drop
+        Subtitles.opensubReLogin()              // opensubtitles login if needed
         //Gamepad.init();                       // gamepad support
         Boot.idle();                            // periodically update
 

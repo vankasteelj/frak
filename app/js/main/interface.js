@@ -434,5 +434,8 @@ const Interface = {
                 console.debug('Player popup closed');
             });
         });
+    },
+    animate: (el, cl, duration) => {
+        $(el).addClass(cl).delay(duration).queue(() => $(el).removeClass(cl).dequeue());
     }
 };

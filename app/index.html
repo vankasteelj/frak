@@ -627,7 +627,45 @@
                         </datalist>
                     </div>
                 </div>
-
+            </div>
+            <div class="setting opensubtitles">
+                <div class="title">
+                    Opensubtitles
+                </div>
+                <div id="oslogin">
+                    <div class="option opensub-login">
+                        <div class="text">
+                            <i18n>Log-in (optional)</i18n>
+                        </div>
+                        <div class="action">
+                            <input id="opensub_login" class="i18n" type="text" placeholder="Username" />
+                        </div>
+                    </div>
+                    <div class="option opensub-login">
+                        <div class="action">
+                            <input id="opensub_password" class="i18n" type="password" placeholder="Password" />
+                        </div>
+                    </div>
+                    <div class="option">
+                        <div class="action">
+                            <button class="opensub_connect" onClick="Subtitles.opensubLogin()">
+                                <i18n>Connect</i18n>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="oslogout">
+                    <div class="option">
+                        <div class="text">
+                            <i18n>Your are connected as</i18n> <span class="username"></span>
+                        </div>
+                        <div class="action">
+                            <button class="disconnect" onClick="Subtitles.opensubLogout()">
+                                <i18n>Disconnect</i18n>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="setting streamer">
                 <div class="title">

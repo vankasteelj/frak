@@ -261,5 +261,9 @@
 	"All": "Tous",
 	"Disable \"Zoom\" for Big Picture": "Désactiver le \"Zoom\" pour Big Picture",
 	"Always show the player popup": "Toujours afficher les commandes pop-up",
-	"Open browser": "Ouvrir le navigateur"
+	"Open browser": "Ouvrir le navigateur",
+	"Username": "Nom d'utilisateur",
+	"Password": "Mot de passe",
+	"Wrong username or password": "Nom d'utilisateur ou mot de passe incorrect",
+	"Log-in (optional)": "Connexion (optionnel)"
 }

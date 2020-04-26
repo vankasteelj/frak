@@ -1512,6 +1512,7 @@ a {
 #settings .locals .option .pathbox .paths,
 #settings .mpv input,
 #settings .subtitles input,
+#settings .opensubtitles input,
 #settings .localsharing input,
 #settings .streamer input,
 #settings .streamer textarea {
@@ -1534,6 +1535,7 @@ a {
 
 #settings .mpv input,
 #settings .subtitles input,
+#settings .opensubtitles input,
 #settings .localsharing input,
 #settings .streamer input,
 #settings .streamer textarea {
@@ -1548,6 +1550,13 @@ a {
 
 #settings .option {
     height: 60px;
+}
+
+#settings .opensub-login {
+    height: 40px;
+}
+#settings .opensub-login .action {
+    line-height: 40px;
 }
 
 #settings .setting {
@@ -1621,6 +1630,10 @@ a {
 
 #settings label {
     margin-bottom: -5px;
+}
+
+#settings #oslogout {
+    display: none;
 }
 
 #trailer {
@@ -1790,6 +1803,7 @@ a {
 #settings .locals .option .pathbox .paths li,
 #settings .mpv input,
 #settings .subtitles input,
+#settings .opensubtitles input,
 #settings .localsharing input,
 #settings .streamer input,
 #settings .streamer textarea {

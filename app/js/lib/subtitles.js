@@ -98,5 +98,59 @@ const Subtitles = {
             // reload to use new lang
             Player.setMPV();
         });
+    },
+    opensubLogin: (username, password) => {
+        if (!username) username = $('#opensub_login').val();
+        if (!password) password = crypt.createHash('MD5').update($('#opensub_password').val()).digest('hex');
+
+        if (!username || password === 'd41d8cd98f00b204e9800998ecf8427e') {
+            console.error('You need a username & password to log in to Opensubtitles.org');
+            Notify.snack('You need a username & password to log in to Opensubtitles.org')
+            return;
+        }
+
+        Subtitles.client = new(require('opensubtitles-api'))({
+            useragent: `${Settings.apikeys.opensubtitles} v${PKJSON.version}`,
+            username: username,
+            password: password
+        });
+
+        Subtitles.client.login().then((res) => {
+            DB.store(username, 'os_username');
+            DB.store(password, 'os_password');
+            Subtitles.opensubLogged(res);
+        }).catch((err) => {
+            console.error('Opensubtitles.org login error', err);
+            const display_err = (err.message === '401 Unauthorized') ? i18n.__('Wrong username or password') : (err.message || err);
+            Notify.snack(display_err);
+        });
+    },
+    opensubLogged: (res) => {
+        $('#oslogin').hide();
+        $('#oslogout').show();
+        $('#oslogout .username').text(res.userinfo.UserNickName);
+        console.info('Logged in Opensubtitles.org');
+    },
+    opensubLogout: () => {
+        DB.remove('os_username');
+        DB.remove('os_password');
+        Subtitles.client = new(require('opensubtitles-api'))({
+            useragent: `${Settings.apikeys.opensubtitles} v${PKJSON.version}`
+        });
+
+        $('#oslogout .username').text('');
+        $('#opensub_login').val('');
+        $('#opensub_password').val('');
+
+        $('#oslogout').hide();
+        $('#oslogin').show();
+        console.info('Logged out of Opensubtitles.org');
+    },
+    opensubReLogin: () => {
+        const username = DB.get('os_username');
+        const password = DB.get('os_password');
+        if (!username || !password) return;
+
+        Subtitles.opensubLogin(username, password);
     }
 }
