@@ -521,7 +521,7 @@
 #details .background {
     background-image: url(../images/placeholder.png);
     background-size: cover;
-    filter: blur(70px) saturate(0.8);
+    filter: blur(65px) saturate(0.8);
     height: 100%;
     opacity: 0;
     position: absolute;
