@@ -189,7 +189,7 @@
 	"Magnet timeout (milliseconds)": "Magnet timeout (milliseconds)",
 	"Fallback tracker list": "Fallback tracker list",
 	"Use web seeds (BEP19)": "Use web seeds (BEP19)",
-	"Default: 30": "Default: 30",
+	"Default: 40": "Default: 40",
 	"Default: 10000": "Default: 10000",
 	"Separate each tracker with a comma": "Separate each tracker with a comma",
 	"Shared by %s": "Shared by %s",

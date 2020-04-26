@@ -1592,6 +1592,10 @@ a {
     font-weight: 400;
     height: 20px;
     padding: 20px 0;
+    cursor: help;
+}
+#settings .plugins .text {
+    cursor: default;
 }
 
 #settings .text.secondary {
