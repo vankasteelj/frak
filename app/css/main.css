@@ -1511,6 +1511,7 @@ a {
 
 #settings .locals .option .pathbox .paths,
 #settings .mpv input,
+#settings .subtitles input,
 #settings .localsharing input,
 #settings .streamer input,
 #settings .streamer textarea {
@@ -1532,6 +1533,7 @@ a {
 }
 
 #settings .mpv input,
+#settings .subtitles input,
 #settings .localsharing input,
 #settings .streamer input,
 #settings .streamer textarea {
@@ -1787,6 +1789,7 @@ a {
 
 #settings .locals .option .pathbox .paths li,
 #settings .mpv input,
+#settings .subtitles input,
 #settings .localsharing input,
 #settings .streamer input,
 #settings .streamer textarea {
