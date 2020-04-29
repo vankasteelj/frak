@@ -21,8 +21,8 @@
     "height": 624,
     "title": "Frak",
     "icon": "app/images/frak-logo.png",
-    "min_width": 768,
-    "min_height": 500,
+    "min_width": 885,
+    "min_height": 518,
     "show": false
   },
   "chromium-args": "--disable-raf-throttling --future",
