@@ -62,7 +62,7 @@ const Keyboard = {
       const $elm = $(items[i])
       const pos = $elm.offset().top
       const firstLetter = $elm.text().slice(0, 1)
-      if (key.toLowerCase() == firstLetter.toLowerCase()) {
+      if (key.toLowerCase() === firstLetter.toLowerCase()) {
         window.scrollTo(0, pos)
         return
       }

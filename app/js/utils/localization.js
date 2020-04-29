@@ -67,7 +67,7 @@ const Localization = {
       if (c[j].placeholder) {
         c[j].placeholder = i18n.__(c[j].placeholder)
       }
-      if (c[j].innerText && c[j].localName == 'option') {
+      if (c[j].innerText && c[j].localName === 'option') {
         c[j].innerText = i18n.__(c[j].innerText)
       }
     }

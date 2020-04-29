@@ -49,7 +49,7 @@ const Loading = {
     Loading.update = setInterval(() => {
       const downloaded = parseInt(Streamer.streaminfo.stats.downloaded_percent, 10)
 
-      if (downloaded == 100) {
+      if (downloaded === 100) {
         nw.Window.get().setProgressBar(0)
         $('#streaminfo .connection').hide()
         return
@@ -93,7 +93,7 @@ const Loading = {
 
     let data = JSON.parse($('#details > .container > .data').text())
     if (data.metadata) data = data.metadata
-    const type = data.show && 'show' || data.movie && 'movie'
+    const type = (data.show && 'show') || (data.movie && 'movie')
 
     let subopts = {}
 
@@ -124,7 +124,7 @@ const Loading = {
 
       // then the other langs
       for (const lang in subs) {
-        if (locale == lang) continue
+        if (locale === lang) continue
         Subtitles.addSubtitles(subs[lang], lang)
       }
     }).catch(error => {

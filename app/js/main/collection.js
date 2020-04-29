@@ -79,7 +79,7 @@ const Collection = {
 
       if (update) return
 
-      if (!Player.mpv && !(process.platform == 'win32' && fs.existsSync('./mpv/mpv.exe'))) {
+      if (!Player.mpv && !(process.platform === 'win32' && fs.existsSync('./mpv/mpv.exe'))) {
         Interface.requireMPV()
       } else {
         setTimeout(Interface.showMain, 0)
@@ -96,7 +96,7 @@ const Collection = {
       $('#collection #locals .waitforlibrary .scanning').show()
 
       const method = collection ? 'update' : 'scan'
-      method == 'update' && $('#locals .refreshing').show()
+      method === 'update' && $('#locals .refreshing').show()
 
       Local.scans++
 
@@ -158,7 +158,7 @@ const Collection = {
 
   format: {
     traktmovies: (movies) => {
-      let collection = Array()
+      let collection = []
 
       return Promise.all(movies.map((movie) => {
         return Images.get.movie(movie.movie.ids).then(images => {
@@ -177,7 +177,7 @@ const Collection = {
       }).catch(console.error)
     },
     traktshows: (shows) => {
-      let collection = Array()
+      let collection = []
 
       return Promise.all(shows.map((show) => {
         return Images.get.show(show.show.ids).then(images => {
@@ -223,11 +223,10 @@ const Collection = {
         // build context menu without hogging
         const items = document.getElementsByClassName('local-context')
         let i = 0
-        let doLoop, buildContext
-        doLoop = () => {
+        const doLoop = () => {
           if (i < items.length) buildContext()
         }
-        buildContext = () => {
+        const buildContext = () => {
           const item = items.item(i)
           const file = JSON.parse(item.firstChild.innerText)
           let context = {
@@ -253,11 +252,11 @@ const Collection = {
     },
 
     trakthistory: (items) => {
-      let collection = Array()
+      let collection = []
       const dupes = []
 
       return Promise.all(items.map((item, index) => {
-        const type = item.type == 'movie' ? 'movie' : 'show'
+        const type = item.type === 'movie' ? 'movie' : 'show'
 
         item.index = index
         collection.push(item)
@@ -306,7 +305,7 @@ const Collection = {
     },
     movies: (movies = []) => {
       $('#collection #movies').html('')
-      const untrack = Array()
+      const untrack = []
       const items = []
       for (const movie of movies) {
         if (!movie.movie.released || new Date(movie.movie.released.split('-')).valueOf() > Date.now() || DB.get('hiddenmovies')[movie.movie.ids.slug] || (DB.get('hiddenitems') && DB.get('hiddenitems')[movie.movie.ids.slug])) {
@@ -369,7 +368,7 @@ const Collection = {
 
       const items = []
       for (const i of collection) {
-        if (i.type == 'movie') {
+        if (i.type === 'movie') {
           items.push(Items.constructHistoryMovie(i))
         } else {
           items.push(Items.constructHistoryShow(i))

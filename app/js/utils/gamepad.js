@@ -16,7 +16,7 @@ const Gamepad = {
       // loop through pressed buttons
       for (let i = 0, s = Gamepad.API.buttonsStatus.length; i < s; i++) {
         // if we found the button we're looking for...
-        if (Gamepad.API.buttonsStatus[i] == button) {
+        if (Gamepad.API.buttonsStatus[i] === button) {
           // set the boolean variable to true
           newPress = true
           // if we want to check the single press
@@ -24,7 +24,7 @@ const Gamepad = {
             // loop through the cached states from the previous frame
             for (let j = 0, p = Gamepad.API.buttonsCache.length; j < p; j++) {
               // if the button was already pressed, ignore new press
-              if (Gamepad.API.buttonsCache[j] == button) {
+              if (Gamepad.API.buttonsCache[j] === button) {
                 newPress = false
               }
             }

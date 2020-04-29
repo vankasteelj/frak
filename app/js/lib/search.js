@@ -6,7 +6,7 @@ const Search = {
     if (!query) return
 
     const data = JSON.parse($('#details > .container > .data').text())
-    const type = data.show && 'show' || data.movie && 'movie'
+    const type = (data.show && 'show') || (data.movie && 'movie')
 
     $('#details-sources .query .search').addClass('fa-spin fa-circle-o-notch').removeClass('fa-search')
 
@@ -45,7 +45,7 @@ const Search = {
     })
   },
   offline: (data) => {
-    const type = data.show && 'show' || data.movie && 'movie'
+    const type = (data.show && 'show') || (data.movie && 'movie')
     const id = data[type].ids.slug
     const library = DB.get(`local_${type}s`)
 
@@ -111,16 +111,16 @@ const Search = {
       // prepare for duplicates
       for (const i of collection) {
         const name = Misc.slugify(i.name)
-        foundNames.indexOf(name) === -1 && foundNames.push(name) || dupNames.push(name)
+        foundNames.indexOf(name) === -1 ? foundNames.push(name) : dupNames.push(name)
 
-        const matched = i.magnet.match(/btih:(.*?)($|\&)/i)
+        const matched = i.magnet.match(/btih:(.*?)($|&)/i)
         if (!matched) continue
 
         const btih = matched[1].toLowerCase()
-        foundBtih.indexOf(btih) === -1 && foundBtih.push(btih) || dupBtih.push(btih)
+        foundBtih.indexOf(btih) === -1 ? foundBtih.push(btih) : dupBtih.push(btih)
 
         const size = parseInt(i.size / 1024 / (1024 / 100)) // 1kb range
-        foundSize.indexOf(size) === -1 && foundSize.push(size) || dupSize.push(size)
+        foundSize.indexOf(size) === -1 ? foundSize.push(size) : dupSize.push(size)
       }
 
       // add health
@@ -137,7 +137,7 @@ const Search = {
         // where to push?
         const name = Misc.slugify(i.name)
 
-        const matched = i.magnet.match(/btih:(.*?)($|\&)/i)
+        const matched = i.magnet.match(/btih:(.*?)($|&)/i)
         if (!matched) continue
 
         const btih = matched[1].toLowerCase()

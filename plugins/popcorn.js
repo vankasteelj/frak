@@ -18,7 +18,7 @@ const getMovies = (query) => {
         const itemModel = {
           name: (function () {
             try {
-              return unescape(subitem.url.match('\&dn=.*?\&tr')[0]
+              return unescape(subitem.url.match('&dn=.*?&tr')[0]
                 .replace('&dn=', '')
                 .replace('&tr', ''))
                 .replace(/\+/g, ' ')
@@ -72,7 +72,7 @@ const getShows = (query) => {
     })
   }).then(det => {
     const serie = JSON.parse(det.body)
-    const episodeT = serie.episodes.filter(obj => obj.season == season && obj.episode == episode)
+    const episodeT = serie.episodes.filter(obj => obj.season.toString() === season.toString() && obj.episode.toString() === episode.toString())
 
     if (!episodeT.length) {
       return []
@@ -82,7 +82,7 @@ const getShows = (query) => {
     const results = []
 
     for (const q in torrents) {
-      if (q == 0) continue
+      if (q.toString() === '0') continue
 
       const item = torrents[q]
       const pad = (n) => (n < 10) ? ('0' + n) : n
@@ -90,7 +90,7 @@ const getShows = (query) => {
       const itemModel = {
         name: (function () {
           try {
-            return unescape(item.url.match('\&dn=.*?\&tr')[0]
+            return unescape(item.url.match('&dn=.*?&tr')[0]
               .replace('&dn=', '')
               .replace('&tr', ''))
               .replace(/\+/g, ' ')
@@ -127,6 +127,6 @@ module.exports = {
   search: (opts) => {
     opts.keywords = opts.keywords.toLowerCase()
 
-    return opts.type == 'show' ? getShows(opts.keywords) : getMovies(opts.keywords)
+    return opts.type === 'show' ? getShows(opts.keywords) : getMovies(opts.keywords)
   }
 }

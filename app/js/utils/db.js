@@ -10,7 +10,7 @@ const DB = {
     let data
 
     try {
-      data = zlib.inflateSync(new Buffer(localStorage[key], 'base64')).toString()
+      data = zlib.inflateSync(Buffer.from(localStorage[key], 'base64')).toString()
     } catch (e) {}
 
     try {

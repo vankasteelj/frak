@@ -58,12 +58,12 @@ const Trakt = {
   last_activities: (type) => {
     return Trakt.client.sync.last_activities().then(results => {
       if (type === 'rate') {
-        return Math.max.apply(Math, [
+        return Math.max(Math, [
           new Date(results.movies.rated_at).valueOf(),
           new Date(results.shows.rated_at).valueOf()
         ])
       } else {
-        return Math.max.apply(Math, [
+        return Math.max(Math, [
           new Date(results.episodes.watchlisted_at).valueOf(),
           new Date(results.shows.watchlisted_at).valueOf(),
           new Date(results.movies.watchlisted_at).valueOf(),
@@ -139,7 +139,7 @@ const Trakt = {
       })
 
       // add if needed
-      if (method == 'add') {
+      if (method === 'add') {
         const pushable = {
           rated_at: (new Date()).toISOString(),
           rating: score,
@@ -236,7 +236,7 @@ const Trakt = {
     let progress = Player.config.states.position || 0
     progress = parseFloat(progress.toFixed(2))
 
-    let model, type, itemType
+    let model, type
 
     if (Player.config.model.metadata) {
       // local
@@ -279,7 +279,7 @@ const Trakt = {
 
       if (Player.config.model.metadata) {
         // local item
-        if (type == 'episode') {
+        if (type === 'episode') {
           Details.loadLocalNext()
         }
       } else {

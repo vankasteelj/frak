@@ -76,11 +76,10 @@ const Subtitles = {
       // insert element in dropdown
       const native = available[i].local
       const lang2B = available[i]['2B']
-      const lang1 = available[i]['1']
       $('#sub-language').append('<option value="' + lang2B + '">' + native + '</option>')
 
       // select if active
-      if (defaultsublocale == lang2B) {
+      if (defaultsublocale === lang2B) {
         $('#sub-language').val(lang2B)
       }
     }
@@ -121,8 +120,7 @@ const Subtitles = {
       Subtitles.opensubLogged(res)
     }).catch((err) => {
       console.error('Opensubtitles.org login error', err)
-      const display_err = (err.message === '401 Unauthorized') ? i18n.__('Wrong username or password') : (err.message || err)
-      Notify.snack(display_err)
+      Notify.snack((err.message === '401 Unauthorized') ? i18n.__('Wrong username or password') : (err.message || err))
     })
   },
   opensubLogged: (res) => {

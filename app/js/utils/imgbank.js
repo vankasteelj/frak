@@ -1,7 +1,7 @@
 'use strict'
 
 const IB = {
-  dir: path.join(process.env.LOCALAPPDATA || (process.platform == 'darwin' ? process.env.HOME + 'Library/Preferences' : process.env.HOME + '/.cache'), PKJSON.name, 'ImagesBank'),
+  dir: path.join(process.env.LOCALAPPDATA || (process.platform === 'darwin' ? process.env.HOME + 'Library/Preferences' : process.env.HOME + '/.cache'), PKJSON.name, 'ImagesBank'),
   downloader: require('image-downloader'),
   create: () => {
     try {
@@ -19,6 +19,7 @@ const IB = {
   calcSize: () => {
     return new Promise((resolve, reject) => {
       fs.readdir(IB.dir, (err, files) => {
+        if (err) console.error(err)
         let total = 0
         for (let i = 0; i < files.length; i++) total += fs.statSync(path.join(IB.dir, files[i])).size
         resolve(parseInt(total / 1024 / 1024))

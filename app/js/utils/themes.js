@@ -4,6 +4,7 @@ const Themes = {
   setup: () => {
     // build settings dropdown & import stylesheets
     fs.readdir('./app/css/themes', (err, files = []) => {
+      if (err) console.error(err)
       for (const i in files) {
         const theme = files[i].slice(0, -4)
         $('head').append(`<link rel="stylesheet" type="text/css" href="${path.join('./css/themes', files[i])}">`)

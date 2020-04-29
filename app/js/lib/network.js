@@ -208,7 +208,7 @@ const Network = {
 
       const server = http.createServer()
 
-      server.once('error', (err) => {
+      server.once('error', () => {
         return resolve(Network.getFreePort(port += 1))
       })
 

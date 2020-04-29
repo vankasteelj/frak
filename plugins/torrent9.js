@@ -25,7 +25,7 @@ const get = (keywords, cfg = {}) => {
       throw new Error('Error at loading Torrent9')
     }
 
-    const torrentsTemp = Array()
+    const torrentsTemp = []
 
     $('.table-striped tr').each((index, el) => {
       const torrent = {

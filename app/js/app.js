@@ -19,7 +19,7 @@ try {
     Interface.bigPicture(true)
   }
 
-  if (gui.App.argv.indexOf('--hidden') == -1) {
+  if (gui.App.argv.indexOf('--hidden') === -1) {
     setTimeout(() => win.show(true), 0)
     Interface.focus(true)
   }

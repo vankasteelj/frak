@@ -158,7 +158,7 @@ const Items = {
       show.show.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).click())
       labels['Mark as watched'] = () => $(`#${d.id} .watched`).click()
       labels.separator = true
-      if (show.next_episode.number == 1 && show.next_episode.season == 1) {
+      if (show.next_episode.number === 1 && show.next_episode.season === 1) {
         labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`)
         labels['Redownload image'] = () => Items.redownloadImage(d.id, d.image, show.show.ids, 'show', 'fanart')
         labels['Remove from watchlist'] = () => Trakt.client.sync.watchlist.remove({
@@ -266,10 +266,10 @@ const Items = {
         const d = new Date(show.watched_at)
         return d.toLocaleDateString() + ' ' + Misc.pad(d.getHours()) + ':' + Misc.pad(d.getMinutes())
       })(),
-      watched_id: show.id
+      watchedId: show.id
     }
 
-    const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg} ${d.id}" id="${d.watched_id}">` +
+    const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg} ${d.id}" id="${d.watchedId}">` +
                 `<span class="data">${d.data}</span>` +
                 '<div class="fanart">' +
                     '<div class="corner-rating"><span></span></div>' +
@@ -277,10 +277,10 @@ const Items = {
                 '</div>' +
                 '<div class="quick-icons">' +
                     '<div class="actions">' +
-                        `<div class="watched trakt-icon-check-thick tooltipped i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched('${d.watched_id}', '${d.id}')"></div>` +
+                        `<div class="watched trakt-icon-check-thick tooltipped i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched('${d.watchedId}', '${d.id}')"></div>` +
                     '</div>' +
                     '<div class="metadata">' +
-                        `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.watched_id}')">` +
+                        `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.watchedId}')">` +
                         '<div class="fa fa-heart"></div>' +
                             `${d.rating}&nbsp;%` +
                         '</div>' +
@@ -296,7 +296,7 @@ const Items = {
             '</div>'
 
     Items.getImage(d.image, show.show.ids, 'show', 'poster').then(img => {
-      img && $(`#${d.watched_id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.watched_id} .fanart img`).css('opacity', '0')
+      img && $(`#${d.watchedId} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.watchedId} .fanart img`).css('opacity', '0')
     })
 
     return item
@@ -321,10 +321,10 @@ const Items = {
         const d = new Date(movie.watched_at)
         return d.toLocaleDateString() + ' ' + Misc.pad(d.getHours()) + ':' + Misc.pad(d.getMinutes())
       })(),
-      watched_id: movie.id
+      watchedId: movie.id
     }
 
-    const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg} ${d.id}" id="${d.watched_id}">` +
+    const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg} ${d.id}" id="${d.watchedId}">` +
                 `<span class="data">${d.data}</span>` +
                 '<div class="fanart">' +
                     '<div class="corner-rating"><span></span></div>' +
@@ -332,10 +332,10 @@ const Items = {
                 '</div>' +
                 '<div class="quick-icons">' +
                     '<div class="actions">' +
-                        `<div class="watched trakt-icon-check-thick tooltipped i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched('${d.watched_id}', '${d.id}')"></div>` +
+                        `<div class="watched trakt-icon-check-thick tooltipped i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched('${d.watchedId}', '${d.id}')"></div>` +
                     '</div>' +
                     '<div class="metadata">' +
-                        `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.watched_id}')">` +
+                        `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.watchedId}')">` +
                             '<div class="fa fa-heart"></div>' +
                             `${d.rating}&nbsp;%` +
                         '</div>' +
@@ -350,7 +350,7 @@ const Items = {
             '</div>'
 
     Items.getImage(d.image, movie.movie.ids, 'movie', 'poster').then(img => {
-      img && $(`#${d.watched_id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.watched_id} .fanart img`).css('opacity', '0')
+      img && $(`#${d.watchedId} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.watchedId} .fanart img`).css('opacity', '0')
     })
 
     return item
@@ -462,7 +462,7 @@ const Items = {
       show.show.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).click())
       labels['Add to watchlist'] = () => $(`#${d.id} .watchlist`).click()
       labels.separator = true
-      show.show.source == 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.shows.hide({
+      show.show.source === 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.shows.hide({
         id: show.show.ids.slug
       }).then(() => DB.store(0, 'lastrecommendedsync')).then(() => $(`#${d.id}`).remove()))
       labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`)
@@ -544,7 +544,7 @@ const Items = {
       movie.movie.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).click())
       labels['Add to watchlist'] = () => $(`#${d.id} .watchlist`).click()
       labels.separator = true
-      movie.movie.source == 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.movies.hide({
+      movie.movie.source === 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.movies.hide({
         id: movie.movie.ids.slug
       }).then(() => DB.store(0, 'lastrecommendedsync')).then(() => $(`#${d.id}`).remove()))
       labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`)
@@ -583,13 +583,13 @@ const Items = {
     WB.markAsWatched(data)
   },
 
-  markAsUnWatched: (watched_id, id) => {
-    $(`#${watched_id} .watched`).removeClass('selected')
+  markAsUnWatched: (watchedId, id) => {
+    $(`#${watchedId} .watched`).removeClass('selected')
     Trakt.client.sync.history.remove({
-      ids: [watched_id]
+      ids: [watchedId]
     }).finally(() => {
       Trakt.reload()
-      $(`#${watched_id}`).remove()
+      $(`#${watchedId}`).remove()
     })
     WB.markAsUnwatched(id)
   },
@@ -605,7 +605,7 @@ const Items = {
 
       $(`#${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show()
       $(`.${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show()
-      if ($('#details .id').text() == item[item.type].ids.slug) $('#details .corner-rating span').text(item.rating).parent().show()
+      if ($('#details .id').text() === item[item.type].ids.slug) $('#details .corner-rating span').text(item.rating).parent().show()
     }
   },
 
@@ -623,7 +623,7 @@ const Items = {
       for (let i = 10; i > 0; i--) {
         const id = 'rating-' + i + '-' + Date.now()
 
-        content += `<input id="${id}" type="radio" class="rating-${i}" name="rating" value="${i}" ${isRated == i ? 'checked=1' : ''}/>` +
+        content += `<input id="${id}" type="radio" class="rating-${i}" name="rating" value="${i}" ${isRated === i.toString() ? 'checked=1' : ''}/>` +
                     `<label for="${id}" title="" class="rating-${i}">${i}</label>`
       }
 
@@ -638,7 +638,7 @@ const Items = {
           $('.popover').find('label').off('mouseover').on('mouseover', function () {
             const t = $('#' + $(this).attr('for'))
             const e = t.val()
-            $('.popover-title').html(isRated == e ? i18n.__('Unrate this') : `<b>${e}</b> &mdash; ${i18n.__(ratings[e - 1])}`)
+            $('.popover-title').html(isRated === e ? i18n.__('Unrate this') : `<b>${e}</b> &mdash; ${i18n.__(ratings[e - 1])}`)
           }).off('mouseleave').on('mouseleave', () => {
             $('.popover-title').text($this.data('original-title'))
           }).off('click').on('click', function (e) {
@@ -648,7 +648,7 @@ const Items = {
             const score = t.val()
 
             const item = JSON.parse($(`#${slug}`).find('.data').text())
-            if (isRated == score) {
+            if (isRated === score) {
               Trakt.rate('remove', item)
             } else {
               Trakt.rate('add', item, score)

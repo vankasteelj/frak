@@ -75,7 +75,7 @@ const Streamer = {
 
       // check if it's a video file
       const ext = path.extname(file.name).toLowerCase()
-      if (Settings.supportedVideoFiles.indexOf(ext) != -1) {
+      if (Settings.supportedVideoFiles.indexOf(ext) !== -1) {
         file.index = i
         availableFiles.push(file)
       }
@@ -133,11 +133,11 @@ const Streamer = {
     let percent = (100 / Streamer.streaminfo.file_size) * downloaded
     if (percent >= 99.99) percent = 100
 
-    let time_left = Math.round((Streamer.streaminfo.file_size - downloaded) / torrent.downloadSpeed)
-    if (isNaN(time_left) || time_left < 0) {
-      time_left = 0
-    } else if (!isFinite(time_left)) {
-      time_left = undefined
+    let timeLeft = Math.round((Streamer.streaminfo.file_size - downloaded) / torrent.downloadSpeed)
+    if (isNaN(timeLeft) || timeLeft < 0) {
+      timeLeft = 0
+    } else if (!isFinite(timeLeft)) {
+      timeLeft = undefined
     }
 
     Streamer.streaminfo.stats = {
@@ -145,7 +145,7 @@ const Streamer = {
       download_speed: torrent.downloadSpeed,
       upload_speed: torrent.uploadSpeed,
       downloaded_bytes: downloaded,
-      remaining_time: time_left,
+      remaining_time: timeLeft,
       downloaded_percent: percent
     }
   }

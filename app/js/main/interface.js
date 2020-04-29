@@ -415,13 +415,13 @@ const Interface = {
       frame: false,
       show_in_taskbar: false,
       transparent: true
-    }, function (new_win) {
-      // new_win.showDevTools();
+    }, function (newWin) {
+      // newWin.showDevTools();
       console.debug('Player popup spawned')
 
       nw.global.playerAPI = Player
 
-      nw.global.playerPopup = new_win
+      nw.global.playerPopup = newWin
       nw.global.playerPopup.blur()
       nw.global.playerPopup.x = screen.availWidth - 360
       nw.global.playerPopup.y = 0

@@ -15,7 +15,7 @@ const Player = {
       return
     }
 
-    Player.mpv.isRunning() && Player.quit() || Player.handleEvents();
+    Player.mpv.isRunning() ? Player.quit() : Player.handleEvents();
 
     // player popup
     (DB.get('bigPicture') || DB.get('playerPopup')) && Interface.playerPopup()
@@ -157,7 +157,7 @@ const Player = {
     }
 
     // is it a portable win32?
-    if (process.platform == 'win32' && fs.existsSync('./mpv/mpv.exe')) {
+    if (process.platform === 'win32' && fs.existsSync('./mpv/mpv.exe')) {
       DB.store('./mpv/mpv.exe', 'mpv')
       Player.setMPV('./mpv/mpv.exe')
       return

@@ -38,9 +38,9 @@ const Local = {
       file.path = file.path.replace(/\\/g, '/') // unix-like
 
       if (file.metadata && file.metadata.type) {
-        if (file.metadata.type == 'movie') {
+        if (file.metadata.type === 'movie') {
           library.movies.push(file)
-        } else if (file.metadata.type == 'episode' && file.metadata.show) {
+        } else if (file.metadata.type === 'episode' && file.metadata.show) {
           const s = file.metadata.episode.season
           const e = file.metadata.episode.number
 
@@ -103,7 +103,7 @@ const Local = {
 
     // remove untracked files
     const library = DB.get('local_library') || []
-    const newLibrary = Array()
+    const newLibrary = []
     for (const file of library) {
       if (!file.path.startsWith(p)) newLibrary.push(file)
     }

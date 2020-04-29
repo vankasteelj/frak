@@ -420,6 +420,11 @@ const sd = (fix) => {
         'nw',
         'os',
         'zlib',
+        'atob',
+        'sessionStorage',
+        'localStorage',
+        'i18n',
+        'got',
 
         // JS files
         'Boot',
@@ -455,11 +460,10 @@ const sd = (fix) => {
         'PKJSON',
         'escape',
         'chrome',
-
-        // Modules
-        'i18n',
-        'got',
-        '$'
+        '$',
+        'event',
+        'Image',
+        'screen'
       ]
     }, (error, res) => {
       if (error) return reject(error)
@@ -470,17 +474,25 @@ const sd = (fix) => {
 
 gulp.task('standard', () => {
   return sd().then(res => {
-    console.log('Standard finished: %d warning(s), %d error(s)', res.warningCount, res.errorCount)
-    console.log('/!\\ %d warning(s) and %d error(s) can be fixed with `gulp standard:fix`\n', res.fixableWarningCount, res.fixableErrorCount)
+    let skipErrors = 0
+    let countError = 0
 
     for (const i in res.results) {
       const r = res.results[i]
       for (const j in r.messages) {
         const e = r.messages[j]
-        if (e.message.match(/is assigned a value/)) continue
-        console.log('%s:line %s:%s - %s', r.filePath, e.line, e.column, e.message)
+        if (e.message.match(/is assigned a value/)) {
+          skipErrors++
+          continue
+        }
+        if (!countError) console.log('Standard: Use JavaScript Standard Style (https://standardjs.com)\n')
+        countError++
+        console.log('%s:%s:%s: %s', r.filePath, e.line, e.column, e.message)
       }
     }
+
+    console.log('\nStandard finished: %d warning(s), %d error(s)', res.warningCount, (res.errorCount - skipErrors))
+    console.log('=> %d warning(s) and %d error(s) can be fixed with `gulp standard:fix`', res.fixableWarningCount, res.fixableErrorCount)
   })
 })
 gulp.task('standard:fix', () => {

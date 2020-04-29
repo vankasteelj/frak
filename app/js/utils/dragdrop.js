@@ -28,14 +28,16 @@ const Dragdrop = {
 
     window.ondragenter = (e) => {
       // details
-      if ($('#details').css('display') != 'none' && !Streamer.client) {
+      if ($('#details').css('display') !== 'none' && !Streamer.client) {
         let showDrag = true
         let timeout = -1
         $(document).on('dragenter', (e) => {
           $('#details-sources .drop-area').show()
           $('#details-sources .sources').addClass('blur')
         })
-        $(document).on('dragover', (e) => showDrag = true)
+        $(document).on('dragover', (e) => {
+          showDrag = true
+        })
         $(document).on('dragleave', (e) => {
           showDrag = false
           clearTimeout(timeout)
@@ -63,7 +65,7 @@ const Dragdrop = {
         const ext = path.extname(file.name).toLowerCase()
         if (ext === '.torrent') { // a torrent
           return Dragdrop.handle(file.path, 'torrent')
-        } else if (Settings.supportedVideoFiles.indexOf(ext) != -1) { // a video file
+        } else if (Settings.supportedVideoFiles.indexOf(ext) !== -1) { // a video file
           return Dragdrop.handle(file.path, 'video')
         }
       } else { // we have a link

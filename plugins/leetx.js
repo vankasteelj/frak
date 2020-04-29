@@ -59,7 +59,10 @@ const get = (keywords, cfg = {}) => {
     })).then(() => {
       return list
     })
-  }).catch((err) => [])
+  }).catch((err) => {
+    console.error(err)
+    return []
+  })
 }
 
 module.exports = {

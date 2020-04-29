@@ -25,7 +25,7 @@ const get = (keywords, cfg = {}) => {
       throw new Error('Error at loading TPB')
     }
 
-    const torrents = Array()
+    const torrents = []
 
     $('table[id="searchResult"] tr').each((index, el) => {
       const torrent = {
@@ -51,7 +51,10 @@ const get = (keywords, cfg = {}) => {
     })
 
     return torrents
-  }).catch((err) => [])
+  }).catch((err) => {
+    console.error(err)
+    return []
+  })
 }
 
 module.exports = {

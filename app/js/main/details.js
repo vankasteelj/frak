@@ -11,7 +11,7 @@ const Details = {
 
   getData: (elm) => {
     // extract json from data div
-    const id = $(elm).context.offsetParent && $(elm).context.offsetParent.id || $(elm).context.id
+    const id = ($(elm).context.offsetParent && $(elm).context.offsetParent.id) || $(elm).context.id
     const data = JSON.parse($(`#${id}`).find('.data').text())
 
     return data
@@ -23,7 +23,7 @@ const Details = {
     Items.getImage(url).then(img => {
       if (!img) return
 
-      if (type == 'poster') {
+      if (type === 'poster') {
         $('#details .poster').css('background-image', `url('${img}')`)
       } else {
         $('#details .background').css('background-image', `url('${img}')`).css('opacity', 0.7)
@@ -77,16 +77,16 @@ const Details = {
       $('#details-metadata .title').css('font-size', `${d.title.length > 50 ? 40 : 35}px`)
     }
 
-    d['ep-title'] && $('#details-metadata .ep-title').show().text(d['ep-title']) || $('#details-metadata .ep-title').hide()
-    d.trailer && $('#details-metadata .trailer').attr('onClick', `Interface.playTrailer('${d.trailer}')`) || $('#details-metadata .trailer').hide()
-    $('#details-metadata .synopsis').text(d.synopsis == 'No overview found.' ? i18n.__('No synopsis available') : d.synopsis || i18n.__('No synopsis available'))
+    d['ep-title'] ? $('#details-metadata .ep-title').show().text(d['ep-title']) : $('#details-metadata .ep-title').hide()
+    d.trailer ? $('#details-metadata .trailer').attr('onClick', `Interface.playTrailer('${d.trailer}')`) : $('#details-metadata .trailer').hide()
+    $('#details-metadata .synopsis').text(d.synopsis === 'No overview found.' ? i18n.__('No synopsis available') : (d.synopsis || i18n.__('No synopsis available')))
 
-    d.year && $('#details-metadata .year').text(d.year).show() || $('#details-metadata .year').hide()
-    d.runtime && $('#details-metadata .runtime').text(`${d.runtime} ${i18n.__('min')}`).show() || $('#details-metadata .runtime').hide()
+    d.year ? $('#details-metadata .year').text(d.year).show() : $('#details-metadata .year').hide()
+    d.runtime ? $('#details-metadata .runtime').text(`${d.runtime} ${i18n.__('min')}`).show() : $('#details-metadata .runtime').hide()
     $('#details-metadata .rating').text(`${d.rating || 0} / 10`).show()
 
     if (d.genres) {
-      const genre = Array()
+      const genre = []
       for (const g of d.genres) {
         genre.push(i18n.__(Misc.capitalize(g)))
       }
@@ -96,12 +96,12 @@ const Details = {
     }
 
     // rate
-    const traktrating = DB.get('traktratings').find((i) => i[i.type].ids.slug == d.ids.slug)
+    const traktrating = DB.get('traktratings').find((i) => i[i.type].ids.slug === d.ids.slug)
     traktrating && $('#details .corner-rating span').text(traktrating.rating).parent().show()
     $('#details-metadata .rating').attr('onClick', `Details.rate('${d.ids.slug}')`).css('cursor', 'pointer')
 
     // search online
-    const type = d.data.show && 'show' || d.data.movie && 'movie'
+    const type = (d.data.show && 'show') || (d.data.movie && 'movie')
     if (Object.keys(Plugins.loaded).length && type) {
       let keywords = d.data[type].title
 
@@ -358,9 +358,9 @@ const Details = {
   },
 
   loadNext: (fromDetails) => {
-    const $next_episode = $(`#collection #${Details.model.show.ids.slug}`)
+    const $nextEpisode = $(`#collection #${Details.model.show.ids.slug}`)
 
-    if (!$next_episode.length) {
+    if (!$nextEpisode.length) {
       if (fromDetails) {
         setTimeout(() => {
           $('#details-sources').show()
@@ -373,7 +373,7 @@ const Details = {
       return
     }
 
-    const data = JSON.parse($next_episode.find('.data').text())
+    const data = JSON.parse($nextEpisode.find('.data').text())
     console.info('Next episode is ready', data)
 
     $('#details-sources').hide()
@@ -385,7 +385,7 @@ const Details = {
 
     $('#playnext').on('click', () => {
       Details.closeDetails()
-      $next_episode.find('.play').click()
+      $nextEpisode.find('.play').click()
     })
   },
 
@@ -407,9 +407,9 @@ const Details = {
     const next = findNext(s, e + 1) || findNext(s, e + 2) || findNext(s + 1, 1)
 
     if (next) {
-      const $next_episode = $(`#locals #${Misc.slugify(next)}`)
+      const $nextEpisode = $(`#locals #${Misc.slugify(next)}`)
 
-      if (!$next_episode.length) {
+      if (!$nextEpisode.length) {
         if (fromDetails) {
           setTimeout(() => {
             $('#details-sources').show()
@@ -422,7 +422,7 @@ const Details = {
         return
       }
 
-      const data = JSON.parse($next_episode.find('.data').text())
+      const data = JSON.parse($nextEpisode.find('.data').text())
       console.info('Next episode is ready', data)
 
       $('#details-next .content .next-title span').text(`S${Misc.pad(data.metadata.episode.season)}E${Misc.pad(data.metadata.episode.number)}` + (data.metadata.episode.title ? ` - ${data.metadata.episode.title}` : ''))
@@ -435,7 +435,7 @@ const Details = {
 
       $('#playnext').on('click', () => {
         Details.closeDetails()
-        $next_episode.click()
+        $nextEpisode.click()
       })
     }
   },
@@ -454,7 +454,7 @@ const Details = {
       for (let i = 10; i > 0; i--) {
         const id = 'rating-' + i + '-' + Date.now()
 
-        content += `<input id="${id}" type="radio" class="rating-${i}" name="rating" value="${i}" ${isRated == i ? 'checked=1' : ''}/>` +
+        content += `<input id="${id}" type="radio" class="rating-${i}" name="rating" value="${i}" ${isRated === i.toString() ? 'checked=1' : ''}/>` +
                     `<label for="${id}" title="" class="rating-${i}">${i}</label>`
       }
 
@@ -469,7 +469,7 @@ const Details = {
           $('.popover').find('label').off('mouseover').on('mouseover', function () {
             const t = $('#' + $(this).attr('for'))
             const e = t.val()
-            $('.popover-title').html(isRated == e ? i18n.__('Unrate this') : `<b>${e}</b> &mdash; ${i18n.__(ratings[e - 1])}`)
+            $('.popover-title').html(isRated === e ? i18n.__('Unrate this') : `<b>${e}</b> &mdash; ${i18n.__(ratings[e - 1])}`)
           }).off('mouseleave').on('mouseleave', () => {
             $('.popover-title').text($this.data('original-title'))
           }).off('click').on('click', function (e) {
@@ -478,9 +478,9 @@ const Details = {
             const t = $('#' + $(this).attr('for'))
             const score = t.val()
 
-            const item = Details.from == 'locals' ? Details.model.metadata : JSON.parse($(`#${slug}`).find('.data').text())
+            const item = Details.from === 'locals' ? Details.model.metadata : JSON.parse($(`#${slug}`).find('.data').text())
 
-            if (isRated == score) {
+            if (isRated === score) {
               Trakt.rate('remove', item)
             } else {
               Trakt.rate('add', item, score)

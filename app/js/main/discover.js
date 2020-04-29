@@ -38,10 +38,10 @@ const Discover = {
     })
   },
   formatSearch: (items) => {
-    let collection = Array()
+    let collection = []
 
     return Promise.all(items.map((item, index) => {
-      const type = item.type == 'movie' ? 'movie' : 'show'
+      const type = item.type === 'movie' ? 'movie' : 'show'
 
       return Images.get[type]({
         imdb: item[type].ids.imdb,
@@ -331,7 +331,7 @@ const Discover = {
 
   format: {
     traktmovies: (movies) => {
-      let collection = Array()
+      let collection = []
       let index = 0
 
       return Promise.all(movies.map((movie) => {
@@ -361,7 +361,7 @@ const Discover = {
       }).catch(console.error)
     },
     traktshows: (shows) => {
-      let collection = Array()
+      let collection = []
       let index = 0
 
       return Promise.all(shows.map((item) => {
@@ -393,7 +393,7 @@ const Discover = {
   },
   getData: (elm) => {
     // extract json from data div
-    const id = $(elm).context.offsetParent && $(elm).context.offsetParent.id || $(elm).context.id
+    const id = ($(elm).context.offsetParent && $(elm).context.offsetParent.id) || $(elm).context.id
     const data = JSON.parse($(`#${id}`).find('.data').text())
 
     return data

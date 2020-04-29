@@ -183,7 +183,7 @@ const Boot = {
     }
 
     // is mpv shipped?
-    if (process.platform == 'win32' && fs.existsSync('./mpv/mpv.exe')) {
+    if (process.platform === 'win32' && fs.existsSync('./mpv/mpv.exe')) {
       $('#mpvexec').hide()
     }
 
@@ -242,34 +242,34 @@ const Boot = {
     }
 
     // default player options
-    let player_options = DB.get('player_options')
+    let playerOptions = DB.get('player_options')
     const _poptions = Settings.player
-    player_options = Object.assign(_poptions, player_options)
-    DB.store(player_options, 'player_options')
+    playerOptions = Object.assign(_poptions, playerOptions)
+    DB.store(playerOptions, 'player_options')
 
     // setup player options
-    for (const o in player_options) {
+    for (const o in playerOptions) {
       const c = o.match('centered|fullscreen|sub_auto|multimonitor') ? 'checked' : 'value'
-      document.querySelector(`#${o}`)[c] = player_options[o]
+      document.querySelector(`#${o}`)[c] = playerOptions[o]
 
-      if (o.match('multimonitor') && player_options[o]) {
+      if (o.match('multimonitor') && playerOptions[o]) {
         $('#mpvmonitoroption').show()
       }
     }
 
     // default streamer options
-    let streamer_options = DB.get('streamer_options')
+    let streamerOptions = DB.get('streamer_options')
     const _soptions = Settings.streamer
-    streamer_options = Object.assign(_soptions, streamer_options)
-    DB.store(streamer_options, 'streamer_options')
+    streamerOptions = Object.assign(_soptions, streamerOptions)
+    DB.store(streamerOptions, 'streamer_options')
 
     // setup streamer options
-    for (const o in streamer_options) {
+    for (const o in streamerOptions) {
       const c = o.match('webSeeds') ? 'checked' : 'value'
-      document.querySelector(`#${o}`)[c] = streamer_options[o]
+      document.querySelector(`#${o}`)[c] = streamerOptions[o]
 
-      if (o == 'announce') {
-        document.querySelector(`#${o}`)[c] = streamer_options[o].join(',\n')
+      if (o === 'announce') {
+        document.querySelector(`#${o}`)[c] = streamerOptions[o].join(',\n')
       }
     }
 
@@ -357,17 +357,17 @@ const Boot = {
       Interface.switchCollectionSize(isSmall)
     }, false)
 
-    const player_options = DB.get('player_options')
-    for (const o in player_options) {
+    const playerOptions = DB.get('player_options')
+    for (const o in playerOptions) {
       const c = o.match('centered|fullscreen|sub_auto|multimonitor') ? 'checked' : 'value'
 
       document.querySelector(`#${o}`).addEventListener('change', (evt) => {
-        player_options[o] = document.querySelector(`#${o}`)[c]
-        console.log('Player setting `%s` changed to:', o, player_options[o])
-        DB.store(player_options, 'player_options')
+        playerOptions[o] = document.querySelector(`#${o}`)[c]
+        console.log('Player setting `%s` changed to:', o, playerOptions[o])
+        DB.store(playerOptions, 'player_options')
 
         if (o.match('multimonitor')) {
-          if (player_options[o]) {
+          if (playerOptions[o]) {
             $('#mpvmonitoroption').show()
           } else {
             $('#mpvmonitoroption').hide()
@@ -377,18 +377,18 @@ const Boot = {
       })
     }
 
-    const streamer_options = DB.get('streamer_options')
-    for (const o in streamer_options) {
+    const streamerOptions = DB.get('streamer_options')
+    for (const o in streamerOptions) {
       const c = o.match('webSeeds') ? 'checked' : 'value'
 
       document.querySelector(`#${o}`).addEventListener('change', (evt) => {
-        streamer_options[o] = document.querySelector(`#${o}`)[c]
+        streamerOptions[o] = document.querySelector(`#${o}`)[c]
 
-        if (o == 'announce') {
-          streamer_options[o] = document.querySelector(`#${o}`)[c].replace(/\s/gm, '').split(',')
+        if (o === 'announce') {
+          streamerOptions[o] = document.querySelector(`#${o}`)[c].replace(/\s/gm, '').split(',')
         }
-        console.log('Streamer setting `%s` changed to:', o, streamer_options[o])
-        DB.store(streamer_options, 'streamer_options')
+        console.log('Streamer setting `%s` changed to:', o, streamerOptions[o])
+        DB.store(streamerOptions, 'streamer_options')
       })
     }
 
