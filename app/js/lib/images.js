@@ -46,4 +46,4 @@ const Images = {
 
         return link;
     }
-}
+};

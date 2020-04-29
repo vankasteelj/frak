@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Search = {
     query: () => {
@@ -18,7 +18,7 @@ const Search = {
 
             $('#details-sources .query .search').addClass('fa-search').removeClass('fa-spin fa-circle-o-notch');
         }).catch(err => {
-            $('#details-sources .query .search').addClass('fa-search').removeClass('fa-spin fa-circle-o-notch')
+            $('#details-sources .query .search').addClass('fa-search').removeClass('fa-spin fa-circle-o-notch');
             console.error('Search.query', err);
         });
     },
@@ -36,7 +36,7 @@ const Search = {
                     return Promise.resolve([]);
                 });
             } catch (e) {
-                return Promise.resolve([])
+                return Promise.resolve([]);
             }
         })).then(r => {
             let results = [].concat.apply([], r); //flatten array
@@ -101,7 +101,7 @@ const Search = {
                     Search.recalcSize(i).then(resize => {
                         resize && collection.push(resize);
                         resolve();
-                    })
+                    });
                 } else {
                     collection.push(i);
                     resolve();
@@ -163,10 +163,10 @@ const Search = {
                 out.push(outDupNames[i].reduce(findMax));
             }
             for (let i in outDupBtih) {
-                out.push(outDupBtih[i].reduce(findMax))
+                out.push(outDupBtih[i].reduce(findMax));
             }
             for (let i in outDupSizes) {
-                out.push(outDupSizes[i].reduce(findMax))
+                out.push(outDupSizes[i].reduce(findMax));
             }
 
             // sort by score (and then seeds, and then ratio)
@@ -196,7 +196,7 @@ const Search = {
         $(`#local-file .fa-hdd-o`).off('contextmenu').on('contextmenu', (e) => {
             gui.Shell.showItemInFolder(path.normalize(data.path));
             Notify.snack(i18n.__('Opening the file location'));
-        })
+        });
     },
     addRemote: (results = []) => {
         $('#details-sources .sources .item.remote').remove();
@@ -220,7 +220,7 @@ const Search = {
                 let clipboard = nw.Clipboard.get();
                 clipboard.set(data.magnet, 'text');
                 Notify.snack(i18n.__('Magnet link was copied to the clipboard'));
-            })
+            });
         }
     },
 
@@ -273,7 +273,7 @@ const Search = {
             }, 3500);
 
             wtorrent.add(data.magnet, (t) => {
-                data.size = t.length
+                data.size = t.length;
 
                 wtorrent.destroy();
                 done = true;
@@ -281,4 +281,4 @@ const Search = {
             });
         });
     }
-}
+};

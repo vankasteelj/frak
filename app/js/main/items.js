@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Items = {
     getImage: (url, ids, type, route) => {
@@ -48,7 +48,7 @@ const Items = {
                 md: 6,
                 lg: 4
             }
-        }
+        };
 
         let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
                 `<span class="data">${d.data}</span>` +
@@ -117,7 +117,7 @@ const Items = {
                 md: 6,
                 lg: 4
             }
-        }
+        };
 
         let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
                 `<span class="data">${d.data}</span>` +
@@ -182,7 +182,7 @@ const Items = {
         let d = {
             id: Misc.slugify(movie.path),
             data: JSON.stringify(movie)
-        }
+        };
 
         let item = `<div class="local-item local-context tooltipped" onClick="Details.local.movie(this)" id="${d.id}" title="${movie.filename + ' - ' + Misc.fileSize(movie.size)}">` +
                 `<span class="data">${d.data}</span>` +
@@ -196,7 +196,7 @@ const Items = {
         let d = {
             id: Misc.slugify(file.path),
             data: JSON.stringify(file)
-        }
+        };
 
         let item = `<div class="local-item local-context tooltipped" onClick="Details.local.unmatched(this)" id="${d.id}" title="${file.filename + ' - ' + Misc.fileSize(file.size)}">` +
                 `<span class="data">${d.data}</span>` +
@@ -267,7 +267,7 @@ const Items = {
                 return d.toLocaleDateString() + ' ' + Misc.pad(d.getHours()) + ':' + Misc.pad(d.getMinutes());
             })(),
             watched_id: show.id
-        }
+        };
 
         let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg} ${d.id}" id="${d.watched_id}">` +
                 `<span class="data">${d.data}</span>` +
@@ -322,7 +322,7 @@ const Items = {
                 return d.toLocaleDateString() + ' ' + Misc.pad(d.getHours()) + ':' + Misc.pad(d.getMinutes());
             })(),
             watched_id: movie.id
-        }
+        };
 
         let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg} ${d.id}" id="${d.watched_id}">` +
                 `<span class="data">${d.data}</span>` +
@@ -366,7 +366,7 @@ const Items = {
                 md: 3,
                 lg: 2
             }
-        }
+        };
 
         let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="showMore">` +
                 `<div class="showMore_button" onClick="Collection.get.historyMore()">` +
@@ -387,7 +387,7 @@ const Items = {
         show.next_episode = {
             number: 1,
             season: 1
-        }
+        };
 
         let d = {
             image: Images.reduce(IB.get(show.show.ids).fanart) || IB.get(show.show.ids).poster,
@@ -419,7 +419,7 @@ const Items = {
                 let ws = WB.find.show(show.show.ids.slug);
                 return ws && ws.plays >= ws.show.aired_episodes;
             })()
-        }
+        };
 
         let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
                 `<span class="data">${d.data}</span>` +
@@ -499,7 +499,7 @@ const Items = {
             },
             watchlisted: DB.get('traktmoviescollection').find(o => o.movie.ids.slug === movie.movie.ids.slug),
             watched: WB.find.movie(movie.movie.ids.slug)
-        }
+        };
 
         let item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
                 `<span class="data">${d.data}</span>` +
@@ -620,7 +620,7 @@ const Items = {
                 let id = 'rating-' + i + '-' + Date.now();
 
                 content += `<input id="${id}" type="radio" class="rating-${i}" name="rating" value="${i}" ${isRated == i ? 'checked=1' : ''}/>` +
-                    `<label for="${id}" title="" class="rating-${i}">${i}</label>`
+                    `<label for="${id}" title="" class="rating-${i}">${i}</label>`;
             }
 
             $this.popover({
@@ -652,7 +652,7 @@ const Items = {
 
                         $this.removeAttr('initialized');
                         $this.popover('destroy');
-                    })
+                    });
                 }, 0);
             });
 
@@ -665,4 +665,4 @@ const Items = {
     constructMessage: (text) => {
         return `<p class="rowMessage">${i18n.__(text)}</p>`;
     }
-}
+};

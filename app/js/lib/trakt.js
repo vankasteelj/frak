@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Trakt = {
     client: new(require('trakt.tv'))({
@@ -145,12 +145,12 @@ const Trakt = {
                     rated_at: (new Date()).toISOString(),
                     rating: score,
                     type: type
-                }
+                };
                 pushable[type] = {
                     ids: model.ids,
                     title: model.title,
                     year: model.year
-                }
+                };
                 ratings.push(pushable);
             }
 
@@ -184,7 +184,7 @@ const Trakt = {
             DB.store(cached.sync, 'traktsync');
             DB.store(cached.syncrating, 'traktsyncrating');
             DB.store(cached.ratings, 'traktratings');
-        }
+        };
 
         switch (type) {
             case 'episode':
@@ -306,4 +306,4 @@ const Trakt = {
             }
         }
     }
-}
+};

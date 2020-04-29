@@ -386,7 +386,7 @@ gulp.task('mpv', () => {
                 stream.on('finish', resolve);
             });
         }).then(() => {
-            console.log('all done.')
+            console.log('all done.');
         });
     }));
 });

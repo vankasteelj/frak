@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Discover = {
     // trakt search for items
@@ -416,4 +416,4 @@ const Discover = {
             Trakt.reload(false, type);
         });
     }
-}
+};

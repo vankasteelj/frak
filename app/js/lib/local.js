@@ -1,11 +1,11 @@
-'use strict'
+'use strict';
 
 const Local = {
     scans: 0,
     client: new(require('local-video-library'))(Settings.apikeys.trakt_id, [process.env.HOME || path.join(process.env.HOMEDRIVE, process.env.HOMEPATH)]),
 
     scan: () => {
-        console.info('Scanning local drive')
+        console.info('Scanning local drive');
         return Local.client.scan();
     },
 
@@ -121,8 +121,8 @@ const Local = {
         Local.setupPaths();
 
         setTimeout(() => {
-            $('#navbar .locals .fa-spin').css('opacity', 1)
-            Collection.get.local()
+            $('#navbar .locals .fa-spin').css('opacity', 1);
+            Collection.get.local();
         }, 300);
     },
     rescan: () => {
@@ -136,4 +136,4 @@ const Local = {
 
         Collection.get.local();
     }
-}
+};

@@ -149,4 +149,4 @@ const Streamer = {
             downloaded_percent: percent
         };
     }
-}
+};

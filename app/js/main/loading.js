@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Loading = {
     local: (file) => {
@@ -150,4 +150,4 @@ const Loading = {
         $('#details-sources').show();
         $('#details-loading').hide();
     }
-}
+};

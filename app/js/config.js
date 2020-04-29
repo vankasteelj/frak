@@ -66,4 +66,4 @@ const Settings = {
         ]
     },
     supportedVideoFiles: ['.mkv','.avi','.mp4','.m4v','.mts','.m2ts', '.ts']
-}
+};

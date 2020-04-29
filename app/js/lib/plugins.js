@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Plugins = {
     loaded: {},
@@ -79,4 +79,4 @@ const Plugins = {
             $(`#${id}`).click();
         }
     }
-}
+};

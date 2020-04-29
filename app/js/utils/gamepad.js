@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Gamepad = {
     API: {
@@ -107,4 +107,4 @@ const Gamepad = {
         if (Gamepad.API.buttonPressed('Axis-L')) console.log('Pressed Axis-L');
         if (Gamepad.API.buttonPressed('Axis-R')) console.log('Pressed Axis-R');
     }
-}
+};

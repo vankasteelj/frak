@@ -37,7 +37,7 @@ const Interface = {
                 $('#welcomeprofile .welcomemessage').text(i18n.__('Welcome'));
                 $('#welcomeprofile img').attr('src', profile.images.avatar.full);
                 $('#welcomeprofile .username').text(profile.username);
-            })
+            });
         }
         $('#welcomeprofile').show();
         $('#traktwelcome .spinner').show();
@@ -193,13 +193,12 @@ const Interface = {
             for (let i in moviegenres) {
                 movielabels['submenu2'].labels[moviegenres[i].name] = () => Collection.show.movies(Collection.sort.movies.genre(moviegenres[i].slug));
             }
-            throw new Error()
         }).finally(() => {
             // menu popup
             let moviemenu = Misc.customContextMenu(movielabels);
             $('.nav.movies').off('contextmenu').on('contextmenu', (e) => {
                 Interface.showMovies(); 
-                moviemenu.popup(e.clientX, e.clientY)
+                moviemenu.popup(e.clientX, e.clientY);
             });
         });
 
@@ -230,13 +229,12 @@ const Interface = {
             for (let i in showgenres) {
                 showlabels['submenu2'].labels[showgenres[i].name] = () => Collection.show.shows(Collection.sort.shows.genre(showgenres[i].slug));
             }
-            throw new Error()
         }).finally(() => {
             // menu popup
             let showmenu = Misc.customContextMenu(showlabels);
             $('.nav.shows').off('contextmenu').on('contextmenu', (e) => {
                 Interface.showShows(); 
-                showmenu.popup(e.clientX, e.clientY)
+                showmenu.popup(e.clientX, e.clientY);
             });
         });
     },
@@ -330,7 +328,7 @@ const Interface = {
                 md: 6,
                 lg: 4
             }
-        }
+        };
 
         $(`.col-sm-${size.from.sm}`).addClass(`col-sm-${size.to.sm}`).removeClass(`col-sm-${size.from.sm}`);
         $(`.col-md-${size.from.md}`).addClass(`col-md-${size.to.md}`).removeClass(`col-md-${size.from.md}`);

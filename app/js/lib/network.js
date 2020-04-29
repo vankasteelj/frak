@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Network = {
     port: 3250,
@@ -269,11 +269,11 @@ const Network = {
                 let selectSubtitle = () => {
                     Player.mpv.addSubtitles(subtitle, 'cached', data.subtitle.filename, data.subtitle.langcode);
                     console.info('Subtitle selected:', data.subtitle.langcode);
-                }
+                };
 
                 got.stream(data.subtitle.url).pipe(fs.createWriteStream(subtitle)).on('finish', selectSubtitle);
             }
-        }
+        };
 
         if (data.file) {
             Network.getFileFromPeer(data.file).then(url => {

@@ -1,3 +1,5 @@
+'use strict';
+
 const Boot = {
 
     // STARTUP: load app: ui,settings,features
@@ -18,7 +20,7 @@ const Boot = {
         Boot.setupVersion();                    // version number
         Boot.online();                          // check if online
         Dragdrop.setup();                       // allow drag&drop
-        Subtitles.opensubReLogin()              // opensubtitles login if needed
+        Subtitles.opensubReLogin();             // opensubtitles login if needed
         //Gamepad.init();                       // gamepad support
         Boot.idle();                            // periodically update
 

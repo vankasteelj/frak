@@ -188,7 +188,7 @@ const Misc = {
     sortAlphabetical: (obj) => {
         let alphabetical = (a, b) => {
             let c = (a.title && b.title) ? 'title' : 'filename';
-            if (a[c] < b[c]) return -1
+            if (a[c] < b[c]) return -1;
             if (a[c] > b[c]) return 1;
             return 0;
         };

@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Collection = {
     load: () => {
@@ -23,7 +23,7 @@ const Collection = {
                         Collection.hiddenItems.reset();
                         Trakt.getRatings();
                     });
-                })
+                });
             } else {
                 console.info('We got cached trakt data');
                 Collection.get.traktcached();
@@ -117,7 +117,7 @@ const Collection = {
                 } else {
                     Collection.format.locals(results);
                 }
-            }).then(Network.init).catch(console.error)
+            }).then(Network.init).catch(console.error);
         },
         history: () => {
             $('#navbar .history .fa-spin').css('opacity', 1);
@@ -131,7 +131,7 @@ const Collection = {
                 return Collection.format.trakthistory(results);
             }).then((collection) => {
                 return Collection.show.history(collection);
-            }).catch(console.error)
+            }).catch(console.error);
         },
         historyMore: () => {
             $('#history .showMore_button .fa').addClass('fa-spin fa-circle-o-notch');
@@ -146,7 +146,7 @@ const Collection = {
                 return Collection.format.trakthistory(results);
             }).then(collection => {
                 return Collection.show.history(collection, true);
-            }).catch(console.error)
+            }).catch(console.error);
         },
         traktwatched: () => {
             return Trakt.client.sync.watched({type: 'shows',extended: 'full,noseasons'})
@@ -527,4 +527,4 @@ const Collection = {
             }
         }
     }
-}
+};

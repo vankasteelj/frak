@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const DB = {
     store: (data, key) => {
@@ -14,7 +14,7 @@ const DB = {
         } catch (e) {}
 
         try {
-            data = JSON.parse(data)
+            data = JSON.parse(data);
         } catch (e) {}
 
         return data;
@@ -28,4 +28,4 @@ const DB = {
     remove: (key) => {
         localStorage.removeItem(key);
     }
-}
+};

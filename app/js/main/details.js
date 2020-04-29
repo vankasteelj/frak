@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Details = {
     default: undefined,
@@ -53,7 +53,7 @@ const Details = {
                 Details.previous = {
                     id: undefined,
                     html: undefined
-                }
+                };
             }
             $('#details').html(Details.default);
             Boot.setupRightClicks('#query');
@@ -212,14 +212,14 @@ const Details = {
             Details.previous = {
                 id: undefined,
                 html: undefined
-            }
+            };
             Boot.setupRightClicks('#query');
 
             Details.closeRemote().then(() => {
                 if (file.source) {
                     Network.getFileFromPeer(file).then(url => {
                         Player.play(url);
-                    })
+                    });
                 } else {
                     Player.play(file.path);
                 }
@@ -353,7 +353,7 @@ const Details = {
 
             setTimeout(() => {
                 resolve();
-            }, timeout)
+            }, timeout);
         });
     },
 
@@ -455,7 +455,7 @@ const Details = {
                 let id = 'rating-' + i + '-' + Date.now();
 
                 content += `<input id="${id}" type="radio" class="rating-${i}" name="rating" value="${i}" ${isRated == i ? 'checked=1' : ''}/>` +
-                    `<label for="${id}" title="" class="rating-${i}">${i}</label>`
+                    `<label for="${id}" title="" class="rating-${i}">${i}</label>`;
             }
 
             $this.popover({
@@ -488,7 +488,7 @@ const Details = {
 
                         $this.removeAttr('initialized');
                         $this.popover('destroy');
-                    })
+                    });
                 }, 0);
             });
 
@@ -650,4 +650,4 @@ const Details = {
         $('#details-sources').show();
         Streamer.stop();
     }
-}
+};

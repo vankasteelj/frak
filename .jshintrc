@@ -4,9 +4,11 @@
     "node": true,
     "jquery": true,
     "devel": true,
+    "esversion": 6,
 
     // Options
     "curly": true,
+    "strict": "global",
     "bitwise": false,
     "immed": true,
     "latedef": true,
@@ -26,10 +28,10 @@
     "loopfunc": true,
     "indent": 4,
     "newcap": false,
-    "esversion": 6,
     "-W138": true,
     "-W116": true,
-    "asi": true,
+    "-W097": true,
+    "asi": false,
 
     // Globals
     "globals": {

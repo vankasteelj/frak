@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Player = {
     config: {
@@ -59,7 +59,7 @@ const Player = {
         Details.previous = {
             id: undefined,
             html: undefined
-        }
+        };
     },
 
     handleEvents: () => {
@@ -225,7 +225,7 @@ const Player = {
         let delay = (d) => {
             Player.mpv.getProperty('sub-delay').then(current => {
                 current += d;
-                Player.notify(i18n.__('Subtitle delay: %dms', current*1000))
+                Player.notify(i18n.__('Subtitle delay: %dms', current*1000));
                 Player.mpv.setProperty('sub-delay', current);
             });
         };
@@ -244,4 +244,4 @@ const Player = {
         if (!message) return;
         Player.mpv.command("show-text",[message, "1200", "1"]);
     }
-}
+};

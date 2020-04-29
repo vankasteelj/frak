@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const IB = {
     dir: path.join(process.env.LOCALAPPDATA || (process.platform == 'darwin' ? process.env.HOME + 'Library/Preferences' : process.env.HOME + "/.cache"), PKJSON.name, 'ImagesBank'),
@@ -20,7 +20,7 @@ const IB = {
         return new Promise((resolve, reject) => {
             fs.readdir(IB.dir, (err, files) => {
                 let total = 0;
-                for (let i = 0; i < files.length; i++) total += fs.statSync(path.join(IB.dir, files[i])).size
+                for (let i = 0; i < files.length; i++) total += fs.statSync(path.join(IB.dir, files[i])).size;
                 resolve(parseInt(total / 1024 / 1024));
             });
         });
@@ -114,6 +114,6 @@ const IB = {
             extractFilename: false
         }).then(() => {
             IB.calcSize().then(s => $('#imagecachesize').text(s)).catch(console.log);
-        }).catch((err) => console.error(err))
+        }).catch((err) => console.error(err));
     }
-}
+};

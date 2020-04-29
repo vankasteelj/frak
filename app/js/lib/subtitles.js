@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Subtitles = {
     client: new(require('opensubtitles-api'))({
@@ -59,7 +59,7 @@ const Subtitles = {
             $(`#${id}`).addClass('active');
 
             console.info('Subtitle selected:', sub.langcode);
-        }
+        };
 
         if (fs.existsSync(subtitle)) {
             selectSubtitle();
@@ -105,7 +105,7 @@ const Subtitles = {
 
         if (!username || password === 'd41d8cd98f00b204e9800998ecf8427e') {
             console.error('You need a username & password to log in to Opensubtitles.org');
-            Notify.snack('You need a username & password to log in to Opensubtitles.org')
+            Notify.snack('You need a username & password to log in to Opensubtitles.org');
             return;
         }
 
@@ -153,4 +153,4 @@ const Subtitles = {
 
         Subtitles.opensubLogin(username, password);
     }
-}
+};

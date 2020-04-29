@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const WB = {
     store: {
@@ -76,4 +76,4 @@ const WB = {
         WB.store.movies(mdb);
         WB.store.shows(sdb);
     }
-}
+};
