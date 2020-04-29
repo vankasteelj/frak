@@ -1,77 +1,74 @@
 {
-    "name": "frak",
-    "releaseName": "Frak",
-    "description": "A frakingly good media center",
-    "license": "GPL-3.0",
-    "version": "1.4.3",
-    "homepage": "https://github.com/vankasteelj/frak",
-    "releases": "https://github.com/vankasteelj/frak/releases",
-    "portable": false,
-    "icon": "app/images/frak-logo.ico",
-    "macIcon": "app/images/frak-logo.icns",
-    "updateEndpoint": "https://raw.githubusercontent.com/vankasteelj/frak/master/package.json",
-    "author": {
-        "name": "Jean van Kasteel",
-        "email": "vankasteelj@gmail.com"
-    },
-    "main": "app/index.html",
-    "dom_storage_quota": 20,
-    "window": {
-        "width": 1024,
-        "height": 624,
-        "title": "Frak",
-        "icon": "app/images/frak-logo.png",
-        "min_width": 768,
-        "min_height": 500,
-        "show": false
-    },
-    "chromium-args": "--disable-raf-throttling --future",
-    "node-remote": "*://*",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/vankasteelj/frak"
-    },
-    "dependencies": {
-        "auto-launch": "^5.0.5",
-        "cheerio": "^0.22.0",
-        "fs-extra": "^9.0.0",
-        "got": "^11.0.2",
-        "i18n": "^0.9.0",
-        "image-downloader": "^3.5.0",
-        "langs": "2.0.0",
-        "local-video-library": "^1.2.0",
-        "mdata": "^1.0.1",
-        "node-mpv": "https://github.com/00SteinsGate00/Node-MPV/archive/6fc603794e364ce5ee5ad92018c9cb0dcd6a817e.tar.gz",
-        "opensubtitles-api": "^5.1.2",
-        "readdirp": "^3.4.0",
-        "trakt.tv": "^8.0.0",
-        "trakt.tv-matcher": "^8.0.0",
-        "trakt.tv-ondeck": "^8.0.0",
-        "webtorrent": "^0.108.1",
-        "webtorrent-health": "^1.1.2"
-    },
-    "devDependencies": {
-        "del": "^5.1.0",
-        "gulp": "^4.0.2",
-        "gulp-gzip": "^1.4.2",
-        "gulp-jshint": "^2.1.0",
-        "gulp-load-plugins": "^2.0.2",
-        "gulp-tar": "^3.1.0",
-        "gulp-zip": "^5.0.1",
-        "jshint": "^2.11.0",
-        "jshint-stylish": "^2.2.1",
-        "modclean": "^3.0.0-beta.1",
-        "node-7z-forall": "^1.0.4",
-        "nw-builder": "^3.5.7",
-        "run-sequence": "^2.2.1",
-        "yargs": "^15.3.1"
-    },
-    "nwjs": {
-        "version": "0.36.4",
-        "flavor": "sdk"
-    },
-    "mpv": {
-        "url": "https://sourceforge.net/projects/mpv-player-windows/files/stable/mpv-0.30.0-x86_64.7z/download",
-        "youtube-dl": "https://yt-dl.org/latest/youtube-dl.exe"
-    }
+  "name": "frak",
+  "releaseName": "Frak",
+  "description": "A frakingly good media center",
+  "license": "GPL-3.0",
+  "version": "1.4.3",
+  "homepage": "https://github.com/vankasteelj/frak",
+  "releases": "https://github.com/vankasteelj/frak/releases",
+  "portable": false,
+  "icon": "app/images/frak-logo.ico",
+  "macIcon": "app/images/frak-logo.icns",
+  "updateEndpoint": "https://raw.githubusercontent.com/vankasteelj/frak/master/package.json",
+  "author": {
+    "name": "Jean van Kasteel",
+    " email": "vankasteelj@gmail.com"
+  },
+  "main": "app/index.html",
+  "dom_storage_quota": 20,
+  "window": {
+    "width": 1024,
+    "height": 624,
+    "title": "Frak",
+    "icon": "app/images/frak-logo.png",
+    "min_width": 768,
+    "min_height": 500,
+    "show": false
+  },
+  "chromium-args": "--disable-raf-throttling --future",
+  "node-remote": "*://*",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vankasteelj/frak"
+  },
+  "dependencies": {
+    "auto-launch": "^5.0.5",
+    "cheerio": "^0.22.0",
+    "fs-extra": "^9.0.0",
+    "got": "^11.0.2",
+    "i18n": "^0.9.0",
+    "image-downloader": "^3.5.0",
+    "langs": "2.0.0",
+    "local-video-library": "^1.2.0",
+    "mdata": "^1.0.1",
+    "node-mpv": "https://github.com/00SteinsGate00/Node-MPV/archive/6fc603794e364ce5ee5ad92018c9cb0dcd6a817e.tar.gz",
+    "opensubtitles-api": "^5.1.2",
+    "readdirp": "^3.4.0",
+    "trakt.tv": "^8.0.0",
+    "trakt.tv-matcher": "^8.0.0",
+    "trakt.tv-ondeck": "^8.0.0",
+    "webtorrent": "^0.108.1",
+    "webtorrent-health": "^1.1.2"
+  },
+  "devDependencies": {
+    "del": "^5.1.0",
+    "gulp": "^4.0.2",
+    "gulp-gzip": "^1.4.2",
+    "gulp-load-plugins": "^2.0.2",
+    "gulp-tar": "^3.1.0",
+    "gulp-zip": "^5.0.1",
+    "modclean": "^3.0.0-beta.1",
+    "node-7z-forall": "^1.0.4",
+    "nw-builder": "^3.5.7",
+    "standard": "^14.3.3",
+    "yargs": "^15.3.1"
+  },
+  "nwjs": {
+    "version": "0.36.4",
+    "flavor": "sdk"
+  },
+  "mpv": {
+    "url": "https://sourceforge.net/projects/mpv-player-windows/files/stable/mpv-0.30.0-x86_64.7z/download",
+    "youtube-dl": "https://yt-dl.org/latest/youtube-dl.exe"
+  }
 }
