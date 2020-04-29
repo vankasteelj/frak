@@ -7,7 +7,7 @@ const DB = {
         return true;
     },
     get: (key) => {
-        let data = undefined;
+        let data;
 
         try{
             data = zlib.inflateSync(new Buffer(localStorage[key], 'base64')).toString();

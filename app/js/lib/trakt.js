@@ -199,7 +199,6 @@ const Trakt = {
                     Trakt.getRatings();
                     return [collection];
                 }).catch(handleError);
-                break;
             case 'movie': 
             case 'movies': 
                 DB.remove('traktmovies');
@@ -210,7 +209,6 @@ const Trakt = {
                     Trakt.getRatings();
                     return [collection];
                 }).catch(handleError);
-                break;
             default: 
                 DB.remove('traktmovies');
                 DB.remove('traktmoviescollection');

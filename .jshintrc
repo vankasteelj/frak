@@ -46,6 +46,7 @@
         "win": true,
         "nw": true,
         "os": true,
+        "zlib": true,
 
         // JS files
         "Boot": true,
