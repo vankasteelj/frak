@@ -413,7 +413,7 @@ const Discover = {
             $(`#${id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>';
             $(`#${id} .item-spinner`).remove();
 
-            Trakt.reload();
+            Trakt.reload(false, type);
         });
     }
 }

@@ -533,7 +533,7 @@ const Details = {
             model.show && $(`#collection #${model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
 
             setTimeout(() => {
-                Trakt.reload(true).then(collections => {
+                Trakt.reload(true, type).then(collections => {
                     base.episode ? Details.loadLocalNext(true) : Details.loadNext(true);
                 });
             }, 300);

@@ -159,7 +159,7 @@ const Trakt = {
         });
     },
 
-    reload: (update) => {
+    reload: (update, type) => {
         let cached = {
             movies: DB.get('traktmovies'),
             moviescollection: DB.get('traktmoviescollection'),
@@ -170,27 +170,12 @@ const Trakt = {
             ratings: DB.get('traktratings')
         };
 
-        DB.remove('traktmovies');
-        DB.remove('traktmoviescollection');
-        DB.remove('traktshows');
-        DB.remove('traktshowscollection');
-        DB.remove('traktsync');
         if (!update) {
             DB.remove('traktsyncrating');
             DB.remove('traktratings');
         }
 
-        return Promise.all([
-            Collection.get.traktshows(update),
-            Collection.get.traktmovies(update)
-        ]).then((collections) => {
-            if (Misc.isError(collections[0]) || Misc.isError(collections[1])) throw new Error('Trakt.reload failed');
-
-            Collection.get.traktcached(update);
-            Trakt.getRatings();
-
-            return collections;
-        }).catch(e => {
+        const handleError = (e) => {
             console.error(e);
             DB.store(cached.movies, 'traktmovies');
             DB.store(cached.moviescollection, 'traktmoviescollection');
@@ -199,7 +184,51 @@ const Trakt = {
             DB.store(cached.sync, 'traktsync');
             DB.store(cached.syncrating, 'traktsyncrating');
             DB.store(cached.ratings, 'traktratings');
-        });
+        }
+
+        switch (type) {
+            case 'episode':
+            case 'episodes':
+            case 'show':
+            case 'shows':
+                DB.remove('traktshows');
+                DB.remove('traktshowscollection');
+                DB.remove('traktsync');
+                return Collection.get.traktshows(update).then(collection => {
+                    Collection.get.traktcached(update);
+                    Trakt.getRatings();
+                    return [collection];
+                }).catch(handleError);
+                break;
+            case 'movie': 
+            case 'movies': 
+                DB.remove('traktmovies');
+                DB.remove('traktmoviescollection');
+                DB.remove('traktsync');
+                return Collection.get.traktmovies(update).then(collection => {
+                    Collection.get.traktcached(update);
+                    Trakt.getRatings();
+                    return [collection];
+                }).catch(handleError);
+                break;
+            default: 
+                DB.remove('traktmovies');
+                DB.remove('traktmoviescollection');
+                DB.remove('traktshows');
+                DB.remove('traktshowscollection');
+                DB.remove('traktsync');
+                return Promise.all([
+                    Collection.get.traktshows(update),
+                    Collection.get.traktmovies(update)
+                ]).then((collections) => {
+                    if (Misc.isError(collections[0]) || Misc.isError(collections[1])) throw new Error('Trakt.reload failed');
+
+                    Collection.get.traktcached(update);
+                    Trakt.getRatings();
+
+                    return collections;
+                }).catch(handleError);
+        }
     },
 
     scrobble: (action) => {
@@ -269,7 +298,7 @@ const Trakt = {
                     Player.config.model.show && $(`#collection #${Player.config.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>');
 
                     setTimeout(() => {
-                        Trakt.reload(true).then(collections => {
+                        Trakt.reload(true, type).then(collections => {
                             Details.loadNext();
                         });
                     }, 300);
