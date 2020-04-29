@@ -352,22 +352,26 @@ gulp.task('mpv', () => {
 // remove unused libraries
 gulp.task('build:nwjsclean', () => {
   return Promise.all(parsePlatforms().map((platform) => {
-    const dirname = path.join(releasesDir, pkJson.name, platform)
+    if (platform.match(/osx|linux/) !== null) {
+      console.log('No `mpv` task for', platform)
+      return null
+    }
+    const dirname = path.posix.join(releasesDir, pkJson.releaseName, platform)
     const removeArray = [
-      dirname + '/pdf*',
-      dirname + '/chrome*',
-      dirname + '/nacl*',
+      dirname + '/credits.html',
+      dirname + '/chromedriver.exe',
+      dirname + '/nwjc.exe',
+      dirname + '/notification_helper.exe',
+      dirname + '/nacl_irt_x86_64.nexe',
+      dirname + '/swiftshader',
+      dirname + '/payload.exe',
       dirname + '/pnacl',
-      dirname + '/payload*',
-      dirname + '/nwjc*',
-      dirname + '/credit*',
-      dirname + '/debug*',
-      dirname + '/swift*',
-      dirname + '/notification_helper*',
-      dirname + '/d3dcompiler*'
+      dirname + '/d3dcompiler_47.dll',
+      dirname + '/debug.log',
+      dirname + '/locales/**', '!' + dirname + '/locales/en-US.pak', '!' + dirname + '/locales/en-US.pak.info',
     ]
-    console.log('Removing unused %s nwjs files...', platform)
-    return del(removeArray)
+    console.log('Removing unused %s nwjs files from %s...', platform, dirname)
+    return del(removeArray).then(console.log).catch(console.error)
   }))
 })
 
