@@ -145,7 +145,7 @@ const Player = {
       '--sub-scale=' + options.scale,
       '--contrast=' + options.contrast,
       '--saturation=' + options.saturation,
-            `--script-opts=osc-layout=${options.layout},osc-seekbarstyle=${options.seekbar},osc-scalewindowed=${scale},osc-scalefullscreen=${scale * 1.2},osc-valign=0.9,osc-timetotal=yes,osc-boxalpha=160,osc-vidscale=no`
+      `--script-opts=osc-layout=${options.layout},osc-seekbarstyle=${options.seekbar},osc-scalewindowed=${scale},osc-scalefullscreen=${scale * 1.2},osc-valign=0.9,osc-timetotal=yes,osc-boxalpha=160,osc-vidscale=no`
     ].filter(n => n)
   },
 
@@ -243,5 +243,9 @@ const Player = {
   notify: (message) => {
     if (!message) return
     Player.mpv.command('show-text', [message, '1200', '1'])
+  },
+  onTop: () => {
+    Player.mpv.setProperty('ontop', true)
+    Player.mpv.setProperty('ontop', false)
   }
 }
