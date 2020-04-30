@@ -1,20 +1,20 @@
 @font-face {
-    font-family: 'Proxima Nova Bold';
-    src: url('Mark Simonson - Proxima Nova Alt Bold-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal
+  font-family: 'Proxima Nova Bold';
+  src: url('Mark Simonson - Proxima Nova Alt Bold-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal
 }
 
 @font-face {
-    font-family: 'Proxima Nova';
-    src: url('Mark Simonson - Proxima Nova Alt Regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal
+  font-family: 'Proxima Nova';
+  src: url('Mark Simonson - Proxima Nova Alt Regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal
 }
 
 @font-face {
-    font-family: 'Proxima Nova Semibold';
-    src: url('Mark Simonson - Proxima Nova Semibold-webfont.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal
+  font-family: 'Proxima Nova Semibold';
+  src: url('Mark Simonson - Proxima Nova Semibold-webfont.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal
 }

@@ -1,98 +1,98 @@
 /* Theme file: dark */
 
 .dark {
-    /* fonts */
-    --font: 'Proxima Nova';
-    --font-semibold: 'Proxima Nova Semibold';
-    --font-bold: 'Proxima Nova Bold';
+  /* fonts */
+  --font: 'Proxima Nova';
+  --font-semibold: 'Proxima Nova Semibold';
+  --font-bold: 'Proxima Nova Bold';
 
-    /* color scheme */
-    --app-color-main: #1d1d1d;
-    --app-color-alt: #2d2d2d;
-    --app-font-color: #fafafa;
-    --app-font-color-dimmed: #ccc;
+  /* color scheme */
+  --app-color-main: #1d1d1d;
+  --app-color-alt: #2d2d2d;
+  --app-font-color: #fafafa;
+  --app-font-color-dimmed: #ccc;
 
-    /* navbar */
-    --separator: rgba(240, 240, 240, .15);
-    
-    --spinner-color: #00e6ff;
+  /* navbar */
+  --separator: rgba(240, 240, 240, .15);
+  
+  --spinner-color: #00e6ff;
 
-    --tab-text: #ccc;
-    --tab-bg: transparent;
-    --tab-text-hover: #fafafa;
-    --tab-bg-hover: #333;
-    --tab-text-select: #fafafa;
-    --tab-bg-select: #444;
+  --tab-text: #ccc;
+  --tab-bg: transparent;
+  --tab-text-hover: #fafafa;
+  --tab-bg-hover: #333;
+  --tab-text-select: #fafafa;
+  --tab-bg-select: #444;
 
-    /* buttons */
-    --button-bg: #16a085;
-    --button-text: #fafafa;
-    --button-bg-hover: #2b678f;
-    --button-text-hover: #fafafa;
+  /* buttons */
+  --button-bg: #16a085;
+  --button-text: #fafafa;
+  --button-bg-hover: #2b678f;
+  --button-text-hover: #fafafa;
 
-    --button-donothing: #777;
-    --button-warn: #b11010;
+  --button-donothing: #777;
+  --button-warn: #b11010;
 
-    /* notification */
-    --notification-bg: rgba(11, 11, 11, .7);
-    --notification-border: #444;
-    --notification-text: #fafafa;
-    --notification-bg-hover: rgba(11, 11, 11, .9);
-    --notification-text-hover: #fff;
+  /* notification */
+  --notification-bg: rgba(11, 11, 11, .7);
+  --notification-border: #444;
+  --notification-text: #fafafa;
+  --notification-bg-hover: rgba(11, 11, 11, .9);
+  --notification-text-hover: #fff;
 
-    /* item list */
-    --item-border: #2d2d2d;
-    --item-bg: #1d1d1d;
-    --item-text: #fafafa;
+  /* item list */
+  --item-border: #2d2d2d;
+  --item-bg: #1d1d1d;
+  --item-text: #fafafa;
 
-    --item-title-bg: rgba(0, 0, 0, .4);
-    --item-title-shadow: 0 0 20px black;
-    --item-title: #fafafa;
-    --item-year: #bbb;
-    --item-eptitle: #ddd;
+  --item-title-bg: rgba(0, 0, 0, .4);
+  --item-title-shadow: 0 0 20px black;
+  --item-title: #fafafa;
+  --item-year: #bbb;
+  --item-eptitle: #ddd;
 
-    /* lists */
-    --scrollbar-track: transparent;
-    --scrollbar: #eee;
-    --scrollbar-hover: #fafafa;
-    --waitbounce: #333;
+  /* lists */
+  --scrollbar-track: transparent;
+  --scrollbar: #eee;
+  --scrollbar-hover: #fafafa;
+  --waitbounce: #333;
 
-    /* local list */
-    --category-text: #bfbfbf;
-    --category-border: #aaa;
-    --category-bg: transparent;
-    --category-text-hover: #fafafa;
-    --category-border-hover: #888;
-    --category-bg-hover: #333;
+  /* local list */
+  --category-text: #bfbfbf;
+  --category-border: #aaa;
+  --category-bg: transparent;
+  --category-text-hover: #fafafa;
+  --category-border-hover: #888;
+  --category-bg-hover: #333;
 
-    --localitem-main: #1d1d1d;
-    --localitem-main-hover: #222;
-    --localitem-season: #292929;
-    --localitem-season-hover: #2f2f2f;
-    --localitem-episode: #393939;
-    --localitem-episode-hover: #3f3f3f;
+  --localitem-main: #1d1d1d;
+  --localitem-main-hover: #222;
+  --localitem-season: #292929;
+  --localitem-season-hover: #2f2f2f;
+  --localitem-episode: #393939;
+  --localitem-episode-hover: #3f3f3f;
 
-    --localitem-border: #2d2d2d;
-    --localitem-text: #fafafa;
-    --localitem-subtext: #dfdfdf;
+  --localitem-border: #2d2d2d;
+  --localitem-text: #fafafa;
+  --localitem-subtext: #dfdfdf;
 
-    /* settings */
-    --settings-lines: #2f2f2f;
-    --settings-text: #efefef;
+  /* settings */
+  --settings-lines: #2f2f2f;
+  --settings-text: #efefef;
 
-    --localpaths-bg-hover: rgba(0, 0, 0, .1);
-    --localpaths-bg-select: rgba(0, 0, 0, .3);
-    --localpaths-text-select: #eee;
+  --localpaths-bg-hover: rgba(0, 0, 0, .1);
+  --localpaths-bg-select: rgba(0, 0, 0, .3);
+  --localpaths-text-select: #eee;
 
-    --yesno: #dadada;
-    --slider-bg: #16a085;
-    --slider-selector: #efefef;
-    --dropdown-bg: #444;
-    --dropdown-text: #fafafa;
-    --input-placeholder: #a5a9b0;
-    --input-text: #ccc;
-    --input-bg: rgba(255, 255, 255, .1);
+  --yesno: #dadada;
+  --slider-bg: #16a085;
+  --slider-selector: #efefef;
+  --dropdown-bg: #444;
+  --dropdown-text: #fafafa;
+  --input-placeholder: #a5a9b0;
+  --input-text: #ccc;
+  --input-bg: rgba(255, 255, 255, .1);
 
-    /* about */
-    --icons-hover-bg: rgba(240, 240, 240, .2)
+  /* about */
+  --icons-hover-bg: rgba(240, 240, 240, .2)
 }

@@ -3,1027 +3,1031 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-    <link rel="stylesheet" type="text/css" href="css/vendor/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="fonts/trakt.css" />
-    <link rel="stylesheet" type="text/css" href="fonts/proxima.css" />
-    <link rel="stylesheet" type="text/css" href="fonts/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/vendor/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="fonts/trakt.css" />
+  <link rel="stylesheet" type="text/css" href="fonts/proxima.css" />
+  <link rel="stylesheet" type="text/css" href="fonts/font-awesome.min.css" />
 
-    <link rel="stylesheet" type="text/css" href="css/main.css" />
-    <link rel="stylesheet" type="text/css" href="css/animations.css" />
+  <link rel="stylesheet" type="text/css" href="css/main.css" />
+  <link rel="stylesheet" type="text/css" href="css/animations.css" />
 
-    <!-- set icon and title -->
-    <link rel="icon" type="image/png" href="images/frak-logo.ico" />
-    <title>Frak</title>
+  <!-- set icon and title -->
+  <link rel="icon" type="image/png" href="images/frak-logo.ico" />
+  <title>Frak</title>
 
 </head>
 
 <body>
-    <div id="app">
-        <section id="init">
-            <div id="traktinit">
-                <img src="images/trakt-logo.png" />
-                <p>
-                    <i18n>You need a Trakt.tv account</i18n>
-                </p>
+  <div id="app">
+    <section id="init">
+      <div id="traktinit">
+        <img src="images/trakt-logo.png" />
+        <p>
+          <i18n>You need a Trakt.tv account</i18n>
+        </p>
 
-                <button id="traktAuth" onClick="Trakt.login()">
-                    <i18n>Connect</i18n>
-                </button>
-                <input id="traktCode" type="text" value="" />
-                <button id="traktBrowser">
-                    <i18n>Open browser</i18n>
-                </button>
+        <button id="traktAuth" onClick="Trakt.login()">
+          <i18n>Connect</i18n>
+        </button>
+        <input id="traktCode" type="text" value="" />
+        <button id="traktBrowser">
+          <i18n>Open browser</i18n>
+        </button>
 
-                <a class="createaccount" onClick="Misc.openExternal('https://trakt.tv/auth/join')">
-                    <i18n>Create an account online</i18n>
-                </a>
-            </div>
-            <div id="traktwelcome">
-                <div id="welcomeprofile">
-                    <img class="avatar" src="images/trakt-logo.png" />
-                    <p><span class="welcomemessage"></span> <span class="username"></span></p>
-                </div>
+        <a class="createaccount" onClick="Misc.openExternal('https://trakt.tv/auth/join')">
+          <i18n>Create an account online</i18n>
+        </a>
+      </div>
+      <div id="traktwelcome">
+        <div id="welcomeprofile">
+          <img class="avatar" src="images/trakt-logo.png" />
+          <p><span class="welcomemessage"></span> <span class="username"></span></p>
+        </div>
 
-                <div class="spinner">
-                    <div class="double-bounce1"></div>
-                    <div class="double-bounce2"></div>
-                </div>
+        <div class="spinner">
+          <div class="double-bounce1"></div>
+          <div class="double-bounce2"></div>
+        </div>
 
-                <div class="reset">
-                    <button class="disconnect" onClick="DB.reset()">
-                        <i18n>Stuck? Click here to reset the app.</i18n>
-                    </button>
-                </div>
-            </div>
-            <div id="requirempv">
-                <img src="images/mpv-logo.png" />
-                <p>
-                    <i18n>MPV player needs to be installed</i18n>
-                </p>
+        <div class="reset">
+          <button class="disconnect" onClick="DB.reset()">
+            <i18n>Stuck? Click here to reset the app.</i18n>
+          </button>
+        </div>
+      </div>
+      <div id="requirempv">
+        <img src="images/mpv-logo.png" />
+        <p>
+          <i18n>MPV player needs to be installed</i18n>
+        </p>
 
-                <button id="downloadMPV" onClick="Misc.openExternal('https://mpv.io/installation/')">
-                    <i18n>Download</i18n>
-                </button>
+        <button id="downloadMPV" onClick="Misc.openExternal('https://mpv.io/installation/')">
+          <i18n>Download</i18n>
+        </button>
 
-                <a class="skipMPV" onClick="Interface.showMain()">
-                    <i18n>It's done</i18n>
-                </a>
-            </div>
-        </section>
+        <a class="skipMPV" onClick="Interface.showMain()">
+          <i18n>It's done</i18n>
+        </a>
+      </div>
+    </section>
 
-        <section id="navbar">
-            <div class="nav movies" onClick="Interface.showMovies()">
-                <div class="fa fa-spin fa-refresh"></div>
-                <div class="fa fa-film">
-                    <div class="text">
-                        <i18n>Movies</i18n>
-                    </div>
-                </div>
-            </div>
-            <div class="nav shows" onClick="Interface.showShows()">
-                <div class="fa fa-spin fa-refresh"></div>
-                <div class="fa fa-television">
-                    <div class="text">
-                        <i18n>Shows</i18n>
-                    </div>
-                </div>
-            </div>
-            <div class="nav locals" onClick="Interface.showLocals()">
-                <div class="fa fa-spin fa-refresh"></div>
-                <div class="fa fa-hdd-o">
-                    <div class="text">
-                        <i18n>Local</i18n>
-                    </div>
-                </div>
-            </div>
+    <section id="navbar">
+      <div class="nav movies" onClick="Interface.showMovies()">
+        <div class="fa fa-spin fa-refresh"></div>
+        <div class="fa fa-film">
+          <div class="text">
+            <i18n>Movies</i18n>
+          </div>
+        </div>
+      </div>
+      <div class="nav shows" onClick="Interface.showShows()">
+        <div class="fa fa-spin fa-refresh"></div>
+        <div class="fa fa-television">
+          <div class="text">
+            <i18n>Shows</i18n>
+          </div>
+        </div>
+      </div>
+      <div class="nav locals" onClick="Interface.showLocals()">
+        <div class="fa fa-spin fa-refresh"></div>
+        <div class="fa fa-hdd-o">
+          <div class="text">
+            <i18n>Local</i18n>
+          </div>
+        </div>
+      </div>
 
-            <div class="separator"></div>
+      <div class="separator"></div>
 
-            <div class="nav discover" onClick="Interface.showDiscover()">
-                <div class="fa fa-spin fa-refresh"></div>
-                <div class="fa fa-globe">
-                    <div class="text">
-                        <i18n>Discover</i18n>
-                    </div>
-                </div>
-            </div>
+      <div class="nav discover" onClick="Interface.showDiscover()">
+        <div class="fa fa-spin fa-refresh"></div>
+        <div class="fa fa-globe">
+          <div class="text">
+            <i18n>Discover</i18n>
+          </div>
+        </div>
+      </div>
 
-            <div class="nav history" onClick="Interface.showHistory()">
-                <div class="fa fa-spin fa-refresh"></div>
-                <div class="fa fa-history">
-                    <div class="text">
-                        <i18n>History</i18n>
-                    </div>
-                </div>
-            </div>
+      <div class="nav history" onClick="Interface.showHistory()">
+        <div class="fa fa-spin fa-refresh"></div>
+        <div class="fa fa-history">
+          <div class="text">
+            <i18n>History</i18n>
+          </div>
+        </div>
+      </div>
 
-            <div class="nav bigpicture" onClick="Interface.bigPicture()">
-                <div class="fa fa-arrows-alt">
-                    <div class="text">
-                        <i18n>Big Picture</i18n>
-                    </div>
-                </div>
-            </div>
-            <div class="nav exitapp" onClick="win.close(true)">
-                <div class="fa fa-times-circle">
-                    <div class="text">
-                        <i18n>Exit</i18n>
-                    </div>
-                </div>
-            </div>
-            <div class="nav settings" onClick="Interface.showSettings()">
-                <div class="fa fa-cogs">
-                    <div class="text">
-                        <i18n>Settings</i18n>
-                    </div>
-                </div>
-            </div>
+      <div class="nav bigpicture" onClick="Interface.bigPicture()">
+        <div class="fa fa-arrows-alt">
+          <div class="text">
+            <i18n>Big Picture</i18n>
+          </div>
+        </div>
+      </div>
+      <div class="nav exitapp" onClick="win.close(true)">
+        <div class="fa fa-times-circle">
+          <div class="text">
+            <i18n>Exit</i18n>
+          </div>
+        </div>
+      </div>
+      <div class="nav settings" onClick="Interface.showSettings()">
+        <div class="fa fa-cogs">
+          <div class="text">
+            <i18n>Settings</i18n>
+          </div>
+        </div>
+      </div>
 
-            <div class="online"></div>
-        </section>
+      <div class="online"></div>
+    </section>
 
-        <section id="trailer" onClick="Interface.closeTrailer()">
-            <div class="spinner">
+    <section id="trailer" onClick="Interface.closeTrailer()">
+      <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
+      </div>
+      <div class="video"></div>
+    </section>
+
+    <section id="collection">
+      <div class="row" id="shows"></div>
+      <div class="row" id="movies"></div>
+
+      <div id="locals">
+        <div class="refreshing">
+          <div class="fa fa-spin fa-refresh"></div>
+          <i18n>Updating...</i18n>
+        </div>
+
+        <div class="categories">
+          <div class="waitforlibrary">
+            <div class="waitmessage">
+              <div class="spinner">
                 <div class="double-bounce1"></div>
                 <div class="double-bounce2"></div>
+              </div>
+              <span class="scanning">
+                <i18n>Please wait, scan in progress...</i18n>
+              </span>
+              <span class="notfound">
+                <i18n>No video files found</i18n>
+              </span>
             </div>
-            <div class="video"></div>
-        </section>
-
-        <section id="collection">
-            <div class="row" id="shows"></div>
-            <div class="row" id="movies"></div>
-
-            <div id="locals">
-                <div class="refreshing">
-                    <div class="fa fa-spin fa-refresh"></div>
-                    <i18n>Updating...</i18n>
-                </div>
-
-                <div class="categories">
-                    <div class="waitforlibrary">
-                        <div class="waitmessage">
-                            <div class="spinner">
-                                <div class="double-bounce1"></div>
-                                <div class="double-bounce2"></div>
-                            </div>
-                            <span class="scanning">
-                                <i18n>Please wait, scan in progress...</i18n>
-                            </span>
-                            <span class="notfound">
-                                <i18n>No video files found</i18n>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="category movies" onClick="Interface.locals.show('movies')">
-                        <div class="fa fa-film">
-                            <div class="text">
-                                <i18n>Movies</i18n>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="category shows" onClick="Interface.locals.show('shows')">
-                        <div class="fa fa-television">
-                            <div class="text">
-                                <i18n>Shows</i18n>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="category unmatched" onClick="Interface.locals.show('unmatched')">
-                        <div class="fa fa-file-o">
-                            <div class="text">
-                                <i18n>Other</i18n>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="items movies">
-                    <div class="row"></div>
-                </div>
-                <div class="items shows">
-                    <div class="row"></div>
-                </div>
-                <div class="items unmatched">
-                    <div class="row"></div>
-                </div>
+          </div>
+          <div class="category movies" onClick="Interface.locals.show('movies')">
+            <div class="fa fa-film">
+              <div class="text">
+                <i18n>Movies</i18n>
+              </div>
             </div>
-        </section>
-
-        <section id="trakt">
-            <div class="row" id="history"></div>
-
-            <div class="row" id="discover">
-                <div class="disc-search">
-                    <input type="text" class="i18n" placeholder="Search for a movie or a TV Show" />
-                    <div class="search fa fa-search i18n tooltipped" title="Search" onClick="Discover.search()"></div>
-                </div>
-
-                <div class="disc-results">
-                    <div class="row"></div>
-                </div>
-
-                <dic class="disc-proposal">
-                    <div class="categories">
-                        <div class="shows active" onClick="Discover.show.shows()">
-                            <i18n>Shows</i18n>
-                        </div>
-                        <div class="movies" onClick="Discover.show.movies()">
-                            <i18n>Movies</i18n>
-                        </div>
-                    </div>
-                    <div class="type">
-                        <div onClick="Discover.load['trending']()" class="trending">
-                            <i18n>Trending</i18n>
-                        </div>
-                        <div onClick="Discover.load['popular']()" class="popular">
-                            <i18n>Popular</i18n>
-                        </div>
-                        <div onClick="Discover.load['watched']()" class="watched">
-                            <i18n>Watched</i18n>
-                        </div>
-                        <div onClick="Discover.load['anticipated']()" class="anticipated">
-                            <i18n>Anticipated</i18n>
-                        </div>
-                        <div onClick="Discover.load['top50']()" class="top50">
-                            <i18n>Top 50</i18n>
-                        </div>
-                        <div onClick="Discover.load['recommended']()" class="recommended">
-                            <i18n>Recommended</i18n>
-                        </div>
-                    </div>
-                    <div class="row"></div>
-                </dic>
-
-                <div id="disc-spinner">
-                    <div class="spinner">
-                        <div class="double-bounce1"></div>
-                        <div class="double-bounce2"></div>
-                    </div>
-                </div>
+          </div>
+          <div class="category shows" onClick="Interface.locals.show('shows')">
+            <div class="fa fa-television">
+              <div class="text">
+                <i18n>Shows</i18n>
+              </div>
             </div>
-        </section>
-
-        <section id="settings">
-            <div class="about fa fa-info-circle i18n tooltipped" title="About" onClick="Interface.showAbout()"></div>
-
-            <div class="setting interface">
-                <div class="title">
-                    <i18n>Interface</i18n>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="Interface language selection">
-                        <i18n>Language</i18n>
-                    </div>
-                    <div class="action">
-                        <select id="app-language" class="dropdown"></select>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="Interface theme selection">
-                        <i18n>Theme</i18n>
-                    </div>
-                    <div class="action">
-                        <select id="theme" class="dropdown">
-                        </select>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="The application will start by default on the selected page">
-                        <i18n>Start page</i18n>
-                    </div>
-                    <div class="action">
-                        <select id="startscreen" class="dropdown">
-                            <option class="i18n" value="last">Last opened</option>
-                            <option class="i18n" value="movies">Movies</option>
-                            <option class="i18n" value="shows">Shows</option>
-                            <option class="i18n" value="locals">Local</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="In the navigation menu, this button will allow you to enter a Big Picture mode, more suited for a television">
-                        <i18n>Big Picture button</i18n>
-                    </div>
-                    <div class="action">
-                        <i18n>no</i18n>&nbsp;
-                        <label class="switch">
-                            <input id="bp-button" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        &nbsp;<i18n>yes</i18n>
-                    </div>
-                </div>
-                <div class="option" id="disablezoom">
-                    <div class="text secondary i18n" title="Useful if the Big Picture mode is too zoomed-in and unreadable">
-                        ⤷&nbsp;<i18n>Disable "Zoom" for Big Picture</i18n>
-                    </div>
-                    <div class="action">
-                        <i18n>no</i18n>&nbsp;
-                        <label class="switch">
-                            <input id="bpzoomdisable-button" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        &nbsp;<i18n>yes</i18n>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="Display more items at once in the Movies or Shows section">
-                        <i18n>Use smaller items</i18n>
-                    </div>
-                    <div class="action">
-                        <i18n>no</i18n>&nbsp;
-                        <label class="switch">
-                            <input id="items-size" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        &nbsp;<i18n>yes</i18n>
-                    </div>
-                </div>
+          </div>
+          <div class="category unmatched" onClick="Interface.locals.show('unmatched')">
+            <div class="fa fa-file-o">
+              <div class="text">
+                <i18n>Other</i18n>
+              </div>
             </div>
-            <div class="setting trakt">
-                <div class="title">Trakt.tv</div>
-                <div class="option">
-                    <div class="text i18n" title="The account currently used for Trakt.tv">
-                        <i18n>Your are connected as</i18n> <span class="username"></span>
-                    </div>
-                    <div class="action">
-                        <button class="disconnect" onClick="Trakt.disconnect()">
-                            <i18n>Disconnect</i18n>
-                        </button>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="Manually reload Trakt's Movies, Shows and lists (this is heavy on the servers, please use carefully)">
-                        <i18n>Force a reload</i18n>
-                    </div>
-                    <div class="action">
-                        <button class="reload" onClick="Trakt.reload()">
-                            <i18n>Reload</i18n>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="setting locals">
-                <div class="title">
-                    <i18n>Local library</i18n>
-                </div>
-                <div class="option localbox">
-                    <div class="text i18n" title="The locations this application will search to find Movies and Shows">
-                        <i18n>Search paths</i18n>
-                    </div>
-                    <div class="action">
-                        <div class="pathbox">
-                            <div class="paths"></div>
-                            <input id="hidden-input-local" type="file" nwdirectory />
-                            <button onClick="Interface.addLocalPath()">
-                                <i18n>Add</i18n>
-                            </button>
-                            <button class="remove" onClick="Interface.removeLocalPath()">
-                                <i18n>Remove</i18n>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="Manually reload the local Movies and Shows collection">
-                        <i18n>Delete and scan again</i18n>
-                    </div>
-                    <div class="action">
-                        <button class="reload" onClick="Local.rescan()">
-                            <i18n>Reload</i18n>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="setting localsharing">
-                <div class="title">
-                    <i18n>Local network</i18n>
-                </div>
-                <div class="option" id="localip">
-                    <div class="text i18n" title="This is the IP adress your device uses on your local network">
-                        <i18n>IP address</i18n>
-                    </div>
-                    <div class="action">
-                        <input type="text" readonly placeholder="127.0.0.1"/>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="Other devices on your local network using this application will be able to see, search and play your local Movies and Shows collection">
-                        <i18n>Share your library</i18n>
-                    </div>
-                    <div class="action">
-                        <i18n>no</i18n>&nbsp;
-                        <label class="switch">
-                            <input id="allow_localsharing" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        &nbsp;<i18n>yes</i18n>
-                    </div>
-                </div>
-                <div class="option resumeplayback">
-                    <div class="text secondary i18n" title="Allows you to cast to and from other devices using this application on your local network">
-                        ⤷&nbsp;<i18n>Direct playback sharing</i18n>
-                    </div>
-                    <div class="action">
-                        <i18n>no</i18n>&nbsp;
-                        <label class="switch">
-                            <input id="allow_resumeplayback" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        &nbsp;<i18n>yes</i18n>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text localstatus i18n" title="The current sharing status of your device">
-                        <i18n>Server:</i18n>&nbsp;<i18n class="server">not running</i18n>&nbsp;<i18n class="clients"></i18n>
-                    </div>
-                </div>
-            </div>
-            <div class="setting mpv">
-                <div class="title">
-                    <i18n>Player</i18n>
-                </div>
-                <div class="option" id="mpvexec">
-                    <div class="text i18n" title="The location of the MPV player executable on this device">
-                        <i18n>Path to MPV</i18n>
-                    </div>
-                    <div class="action">
-                        <input id="mpvpath" type="file" />
-                        <input id="fakempvpath" class="i18n" placeholder="Select an executable" type="text" readonly onClick="Interface.setMPVPath()" />
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="Use MPV player to watch trailers instead of an embed player">
-                        <i18n>Play trailers with MPV</i18n>
-                    </div>
-                    <div class="action">
-                        <i18n>no</i18n>&nbsp;
-                        <label class="switch">
-                            <input id="trailers_use_mpv" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        &nbsp;<i18n>yes</i18n>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="Adds some controls on the top right corner of the MPV player when fullscreen">
-                        <i18n>Always show the player popup</i18n>
-                    </div>
-                    <div class="action">
-                        <i18n>no</i18n>&nbsp;
-                        <label class="switch">
-                            <input id="allowplayerpopup-button" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        &nbsp;<i18n>yes</i18n>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="The MPV player's default control bar">
-                        <i18n>OSC layout</i18n>
-                    </div>
-                    <div class="action">
-                        <select id="layout" class="dropdown">
-                            <option class="i18n" value="box">Box</option>
-                            <option class="i18n" value="slimbox">Box (slim)</option>
-                            <option class="i18n" value="bottombar">Bottom bar</option>
-                            <option class="i18n" value="topbar">Top bar</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="The MPV player's seekbar skin">
-                        <i18n>OSC seekbar</i18n>
-                    </div>
-                    <div class="action">
-                        <select id="seekbar" class="dropdown">
-                            <option class="i18n" value="slider">Diamond marker</option>
-                            <option class="i18n" value="knob">Circle marker</option>
-                            <option class="i18n" value="bar">Fill the bar</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="Controls how big or small the MPV player's seekbar is">
-                        <i18n>OSC scale factor</i18n>
-                    </div>
-                    <div class="action">
-                        <input id="scale" class="i18n" type="text" placeholder="Default: 1.0" />
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="MPV player will be centered on your screen">
-                        <i18n>Start centered</i18n>
-                    </div>
-                    <div class="action">
-                        <i18n>no</i18n>&nbsp;
-                        <label class="switch">
-                            <input id="centered" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        &nbsp;<i18n>yes</i18n>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="MPV player will be automatically started fullscreen">
-                        <i18n>Start fullscreen</i18n>
-                    </div>
-                    <div class="action">
-                        <i18n>no</i18n>&nbsp;
-                        <label class="switch">
-                            <input id="fullscreen" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        &nbsp;<i18n>yes</i18n>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="Useful when you're using multiple monitors at once">
-                        <i18n>Use another monitor (if available)</i18n>
-                    </div>
-                    <div class="action">
-                        <i18n>no</i18n>&nbsp;
-                        <label class="switch">
-                            <input id="multimonitor" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        &nbsp;<i18n>yes</i18n>
-                    </div>
-                </div>
-                <div class="option" id="mpvmonitoroption" style="display:none">
-                    <div class="text secondary i18n" title="Default screen to start MPV player on">
-                        ⤷&nbsp;<i18n>Which one?</i18n>
-                    </div>
-                    <div class="action">
-                        <input id="monitor" class="i18n" type="text" placeholder="1 to 32" />
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="Blacks will be darker and whites lighter">
-                        <i18n>Contrast</i18n>
-                    </div>
-                    <div class="action">
-                        <input id="contrast" class="i18n" type="text" placeholder="-100 to 100" />
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="Colors will be more or less vibrant">
-                        <i18n>Saturation</i18n>
-                    </div>
-                    <div class="action">
-                        <input id="saturation" class="i18n" type="text" placeholder="-100 to 100" />
-                    </div>
-                </div>
-            </div>
-            <div class="setting subtitles">
-                <div class="title">
-                    <i18n>Subtitles</i18n>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="This subtitle option will be shown first on the list">
-                        <i18n>Default subtitles language</i18n>
-                    </div>
-                    <div class="action">
-                        <select id="sub-language" class="dropdown"></select>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="If the file has an embedded subtitle, it will be shown by default">
-                        <i18n>Load subtitles automatically</i18n>
-                    </div>
-                    <div class="action">
-                        <i18n>no</i18n>&nbsp;
-                        <label class="switch">
-                            <input id="sub_auto" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        &nbsp;<i18n>yes</i18n>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="The subtitle's text will appear bigger or smaller">
-                        <i18n>Subtitles size</i18n>
-                    </div>
-                    <div class="action">
-                        <input id="sub_size" class="i18n" type="text" placeholder="Default: 55" />
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="The default color to use for the subtitle's text">
-                        <i18n>Subtitles color</i18n>
-                    </div>
-                    <div class="action">
-                        <input id="sub_color" class="i18n" type="color" list="subs_colors" />
-                        <datalist id="subs_colors">
-                            <option>#ffffff</option>
-                            <option>#ffff00</option>
-                            <option>#ff0000</option>
-                            <option>#ff00ff</option>
-                            <option>#00ffff</option>
-                            <option>#00ff00</option>
-                        </datalist>
-                    </div>
-                </div>
-            </div>
-            <div class="setting opensubtitles">
-                <div class="title">
-                    Opensubtitles
-                </div>
-                <div id="oslogin">
-                    <div class="option opensub-login">
-                        <div class="text i18n" title="This allows you to connect to your Opensubtitles account (useful if you're a premium member for example)">
-                            <i18n>Log-in (optional)</i18n>
-                        </div>
-                        <div class="action">
-                            <input id="opensub_login" class="i18n" type="text" placeholder="Username" />
-                        </div>
-                    </div>
-                    <div class="option opensub-login">
-                        <div class="action">
-                            <input id="opensub_password" class="i18n" type="password" placeholder="Password" />
-                        </div>
-                    </div>
-                    <div class="option">
-                        <div class="action">
-                            <button class="opensub_connect" onClick="Subtitles.opensubLogin()">
-                                <i18n>Connect</i18n>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div id="oslogout">
-                    <div class="option">
-                        <div class="text i18n" title="The account currently used for Opensubtitles">
-                            <i18n>Your are connected as</i18n> <span class="username"></span>
-                        </div>
-                        <div class="action">
-                            <button class="disconnect" onClick="Subtitles.opensubLogout()">
-                                <i18n>Disconnect</i18n>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="setting streamer">
-                <div class="title">
-                    <i18n>Streamer</i18n>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="Lowering this can enhance your download speed and/or reduce the impact on your CPU (your mileage may vary)">
-                        <i18n>Max connections</i18n>
-                    </div>
-                    <div class="action">
-                        <input id="maxConns" class="i18n" type="text" placeholder="Default: 40" />
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="Time the client will spend trying to connect to peers before giving up, if none are available">
-                        <i18n>Magnet timeout (milliseconds)</i18n>
-                    </div>
-                    <div class="action">
-                        <input id="magnetTimeout" class="i18n" type="text" placeholder="Default: 10000" />
-                    </div>
-                </div>
-                <div id="announceopt" class="option">
-                    <div class="text i18n" title="The trackers help finding more peers for a P2P exchange, this is a default list used in case trackers aren't shipped with a magnet or a torrent">
-                        <i18n>Fallback tracker list</i18n>
-                    </div>
-                    <div class="action">
-                        <textarea id="announce" class="i18n" type="text" placeholder="Separate each tracker with a comma"></textarea>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="Allow HTTP/FTP connections">
-                        <i18n>Use web seeds (BEP19)</i18n>
-                    </div>
-                    <div class="action">
-                        <i18n>no</i18n>&nbsp;
-                        <label class="switch">
-                            <input id="webSeeds" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        &nbsp;<i18n>yes</i18n>
-                    </div>
-                </div>
-            </div>
-            <div class="setting plugins">
-                <div class="title">
-                    <i18n>Plugins</i18n>
-                </div>
-            </div>
-            <div class="setting application">
-                <div class="title">
-                    <i18n>Application</i18n>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="Be notified when a new update is available">
-                        <i18n>Look for updates</i18n>
-                    </div>
-                    <div class="action">
-                        <i18n>no</i18n>&nbsp;
-                        <label class="switch">
-                            <input id="lookForUpdates" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        &nbsp;<i18n>yes</i18n>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="This application will be automatically started when your device is turned on">
-                        <i18n>Auto-launch on start up</i18n>
-                    </div>
-                    <div class="action">
-                        <i18n>no</i18n>&nbsp;
-                        <label class="switch">
-                            <input id="autolaunch" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        &nbsp;<i18n>yes</i18n>
-                    </div>
-                </div>
-                <div class="option" id="autolaunchminimized">
-                    <div class="text secondary i18n" title="This application will be started minimized">
-                        ⤷&nbsp;<i18n>Auto-launch minimized</i18n>
-                    </div>
-                    <div class="action">
-                        <i18n>no</i18n>&nbsp;
-                        <label class="switch">
-                            <input id="startminimized" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        &nbsp;<i18n>yes</i18n>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="Allows this application to be sent to tray when minimized, usually a small icon next to your system's clock">
-                        <i18n>Minimize to tray</i18n>
-                    </div>
-                    <div class="action">
-                        <i18n>no</i18n>&nbsp;
-                        <label class="switch">
-                            <input id="tray" type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                        &nbsp;<i18n>yes</i18n>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="Images for Movies and Shows are saved locally to reduce the bandwidth used by this application">
-                        <i18n>Locally cached images</i18n>
-                    </div>
-                    <div class="action">
-                        <span id="imagecachesize"></span>&nbsp;<i18n>Mb used.</i18n>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="You can access your temporarily downloaded video files by pressing F10 (they will be deleted the next time you close this application)">
-                        <i18n>Locally cached video files</i18n>&nbsp;(F10)
-                    </div>
-                    <div class="action">
-                        <span id="videocachesize"></span>&nbsp;<i18n>Gb used.</i18n>
-                    </div>
-                </div>
-                <div class="option">
-                    <div class="text i18n" title="This will delete all your settings and reset the app to a clean state, as if you just installed it">
-                        <i18n>Reset default settings</i18n>
-                    </div>
-                    <div class="action">
-                        <button class="disconnect" onClick="DB.reset()">
-                            <i18n>Reset</i18n>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="details">
-            <div class="background"></div>
-            <div class="container">
-                <div class="data"></div>
-                <div id="details-back" onClick="Details.closeDetails()" class="fa fa-arrow-left i18n tooltipped" title="Go back"></div>
-
-                <div id="details-metadata">
-                    <div class="ids">
-                        <div class="id"></div>
-                        <div class="imdb"></div>
-                        <div class="tmdb"></div>
-                        <div class="tvdb"></div>
-                        <div class="trakt"></div>
-                    </div>
-                    <div class="titles">
-                        <div class="title"></div>
-                        <div class="ep-title"></div>
-                    </div>
-                    <div class="md-box">
-                        <div class="poster">
-                            <div class="openTrakt i18n" title="Open on Trakt.tv" onclick="Details.openTraktPage()">
-                                <div class="trakt-icon-trakt"></div>&nbsp;
-                                <i18n>See details</i18n>
-                            </div>
-                            <div class="corner-rating"><span></span></div>
-                        </div>
-                        <div class="md-line">
-                            <span class="year"></span>
-                            <span class="runtime"></span>
-                            <span class="genres"></span>
-                            <span class="rating tooltipped i18n" title="Rate this"></span>
-                        </div>
-                        <div class="synopsis"></div>
-                        <div class="md-buttons">
-                            <div class="trailer">
-                                <div class="fa fa-youtube-play tooltipped i18n"></div>
-                                <i18n>Watch trailer</i18n>
-                            </div>
-                            <div class="watched" onclick="Details.markAsWatched()">
-                                <div class="trakt-icon-check-thick tooltipped i18n"></div>
-                                <i18n>Mark as watched</i18n>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="details-sources">
-                    <div class="query">
-                        <input id="query" class="i18n" type="text" placeholder="Search" />
-                        <div class="search fa fa-search i18n tooltipped" title="Search" onClick="Search.query()"></div>
-                    </div>
-                    <div class="sources row"></div>
-                    <div class="drop-area">
-                        <p>
-                            <i18n>Drop a magnet or a video file</i18n>
-                        </p>
-                    </div>
-                </div>
-
-                <div id="details-spinner">
-                    <div class="spinner">
-                        <div class="double-bounce1"></div>
-                        <div class="double-bounce2"></div>
-                    </div>
-                </div>
-
-                <div id="details-loading">
-                    <div class="title">
-                        <i18n>Now playing</i18n>
-                    </div>
-                    <div id="streaminfo">
-                        <div class="file">
-                            <div class="filename">
-                                <i18n>File</i18n> - <span></span>
-                            </div>
-                            <div class="source">
-                                <i18n>Source</i18n> - <span></span>
-                            </div>
-                            <div class="connection">
-                                <div class="status">
-                                    <i18n>Progress</i18n> - <span></span>
-                                </div>
-                                <div class="remaining">
-                                    <i18n>Remaining time</i18n> - <span></span>
-                                </div>
-                                <div class="peers">
-                                    <i18n>Active peers</i18n> - <span></span>
-                                </div>
-                                <div class="download">
-                                    <i18n>Download speed</i18n> - <span></span>
-                                </div>
-                                <div class="upload">
-                                    <i18n>Upload speed</i18n> - <span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="player">
-                            <div class="control">
-                                <div class="fa fa-fast-backward i18n tooltipped" title="Seek backward" onClick="Player.mpv.seek(-10)"></div>
-                                <div class="fa fa-stop i18n tooltipped" title="Stop" onClick="Player.quit()"></div>
-                                <div class="play fa fa-pause i18n tooltipped" title="Play/Pause" onClick="Player.mpv.togglePause()"></div>
-                                <div class="fa fa-fast-forward i18n tooltipped" title="Seek forward" onClick="Player.mpv.seek(10)"></div>
-
-                                <span class="separator"></span>
-
-                                <div class="fa fa-font fa-font-small i18n tooltipped" title="Smaller font" onClick="Player.subFontSize(-5)"></div>
-                                <div class="fa fa-font i18n tooltipped" title="Bigger font" onClick="Player.subFontSize(+5)"></div>
-
-                                <span class="separator"></span>
-
-                                <div class="fa fa-outdent i18n tooltipped" title="Subtitle delay -0.1s" onMouseDown="Player.subDelay(-0.1)" onMouseUp="Player.stopDelay()"></div>
-                                <div class="fa fa-indent i18n tooltipped" title="Subtitle delay +0.1s" onMouseDown="Player.subDelay(+0.1)" onMouseUp="Player.stopDelay()"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="subtitles">
-                        <div class="title">
-                            <i18n>Subtitles</i18n>
-                        </div>
-                        <div class="subs"></div>
-                    </div>
-                    <div id="cast">
-                        <div class="peers fa fa-feed i18n" title="Keep watching on..." onClick="Details.keepWatchingPopup()"></div>
-                    </div>
-                </div>
-
-                <div id="details-next">
-                    <div class="title">
-                        <i18n>Next episode</i18n>
-                    </div>
-                    <div class="content">
-                        <div class="next-title">
-                            <i18n>Ready to play</i18n> - <span></span>
-                        </div>
-                        <button id="playnext">
-                            <i18n>Play now</i18n>
-                        </button>
-                        <button class="later" onClick="Details.closeDetails()">
-                            <i18n>Later</i18n>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div id="keepWatching">
-                <div class="backgroundPopup" onClick="Details.closeKeepWatchingPopup()"></div>
-                <div class="selector">
-                    <div class="title"><i18n>Cast to:</i18n></div>
-                    <div class="list"></div>
-                </div>
-                <div class="casting">
-                    <div class="logo fa fa-feed"></div>
-                    <p class="message"></p>
-                    <p class="ip"></p>
-                </div>
-            </div>
-            <div id="fileSelector">
-                <div class="backgroundPopup" onClick="Details.closeFileSelector()"></div>
-                <div class="selector">
-                    <div class="title"><i18n>Select a file to play:</i18n></div>
-                    <div class="list"></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="about">
-            <div class="background" onClick="Interface.closeAbout()"></div>
-
-            <div class="content">
-                <div class="fa fa-github repolink i18n tooltipped" title="Get the source code"></div>
-                <h3>Frak <span class="version"></span></h3>
-                <h4>
-                    <i18n>A frakingly good multimedia center</i18n>
-                </h4>
-
-                <div class="technologies">
-                    <h5>
-                        <i18n>Built with:</i18n>
-                    </h5>
-                    <div class="icons">
-                        <img src="images/about/nodejs.png" class="tooltipped" title="NodeJS" onClick="Misc.openExternal('http://nodejs.org/')" />
-                        <img src="images/about/html.png" class="tooltipped" title="HTML5" onClick="Misc.openExternal('https://www.w3.org/standards/')" />
-                    </div>
-                    <div class="icons icons-2">
-                        <img src="images/about/nwjs.png" class="tooltipped" title="NW.js" onClick="Misc.openExternal('http://nwjs.io/')" />
-                        <img src="images/about/mpv.png" class="tooltipped" title="mpv" onClick="Misc.openExternal('https://mpv.io/')" />
-                        <img src="images/about/bootstrap.png" class="tooltipped" title="Bootstrap" onClick="Misc.openExternal('http://getbootstrap.com/')" />
-                        <img src="images/about/jquery.png" class="tooltipped" title="jQuery" onClick="Misc.openExternal('https://jquery.com/')" />
-                    </div>
-                </div>
-                <div class="services">
-                    <h5>
-                        <i18n>Thanks to:</i18n>
-                    </h5>
-                    <div class="icons">
-                        <img src="images/about/trakt.png" class="tooltipped" title="Trakt" onClick="Misc.openExternal('https://trakt.tv/')" />
-                        <img src="images/about/tmdb.png" class="tooltipped" title="TheMovieDB" onClick="Misc.openExternal('https://www.themoviedb.org/')" />
-                        <img src="images/about/tvdb.png" class="tooltipped" title="TheTVDB" onClick="Misc.openExternal('http://thetvdb.com/')" />
-                        <img src="images/about/fanart.png" class="tooltipped" title="Fanart.tv" onClick="Misc.openExternal('http://fanart.tv/')" />
-                        <img src="images/about/opensubtitles.png" class="tooltipped" title="OpenSubtitles" onClick="Misc.openExternal('http://opensubtitles.org/')" />
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div id="legal">
-            <div class="background"></div>
-            <div class="content">
-                <div class="warning">
-                    <i18n>By activating the optional third-party search plugins, you might encounter torrents that are illegal to download in your country. Downloading and sharing files that are protected under the intellectual property and/or copyrights, without consent of the right holders, is punishable of fines, and even prison, in most countries. No further notice will be issued.</i18n>
-                </div>
-                <button onClick="Interface.hideWarning()">
-                    <i18n>I understand</i18n>
-                </button>
-            </div>
+          </div>
         </div>
 
-        <div id="playing">
-            <div class="fa fa-share"></div>
-            <span>
-                <i18n>Return to details</i18n>
-            </span>
+        <div class="items movies">
+          <div class="row"></div>
+        </div>
+        <div class="items shows">
+          <div class="row"></div>
+        </div>
+        <div class="items unmatched">
+          <div class="row"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="trakt">
+      <div class="row" id="history"></div>
+
+      <div class="row" id="discover">
+        <div class="disc-search">
+          <input type="text" class="i18n" placeholder="Search for a movie or a TV Show" />
+          <div class="search fa fa-search i18n tooltipped" title="Search" onClick="Discover.search()"></div>
         </div>
 
-        <div id="notification-snack" onClick="$(this).hide()"></div>
+        <div class="disc-results">
+          <div class="row"></div>
+        </div>
+
+        <dic class="disc-proposal">
+          <div class="categories">
+            <div class="shows active" onClick="Discover.show.shows()">
+              <i18n>Shows</i18n>
+            </div>
+            <div class="movies" onClick="Discover.show.movies()">
+              <i18n>Movies</i18n>
+            </div>
+          </div>
+          <div class="type">
+            <div onClick="Discover.load['trending']()" class="trending">
+              <i18n>Trending</i18n>
+            </div>
+            <div onClick="Discover.load['popular']()" class="popular">
+              <i18n>Popular</i18n>
+            </div>
+            <div onClick="Discover.load['watched']()" class="watched">
+              <i18n>Watched</i18n>
+            </div>
+            <div onClick="Discover.load['anticipated']()" class="anticipated">
+              <i18n>Anticipated</i18n>
+            </div>
+            <div onClick="Discover.load['top50']()" class="top50">
+              <i18n>Top 50</i18n>
+            </div>
+            <div onClick="Discover.load['recommended']()" class="recommended">
+              <i18n>Recommended</i18n>
+            </div>
+          </div>
+          <div class="row"></div>
+        </dic>
+
+        <div id="disc-spinner">
+          <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="settings">
+      <div class="about fa fa-info-circle i18n tooltipped" title="About" onClick="Interface.showAbout()"></div>
+
+      <div class="setting interface">
+        <div class="title">
+          <i18n>Interface</i18n>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="Interface language selection">
+            <i18n>Language</i18n>
+          </div>
+          <div class="action">
+            <select id="app-language" class="dropdown"></select>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="Interface theme selection">
+            <i18n>Theme</i18n>
+          </div>
+          <div class="action">
+            <select id="theme" class="dropdown">
+            </select>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="The application will start by default on the selected page">
+            <i18n>Start page</i18n>
+          </div>
+          <div class="action">
+            <select id="startscreen" class="dropdown">
+              <option class="i18n" value="last">Last opened</option>
+              <option class="i18n" value="movies">Movies</option>
+              <option class="i18n" value="shows">Shows</option>
+              <option class="i18n" value="locals">Local</option>
+            </select>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="In the navigation menu, this button will allow you to enter a Big Picture mode, more suited for a television">
+            <i18n>Big Picture button</i18n>
+          </div>
+          <div class="action">
+            <i18n>no</i18n>&nbsp;
+            <label class="switch">
+              <input id="bp-button" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+            &nbsp;<i18n>yes</i18n>
+          </div>
+        </div>
+        <div class="option" id="disablezoom">
+          <div class="text secondary i18n" title="Useful if the Big Picture mode is too zoomed-in and unreadable">
+            ⤷&nbsp;<i18n>Disable "Zoom" for Big Picture</i18n>
+          </div>
+          <div class="action">
+            <i18n>no</i18n>&nbsp;
+            <label class="switch">
+              <input id="bpzoomdisable-button" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+            &nbsp;<i18n>yes</i18n>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="Display more items at once in the Movies or Shows section">
+            <i18n>Use smaller items</i18n>
+          </div>
+          <div class="action">
+            <i18n>no</i18n>&nbsp;
+            <label class="switch">
+              <input id="items-size" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+            &nbsp;<i18n>yes</i18n>
+          </div>
+        </div>
+      </div>
+      <div class="setting trakt">
+        <div class="title">Trakt.tv</div>
+        <div class="option">
+          <div class="text i18n" title="The account currently used for Trakt.tv">
+            <i18n>Your are connected as</i18n> <span class="username"></span>
+          </div>
+          <div class="action">
+            <button class="disconnect" onClick="Trakt.disconnect()">
+              <i18n>Disconnect</i18n>
+            </button>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="Manually reload Trakt's Movies, Shows and lists (this is heavy on the servers, please use carefully)">
+            <i18n>Force a reload</i18n>
+          </div>
+          <div class="action">
+            <button class="reload" onClick="Trakt.reload()">
+              <i18n>Reload</i18n>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="setting locals">
+        <div class="title">
+          <i18n>Local library</i18n>
+        </div>
+        <div class="option localbox">
+          <div class="text i18n" title="The locations this application will search to find Movies and Shows">
+            <i18n>Search paths</i18n>
+          </div>
+          <div class="action">
+            <div class="pathbox">
+              <div class="paths"></div>
+              <input id="hidden-input-local" type="file" nwdirectory />
+              <button onClick="Interface.addLocalPath()">
+                <i18n>Add</i18n>
+              </button>
+              <button class="remove" onClick="Interface.removeLocalPath()">
+                <i18n>Remove</i18n>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="Manually reload the local Movies and Shows collection">
+            <i18n>Delete and scan again</i18n>
+          </div>
+          <div class="action">
+            <button class="reload" onClick="Local.rescan()">
+              <i18n>Reload</i18n>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="setting localsharing">
+        <div class="title">
+          <i18n>Local network</i18n>
+        </div>
+        <div class="option" id="localip">
+          <div class="text i18n" title="This is the IP adress your device uses on your local network">
+            <i18n>IP address</i18n>
+          </div>
+          <div class="action">
+            <input type="text" readonly placeholder="127.0.0.1"/>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="Other devices on your local network using this application will be able to see, search and play your local Movies and Shows collection">
+            <i18n>Share your library</i18n>
+          </div>
+          <div class="action">
+            <i18n>no</i18n>&nbsp;
+            <label class="switch">
+              <input id="allow_localsharing" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+            &nbsp;<i18n>yes</i18n>
+          </div>
+        </div>
+        <div class="option resumeplayback">
+          <div class="text secondary i18n" title="Allows you to cast to and from other devices using this application on your local network">
+            ⤷&nbsp;<i18n>Direct playback sharing</i18n>
+          </div>
+          <div class="action">
+            <i18n>no</i18n>&nbsp;
+            <label class="switch">
+              <input id="allow_resumeplayback" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+            &nbsp;<i18n>yes</i18n>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text localstatus i18n" title="The current sharing status of your device">
+            <i18n>Server:</i18n>&nbsp;<i18n class="server">not running</i18n>&nbsp;<i18n class="clients"></i18n>
+          </div>
+        </div>
+      </div>
+      <div class="setting mpv">
+        <div class="title">
+          <i18n>Player</i18n>
+        </div>
+        <div class="option" id="mpvexec">
+          <div class="text i18n" title="The location of the MPV player executable on this device">
+            <i18n>Path to MPV</i18n>
+          </div>
+          <div class="action">
+            <input id="mpvpath" type="file" />
+            <input id="fakempvpath" class="i18n" placeholder="Select an executable" type="text" readonly onClick="Interface.setMPVPath()" />
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="Use MPV player to watch trailers instead of an embed player">
+            <i18n>Play trailers with MPV</i18n>
+          </div>
+          <div class="action">
+            <i18n>no</i18n>&nbsp;
+            <label class="switch">
+              <input id="trailers_use_mpv" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+            &nbsp;<i18n>yes</i18n>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="Adds some controls on the top right corner of the MPV player when fullscreen">
+            <i18n>Always show the player popup</i18n>
+          </div>
+          <div class="action">
+            <i18n>no</i18n>&nbsp;
+            <label class="switch">
+              <input id="allowplayerpopup-button" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+            &nbsp;<i18n>yes</i18n>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="The MPV player's default control bar">
+            <i18n>OSC layout</i18n>
+          </div>
+          <div class="action">
+            <select id="layout" class="dropdown">
+              <option class="i18n" value="box">Box</option>
+              <option class="i18n" value="slimbox">Box (slim)</option>
+              <option class="i18n" value="bottombar">Bottom bar</option>
+              <option class="i18n" value="topbar">Top bar</option>
+            </select>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="The MPV player's seekbar skin">
+            <i18n>OSC seekbar</i18n>
+          </div>
+          <div class="action">
+            <select id="seekbar" class="dropdown">
+              <option class="i18n" value="slider">Diamond marker</option>
+              <option class="i18n" value="knob">Circle marker</option>
+              <option class="i18n" value="bar">Fill the bar</option>
+            </select>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="Controls how big or small the MPV player's seekbar is">
+            <i18n>OSC scale factor</i18n>
+          </div>
+          <div class="action">
+            <input id="scale" class="i18n" type="text" placeholder="Default: 1.0" />
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="MPV player will be centered on your screen">
+            <i18n>Start centered</i18n>
+          </div>
+          <div class="action">
+            <i18n>no</i18n>&nbsp;
+            <label class="switch">
+              <input id="centered" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+            &nbsp;<i18n>yes</i18n>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="MPV player will be automatically started fullscreen">
+            <i18n>Start fullscreen</i18n>
+          </div>
+          <div class="action">
+            <i18n>no</i18n>&nbsp;
+            <label class="switch">
+              <input id="fullscreen" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+            &nbsp;<i18n>yes</i18n>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="Useful when you're using multiple monitors at once">
+            <i18n>Use another monitor (if available)</i18n>
+          </div>
+          <div class="action">
+            <i18n>no</i18n>&nbsp;
+            <label class="switch">
+              <input id="multimonitor" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+            &nbsp;<i18n>yes</i18n>
+          </div>
+        </div>
+        <div class="option" id="mpvmonitoroption" style="display:none">
+          <div class="text secondary i18n" title="Default screen to start MPV player on">
+            ⤷&nbsp;<i18n>Which one?</i18n>
+          </div>
+          <div class="action">
+            <input id="monitor" class="i18n" type="text" placeholder="1 to 32" />
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="Blacks will be darker and whites lighter">
+            <i18n>Contrast</i18n>
+          </div>
+          <div class="action">
+            <input id="contrast" class="i18n" type="text" placeholder="-100 to 100" />
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="Colors will be more or less vibrant">
+            <i18n>Saturation</i18n>
+          </div>
+          <div class="action">
+            <input id="saturation" class="i18n" type="text" placeholder="-100 to 100" />
+          </div>
+        </div>
+      </div>
+      <div class="setting subtitles">
+        <div class="title">
+          <i18n>Subtitles</i18n>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="This subtitle option will be shown first on the list">
+            <i18n>Default subtitles language</i18n>
+          </div>
+          <div class="action">
+            <select id="sub-language" class="dropdown"></select>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="If the file has an embedded subtitle, it will be shown by default">
+            <i18n>Load subtitles automatically</i18n>
+          </div>
+          <div class="action">
+            <i18n>no</i18n>&nbsp;
+            <label class="switch">
+              <input id="sub_auto" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+            &nbsp;<i18n>yes</i18n>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="The subtitle's text will appear bigger or smaller">
+            <i18n>Subtitles size</i18n>
+          </div>
+          <div class="action">
+            <input id="sub_size" class="i18n" type="text" placeholder="Default: 55" />
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="The default color to use for the subtitle's text">
+            <i18n>Subtitles color</i18n>
+          </div>
+          <div class="action">
+            <input id="sub_color" class="i18n" type="color" list="subs_colors" />
+            <datalist id="subs_colors">
+              <option>#ffffff</option>
+              <option>#ffff00</option>
+              <option>#ff0000</option>
+              <option>#ff00ff</option>
+              <option>#00ffff</option>
+              <option>#00ff00</option>
+            </datalist>
+          </div>
+        </div>
+      </div>
+      <div class="setting opensubtitles">
+        <div class="title">
+          Opensubtitles
+        </div>
+        <div id="oslogin">
+          <div class="option opensub-login">
+            <div class="text i18n" title="This allows you to connect to your Opensubtitles account (useful if you're a premium member for example)">
+              <i18n>Log-in (optional)</i18n>
+            </div>
+            <div class="action">
+              <input id="opensub_login" class="i18n" type="text" placeholder="Username" />
+            </div>
+          </div>
+          <div class="option opensub-login">
+            <div class="action">
+              <input id="opensub_password" class="i18n" type="password" placeholder="Password" />
+            </div>
+          </div>
+          <div class="option">
+            <div class="action">
+              <button class="opensub_connect" onClick="Subtitles.opensubLogin()">
+                <i18n>Connect</i18n>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="oslogout">
+          <div class="option">
+            <div class="text i18n" title="The account currently used for Opensubtitles">
+              <i18n>Your are connected as</i18n> <span class="username"></span>
+            </div>
+            <div class="action">
+              <button class="disconnect" onClick="Subtitles.opensubLogout()">
+                <i18n>Disconnect</i18n>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="setting streamer">
+        <div class="title">
+          <i18n>Streamer</i18n>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="Lowering this can enhance your download speed and/or reduce the impact on your CPU (your mileage may vary)">
+            <i18n>Max connections</i18n>
+          </div>
+          <div class="action">
+            <input id="maxConns" class="i18n" type="text" placeholder="Default: 40" />
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="Time the client will spend trying to connect to peers before giving up, if none are available">
+            <i18n>Magnet timeout (milliseconds)</i18n>
+          </div>
+          <div class="action">
+            <input id="magnetTimeout" class="i18n" type="text" placeholder="Default: 10000" />
+          </div>
+        </div>
+        <div id="announceopt" class="option">
+          <div class="text i18n" title="The trackers help finding more peers for a P2P exchange, this is a default list used in case trackers aren't shipped with a magnet or a torrent">
+            <i18n>Fallback tracker list</i18n>
+          </div>
+          <div class="action">
+            <textarea id="announce" class="i18n" type="text" placeholder="Separate each tracker with a comma"></textarea>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="Allow HTTP/FTP connections">
+            <i18n>Use web seeds (BEP19)</i18n>
+          </div>
+          <div class="action">
+            <i18n>no</i18n>&nbsp;
+            <label class="switch">
+              <input id="webSeeds" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+            &nbsp;<i18n>yes</i18n>
+          </div>
+        </div>
+      </div>
+      <div class="setting plugins">
+        <div class="title">
+          <i18n>Plugins</i18n>
+        </div>
+      </div>
+      <div class="setting application">
+        <div class="title">
+          <i18n>Application</i18n>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="Be notified when a new update is available">
+            <i18n>Look for updates</i18n>
+          </div>
+          <div class="action">
+            <i18n>no</i18n>&nbsp;
+            <label class="switch">
+              <input id="lookForUpdates" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+            &nbsp;<i18n>yes</i18n>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="This application will be automatically started when your device is turned on">
+            <i18n>Auto-launch on start up</i18n>
+          </div>
+          <div class="action">
+            <i18n>no</i18n>&nbsp;
+            <label class="switch">
+              <input id="autolaunch" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+            &nbsp;<i18n>yes</i18n>
+          </div>
+        </div>
+        <div class="option" id="autolaunchminimized">
+          <div class="text secondary i18n" title="This application will be started minimized">
+            ⤷&nbsp;<i18n>Auto-launch minimized</i18n>
+          </div>
+          <div class="action">
+            <i18n>no</i18n>&nbsp;
+            <label class="switch">
+              <input id="startminimized" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+            &nbsp;<i18n>yes</i18n>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="Allows this application to be sent to tray when minimized, usually a small icon next to your system's clock">
+            <i18n>Minimize to tray</i18n>
+          </div>
+          <div class="action">
+            <i18n>no</i18n>&nbsp;
+            <label class="switch">
+              <input id="tray" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+            &nbsp;<i18n>yes</i18n>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="Images for Movies and Shows are saved locally to reduce the bandwidth used by this application">
+            <i18n>Locally cached images</i18n>
+          </div>
+          <div class="action">
+            <span id="imagecachesize"></span>&nbsp;<i18n>Mb used.</i18n>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="You can access your temporarily downloaded video files by pressing F10 (they will be deleted the next time you close this application)">
+            <i18n>Locally cached video files</i18n>&nbsp;(F10)
+          </div>
+          <div class="action">
+            <span id="videocachesize"></span>&nbsp;<i18n>Gb used.</i18n>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="This will delete all your settings and reset the app to a clean state, as if you just installed it">
+            <i18n>Reset default settings</i18n>
+          </div>
+          <div class="action">
+            <button class="disconnect" onClick="DB.reset()">
+              <i18n>Reset</i18n>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="details">
+      <div class="background"></div>
+      <div class="container">
+        <div class="data"></div>
+        <div id="details-back" onClick="Details.closeDetails()" class="fa fa-arrow-left i18n tooltipped" title="Go back"></div>
+
+        <div id="details-metadata">
+          <div class="ids">
+            <div class="id"></div>
+            <div class="imdb"></div>
+            <div class="tmdb"></div>
+            <div class="tvdb"></div>
+            <div class="trakt"></div>
+          </div>
+          <div class="titles">
+            <div class="title"></div>
+            <div class="ep-title"></div>
+          </div>
+          <div class="md-box">
+            <div class="poster">
+              <div class="openTrakt i18n" title="Open on Trakt.tv" onclick="Details.openTraktPage()">
+                <div class="trakt-icon-trakt"></div>&nbsp;
+                <i18n>See details</i18n>
+              </div>
+              <div class="corner-rating"><span></span></div>
+            </div>
+            <div class="md-line">
+              <span class="year"></span>
+              <span class="runtime"></span>
+              <span class="genres"></span>
+              <span class="rating tooltipped i18n" title="Rate this"></span>
+            </div>
+            <div class="synopsis"></div>
+            <div class="md-buttons">
+              <div class="trailer">
+                <div class="fa fa-youtube-play tooltipped i18n"></div>
+                <i18n>Watch trailer</i18n>
+              </div>
+              <div class="watched" onclick="Details.markAsWatched()">
+                <div class="trakt-icon-check-thick tooltipped i18n"></div>
+                <i18n>Mark as watched</i18n>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="details-sources">
+          <div class="query">
+            <input id="query" class="i18n" type="text" placeholder="Search" />
+            <div class="search fa fa-search i18n tooltipped" title="Search" onClick="Search.query()"></div>
+          </div>
+          <div class="sources row"></div>
+          <div class="drop-area">
+            <p>
+              <i18n>Drop a magnet or a video file</i18n>
+            </p>
+          </div>
+        </div>
+
+        <div id="details-spinner">
+          <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+          </div>
+        </div>
+
+        <div id="details-loading">
+          <div class="title">
+            <i18n>Now playing</i18n>
+          </div>
+          <div id="streaminfo">
+            <div class="file">
+              <div class="filename">
+                <i18n>File</i18n> - <span></span>
+              </div>
+              <div class="source">
+                <i18n>Source</i18n> - <span></span>
+              </div>
+              <div class="connection">
+                <div class="status">
+                  <i18n>Progress</i18n> - <span></span>
+                </div>
+                <div class="remaining">
+                  <i18n>Remaining time</i18n> - <span></span>
+                </div>
+                <div class="peers">
+                  <i18n>Active peers</i18n> - <span></span>
+                </div>
+                <div class="download">
+                  <i18n>Download speed</i18n> - <span></span>
+                </div>
+                <div class="upload">
+                  <i18n>Upload speed</i18n> - <span></span>
+                </div>
+              </div>
+            </div>
+            <div class="player">
+              <div class="control">
+                <div class="fa fa-fast-backward i18n tooltipped" title="Seek backward" onClick="Player.mpv.seek(-10)"></div>
+                <div class="fa fa-stop i18n tooltipped" title="Stop" onClick="Player.quit()"></div>
+                <div class="play fa fa-pause i18n tooltipped" title="Play/Pause" onClick="Player.mpv.togglePause()"></div>
+                <div class="fa fa-fast-forward i18n tooltipped" title="Seek forward" onClick="Player.mpv.seek(10)"></div>
+
+                <span class="separator"></span>
+
+                <div class="fa fa-font fa-font-small i18n tooltipped" title="Smaller font" onClick="Player.subFontSize(-5)"></div>
+                <div class="fa fa-font i18n tooltipped" title="Bigger font" onClick="Player.subFontSize(+5)"></div>
+
+                <span class="separator"></span>
+
+                <div class="fa fa-outdent i18n tooltipped" title="Subtitle delay -0.1s" onMouseDown="Player.subDelay(-0.1)" onMouseUp="Player.stopDelay()"></div>
+                <div class="fa fa-indent i18n tooltipped" title="Subtitle delay +0.1s" onMouseDown="Player.subDelay(+0.1)" onMouseUp="Player.stopDelay()"></div>
+                
+                <span class="separator"></span>
+                
+                <div class="fa fa-expand i18n tooltipped" title="Fullscreen" onMouseDown="Player.mpv.fullscreen() && Player.onTop()"></div>
+              </div>
+            </div>
+          </div>
+          <div id="subtitles">
+            <div class="title">
+              <i18n>Subtitles</i18n>
+            </div>
+            <div class="subs"></div>
+          </div>
+          <div id="cast">
+            <div class="peers fa fa-feed i18n" title="Keep watching on..." onClick="Details.keepWatchingPopup()"></div>
+          </div>
+        </div>
+
+        <div id="details-next">
+          <div class="title">
+            <i18n>Next episode</i18n>
+          </div>
+          <div class="content">
+            <div class="next-title">
+              <i18n>Ready to play</i18n> - <span></span>
+            </div>
+            <button id="playnext">
+              <i18n>Play now</i18n>
+            </button>
+            <button class="later" onClick="Details.closeDetails()">
+              <i18n>Later</i18n>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="keepWatching">
+        <div class="backgroundPopup" onClick="Details.closeKeepWatchingPopup()"></div>
+        <div class="selector">
+          <div class="title"><i18n>Cast to:</i18n></div>
+          <div class="list"></div>
+        </div>
+        <div class="casting">
+          <div class="logo fa fa-feed"></div>
+          <p class="message"></p>
+          <p class="ip"></p>
+        </div>
+      </div>
+      <div id="fileSelector">
+        <div class="backgroundPopup" onClick="Details.closeFileSelector()"></div>
+        <div class="selector">
+          <div class="title"><i18n>Select a file to play:</i18n></div>
+          <div class="list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="background" onClick="Interface.closeAbout()"></div>
+
+      <div class="content">
+        <div class="fa fa-github repolink i18n tooltipped" title="Get the source code"></div>
+        <h3>Frak <span class="version"></span></h3>
+        <h4>
+          <i18n>A frakingly good multimedia center</i18n>
+        </h4>
+
+        <div class="technologies">
+          <h5>
+            <i18n>Built with:</i18n>
+          </h5>
+          <div class="icons">
+            <img src="images/about/nodejs.png" class="tooltipped" title="NodeJS" onClick="Misc.openExternal('http://nodejs.org/')" />
+            <img src="images/about/html.png" class="tooltipped" title="HTML5" onClick="Misc.openExternal('https://www.w3.org/standards/')" />
+          </div>
+          <div class="icons icons-2">
+            <img src="images/about/nwjs.png" class="tooltipped" title="NW.js" onClick="Misc.openExternal('http://nwjs.io/')" />
+            <img src="images/about/mpv.png" class="tooltipped" title="mpv" onClick="Misc.openExternal('https://mpv.io/')" />
+            <img src="images/about/bootstrap.png" class="tooltipped" title="Bootstrap" onClick="Misc.openExternal('http://getbootstrap.com/')" />
+            <img src="images/about/jquery.png" class="tooltipped" title="jQuery" onClick="Misc.openExternal('https://jquery.com/')" />
+          </div>
+        </div>
+        <div class="services">
+          <h5>
+            <i18n>Thanks to:</i18n>
+          </h5>
+          <div class="icons">
+            <img src="images/about/trakt.png" class="tooltipped" title="Trakt" onClick="Misc.openExternal('https://trakt.tv/')" />
+            <img src="images/about/tmdb.png" class="tooltipped" title="TheMovieDB" onClick="Misc.openExternal('https://www.themoviedb.org/')" />
+            <img src="images/about/tvdb.png" class="tooltipped" title="TheTVDB" onClick="Misc.openExternal('http://thetvdb.com/')" />
+            <img src="images/about/fanart.png" class="tooltipped" title="Fanart.tv" onClick="Misc.openExternal('http://fanart.tv/')" />
+            <img src="images/about/opensubtitles.png" class="tooltipped" title="OpenSubtitles" onClick="Misc.openExternal('http://opensubtitles.org/')" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="legal">
+      <div class="background"></div>
+      <div class="content">
+        <div class="warning">
+          <i18n>By activating the optional third-party search plugins, you might encounter torrents that are illegal to download in your country. Downloading and sharing files that are protected under the intellectual property and/or copyrights, without consent of the right holders, is punishable of fines, and even prison, in most countries. No further notice will be issued.</i18n>
+        </div>
+        <button onClick="Interface.hideWarning()">
+          <i18n>I understand</i18n>
+        </button>
+      </div>
     </div>
+
+    <div id="playing">
+      <div class="fa fa-share"></div>
+      <span>
+        <i18n>Return to details</i18n>
+      </span>
+    </div>
+
+    <div id="notification-snack" onClick="$(this).hide()"></div>
+  </div>
 
 </body>
 
@@ -1032,7 +1036,7 @@
 <script src="js/vendor/bootstrap.min.js" type="application/javascript"></script>
 
 <script src="js/config.js" type="application/javascript"></script>
-    
+  
 <script src="js/utils/cache.js" type="application/javascript"></script>
 <script src="js/utils/boot.js" type="application/javascript"></script>
 <script src="js/utils/db.js" type="application/javascript"></script>
