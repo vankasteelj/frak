@@ -35,10 +35,18 @@ const Collection = {
   },
 
   get: {
-    traktshows: (update) => {
+    traktshows: (update, slug, cached) => {
       $('#navbar .shows .fa-spin').css('opacity', update ? 0 : 1)
 
-      return Trakt.client.ondeck.getAll(WB.get.shows()).then(results => {
+      return new Promise((resolve) => {
+        if (update && slug && cached) {
+          console.warn('ONDECK UPDATEONE', slug)
+          resolve(Trakt.client.ondeck.updateOne(cached, slug))
+        } else {
+          console.warn('ONDECK GETALL')
+          resolve(Trakt.client.ondeck.getAll(WB.get.shows()))
+        }
+      }).then(results => {
         console.info('Trakt.tv - "show watchlist" collection recieved')
 
         DB.store(Date.now(), 'traktsync')

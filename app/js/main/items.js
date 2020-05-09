@@ -579,8 +579,10 @@ const Items = {
 
     console.info('Mark as watched:', model.ids.slug || `${data.show.ids.slug} ${model.season}x${model.number}`)
 
-    Trakt.client.sync.history.add(post).finally(() => Trakt.reload(true, type))
-    WB.markAsWatched(data)
+    Trakt.client.sync.history.add(post).finally(() => {
+      Trakt.reload(true, type, data.show.ids.slug)
+      WB.markAsWatched(data)
+    })
   },
 
   markAsUnWatched: (watchedId, id) => {

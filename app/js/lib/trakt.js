@@ -158,7 +158,7 @@ const Trakt = {
     })
   },
 
-  reload: (update, type) => {
+  reload: (update, type, slug) => {
     const cached = {
       movies: DB.get('traktmovies'),
       moviescollection: DB.get('traktmoviescollection'),
@@ -193,7 +193,7 @@ const Trakt = {
         DB.remove('traktshows')
         DB.remove('traktshowscollection')
         DB.remove('traktsync')
-        return Collection.get.traktshows(update).then(collection => {
+        return Collection.get.traktshows(update, slug, cached.shows).then(collection => {
           Collection.get.traktcached(update)
           Trakt.getRatings()
           return [collection]
@@ -295,7 +295,7 @@ const Trakt = {
           Player.config.model.show && $(`#collection #${Player.config.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>')
 
           setTimeout(() => {
-            Trakt.reload(true, type).then(collections => {
+            Trakt.reload(true, type, Details.model.show.ids.slug).then(collections => {
               Details.loadNext()
             })
           }, 300)
