@@ -518,29 +518,30 @@ const Details = {
     post[type] = [item]
 
     console.info('Mark as watched:', base.movie ? model.ids.slug : `${base.show.ids.slug} ${model.season}x${model.number}`)
-    Trakt.client.sync.history.add(post)
-    WB.markAsWatched(base)
-
     Details.buttonAsWatched()
 
-    if (type === 'episodes') {
-      setTimeout(() => {
-        $('#details-sources').hide()
-        $('#details-loading').hide()
-        $('#details-spinner').show()
-      }, 50)
+    Trakt.client.sync.history.add(post).finally(() => {
+      if (type === 'episodes') {
+        setTimeout(() => {
+          $('#details-sources').hide()
+          $('#details-loading').hide()
+          $('#details-spinner').show()
+        }, 50)
 
-      // display spinner on list
-      model.show && $(`#collection #${model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>')
+        // display spinner on list
+        model.show && $(`#collection #${model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>')
 
-      setTimeout(() => {
-        Trakt.reload(true, type, base.show.ids.slug).then(collections => {
-          base.episode ? Details.loadLocalNext(true) : Details.loadNext(true)
-        })
-      }, 300)
-    } else {
-      $(`#collection #${model.ids.slug}`).hide()
-    }
+        setTimeout(() => {
+          Trakt.reload(true, type, base.show.ids.slug).then(collections => {
+            base.episode ? Details.loadLocalNext(true) : Details.loadNext(true)
+          })
+          WB.markAsWatched(base)
+        }, 300)
+      } else {
+        $(`#collection #${model.ids.slug}`).hide()
+        WB.markAsWatched(base)
+      }
+    })
   },
 
   buttonAsWatched: () => {
