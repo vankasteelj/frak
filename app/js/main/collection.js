@@ -40,10 +40,8 @@ const Collection = {
 
       return new Promise((resolve) => {
         if (slug && cached) {
-          console.warn('ONDECK UPDATEONE', slug)
           resolve(Trakt.client.ondeck.updateOne(cached, slug))
         } else {
-          console.warn('ONDECK GETALL')
           resolve(Trakt.client.ondeck.getAll(WB.get.shows()))
         }
       }).then(results => {
