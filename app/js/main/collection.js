@@ -39,7 +39,7 @@ const Collection = {
       $('#navbar .shows .fa-spin').css('opacity', update ? 0 : 1)
 
       return new Promise((resolve) => {
-        if (update && slug && cached) {
+        if (slug && cached) {
           console.warn('ONDECK UPDATEONE', slug)
           resolve(Trakt.client.ondeck.updateOne(cached, slug))
         } else {

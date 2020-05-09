@@ -277,7 +277,7 @@ const Items = {
                 '</div>' +
                 '<div class="quick-icons">' +
                     '<div class="actions">' +
-                        `<div class="watched trakt-icon-check-thick tooltipped i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched('${d.watchedId}', '${d.id}')"></div>` +
+                        `<div class="watched trakt-icon-check-thick tooltipped i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched(this)"></div>` +
                     '</div>' +
                     '<div class="metadata">' +
                         `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.watchedId}')">` +
@@ -332,7 +332,7 @@ const Items = {
                 '</div>' +
                 '<div class="quick-icons">' +
                     '<div class="actions">' +
-                        `<div class="watched trakt-icon-check-thick tooltipped i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched('${d.watchedId}', '${d.id}')"></div>` +
+                        `<div class="watched trakt-icon-check-thick tooltipped i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched(this)"></div>` +
                     '</div>' +
                     '<div class="metadata">' +
                         `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.watchedId}')">` +
@@ -581,17 +581,21 @@ const Items = {
     console.info('Mark as watched:', model.ids.slug || `${data.show.ids.slug} ${model.season}x${model.number}`)
 
     Trakt.client.sync.history.add(post).finally(() => {
-      Trakt.reload(true, type, data.show.ids.slug)
+      Trakt.reload(true, type, (data.show ? data.show.ids.slug : false))
       WB.markAsWatched(data)
     })
   },
 
-  markAsUnWatched: (watchedId, id) => {
+  markAsUnWatched: (elm) => {
+    const data = Items.getData(elm)
+    const type = data.show ? 'show' : 'movie'
+    const id = data[type].ids.slug
+    const watchedId = data.id
     $(`#${watchedId} .watched`).removeClass('selected')
     Trakt.client.sync.history.remove({
       ids: [watchedId]
     }).finally(() => {
-      Trakt.reload()
+      Trakt.reload(false, type)
       $(`#${watchedId}`).remove()
     })
     WB.markAsUnwatched(id)
@@ -671,5 +675,12 @@ const Items = {
 
   constructMessage: (text) => {
     return `<p class="rowMessage">${i18n.__(text)}</p>`
+  },
+  getData: (elm) => {
+    // extract json from data div
+    const id = ($(elm).context.offsetParent && $(elm).context.offsetParent.id) || $(elm).context.id
+    const data = JSON.parse($(`#${id}`).find('.data').text())
+
+    return data
   }
 }
