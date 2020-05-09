@@ -573,6 +573,7 @@ const Items = {
 
     const post = {}
     const item = {
+      watched_at: new Date().toISOString(),
       ids: model.ids
     }
     post[type] = [item]
