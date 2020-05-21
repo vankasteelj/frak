@@ -182,26 +182,6 @@ const Interface = {
       }
     }
 
-    Trakt.client.genres({ type: 'movies' }).then(moviegenres => {
-      // movie genres
-      movielabels.submenu2 = {
-        title: 'Genres...',
-        labels: {
-          All: () => Collection.show.movies(Collection.sort.movies.listed())
-        }
-      }
-      for (const i in moviegenres) {
-        movielabels.submenu2.labels[moviegenres[i].name] = () => Collection.show.movies(Collection.sort.movies.genre(moviegenres[i].slug))
-      }
-    }).finally(() => {
-      // menu popup
-      const moviemenu = Misc.customContextMenu(movielabels)
-      $('.nav.movies').off('contextmenu').on('contextmenu', (e) => {
-        Interface.showMovies()
-        moviemenu.popup(e.clientX, e.clientY)
-      })
-    })
-
     // right click SHOWS
     const showlabels = {}
 
@@ -217,8 +197,21 @@ const Interface = {
       }
     }
 
-    Trakt.client.genres({ type: 'shows' }).then(showgenres => {
+    Trakt.getGenres().then(genres => {
+      // movie genres
+      const moviegenres = genres.movies
+      movielabels.submenu2 = {
+        title: 'Genres...',
+        labels: {
+          All: () => Collection.show.movies(Collection.sort.movies.listed())
+        }
+      }
+      for (const i in moviegenres) {
+        movielabels.submenu2.labels[moviegenres[i].name] = () => Collection.show.movies(Collection.sort.movies.genre(moviegenres[i].slug))
+      }
+
       // show genres
+      const showgenres = genres.shows
       showlabels.submenu2 = {
         title: 'Genres...',
         labels: {
@@ -230,6 +223,13 @@ const Interface = {
       }
     }).finally(() => {
       // menu popup
+
+      const moviemenu = Misc.customContextMenu(movielabels)
+      $('.nav.movies').off('contextmenu').on('contextmenu', (e) => {
+        Interface.showMovies()
+        moviemenu.popup(e.clientX, e.clientY)
+      })
+
       const showmenu = Misc.customContextMenu(showlabels)
       $('.nav.shows').off('contextmenu').on('contextmenu', (e) => {
         Interface.showShows()

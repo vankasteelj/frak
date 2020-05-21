@@ -304,5 +304,25 @@ const Trakt = {
         }
       }
     }
+  },
+  getGenres: () => {
+    const cached = DB.get('traktgenres')
+    if (cached && (cached.ttl > Date.now())) {
+      console.debug('We got cached trakt genres')
+      return Promise.resolve(cached)
+    }
+
+    const genres = {}
+    return Trakt.client.genres({ type: 'movies' }).then(moviegenres => {
+      genres.ttl = Date.now() + (1000 * 60 * 60 * 24 * 7) // 7 days cache
+      genres.movies = moviegenres
+      return Trakt.client.genres({ type: 'shows' })
+    }).then(showgenres => {
+      genres.shows = showgenres
+      DB.store(genres, 'traktgenres')
+      return genres
+    }).catch(err => {
+      console.error('Unable to get genres from Trakt', err)
+    })
   }
 }
