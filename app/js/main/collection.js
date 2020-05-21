@@ -127,11 +127,22 @@ const Collection = {
     },
     history: () => {
       $('#navbar .history .fa-spin').css('opacity', 1)
-
-      return Trakt.client.sync.history.get({
-        limit: 23, // because bootstap column is 12 (23+1 show more)
-        page: 1,
-        extended: 'full'
+      return Trakt.last_activities('history').then(activities => {
+        if (!DB.get('trakthistory') || activities > (DB.get('traktsynchistory') || 0)) {
+          console.info('Fetching history from remote server')
+          return Trakt.client.sync.history.get({
+            limit: 23, // because bootstap column is 12 (23+1 show more)
+            page: 1,
+            extended: 'full'
+          }).then(results => {
+            DB.store(results, 'trakthistory')
+            DB.store(activities, 'traktsynchistory')
+            return results
+          })
+        } else {
+          console.info('Using cached history')
+          return DB.get('trakthistory')
+        }
       }).then(results => {
         console.info('Trakt.tv - history recieved', results)
         return Collection.format.trakthistory(results)

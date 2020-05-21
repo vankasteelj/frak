@@ -77,15 +77,22 @@ const Trakt = {
             new Date(results.movies.rated_at).valueOf(),
             new Date(results.shows.rated_at).valueOf()
           )
-        } else {
+        }
+      
+        if (type === 'history') {
           return Math.max(
-            new Date(results.episodes.watchlisted_at).valueOf(),
-            new Date(results.shows.watchlisted_at).valueOf(),
-            new Date(results.movies.watchlisted_at).valueOf(),
             new Date(results.episodes.watched_at).valueOf(),
             new Date(results.movies.watched_at).valueOf()
           )
         }
+      
+        return Math.max(
+          new Date(results.episodes.watchlisted_at).valueOf(),
+          new Date(results.shows.watchlisted_at).valueOf(),
+          new Date(results.movies.watchlisted_at).valueOf(),
+          new Date(results.episodes.watched_at).valueOf(),
+          new Date(results.movies.watched_at).valueOf()
+        )
     }).catch(console.error)
   },
 
