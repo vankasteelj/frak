@@ -56,21 +56,36 @@ const Trakt = {
   },
 
   last_activities: (type) => {
-    return Trakt.client.sync.last_activities().then(results => {
-      if (type === 'rate') {
-        return Math.max(Math, [
-          new Date(results.movies.rated_at).valueOf(),
-          new Date(results.shows.rated_at).valueOf()
-        ])
+    let cached = false
+    return new Promise((resolve, reject) => {
+      const cachedData = DB.get('traktlastactivities')
+      if (cachedData && (cachedData.ttl > Date.now())) {
+        console.debug('We got cached trakt last_activities')
+        cached = true
+        resolve(cachedData)
       } else {
-        return Math.max(Math, [
-          new Date(results.episodes.watchlisted_at).valueOf(),
-          new Date(results.shows.watchlisted_at).valueOf(),
-          new Date(results.movies.watchlisted_at).valueOf(),
-          new Date(results.episodes.watched_at).valueOf(),
-          new Date(results.movies.watched_at).valueOf()
-        ])
+        resolve(Trakt.client.sync.last_activities())
       }
+    }).then(results => {
+        if (!cached) {
+          results.ttl = Date.now() + (1000 * 10) // 10s cache, avoid multiple calls
+          DB.store(results, 'traktlastactivities')
+        }
+
+        if (type === 'rate') {
+          return Math.max(Math, [
+            new Date(results.movies.rated_at).valueOf(),
+            new Date(results.shows.rated_at).valueOf()
+          ])
+        } else {
+          return Math.max(Math, [
+            new Date(results.episodes.watchlisted_at).valueOf(),
+            new Date(results.shows.watchlisted_at).valueOf(),
+            new Date(results.movies.watchlisted_at).valueOf(),
+            new Date(results.episodes.watched_at).valueOf(),
+            new Date(results.movies.watched_at).valueOf()
+          ])
+        }
     }).catch(console.error)
   },
 
