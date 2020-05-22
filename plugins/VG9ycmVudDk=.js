@@ -1,13 +1,14 @@
 const cheerio = require('cheerio')
 const got = require('got')
-const defaultURL = 'https://ww1.torrent9.is'
+const defaultURL = atob('aHR0cHM6Ly93d3cudG9ycmVudDkuYWM=')
+const name = atob('VG9ycmVudDk=')
 
 const get = (keywords, cfg = {}) => {
   const reqURL = [
     cfg.url || defaultURL,
-    'search_torrent',
-    cfg.cat,
-    escape(keywords) + '.html,trie-seeds-d'
+    'recherche',
+    // cfg.cat,
+    escape(keywords)// + '.html,trie-seeds-d'
   ].join('/')
 
   const torrents = []
@@ -16,13 +17,13 @@ const get = (keywords, cfg = {}) => {
     timeout: 3500
   }).then(response => {
     if (!response.body) {
-      throw new Error('Error at fetching Torrent9')
+      throw new Error('Error at fetching %s', name)
     }
 
     const $ = cheerio.load(response.body)
 
     if (!$) {
-      throw new Error('Error at loading Torrent9')
+      throw new Error('Error at loading %s', name)
     }
 
     const torrentsTemp = []
@@ -33,7 +34,7 @@ const get = (keywords, cfg = {}) => {
         seeds: parseInt($(el).find('td').eq(2).text()),
         peers: parseInt($(el).find('td').eq(3).text()),
         magnet: $(el).find('a').eq(0).attr('href'),
-        source: 'Torrent9'
+        source: name
       }
 
       const str = $(el).find('td').eq(1).text()
@@ -65,11 +66,12 @@ const get = (keywords, cfg = {}) => {
 }
 
 module.exports = {
-  name: 'Torrent9',
+  name: name,
   url: defaultURL,
   search: (opts) => {
     const req = {}
 
+    // categories is broken
     switch (opts.type) {
       case 'show':
         req.cat = 'series'

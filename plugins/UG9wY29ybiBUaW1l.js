@@ -1,5 +1,6 @@
 const got = require('got')
-const defaultURL = 'api-fetch.sh' // .website, .am
+const defaultURL = atob('YXBpLWZldGNoLnNo') // .website, .am
+const name = atob('UG9wY29ybiBUaW1l')
 
 const getMovies = (query) => {
   const url = 'https://movies-v2.' + defaultURL
@@ -30,7 +31,7 @@ const getMovies = (query) => {
           seeds: parseInt(subitem.seed),
           peers: parseInt(subitem.peer),
           size: subitem.size,
-          source: 'Popcorn Time'
+          source: name
         }
         results.push(itemModel)
       }
@@ -108,7 +109,7 @@ const getShows = (query) => {
         magnet: item.url,
         seeds: parseInt(item.seeds),
         peers: parseInt(item.peers),
-        source: 'Popcorn Time'
+        source: name
       }
 
       results.push(itemModel)
@@ -122,7 +123,7 @@ const getShows = (query) => {
 }
 
 module.exports = {
-  name: 'Popcorn Time',
+  name: name,
   url: defaultURL,
   search: (opts) => {
     opts.keywords = opts.keywords.toLowerCase()
