@@ -320,7 +320,7 @@ const Trakt = {
             Trakt.reload(true, type, Details.model.show.ids.slug).then(collections => {
               Details.loadNext()
             })
-          }, 300)
+          }, 800)
         } else {
           $(`#collection #${Player.config.model.movie.ids.slug}`).hide()
         }
