@@ -46,7 +46,7 @@
     "readdirp": "^3.4.0",
     "trakt.tv": "^8.0.0",
     "trakt.tv-matcher": "^8.0.2",
-    "trakt.tv-ondeck": "^8.0.0",
+    "trakt.tv-ondeck": "^8.0.1",
     "webtorrent": "^0.108.1",
     "webtorrent-health": "^1.1.2"
   },
