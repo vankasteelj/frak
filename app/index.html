@@ -119,6 +119,15 @@
         </div>
       </div>
 
+      <div class="nav stats" onClick="Interface.showStats()">
+        <div class="fa fa-spin fa-refresh"></div>
+        <div class="fa fa-bar-chart">
+          <div class="text">
+            <i18n>Stats</i18n>
+          </div>
+        </div>
+      </div>
+
       <div class="nav bigpicture" onClick="Interface.bigPicture()">
         <div class="fa fa-arrows-alt">
           <div class="text">
@@ -214,6 +223,53 @@
 
     <section id="trakt">
       <div class="row" id="history"></div>
+
+      <div id="stats">
+        <div id="sbackground"></div>
+        <div id="suserinfo">
+          <p id="susername"></p>
+          <p id="suserjoined"><i18n>Trakt member since</i18n> <span></span></p>
+        </div>
+
+        <div id="sloading">
+          <div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+          </div>
+        </div>
+
+        <div id="sloaded">
+          <div id="stotalwatched">
+            <div class="category">
+              <div class="fa fa-television"></div>
+              <div class="content">
+                <span id="stotaltimeshows"></span>
+                <br>
+                <span id="stotalepisodes"></span> <i18n>episodes</i18n> (<span id="stotalshows"></span> <i18n>shows</i18n>)
+              </div>
+            </div>
+            <div class="category">
+              <div class="fa fa-film"></div>
+              <div class="content">
+                <span id="stotaltimemovies"></span>
+                <br>
+                <span id="stotalmovies"></span> <i18n>movies</i18n>
+              </div>
+            </div>
+          </div>
+
+          <div id="stop">
+            <div class=category>
+              <h3><i18n>Highest rated TV Shows</i18n></h3>
+              <ul id="stopratedshows"></ul>
+            </div>
+            <div class="category">
+              <h3><i18n>Highest rated Movies</i18n></h3>
+              <ul id="stopratedmovies"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="row" id="discover">
         <div class="disc-search">
@@ -1057,6 +1113,7 @@
 <script src="js/main/details.js" type="application/javascript"></script>
 <script src="js/main/loading.js" type="application/javascript"></script>
 <script src="js/main/discover.js" type="application/javascript"></script>
+<script src="js/main/stats.js" type="application/javascript"></script>
 
 <script src="js/lib/trakt.js" type="application/javascript"></script>
 <script src="js/lib/local.js" type="application/javascript"></script>

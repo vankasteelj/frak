@@ -11,6 +11,7 @@
   --app-color-alt: #e1e1e1;
   --app-font-color: #1d1d1d;
   --app-font-color-dimmed: #323232;
+  --app-font-color-dimmedstrong: #424242;
 
   /* navbar */
   --separator: rgba(60, 60, 60, .15);

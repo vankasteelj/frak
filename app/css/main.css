@@ -422,6 +422,8 @@
 #trailer,
 #history,
 #discover,
+#stats,
+#stats #sloaded,
 #about,
 #legal,
 #details,
@@ -1066,6 +1068,103 @@ a {
   width: 100%;
 }
 
+#stats #suserinfo {
+  text-align: center;
+  line-height: 1.1;
+  margin: 5px 0px;
+}
+
+#stats #susername {
+  font-size: 26px;
+  font-family: var(--font-semibold);
+}
+
+#stats #suserjoined {
+  text-transform: uppercase;
+  font-family: var(--font-bold);
+  font-size: 14px;
+  color: var(--app-font-color-dimmedstrong);
+}
+#stats #suserjoined span {
+  color: var(--app-font-color-dimmed);
+}
+
+#stats #sloaded {
+  margin-top: 10px;
+}
+#stats #stotalwatched .category {
+  font-size: 12px;
+  border-radius: 2px;
+  background-color: rgba(0,0,0,.3);
+  height: 60px;
+  padding: 10px;
+  width: 30%;
+  margin: 0 -15% 0 18%;
+  display: inline-flex;
+}
+#stats #stotalwatched .category div.fa {
+  font-size: 33px!important;
+  float: left;
+  margin: 5px 10px;
+}
+
+#stats #stotalwatched {
+  padding-top: 30px;
+}
+#stats #stotalwatched .content {
+  line-height: 16px;
+  margin-top: 6px;
+}
+#stats #stotalwatched .content span {
+  font-family: var(--font-semibold)
+}
+
+#stats #sloaded h3 {
+  font-family: var(--font-semibold);
+  color: var(--app-font-color-dimmed);
+  text-transform: uppercase;
+  font-size: 15px;
+}
+
+#stats #sloaded #stop .category li,
+#stats #sloaded #stop .category ul,
+#stats #sloaded #stop .category a {
+  list-style-type: none;
+  text-decoration: none;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+  font-size: 9px;
+  padding-bottom: 12px;
+  text-transform: uppercase;
+  font-family: var(--font-bold);
+}
+
+#stats #sbackground {
+  height: 100vh;
+  position: absolute;
+  width: calc(100% - 60px);
+  background: url(../images/placeholder.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  filter: blur(20px);
+  z-index: -1;
+}
+
+#stats #sloaded #stop .category h3 {
+  text-align: center;
+  padding-bottom: 5px;
+}
+#stats #sloaded #stop .category {
+  float: left;
+  padding: 20px;
+  width: 30%;
+  margin: 0 -15% 0 18%;
+  padding-top: 40px;
+  text-align: center;
+}
+
 #init .spinner {
   margin: 40px auto;
 }
@@ -1408,7 +1507,8 @@ a {
   background-color: rgba(11, 11, 11, .8);
 }
 
-#settings {
+#settings,
+#stats {
   height: 100vh;
   position: absolute;
   right: 0;

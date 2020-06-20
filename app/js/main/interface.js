@@ -73,6 +73,7 @@ const Interface = {
     $('#collection #locals').hide()
     $('#trakt #history').hide()
     $('#trakt #discover').hide()
+    $('#trakt #stats').hide()
     $('#settings').hide()
     $('#navbar .movies').addClass('active')
     DB.store('movies', 'last_tab')
@@ -86,6 +87,7 @@ const Interface = {
     $('#collection #locals').hide()
     $('#trakt #history').hide()
     $('#trakt #discover').hide()
+    $('#trakt #stats').hide()
     $('#settings').hide()
     $('#navbar .shows').addClass('active')
     DB.store('shows', 'last_tab')
@@ -99,6 +101,7 @@ const Interface = {
     $('#collection #movies').hide()
     $('#trakt #history').hide()
     $('#trakt #discover').hide()
+    $('#trakt #stats').hide()
     $('#settings').hide()
     $('#navbar .locals').addClass('active')
     $('#locals .categories').show()
@@ -115,6 +118,7 @@ const Interface = {
     $('#collection #locals').hide()
     $('#collection #movies').hide()
     $('#trakt #discover').hide()
+    $('#trakt #stats').hide()
     $('#navbar .settings').addClass('active')
   },
   // USER INTERACTION: click navbar
@@ -129,6 +133,7 @@ const Interface = {
         $('#collection #movies').hide()
         $('#settings').hide()
         $('#trakt #discover').hide()
+        $('#trakt #stats').hide()
         $('#trakt #history').show()
       }, 0)
     })
@@ -138,7 +143,28 @@ const Interface = {
     $('#collection #locals').hide()
     $('#collection #movies').hide()
     $('#trakt #discover').hide()
+    $('#trakt #stats').hide()
     $('#settings').hide()
+  },
+  // USER INTERACTION: click navbar
+  showStats: () => {
+    window.scrollTo(0, 0)
+    $('#navbar .nav').removeClass('active')
+    $('#navbar .stats').addClass('active')
+    $('#collection #shows').hide()
+    $('#collection #locals').hide()
+    $('#collection #movies').hide()
+    $('#trakt #discover').hide()
+    $('#trakt #history').hide()
+    $('#settings').hide()
+    $('#trakt #stats').show()
+    $('#trakt #stats #sloaded').hide()
+    $('#trakt #stats #sloading').show()
+
+    Stats.load().then(() => {
+      $('#trakt #stats #sloading').hide()
+      $('#trakt #stats #sloaded').show()
+    })
   },
 
   // USER INTERACTION: click navbar
@@ -152,6 +178,7 @@ const Interface = {
         $('#collection #movies').hide()
         $('#settings').hide()
         $('#trakt #history').hide()
+        $('#trakt #stats').hide()
         $('#trakt #discover').show()
         $('#navbar .discover').addClass('active')
       }, 0)
@@ -162,6 +189,7 @@ const Interface = {
     $('#collection #movies').hide()
     $('#settings').hide()
     $('#trakt #history').hide()
+    $('#trakt #stats').hide()
     $('#trakt #discover').show()
     $('#navbar .discover').addClass('active')
   },
