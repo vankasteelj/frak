@@ -1251,6 +1251,7 @@ a {
   background: rgba(0,0,0,.5);
   float: left;
   margin: 5px;
+  margin-bottom: 40px;
   border-color: var(--app-color-alt);
   border-width: 1px;
   border-style: solid;

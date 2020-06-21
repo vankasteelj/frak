@@ -1,6 +1,13 @@
 'use strict'
 
 const Stats = {
+  cache: {
+    ratings: undefined,
+    traktStats: undefined,
+    lastMonth: undefined,
+    showsStats: undefined
+  },
+
   load: () => {
     console.log('Loading trakt stats')
 
@@ -11,8 +18,14 @@ const Stats = {
     //reset
     $('#stats #stopratedshows').html('')
     $('#stats #stopratedmovies').html('')
+    $('#stats #sfunfacts #sfavgenres').html('')
+    $('#stats #sfunfacts #sfavcountries').html('')
+    $('#stats #sfunfacts #sfavyears').html('')
+    $('#stats #sfunfacts #sfavday').html('')
+    $('#stats #sfunfacts #sfavweek').html('')
+    $('#stats #sfunfacts #sfavhours').html('')
 
-    return Trakt.client.users.stats({username:suserinfo.username}).then(stats => {
+    return Stats.getTraktStats(suserinfo.username).then(stats => {
       $('#stats #stotaltimeshows').text(Misc.secsToYDHM(stats.episodes.minutes*60))
       $('#stats #stotalepisodes').text(Number(stats.episodes.watched).toLocaleString())
       $('#stats #stotalshows').text(Number(stats.shows.watched).toLocaleString())
@@ -52,6 +65,15 @@ const Stats = {
         $('#stats #sfunfacts #sfavyears').append(favyear)
       }
 
+      return Stats.getLastMonth()
+    }).then(lastMonth => {
+      $('#stats #sfunfacts #sfavday').append(`<li>${i18n.__(Misc.capitalize(lastMonth.days.best_day))}</li>`)
+      $('#stats #sfunfacts #sfavweek').append(`<li>${i18n.__('Weekdays')} (${lastMonth.days.weekdays}%)</li>`)
+      $('#stats #sfunfacts #sfavweek').append(`<li>${i18n.__('Weekends')} (${lastMonth.days.weekend}%)</li>`)
+      for (let time in lastMonth.hours) {
+        $('#stats #sfunfacts #sfavhours').append(`<li>${i18n.__(Misc.capitalize(time))} (${lastMonth.hours[time]}%)</li>`)
+      }
+      
       return
     }).catch(err => {
       console.error('Trakt stats error', err)
@@ -59,24 +81,37 @@ const Stats = {
   },
 
   getRatings: () => {
+    if (Stats.cache.ratings) return Stats.cache.ratings
+
     const ratings = DB.get('traktratings')
     const sort = Object.keys(ratings).sort((a,b) => ratings[b].rating - ratings[a].rating)
 
-    const collection = {movie: [], show: []}
+    Stats.cache.ratings = {movie: [], show: []}
 
     for (let i of sort) {
       let item = ratings[i]
-      collection[item.type].push({
+      Stats.cache.ratings[item.type].push({
         rating: item.rating,
         item: item[item.type]
       })
-      if (collection.movie.length >= 10 && collection.show.length >= 10) break
+      if (Stats.cache.ratings.movie.length >= 10 && Stats.cache.ratings.show.length >= 10) break
     }
     
-    return collection
+    return Stats.cache.ratings
+  },
+
+  getTraktStats: (username) => {
+    if (Stats.cache.traktStats) return Promise.resolve(Stats.cache.traktStats)
+
+    return Trakt.client.users.stats({username:username}).then(stats => {
+      Stats.cache.traktStats = stats
+      return Stats.cache.traktStats
+    })
   },
 
   getShowsStats: () => {
+    if (Stats.cache.showsStats) return Promise.resolve(Stats.cache.showsStats)
+
     const shows = DB.get('watchedShows')
     let mostWatched = {idx: null, timespent: null}
     let genres = [], countries = [], networks = [], years = []
@@ -96,21 +131,82 @@ const Stats = {
     countries = Stats._freqCount(countries)
     years = Stats._freqCount(years)
 
-    /**
-    console.log('I ve spend %s watching %s', Misc.secsToYDHM(mostWatched.timespent*60), shows[mostWatched.idx].show.title)
-    console.log('Most watched networks:', networks)
-    console.log('My favorite genres are', genres)
-    console.log('I watch mostly shows originating from', countries)
-    console.log('Based on my watched history, the best TV series years are', years)
-    **/
-
-    return {
+    Stats.cache.showsStats = {
       genres: genres,
       years: years,
       countries: countries,
-      networks: networks,
+      networks: networks, //unused
       most_watched: {show: shows[mostWatched.idx], time_spent: mostWatched.timespent*60}
     }
+
+    return Stats.cache.showsStats
+  },
+
+  getLastMonth: () => {
+    if (Stats.cache.lastMonth) return Promise.resolve(Stats.cache.lastMonth)
+
+    return Trakt.client.sync.history.get({type:'all',start_at:new Date(Date.now() - 30*24*60*60*1000).toISOString(), end_at:new Date().toISOString(), limit:1000}).then(history => {
+      let days = []
+      let hours = []
+      for (let i of history) {
+        let date = new Date(i.watched_at)
+        days = days.concat(date.getDay())
+        hours = hours.concat(date.getHours())
+      }
+      days = Stats._freqCount(days)
+      hours = Stats._freqCount(hours)
+
+      // 18-23: evenings // 24-4 night // 5-11: mornings // 12-17: afternoons
+      let times_total = null
+      let times = {
+        morning: null,
+        afternoon: null,
+        evening: null,
+        night: null
+      }
+      for (let i in hours) {
+        let h = hours[i].item
+        if (h >= 5 && h < 12) times.morning += hours[i].frequency
+        if (h >= 12 && h < 18) times.afternoon += hours[i].frequency
+        if (h >= 18 && h <= 23) times.evening += hours[i].frequency
+        if (h >= 0 && h < 5) times.night += hours[i].frequency
+        times_total += hours[i].frequency
+      }
+      
+      let week_total = null
+      let week = {
+        week: null,
+        weekend: null
+      }
+      for (let i in days) {
+        let d = days[i].item
+        if (d == 0 || d == 6) {
+          week.weekend += days[i].frequency
+        } else {
+          week.week += days[i].frequency
+        }
+        week_total += days[i].frequency
+      }
+
+      // days 6-0 week-end // 1-2-3-4-5 weekdays
+      let daysoftheweek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+
+      Stats.cache.lastMonth = {
+        days: {
+          weekdays: Math.round((week.week/week_total)*100),
+          weekend: Math.round((week.weekend/week_total)*100),
+          best_day: daysoftheweek[days[0].item]
+        },
+        hours: {
+          morning: Math.round((times.morning/times_total)*100),
+          afternoon: Math.round((times.afternoon/times_total)*100),
+          evening:Math.round((times.evening/times_total)*100),
+          night: Math.round((times.night/times_total)*100)
+        }
+      }
+      
+      return Stats.cache.lastMonth
+    })
   },
   
   _freqCount: (arr) => {
