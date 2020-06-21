@@ -325,5 +325,12 @@
 	"shows": "séries",
 	"movies": "films",
 	"Highest rated TV Shows": "Séries les mieux notées",
-	"Highest rated Movies": "Films les mieux notés"
+	"Highest rated Movies": "Films les mieux notés",
+	"Most watched TV Show": "Série la plus regardée",
+	"I've spent %s watching %s": "J'ai passé %s à regarder %s",
+	"%s episodes played": "%s épisodes regardés",
+	"Fun facts about my TV Show history": "\"Fun facts\" basés sur mon historique de visionnage",
+	"My favorite genres are:": "Mes genres favoris sont :",
+	"I mostly watch content from:": "Je regarde principalement du contenu qui vient de :",
+	"The golden years of television are:": "Les années d'or de la télévision sont :"
 }

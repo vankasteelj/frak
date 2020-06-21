@@ -1167,7 +1167,7 @@ a {
 #stats #sbackground {
   height: 100vh;
   width: 100vw;
-  position: absolute;
+  position: fixed;
   background: url(../images/posters.jpg);
   filter: saturate(70%) blur(7px) brightness(35%);
   z-index: -1;
@@ -1176,6 +1176,85 @@ a {
 #stats #sloaded #stop .category h3 {
   text-align: center;
   padding-bottom: 5px;
+}
+
+#stats #smostwatched {
+  clear: both;
+  width: 800px;
+  height: 300px;
+  margin: 15px auto;
+  background: rgba(0,0,0,.5);
+  padding: 20px;
+  border-radius: 4px;
+}
+
+#stats #sposter {
+  width: 175px;
+  height: 260px;
+  background-size: cover;
+  float: left;
+}
+
+#stats #smostwatchedcontent {
+  margin-left: 20px;
+  width: 560px;
+  float: left;
+}
+
+#stats #smostwatchedtime {
+  font-family: var(--font-bold);
+  text-transform: uppercase;
+}
+#stats #smostwatchedepisodes {
+  text-transform: uppercase;
+  font-family: var(--font-semibold);
+  font-size: 13px;
+}
+#stats #smostwatchedoverview {
+  height: 140px;
+  overflow-y: scroll;
+  font-style: italic;
+  padding-right: 5px;
+  color: var(--app-font-color-dimmed);
+  font-size: 11px;
+  font-family: var(--font);
+}
+
+#stats #sfunfacts {
+  clear: both;
+  width: 800px;
+  height: 300px;
+  margin: 15px auto;
+  padding: 20px;
+}
+#stats #sfunfacts .sfuncard h4 {
+  font-size: 12px;
+  font-family: var(--font-semibold);
+  text-transform: uppercase;
+  padding: 0 20px;
+  text-align: center;
+  color: var(--app-font-color-dimmedstrong);
+  height: 30px;
+}
+#stats #sfunfacts ul {
+  list-style: none;
+  font-family: var(--font-bold);
+  text-transform: uppercase;
+  font-size: 14px;
+  margin: 0;
+  padding-left: 0;
+  text-align: center;
+}
+#stats #sfunfacts .sfuncard {
+  width: 240px;
+  height: 150px;
+  background: rgba(0,0,0,.5);
+  float: left;
+  margin: 5px;
+  border-color: var(--app-color-alt);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
 }
 
 #init .spinner {
