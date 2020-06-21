@@ -1094,14 +1094,38 @@ a {
 }
 #stats #stotalwatched .category {
   font-size: 12px;
-  border-radius: 2px;
-  background-color: rgba(0,0,0,.3);
+  border-radius: 4px;
+  background-color: rgba(0,0,0,.5);
   height: 60px;
-  padding: 10px;
-  width: 30%;
-  margin: 0 -15% 0 18%;
+  padding: 8px;
+  width: 280px;
+  float: left;
   display: inline-flex;
 }
+#stats #stotalwatched .category.show {
+  margin-left: calc(30% - 140px);
+  margin-right: calc(20% - 140px);
+}
+#stats #stotalwatched .category.movie {
+  margin-left: calc(20% - 140px);
+  margin-right: calc(30% - 140px);
+}
+#stats #sloaded #stop .category {
+  float: left;
+  padding: 20px;
+  padding-top: 40px;
+  width: 350px;
+  text-align: center;
+}
+#stats #sloaded #stop .category.show {
+  margin-left: calc(30% - 175px);
+  margin-right: calc(20% - 175px);
+}
+#stats #sloaded #stop .category.movie {
+  margin-left: calc(20% - 175px);
+  margin-right: calc(30% - 175px);
+}
+
 #stats #stotalwatched .category div.fa {
   font-size: 33px!important;
   float: left;
@@ -1123,7 +1147,7 @@ a {
   font-family: var(--font-semibold);
   color: var(--app-font-color-dimmed);
   text-transform: uppercase;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 #stats #sloaded #stop .category li,
@@ -1134,7 +1158,7 @@ a {
   color: inherit;
   margin: 0;
   padding: 0;
-  font-size: 9px;
+  font-size: 10px;
   padding-bottom: 12px;
   text-transform: uppercase;
   font-family: var(--font-bold);
@@ -1142,27 +1166,16 @@ a {
 
 #stats #sbackground {
   height: 100vh;
+  width: 100vw;
   position: absolute;
-  width: calc(100% - 60px);
-  background: url(../images/placeholder.png);
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  filter: blur(20px);
+  background: url(../images/posters.jpg);
+  filter: saturate(70%) blur(7px) brightness(35%);
   z-index: -1;
 }
 
 #stats #sloaded #stop .category h3 {
   text-align: center;
   padding-bottom: 5px;
-}
-#stats #sloaded #stop .category {
-  float: left;
-  padding: 20px;
-  width: 30%;
-  margin: 0 -15% 0 18%;
-  padding-top: 40px;
-  text-align: center;
 }
 
 #init .spinner {
