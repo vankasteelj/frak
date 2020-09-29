@@ -431,7 +431,7 @@ const Interface = {
       DB.store(false, 'bigPicture')
     }
 
-    setTimeout(() => Player.setMPV(DB.get('mpv')), 400)
+    Misc.sleep(400).then(() => Player.setMPV(DB.get('mpv')))
   },
   playerPopup: () => {
     nw.Window.open('app/html/playerPopup.html', {

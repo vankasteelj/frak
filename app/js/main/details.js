@@ -531,12 +531,13 @@ const Details = {
         // display spinner on list
         model.show && $(`#collection #${model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>')
 
-        setTimeout(() => {
-          Trakt.reload(true, type, base.show.ids.slug).then(collections => {
-            base.episode ? Details.loadLocalNext(true) : Details.loadNext(true)
-          })
+        Misc.sleep(800).then(() => {
           WB.markAsWatched(base)
-        }, 300)
+          return Trakt.reload(true, type, base.show.ids.slug)
+        }).then(collections => {
+          base.episode ? Details.loadLocalNext(true) : Details.loadNext(true)
+        })
+
       } else {
         $(`#collection #${model.ids.slug}`).hide()
         WB.markAsWatched(base)

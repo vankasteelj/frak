@@ -226,5 +226,9 @@ const Misc = {
     var hDisplay = h > 0 ? h + ' ' + (h == 1 ? i18n.__('hour') : i18n.__('hours')) : ''
     var mDisplay = m > 0 ? m + ' ' + (m == 1 ? i18n.__('minute') : i18n.__('minutes')) : ''
     return [yDisplay, dDisplay, hDisplay, mDisplay].filter(e => e).join(' ').trim()
+  }, 
+  
+  sleep: (ms) => {
+    return new Promise((resolve) => setTimeout(resolve, ms))
   }
 }

@@ -316,11 +316,11 @@ const Trakt = {
           // display spinner on list
           Player.config.model.show && $(`#collection #${Player.config.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>')
 
-          setTimeout(() => {
-            Trakt.reload(true, type, Details.model.show.ids.slug).then(collections => {
+          Misc.sleep(800).then(() => {
+            return Trakt.reload(true, type, Details.model.show.ids.slug)
+          }).then(collections => {
               Details.loadNext()
-            })
-          }, 800)
+          })
         } else {
           $(`#collection #${Player.config.model.movie.ids.slug}`).hide()
         }
