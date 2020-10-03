@@ -465,7 +465,7 @@ const Boot = {
 
     win.tray.on('click', openFromTray)
     nw.App.on('open', openFromTray)
-    
+
     console.debug('Created tray menu for the application')
   },
 

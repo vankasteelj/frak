@@ -8,8 +8,8 @@ const Plugins = {
 
     fs.existsSync(dir) && fs.readdir(dir, (err, plugins = []) => {
       if (err) return
-      
-      let debugnames = []
+
+      const debugnames = []
       for (const file of plugins) {
         try {
           const found = path.join(dir, file)

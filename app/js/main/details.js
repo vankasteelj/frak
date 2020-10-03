@@ -537,7 +537,6 @@ const Details = {
         }).then(collections => {
           base.episode ? Details.loadLocalNext(true) : Details.loadNext(true)
         })
-
       } else {
         $(`#collection #${model.ids.slug}`).hide()
         WB.markAsWatched(base)

@@ -322,7 +322,7 @@ const Trakt = {
           Misc.sleep(800).then(() => {
             return Trakt.reload(true, type, Details.model.show.ids.slug)
           }).then(collections => {
-              Details.loadNext()
+            Details.loadNext()
           })
         } else {
           $(`#collection #${Player.config.model.movie.ids.slug}`).hide()
