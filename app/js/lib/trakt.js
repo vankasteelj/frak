@@ -181,6 +181,9 @@ const Trakt = {
   },
 
   reload: (update, type, slug) => {
+    console.info('Trakt reload')
+    console.debug('Trakt reload (update = %s / type = %s / slug = %s)', update, type, slug)
+
     const cached = {
       movies: DB.get('traktmovies'),
       moviescollection: DB.get('traktmoviescollection'),
@@ -197,7 +200,7 @@ const Trakt = {
     }
 
     const handleError = (e) => {
-      console.error(e)
+      console.error('Trakt reload failed', e)
       DB.store(cached.movies, 'traktmovies')
       DB.store(cached.moviescollection, 'traktmoviescollection')
       DB.store(cached.shows, 'traktshows')

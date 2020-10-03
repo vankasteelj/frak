@@ -42,7 +42,7 @@ const Collection = {
         if (slug && cached) {
           resolve(Trakt.client.ondeck.updateOne(cached, slug))
         } else {
-          resolve(Trakt.client.ondeck.getAll(WB.get.shows()))
+          resolve(Trakt.client.ondeck.getAll(update ? WB.get.shows() : undefined))
         }
       }).then(results => {
         console.info('Trakt.tv - "show watchlist" collection recieved')

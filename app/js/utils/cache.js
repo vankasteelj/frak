@@ -5,7 +5,10 @@ const Cache = {
   create: () => {
     try {
       fs.mkdirSync(Cache.dir)
-    } catch (e) {}
+      console.debug('Cache folder created in', Cache.dir)
+    } catch (e) {
+      console.debug('Failed to create cache folder in', Cache.dir, e)
+    }
   },
   delete: () => {
     try {

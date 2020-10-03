@@ -152,6 +152,7 @@ const Boot = {
 
   // STARTUP: set up version number and repository link
   setupVersion: () => {
+    console.info('Running app version', PKJSON.version)
     $('#about .version').text(PKJSON.version)
     $('#about .repolink').on('click', () => {
       Misc.openExternal(PKJSON.homepage)
@@ -464,6 +465,8 @@ const Boot = {
 
     win.tray.on('click', openFromTray)
     nw.App.on('open', openFromTray)
+    
+    console.debug('Created tray menu for the application')
   },
 
   idle: () => {

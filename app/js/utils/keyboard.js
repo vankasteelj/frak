@@ -45,6 +45,7 @@ const Keyboard = {
       } else if (key.key === 'F5') {
         Trakt.reload()
       } else if (key.key === 'F10') {
+        console.info('Opening cache folder', Cache.dir)
         Misc.openExternal(Cache.dir)
       } else if (key.key.match(/[a-z]/i)) {
         // local list jump

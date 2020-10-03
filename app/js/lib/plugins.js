@@ -8,8 +8,8 @@ const Plugins = {
 
     fs.existsSync(dir) && fs.readdir(dir, (err, plugins = []) => {
       if (err) return
-      console.info('Plugins - loading:', plugins.join(', '))
-
+      
+      let debugnames = []
       for (const file of plugins) {
         try {
           const found = path.join(dir, file)
@@ -38,10 +38,12 @@ const Plugins = {
           }
 
           Plugins.addToSettings(Plugins.available[tmp.name])
+          debugnames.push(tmp.name)
         } catch (e) {
           console.info('Plugins - %s cannot be loaded', file, e)
         }
       }
+      console.info('Plugins - loading:', debugnames.join(', '))
     })
   },
   addToSettings: (plugin) => {

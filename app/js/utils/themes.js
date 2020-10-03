@@ -22,7 +22,7 @@ const Themes = {
   },
 
   apply: (theme = 'dark') => {
-    console.info('Apply theme:', theme)
+    console.info('Theme applied:', theme)
     DB.store(theme, 'theme')
     document.documentElement.className = theme
     setTimeout(() => $('#theme').val(theme), 0)
