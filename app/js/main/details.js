@@ -6,7 +6,7 @@ const Details = {
   from: undefined,
   previous: {
     id: undefined,
-    hmtl: undefined
+    html: undefined
   },
 
   getData: (elm) => {
@@ -138,7 +138,7 @@ const Details = {
     if (Details.previous.id) {
       const nav = $('#navbar .nav.active').attr('class')
       $('#playing').show().off('click').on('click', () => {
-        $(`#navbar .${nav.split(' ')[1]}`).click()
+        if (Details.from !== 'discover') $(`#navbar .${nav.split(' ')[1]}`).click()
 
         $(`#${Details.previous.id}`).click()
         $(`#${Details.previous.id} .play`).click()
