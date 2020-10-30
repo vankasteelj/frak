@@ -65,7 +65,11 @@
 </body>
 
 <script>
-  document.addEventListener('contextmenu', (e) => e.preventDefault());
+  document.addEventListener('contextmenu', (e) => e.preventDefault())
+  document.addEventListener('keypress', (e) => {
+    if (e.code === 'Space') nw.global.playerAPI.mpv.togglePause()
+    if (e.key === 'Escape' || e.key === 'f') nw.global.playerAPI.mpv.toggleFullscreen()
+  })
 </script>
 
 </html>
