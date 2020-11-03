@@ -21,9 +21,9 @@
   --tab-text: #c5c6ce;
   --tab-bg: transparent;
   --tab-text-hover: #fafafb;
-  --tab-bg-hover: #32343a;
+  --tab-bg-hover: #44474f;
   --tab-text-select: #fafafb;
-  --tab-bg-select: #44474f;
+  --tab-bg-select: #32343a;
 
   /* buttons */
   --button-bg: #16a085;
@@ -96,4 +96,9 @@
 
   /* about */
   --icons-hover-bg: rgba(240, 240, 240, .2)
+}
+
+/* CUSTOM */
+.actions .play:hover {
+  background-color: #44474f!important;
 }
