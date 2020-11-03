@@ -96,7 +96,7 @@ const Items = {
         }
       }
       const menu = Misc.customContextMenu(labels)
-      $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY))
+      $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
     })
 
     return item
@@ -173,7 +173,7 @@ const Items = {
         }).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(show.show.ids.slug)).catch(console.error)
       }
       const menu = Misc.customContextMenu(labels)
-      $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY))
+      $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
     })
 
     return item
@@ -467,7 +467,7 @@ const Items = {
       }).then(() => DB.store(0, 'lastrecommendedsync')).then(() => $(`#${d.id}`).remove()))
       labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`)
       const menu = Misc.customContextMenu(labels)
-      $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY))
+      $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
     })
 
     return item
@@ -549,7 +549,7 @@ const Items = {
       }).then(() => DB.store(0, 'lastrecommendedsync')).then(() => $(`#${d.id}`).remove()))
       labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`)
       const menu = Misc.customContextMenu(labels)
-      $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(e.clientX, e.clientY))
+      $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
     })
 
     return item

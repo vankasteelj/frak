@@ -94,7 +94,7 @@ const Boot = {
           menu = Misc.contextMenu(i18n.__('Cut'), i18n.__('Copy'), i18n.__('Paste'), e.target.id)
         }
         // show our custom menu
-        menu.popup(e.x, e.y)
+        menu.popup(parseInt(e.x), parseInt(e.y))
         return false
       }, false)
     })

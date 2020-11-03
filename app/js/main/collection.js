@@ -260,7 +260,7 @@ const Collection = {
           }
 
           const menu = Misc.customContextMenu(context)
-          item.oncontextmenu = (e) => menu.popup(e.clientX, e.clientY)
+          item.oncontextmenu = (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY))
           i++
           setTimeout(doLoop, 0)
         }

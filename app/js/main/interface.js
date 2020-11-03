@@ -255,13 +255,13 @@ const Interface = {
       const moviemenu = Misc.customContextMenu(movielabels)
       $('.nav.movies').off('contextmenu').on('contextmenu', (e) => {
         Interface.showMovies()
-        moviemenu.popup(e.clientX, e.clientY)
+        moviemenu.popup(parseInt(e.clientX), parseInt(e.clientY))
       })
 
       const showmenu = Misc.customContextMenu(showlabels)
       $('.nav.shows').off('contextmenu').on('contextmenu', (e) => {
         Interface.showShows()
-        showmenu.popup(e.clientX, e.clientY)
+        showmenu.popup(parseInt(e.clientX), parseInt(e.clientY))
       })
     })
   },
