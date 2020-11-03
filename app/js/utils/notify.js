@@ -19,7 +19,7 @@ const Notify = {
         .hide('fast')
         .removeClass('slideNotification')
         .dequeue())
-  },
+  }
   // request attention when in bg
   /** Not working as of nwjs >= 0.39
   requestAttention: () => {
