@@ -3,7 +3,7 @@
   "releaseName": "Frak",
   "description": "A frakingly good media center",
   "license": "GPL-3.0",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "homepage": "https://github.com/vankasteelj/frak",
   "releases": "https://github.com/vankasteelj/frak/releases",
   "portable": false,
