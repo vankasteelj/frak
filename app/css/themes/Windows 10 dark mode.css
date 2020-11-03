@@ -1,6 +1,6 @@
 /* Theme file: Windows 10 Dark Mode */
 
-.w10dark {
+.Windows_10_dark_mode {
   /* fonts */
   --font: 'Proxima Nova';
   --font-semibold: 'Proxima Nova Semibold';
@@ -54,7 +54,7 @@
 
   /* lists */
   --scrollbar-track: transparent;
-  --scrollbar: #eee;
+  --scrollbar: #eff0f1;
   --scrollbar-hover: #fafafb;
   --waitbounce: #32343a;
 
@@ -68,10 +68,10 @@
 
   --localitem-main: #202125;
   --localitem-main-hover: #292a30;
-  --localitem-season: #292929;
-  --localitem-season-hover: #2f2f2f;
-  --localitem-episode: #393939;
-  --localitem-episode-hover: #3f3f3f;
+  --localitem-season: #292a30;
+  --localitem-season-hover: #32343a;
+  --localitem-episode: #32343a;
+  --localitem-episode-hover: #3b3d45;
 
   --localitem-border: #292a30;
   --localitem-text: #fafafb;
