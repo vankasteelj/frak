@@ -25,7 +25,7 @@
     "min_height": 518,
     "show": false
   },
-  "chromium-args": "--disable-raf-throttling --future",
+  "chromium-args": "--disable-raf-throttling --future --single-process --in-process-gpu",
   "node-remote": "*://*",
   "repository": {
     "type": "git",
