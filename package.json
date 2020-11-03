@@ -18,7 +18,7 @@
   "dom_storage_quota": 20,
   "window": {
     "width": 1024,
-    "height": 624,
+    "height": 654,
     "title": "Frak",
     "icon": "app/images/frak-logo.png",
     "min_width": 885,

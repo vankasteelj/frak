@@ -2416,6 +2416,7 @@ body {
   color: var(--app-font-color);
   cursor: default;
   overflow-x: hidden;
+  overflow-y: overlay;
   text-rendering: optimizeSpeed;
   webkit-font-smoothing: antialiased;
   webkit-user-drag: none;
