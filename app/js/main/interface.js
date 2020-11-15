@@ -435,8 +435,8 @@ const Interface = {
   },
   playerPopup: () => {
     nw.Window.open('app/html/playerPopup.html', {
-      width: 360,
-      height: 60,
+      width: 365,
+      height: 65,
       always_on_top: true,
       resizable: false,
       show: false,
