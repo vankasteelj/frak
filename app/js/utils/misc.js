@@ -216,15 +216,15 @@ const Misc = {
 
   secsToYDHM: (seconds) => {
     seconds = Number(seconds)
-    var y = Math.floor(seconds / (365.2422 * 3600 * 24))
-    var d = Math.floor(seconds % (365.2422 * 3600 * 24) / (3600 * 24))
-    var h = Math.floor(seconds % (3600 * 24) / 3600)
-    var m = Math.floor(seconds % 3600 / 60)
+    const y = Math.floor(seconds / (365.2422 * 3600 * 24))
+    const d = Math.floor(seconds % (365.2422 * 3600 * 24) / (3600 * 24))
+    const h = Math.floor(seconds % (3600 * 24) / 3600)
+    const m = Math.floor(seconds % 3600 / 60)
 
-    var yDisplay = y > 0 ? y + ' ' + (y === 1 ? i18n.__('year') : i18n.__('years')) : ''
-    var dDisplay = d > 0 ? d + ' ' + (d === 1 ? i18n.__('day') : i18n.__('days')) : ''
-    var hDisplay = h > 0 ? h + ' ' + (h === 1 ? i18n.__('hour') : i18n.__('hours')) : ''
-    var mDisplay = m > 0 ? m + ' ' + (m === 1 ? i18n.__('minute') : i18n.__('minutes')) : ''
+    const yDisplay = y > 0 ? y + ' ' + (y === 1 ? i18n.__('year') : i18n.__('years')) : ''
+    const dDisplay = d > 0 ? d + ' ' + (d === 1 ? i18n.__('day') : i18n.__('days')) : ''
+    const hDisplay = h > 0 ? h + ' ' + (h === 1 ? i18n.__('hour') : i18n.__('hours')) : ''
+    const mDisplay = m > 0 ? m + ' ' + (m === 1 ? i18n.__('minute') : i18n.__('minutes')) : ''
     return [yDisplay, dDisplay, hDisplay, mDisplay].filter(e => e).join(' ').trim()
   },
 
