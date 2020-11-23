@@ -336,8 +336,7 @@ gulp.task('mpv', () => {
       stream.on('finish', resolve)
     }).then(() => {
       console.log('mpv downloaded, extracting...')
-      const zip = new Z7()
-      return zip.extractFull(path.join(temp, 'mpv.7z'), 'mpv')
+      return Z7.extractFull(path.join(temp, 'mpv.7z'), 'mpv')
     }).then(() => {
       console.log('mpv extracted')
       console.log('downloading youtube-dl...')
