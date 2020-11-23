@@ -149,5 +149,12 @@ const Loading = {
 
     $('#details-sources').show()
     $('#details-loading').hide()
+
+    // clean states
+    $('#streaminfo .status span').text('')
+    $('#streaminfo .remaining span').text('')
+    $('#streaminfo .peers span').text('')
+    $('#streaminfo .download span').text('')
+    $('#streaminfo .upload span').text('')
   }
 }
