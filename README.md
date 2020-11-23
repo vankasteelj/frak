@@ -1,11 +1,6 @@
 # Frak
 
-[![Dependency Status](https://david-dm.org/vankasteelj/frak/status.svg)](https://david-dm.org/vankasteelj/frak)
-[![devDependency Status](https://david-dm.org/vankasteelj/frak/dev-status.svg)](https://david-dm.org/vankasteelj/frak?type=dev)
-
 **A frakingly good media center**
-
-![frak](https://user-images.githubusercontent.com/12599850/44541156-62447d00-a709-11e8-8a83-81fd5807d8bd.png)
 
 ## Prerequisites
 - A [trakt](https://trakt.tv/) account (you'll be prompted to create one or login)
