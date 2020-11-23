@@ -337,24 +337,8 @@ const Interface = {
     console.info('Switching to %s items', wasBig ? 'smaller' : 'bigger')
 
     const size = {
-      from: wasBig ? {
-        sm: 6,
-        md: 6,
-        lg: 4
-      } : {
-        sm: 6,
-        md: 4,
-        lg: 3
-      },
-      to: wasBig ? {
-        sm: 6,
-        md: 4,
-        lg: 3
-      } : {
-        sm: 6,
-        md: 6,
-        lg: 4
-      }
+      from: wasBig ? { sm: 6, md: 6, lg: 4 } : { sm: 6, md: 4, lg: 3 },
+      to: wasBig ? { sm: 6, md: 4, lg: 3 } : { sm: 6, md: 6, lg: 4 }
     }
 
     $(`.col-sm-${size.from.sm}`).addClass(`col-sm-${size.to.sm}`).removeClass(`col-sm-${size.from.sm}`)
