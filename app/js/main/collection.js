@@ -247,7 +247,7 @@ const Collection = {
           const item = items.item(i)
           const file = JSON.parse(item.firstChild.innerText)
           let context = {
-            'Play now': () => item.click()
+            'Play now': () => item.trigger('click')
           }
           if (!file.source) {
             context = Object.assign(context, {

@@ -393,14 +393,16 @@ const Discover = {
   },
   getData: (elm) => {
     // extract json from data div
-    const id = ($(elm).context.offsetParent && $(elm).context.offsetParent.id) || $(elm).context.id
+    const $elm = $(elm)[0]
+    const id = ($elm.offsetParent && $elm.offsetParent.id) || $elm.id
     const data = JSON.parse($(`#${id}`).find('.data').text())
 
     return data
   },
 
   addToWatchlist: (item) => {
-    const id = $(item).context.offsetParent.id || $(item).context.id
+    const $item = $(item)[0]
+    const id = $item.offsetParent.id || $item.id
     const data = Discover.getData(item)
     const type = data.movie ? 'movie' : 'show'
 

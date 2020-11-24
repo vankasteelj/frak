@@ -65,7 +65,7 @@ const Plugins = {
     $(`#${id}`).off('click').on('click', (evt) => {
       Interface.showWarning()
 
-      const isActive = evt.toElement.checked
+      const isActive = evt.target.checked
       DB.store(isActive, plugin.name)
 
       if (isActive) {
@@ -78,7 +78,7 @@ const Plugins = {
     })
 
     if (plugin.default) {
-      $(`#${id}`).click()
+      $(`#${id}`).trigger('click')
     }
   }
 }
