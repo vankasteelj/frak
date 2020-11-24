@@ -1,64 +1,36 @@
 'use strict'
 
 const got = require('got')
-const cheerio = require('cheerio')
-const defaultURL = atob('aHR0cDovL3JhcmJnbWlycm9yLmNvbQ==')
+const defaultURL = atob('aHR0cHM6Ly90b3JyZW50YXBpLm9yZy9wdWJhcGlfdjIucGhw')
 const name = atob('UkFSQkc=')
 
 const get = (keywords, cfg = {}) => {
   const url = cfg.url || defaultURL
+  const config = {headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0'}}
 
-  const reqUrl = url +
-  '/torrents.php?' +
-  (cfg.cat && 'category=' + cfg.cat + '&') +
-  ('search=' + encodeURIComponent(keywords).replace(/%20/g, '+')) +
-  '&order=seeders&by=DESC'
-
-  return got(reqUrl, { timeout: 3500 }).then(data => {
-    const $page = cheerio.load(data.body)
-    const $list = cheerio.load($page('.lista2t').html())
-
-    const tmp = []
-    const list = []
-
-    $list('.lista2').each(function (index, el) {
-      const $chunk = cheerio.load($list(this).html())
-
-      const torrent = {
-        name: $chunk('a').eq(1).text(),
-        magnet: `${url}${$chunk('a').eq(1).attr('href')}`,
-        seeds: parseInt($chunk('td').eq(4).text()),
-        peers: parseInt($chunk('td').eq(5).text()),
-        source: name
+  return got(defaultURL + '?get_token=get_token&app_id=pubapi', config).then(tok => {
+    return got(defaultURL + `?mode=search&search_string=${keywords}&format=json_extended&category=${cfg.cat}&sort=seeders&ranked=0&app_id=pubapi&token=${JSON.parse(tok.body).token}`, config)
+  }).then(res => {
+    const body = JSON.parse(res.body)
+    const results = []
+    if (body.error || !body.torrent_results) {
+      console.error('no results')
+    } else {
+      console.log(body.torrent_results)
+      for (const i in body.torrent_results) {
+        const t = body.torrent_results[i]
+        results.push({
+          name: t.title,
+          magnet: t.download,
+          seeds: t.seeders,
+          peers: t.leechers,
+          source: name,
+          size: t.size
+        })
       }
-
-      const str = $chunk('td').eq(3).text().replace(/B\d+/i, 'B')
-      let size
-      const s = parseFloat(str).toString()
-      if (str.match(/g/i)) size = s * 1024 * 1024 * 1024
-      if (str.match(/m/i)) size = s * 1024 * 1024
-      if (str.match(/k/i)) size = s * 1024
-      torrent.size = size
-
-      torrent.seeds && torrent.magnet && tmp.push(torrent) // directly remove 0 seeds
-    })
-
-    return Promise.all(tmp.map((item) => {
-      return new Promise(resolve => {
-        got(item.magnet).then(data => {
-          const $detail = cheerio.load(data.body)
-          const $content = cheerio.load($detail.html())
-          const magnet = $content('.lista').find('a').eq(4).attr('href')
-
-          item.magnet = magnet
-          list.push(item)
-          resolve()
-        }).catch(() => resolve())
-      })
-    })).then(() => {
-      return list
-    })
-  }).catch((err) => {
+    }
+    return results
+  }).catch((err) =>  {
     console.error(err)
     return []
   })
