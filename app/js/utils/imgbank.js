@@ -28,15 +28,30 @@ const IB = {
   },
   clean: () => {
     const db = IB._load()
-    let c = 0
+    const ttl = 15 * 24 * 60 * 60 * 1000 // 15 days
+    const minsize = 25000 // according to my testings, below that it's a corrupted image
+    let outdated = 0
+    let toosmall = 0
+
     for (const id in db) {
-      if (Date.now() - db[id].ttl > 15 * 24 * 60 * 60 * 1000) {
-        c++ && IB.remove({
+      if (Date.now() - db[id].ttl > ttl) {
+        console.log(id)
+        outdated++ && IB.remove({
           imdb: id
         })
+      } else {
+        try {
+          let sp = fs.statSync(path.join(IB.dir, id+'p')).size
+          let sf = fs.statSync(path.join(IB.dir, id+'f')).size
+          if (sp < minsize || sf < minsize) { 
+            toosmall++ && IB.remove({
+              imdb: id
+            })
+          }
+        } catch (e) {}
       }
     }
-    c && console.log('IB.clean: %d images were outdated', c)
+    (outdated || toosmall) && console.log('IB.clean: %d images were outdated, %d were corrupted', outdated, toosmall)
   },
 
   _load: () => {
