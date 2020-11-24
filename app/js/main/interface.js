@@ -4,7 +4,7 @@ const Interface = {
   // USERINTERACTION: on "browse" button click, invoke hidden input action
   browse: (type) => {
     console.info('Opening File Browser')
-    document.querySelector('#' + type + '-file-path-hidden').click()
+    document.querySelector('#' + type + '-file-path-hidden').trigger('click')
   },
 
   // AUTO: from lib/trakt
@@ -325,7 +325,7 @@ const Interface = {
   },
 
   addLocalPath: () => {
-    document.querySelector('#hidden-input-local').click()
+    document.querySelector('#hidden-input-local').trigger('click')
   },
   removeLocalPath: () => {
     const selected = $('#settings .locals .option .paths li.selected')
@@ -347,7 +347,7 @@ const Interface = {
   },
 
   setMPVPath: () => {
-    document.querySelector('#mpvpath').click()
+    document.querySelector('#mpvpath').trigger('click')
   },
 
   showAbout: () => {

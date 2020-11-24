@@ -7,7 +7,7 @@ const Subtitles = {
 
   getData: (elm) => {
     // extract json from data div
-    const id = $(elm).context.id
+    const id = $(elm)[0].id
     const data = JSON.parse($(`#${id}`).find('.data').text())
 
     return data

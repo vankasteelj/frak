@@ -11,7 +11,8 @@ const Details = {
 
   getData: (elm) => {
     // extract json from data div
-    const id = ($(elm).context.offsetParent && $(elm).context.offsetParent.id) || $(elm).context.id
+    const $elm = $(elm)[0]
+    const id = ($elm.offsetParent && $elm.offsetParent.id) || $elm.id
     const data = JSON.parse($(`#${id}`).find('.data').text())
 
     return data
@@ -118,10 +119,10 @@ const Details = {
         .toLowerCase()
 
       $('#query').val(keywords)
-      $('#query').keypress((e) => {
-        if (e.which === 13) $('#details-sources .query .search').click()
+      $('#query').on('keypress', (e) => {
+        if (e.which === 13) $('#details-sources .query .search').trigger('click')
       })
-      $('#details-sources .query .search').click()
+      $('#details-sources .query .search').trigger('click')
       $('#details-sources .query').show()
     }
 
@@ -138,10 +139,10 @@ const Details = {
     if (Details.previous.id) {
       const nav = $('#navbar .nav.active').attr('class')
       $('#playing').show().off('click').on('click', () => {
-        if (Details.from !== 'discover') $(`#navbar .${nav.split(' ')[1]}`).click()
+        if (Details.from !== 'discover') $(`#navbar .${nav.split(' ')[1]}`).trigger('click')
 
-        $(`#${Details.previous.id}`).click()
-        $(`#${Details.previous.id} .play`).click()
+        $(`#${Details.previous.id}`).trigger('click')
+        $(`#${Details.previous.id} .play`).trigger('click')
       })
     }
 
@@ -385,7 +386,7 @@ const Details = {
 
     $('#playnext').on('click', () => {
       Details.closeDetails()
-      $nextEpisode.find('.play').click()
+      $nextEpisode.find('.play').trigger('click')
     })
   },
 
@@ -435,7 +436,7 @@ const Details = {
 
       $('#playnext').on('click', () => {
         Details.closeDetails()
-        $nextEpisode.click()
+        $nextEpisode.trigger('click')
       })
     }
   },

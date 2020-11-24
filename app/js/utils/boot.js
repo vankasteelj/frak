@@ -283,7 +283,7 @@ const Boot = {
 
   setupInputs: () => {
     document.querySelector('#lookForUpdates').addEventListener('click', (evt) => {
-      DB.store(evt.toElement.checked, 'lookForUpdates')
+      DB.store(evt.target.checked, 'lookForUpdates')
       Update.check()
     })
 
@@ -298,12 +298,12 @@ const Boot = {
     })
 
     document.querySelector('#trailers_use_mpv').addEventListener('click', (evt) => {
-      DB.store(evt.toElement.checked, 'trailers_use_mpv')
+      DB.store(evt.target.checked, 'trailers_use_mpv')
     })
 
     document.querySelector('#allow_localsharing').addEventListener('click', (evt) => {
-      DB.store(evt.toElement.checked, 'localsharing')
-      if (evt.toElement.checked) {
+      DB.store(evt.target.checked, 'localsharing')
+      if (evt.target.checked) {
         Network.init()
         $('#settings .resumeplayback').show()
       } else {
@@ -313,14 +313,14 @@ const Boot = {
     })
 
     document.querySelector('#allow_resumeplayback').addEventListener('click', (evt) => {
-      DB.store(evt.toElement.checked, 'localplayback')
+      DB.store(evt.target.checked, 'localplayback')
       Network.disconnect()
       Network.init()
     })
 
     document.querySelector('#bp-button').addEventListener('click', (evt) => {
-      DB.store(evt.toElement.checked, 'bp_button')
-      if (evt.toElement.checked) {
+      DB.store(evt.target.checked, 'bp_button')
+      if (evt.target.checked) {
         $('.nav.bigpicture').show()
         $('#disablezoom').show()
       } else {
@@ -330,30 +330,30 @@ const Boot = {
     })
 
     document.querySelector('#bpzoomdisable-button').addEventListener('click', (evt) => {
-      DB.store(evt.toElement.checked, 'bpzoomdisable')
+      DB.store(evt.target.checked, 'bpzoomdisable')
     })
     document.querySelector('#allowplayerpopup-button').addEventListener('click', (evt) => {
-      DB.store(evt.toElement.checked, 'playerPopup')
+      DB.store(evt.target.checked, 'playerPopup')
     })
 
     document.querySelector('#tray').addEventListener('click', (evt) => {
-      DB.store(evt.toElement.checked, 'minimizeToTray')
+      DB.store(evt.target.checked, 'minimizeToTray')
     })
 
     document.querySelector('#autolaunch').addEventListener('click', (evt) => {
-      DB.store(evt.toElement.checked, 'autolaunch')
-      Misc.autoLaunch(evt.toElement.checked)
+      DB.store(evt.target.checked, 'autolaunch')
+      Misc.autoLaunch(evt.target.checked)
 
-      $('#autolaunchminimized')[evt.toElement.checked ? 'show' : 'hide']()
+      $('#autolaunchminimized')[evt.target.checked ? 'show' : 'hide']()
     })
 
     document.querySelector('#startminimized').addEventListener('click', (evt) => {
-      DB.store(evt.toElement.checked, 'startminimized')
+      DB.store(evt.target.checked, 'startminimized')
       Misc.autoLaunch(true)
     })
 
     document.querySelector('#items-size').addEventListener('click', (evt) => {
-      const isSmall = evt.toElement.checked
+      const isSmall = evt.target.checked
       DB.store(isSmall, 'small_items')
       Interface.switchCollectionSize(isSmall)
     }, false)
@@ -393,8 +393,8 @@ const Boot = {
       })
     }
 
-    $('#discover .disc-search input').keypress((e) => {
-      if (e.which === 13) $('#discover .disc-search .search').click()
+    $('#discover .disc-search input').on('keypress', (e) => {
+      if (e.which === 13) $('#discover .disc-search .search').trigger('click')
     })
   },
 
