@@ -13,10 +13,7 @@ const get = (keywords, cfg = {}) => {
   }).then(res => {
     const body = JSON.parse(res.body)
     const results = []
-    if (body.error || !body.torrent_results) {
-      console.error('no results')
-    } else {
-      console.log(body.torrent_results)
+    if (!body.error || body.torrent_results) {
       for (const i in body.torrent_results) {
         const t = body.torrent_results[i]
         results.push({
