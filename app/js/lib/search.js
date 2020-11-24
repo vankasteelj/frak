@@ -201,26 +201,28 @@ const Search = {
   addRemote: (results = []) => {
     $('#details-sources .sources .item.remote').remove()
     for (const data of results) {
-      if (!data) continue
+      try {
+        const id = data.magnet.match(/\b([A-F\d]+)\b/i)[0]
+        const item = `<div class="item remote" onClick="Details.loadRemote('${data.magnet}')" id="${id}">` +
+                      `<div class="data">${JSON.stringify(data)}</div>` +
+                      `<div class="fa fa-magnet" title="${i18n.__('Open the magnet link')}"></div>` +
+                      `<div class="title">${data.name}</div>` +
+                      `<div class="size">${Misc.fileSize(data.size) || i18n.__('Unknown')}</div>` +
+                      `<div class="fa fa-bolt ${Search.matchScore(data.score)}" title="${i18n.__('Seeds: %s', data.seeds)}, ${i18n.__('Peers: %s', data.peers)}"></div>` +
+                  '</div>'
 
-      const id = data.magnet.match(/\b([A-F\d]+)\b/i)[0]
-      const item = `<div class="item remote" onClick="Details.loadRemote('${data.magnet}')" id="${id}">` +
-                    `<div class="data">${JSON.stringify(data)}</div>` +
-                    `<div class="fa fa-magnet" title="${i18n.__('Open the magnet link')}"></div>` +
-                    `<div class="title">${data.name}</div>` +
-                    `<div class="size">${Misc.fileSize(data.size) || i18n.__('Unknown')}</div>` +
-                    `<div class="fa fa-bolt ${Search.matchScore(data.score)}" title="${i18n.__('Seeds: %s', data.seeds)}, ${i18n.__('Peers: %s', data.peers)}"></div>` +
-                '</div>'
-
-      $('#details-sources .sources').append(item)
-      $(`#${id} .fa-magnet`).on('click', (e) => {
-        e && e.stopPropagation()
-        Misc.openExternal(data.magnet)
-      }).off('contextmenu').on('contextmenu', (e) => {
-        const clipboard = nw.Clipboard.get()
-        clipboard.set(data.magnet, 'text')
-        Notify.snack(i18n.__('Magnet link was copied to the clipboard'))
-      })
+        $('#details-sources .sources').append(item)
+        $(`#${id} .fa-magnet`).on('click', (e) => {
+          e && e.stopPropagation()
+          Misc.openExternal(data.magnet)
+        }).off('contextmenu').on('contextmenu', (e) => {
+          const clipboard = nw.Clipboard.get()
+          clipboard.set(data.magnet, 'text')
+          Notify.snack(i18n.__('Magnet link was copied to the clipboard'))
+        })
+      } catch (e) {
+        continue
+      }
     }
   },
 
