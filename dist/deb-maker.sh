@@ -36,23 +36,22 @@ mkdir -p $cwd/$package_name/usr/share/icons #icon
 cp -r $builddir/$releaseName/$arch/* $cwd/$package_name/opt/$projectName/
 
 #icon
-cp app/images/os-icon.png $cwd/$package_name/usr/share/icons/opensubtitles-uploader.png
+cp app/images/frak-logo.png $cwd/$package_name/usr/share/icons/frak.png
 
 ### CREATE FILES
 
 #desktop
 echo "[Desktop Entry]
-Comment=Upload your subtitles to OpenSubtitles.org
-Comment[fr]=Envoyer les sous-titres à OpenSubtitles.org
+Comment=A frakingly good media center
+Comment[fr]=Lecteur à propulsion ionique
 Name=$releaseName
 X-GNOME-FullName=$releaseName
 Exec=/opt/$projectName/$releaseName %F
-Icon=opensubtitles-uploader
+Icon=frak
 StartupNotify=false
 Terminal=false
-Keywords=subtitles;captions;sous-titres;opensubtitles;
+Keywords=video;subtitles;trakt;
 Categories=AudioVideo;Video;Network;
-MimeType=text/x-microdvd;text/x-ssa;application/x-subrip;text/x-subviewer;
 Type=Application
 " > $cwd/$package_name/usr/share/applications/$name.desktop
 
@@ -71,14 +70,14 @@ Installed-Size: $size
 Depends: mpv, youtube-dl
 Maintainer: vankasteelj <vankasteelj@gmail.com>
 Description: $releaseName
- Upload your subtitles to OpenSubtitles.org
+ A Frakingly Good Media Center
 " > $cwd/$package_name/DEBIAN/control
 
 #copyright
 echo "Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0
 Upstream-Name: $projectName
 Upstream-Contact: vankasteelj <vankasteelj@gmail.com>
-Source: https://github.com/vankasteelj/opensubtitles-uploader
+Source: https://github.com/vankasteelj/frak
 
 Files: *
 Copyright: (c) 2015, vankasteelj <vankasteelj@gmail.com>
