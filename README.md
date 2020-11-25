@@ -1,6 +1,7 @@
 # Frak
 
 **A frakingly good media center**
+![frak](https://user-images.githubusercontent.com/12599850/100279290-89ccc480-2f66-11eb-9281-ca575cfbfab9.png)
 
 ## Prerequisites
 - A [trakt](https://trakt.tv/) account (you'll be prompted to create one or login)
@@ -14,15 +15,15 @@
 - Your local video library is automatically parsed and sorted
 - Shared streams over the local network
 - Based on the robust 'mpv' player
-- "big picture" mode for TV & large screens
+- "Big Picture" mode for TV & large screens
 - Auto-launch and minimize to tray support
 - Localization support
 - Theming support
 - Automatic update notification
-- Compatible with Windows (7, 8, 10), OSX and major Linux distributions
+- Compatible with Windows (7, 8, 10), OSX and major Linux distributions (even ARM, see [#115](https://github.com/vankasteelj/frak/issues/115))
 - Hackable (written in NodeJS/HTML5/CSS3, open source, shipped with devtools)
 
-[Download the latest Frak release!](https://github.com/vankasteelj/frak/releases).
+[Download the latest Frak release!](https://github.com/vankasteelj/frak/releases)
 
 ## Build from sources
 - Install dependencies, download binaries:
