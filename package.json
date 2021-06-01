@@ -61,7 +61,7 @@
     "node-7z-forall": "^2.0.0",
     "nw-builder": "^3.5.7",
     "standard": "^16.0.3",
-    "yargs": "^16.0.3"
+    "yargs": "^17.0.1"
   },
   "nwjs": {
     "version": "0.49.2",
