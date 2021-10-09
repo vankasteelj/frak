@@ -1,12 +1,12 @@
 const cheerio = require('cheerio')
 const got = require('got')
-const defaultURL = atob('aHR0cHM6Ly93d3cudG9ycmVudDkuYWM=')
+const defaultURL = atob('aHR0cHM6Ly93d3cudG9ycmVudDkuZ2c=')
 const name = atob('VG9ycmVudDk=')
 
 const get = (keywords, cfg = {}) => {
   const reqURL = [
     cfg.url || defaultURL,
-    'recherche',
+    'search_torrent',
     // cfg.cat,
     escape(keywords)// + '.html,trie-seeds-d'
   ].join('/')
