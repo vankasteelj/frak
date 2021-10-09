@@ -52,7 +52,6 @@
   },
   "devDependencies": {
     "del": "^6.0.0",
-    "esm": "^3.2.25",
     "gulp": "^4.0.2",
     "gulp-gzip": "^1.4.2",
     "gulp-load-plugins": "^2.0.3",
