@@ -15,7 +15,7 @@ const exec = require('child_process').exec
 const spawn = require('child_process').spawn
 const pkJson = require('./package.json')
 const got = require('got')
-const Z7 = require('node-7z-archive')
+const Z7 = require('node-7z-forall')
 const temp = require('os').tmpdir()
 const ModClean = require('modclean').ModClean
 const standard = require('standard')
@@ -336,7 +336,7 @@ gulp.task('mpv', () => {
       stream.on('finish', resolve)
     }).then(() => {
       console.log('mpv downloaded, extracting...')
-      return Z7.fullArchive(path.join(temp, 'mpv.7z'), 'mpv')
+      return Z7.extractFull(path.join(temp, 'mpv.7z'), 'mpv')
     }).then(() => {
       console.log('mpv extracted')
       console.log('downloading youtube-dl...')
