@@ -48,6 +48,8 @@ const Settings = {
   streamer: {
     magnetTimeout: 10000,
     maxConns: 40,
+    downloadLimit: -1,
+    uploadLimit: -1,
     webSeeds: true,
     announce: [
       'udp://tracker.coppersurfer.tk:6969/announce',
