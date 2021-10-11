@@ -19,6 +19,8 @@ const Images = {
       return Images.client.images.movie(args).then((response) => {
         IB.store(response, args)
         return response
+      }).catch(err => {
+        return Promise.resolve(Images.defaults)
       })
     },
     show: (args) => {
@@ -28,6 +30,8 @@ const Images = {
       return Images.client.images.show(args).then((response) => {
         IB.store(response, args)
         return response
+      }).catch(err => {
+        return Promise.resolve(Images.defaults)
       })
     }
   },
