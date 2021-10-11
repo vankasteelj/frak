@@ -26,8 +26,16 @@ const Keyboard = {
         } else if ($('#about').is(':visible')) {
           Interface.closeAbout()
         }
+      } else if (key.key === 'Enter') { // enter
+        if ($('#opensub_password').is(':focus')) {
+          $('.opensub_connect').click()
+        }
       } else if (key.key === 'Tab') { // tab
         if ($('#details').is(':visible')) return
+        if ($('#opensub_login').is(':focus')) {
+          $('#opensub_password').click()
+          return
+        }
 
         const tabs = ['movies', 'shows', 'locals']
         const active = DB.get('last_tab')
