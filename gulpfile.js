@@ -120,7 +120,7 @@ gulp.task('run', () => {
     console.log('Running %s from cache', platform)
 
     // spawn cached binary with package.json, toggle flags
-    const dev = yargs.argv.development ? '--development' : ''
+    const dev = '--development'
     const bp = yargs.argv.bp ? '--bp' : ''
     const hid = yargs.argv.hidden ? '--hidden' : ''
     const child = spawn(bin, ['.', dev, bp, hid])
