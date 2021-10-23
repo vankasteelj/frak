@@ -6,7 +6,11 @@ const name = atob('UkFSQkc=')
 
 const get = (keywords, cfg = {}) => {
   const url = cfg.url || defaultURL
-  const config = {headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0'}}
+  const config = {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0'
+    }
+  }
 
   return got(defaultURL + '?get_token=get_token&app_id=pubapi', config).then(tok => {
     return got(defaultURL + `?mode=search&search_string=${keywords}&format=json_extended&category=${cfg.cat}&sort=seeders&ranked=0&app_id=pubapi&token=${JSON.parse(tok.body).token}`, config)
@@ -27,7 +31,7 @@ const get = (keywords, cfg = {}) => {
       }
     }
     return results
-  }).catch((err) =>  {
+  }).catch((err) => {
     console.error(err)
     return []
   })

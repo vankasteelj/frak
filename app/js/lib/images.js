@@ -21,6 +21,7 @@ const Images = {
         IB.store(response, args)
         return response
       }).catch(err => {
+        console.error(err)
         return Promise.resolve(Images.defaults)
       })
     },
@@ -32,6 +33,7 @@ const Images = {
         IB.store(response, args)
         return response
       }).catch(err => {
+        console.error(err)
         return Promise.resolve(Images.defaults)
       })
     }

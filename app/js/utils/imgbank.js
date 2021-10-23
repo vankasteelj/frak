@@ -41,9 +41,9 @@ const IB = {
         })
       } else {
         try {
-          let sp = fs.statSync(path.join(IB.dir, id+'p')).size
-          let sf = fs.statSync(path.join(IB.dir, id+'f')).size
-          if (sp < minsize || sf < minsize) { 
+          const sp = fs.statSync(path.join(IB.dir, id + 'p')).size
+          const sf = fs.statSync(path.join(IB.dir, id + 'f')).size
+          if (sp < minsize || sf < minsize) {
             toosmall++ && IB.remove({
               imdb: id
             })

@@ -55,7 +55,7 @@ const get = (keywords, cfg = {}) => {
     return Promise.all(torrentsTemp.map(torrent => {
       return got(defaultURL + torrent.magnet, { timeout: 3500 }).then(response => {
         const $ = cheerio.load(response.body)
-        torrent.magnet = 'magnet:?xt=urn:btih:' + $('.download-btn a')[1].attribs['href'].split('&')[0] + '&dn=' + escape(torrent.name)
+        torrent.magnet = 'magnet:?xt=urn:btih:' + $('.download-btn a')[1].attribs.href.split('&')[0] + '&dn=' + escape(torrent.name)
         torrents.push(torrent)
       })
     }))

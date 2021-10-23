@@ -35,15 +35,15 @@ const Settings = {
   },
   apikeys: (function () {
     return JSON.parse(
-      atob('eyJ0cmFrdF9pZCI6ImY3YjY1MjhhYzhiY2IzNjc0MjJhZW'+
-           'U1MWNlYjkwZDg2ZDdlMzcyYzMyNzljMDQ1NGIyYTk2ZTEz'+
-           'ZGQzYTc1NDIiLCJ0cmFrdF9zZWNyZXQiOiI5MTY3NWM2M2'+
-           'NjNzljOTRkYzE1NzliNTExMjVjMmQwYjA5NTQ5MDFjMmFj'+
-           'ZTA0ODNlZDQzN2Q1NDBjMjg2OWZhIiwiZmFuYXJ0IjoiMj'+
-           'VkNjAwNzVjYjVmNTk4Mjg0ZjU1OGRjZmYzNThkNzQiLCJ0'+
-           'bWRiIjoiMjcwNzUyODJlMzllZWE3NmJkOTYyNmVlNWQzZT'+
-           'c2N2IiLCJvcGVuc3VidGl0bGVzIjoiZnJhayIsIm9tZGIi'+
-           'OiJiMjdjYWU3YyIsInR2ZGIiOiJhOWRhZDQ4Mi0yOGZiLT'+
+      atob('eyJ0cmFrdF9pZCI6ImY3YjY1MjhhYzhiY2IzNjc0MjJhZW' +
+           'U1MWNlYjkwZDg2ZDdlMzcyYzMyNzljMDQ1NGIyYTk2ZTEz' +
+           'ZGQzYTc1NDIiLCJ0cmFrdF9zZWNyZXQiOiI5MTY3NWM2M2' +
+           'NjNzljOTRkYzE1NzliNTExMjVjMmQwYjA5NTQ5MDFjMmFj' +
+           'ZTA0ODNlZDQzN2Q1NDBjMjg2OWZhIiwiZmFuYXJ0IjoiMj' +
+           'VkNjAwNzVjYjVmNTk4Mjg0ZjU1OGRjZmYzNThkNzQiLCJ0' +
+           'bWRiIjoiMjcwNzUyODJlMzllZWE3NmJkOTYyNmVlNWQzZT' +
+           'c2N2IiLCJvcGVuc3VidGl0bGVzIjoiZnJhayIsIm9tZGIi' +
+           'OiJiMjdjYWU3YyIsInR2ZGIiOiJhOWRhZDQ4Mi0yOGZiLT' +
            'RlNGMtODVhOC00ZjYyMTFmYzZiYzMifQ==')
     )
   })(),
