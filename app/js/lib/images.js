@@ -8,6 +8,7 @@ const Images = {
   client: new (require('mdata'))({
     fanart: Settings.apikeys.fanart,
     tmdb: Settings.apikeys.tmdb,
+    tvdb: Settings.apikeys.tvdb,
     omdb: Settings.apikeys.omdb
   }),
 
