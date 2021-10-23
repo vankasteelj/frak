@@ -367,29 +367,29 @@ const Interface = {
     DB.store(true, 'legal_notice_read')
   },
 
-  bigPictureScale: { // zoomLevel is broken on NWJS 0.57.0
+  bigPictureScale: {
     1: {
-      zoomLevel: 3.99,
+      zoomLevel: 4,
       osc: 1.5
     },
     1.25: {
-      zoomLevel: 2.99,
+      zoomLevel: 3,
       osc: 1.3
     },
     1.5: {
-      zoomLevel: 1.99,
+      zoomLevel: 2,
       osc: 1.1
     },
     1.75: {
-      zoomLevel: 0.99,
+      zoomLevel: 1,
       osc: 1.0
     },
     2: {
-      zoomLevel: 0.01,
+      zoomLevel: 0,
       osc: 1.2
     },
     2.25: {
-      zoomLevel: 0.01,
+      zoomLevel: 0,
       osc: 1.5
     }
   },
@@ -397,7 +397,7 @@ const Interface = {
   bigPicture: (onStart) => {
     if (!DB.get('bigPicture')) {
       console.info('Entering Big Picture mode', Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor])
-      win.zoomLevel = Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor] && !DB.get('bpzoomdisable') ? Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor].zoomLevel : 0.01
+      win.zoomLevel = Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor] && !DB.get('bpzoomdisable') ? Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor].zoomLevel : 0
       win.enterFullscreen()
       $('.nav.bigpicture > div').addClass('fa-compress').removeClass('fa-arrows-alt')
       DB.store(true, 'bigPicture')
@@ -409,7 +409,7 @@ const Interface = {
       }
     } else {
       console.info('Exiting Big Picture mode')
-      win.zoomLevel = 0.01
+      win.zoomLevel = 0
       win.leaveFullscreen()
       $('.nav.bigpicture > div').addClass('fa-arrows-alt').removeClass('fa-compress')
       DB.store(false, 'bigPicture')

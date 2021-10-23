@@ -64,7 +64,7 @@
     "yargs": "^17.2.1"
   },
   "nwjs": {
-    "version": "0.57.0",
+    "version": "0.57.1",
     "flavor": "sdk"
   },
   "mpv": {
