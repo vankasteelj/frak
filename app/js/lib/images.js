@@ -40,12 +40,9 @@ const Images = {
   },
 
   reduce: (link, full) => {
-    if (!link) {
-      return null
-    }
+    if (!link) return null
 
     full && link.match('assets.fanart.tv') && (link = link.replace('fanart.tv/fanart', 'fanart.tv/preview'))
-
     link.match('image.tmdb.org') && (link = link.replace('w780', 'w342').replace('/original/', '/w1280/'))
 
     return link
