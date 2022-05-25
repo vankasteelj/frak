@@ -35,7 +35,6 @@ const IB = {
 
     for (const id in db) {
       if (Date.now() - db[id].ttl > ttl) {
-        console.log(id)
         outdated++ && IB.remove({
           imdb: id
         })
