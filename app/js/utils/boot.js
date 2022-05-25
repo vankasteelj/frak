@@ -32,7 +32,7 @@ const Boot = {
 
   // STARTUP: setup network connexion
   online: () => {
-    let localip = require('ip').address() || '127.0.0.1'
+    const localip = require('ip').address() || '127.0.0.1'
     DB.store(localip, 'localip')
     $('#localip input').val(localip)
 
