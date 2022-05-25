@@ -25,7 +25,9 @@
 
 [Download the latest Frak release!](https://github.com/vankasteelj/frak/releases)
 
-## Build from sources
+## Build it yourself from the sources
+- Download and install [NodeJS and npm](https://nodejs.org)
+
 - Install dependencies, download binaries:
 
         npm install -g gulp-cli
@@ -38,7 +40,7 @@
     
 - CTRL+D to open devtools (debugger), CTRL+R to reload.
 
-## Distribute
+## Distribute a compiled package
 - Build packages and installers:
 
         gulp dist --platforms=all
