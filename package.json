@@ -64,11 +64,11 @@
     "yargs": "^17.2.1"
   },
   "nwjs": {
-    "version": "0.57.1",
+    "version": "0.64.1",
     "flavor": "sdk"
   },
   "mpv": {
-    "url": "https://sourceforge.net/projects/mpv-player-windows/files/stable/mpv-0.32.0-x86_64.7z/download",
+    "url": "https://sourceforge.net/projects/mpv-player-windows/files/release/mpv-0.32.0-x86_64.7z/download",
     "youtube-dl": "https://yt-dl.org/latest/youtube-dl.exe"
   }
 }
