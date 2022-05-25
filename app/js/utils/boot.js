@@ -32,13 +32,9 @@ const Boot = {
 
   // STARTUP: setup network connexion
   online: () => {
-    let localip = '127.0.0.1'
-
-    dns.lookup(os.hostname(), function (err, add, fam) {
-      if (!err) localip = add
-      DB.store(localip, 'localip')
-      $('#localip input').val(localip)
-    })
+    let localip = require('ip').address() || '127.0.0.1'
+    DB.store(localip, 'localip')
+    $('#localip input').val(localip)
 
     /* TODO check if online or not
         let online = window.navigator.onLine;
