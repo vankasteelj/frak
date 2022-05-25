@@ -421,6 +421,12 @@ const Boot = {
     const openFromTray = () => {
       win.show()
     }
+    const closeFromTray = () => {
+      win.close()
+    }
+    const debugFromTray = () => {
+      win.showDevTools()
+    }
 
     win.tray.tooltip = PKJSON.releaseName
 
@@ -446,7 +452,7 @@ const Boot = {
     menu.append(new nw.MenuItem({
       type: 'normal',
       label: i18n.__('DevTools (Ctrl+R)'),
-      click: win.showDevTools
+      click: debugFromTray
     }))
     menu.append(new nw.MenuItem({
       type: 'separator'
@@ -454,7 +460,7 @@ const Boot = {
     menu.append(new nw.MenuItem({
       type: 'normal',
       label: i18n.__('Close'),
-      click: win.close
+      click: closeFromTray
     }))
 
     win.tray.menu = menu
