@@ -7,7 +7,7 @@ const Cache = {
       fs.mkdirSync(Cache.dir)
       console.debug('Cache folder created in', Cache.dir)
     } catch (e) {
-      console.debug('Failed to create cache folder in', Cache.dir, e)
+      console.debug('The app might not have been closed properly - Failed to create cache folder in', Cache.dir, e)
     }
   },
   delete: () => {
