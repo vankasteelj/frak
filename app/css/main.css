@@ -318,6 +318,11 @@
   font-size: 11px;
   height: auto;
   margin: 0 5px 5px 0;
+  white-space: nowrap;
+  overflow-x: clip;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  position: absolute;
 }
 
 #collection .titles,
