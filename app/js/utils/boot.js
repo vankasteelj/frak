@@ -262,11 +262,12 @@ const Boot = {
 
     // setup streamer options
     for (const o in streamerOptions) {
-      const c = o.match('webSeeds') ? 'checked' : 'value'
-      document.querySelector(`#${o}`)[c] = streamerOptions[o]
+      const c = document.querySelector(`#${o}`)
+      if (!c) continue
+      c.value = streamerOptions[o]
 
       if (o === 'announce') {
-        document.querySelector(`#${o}`)[c] = streamerOptions[o].join(',\n')
+        c.value = streamerOptions[o].join(',\n')
       }
     }
 
@@ -376,13 +377,14 @@ const Boot = {
 
     const streamerOptions = DB.get('streamer_options')
     for (const o in streamerOptions) {
-      const c = o.match('webSeeds') ? 'checked' : 'value'
+      const c = document.querySelector(`#${o}`)
+      if (!c) continue
 
-      document.querySelector(`#${o}`).addEventListener('change', (evt) => {
-        streamerOptions[o] = document.querySelector(`#${o}`)[c]
+      c.addEventListener('change', (evt) => {
+        streamerOptions[o] = c.value
 
         if (o === 'announce') {
-          streamerOptions[o] = document.querySelector(`#${o}`)[c].replace(/\s/gm, '').split(',')
+          streamerOptions[o] = c.value.replace(/\s/gm, '').split(',')
         }
         console.log('Streamer setting `%s` changed to:', o, streamerOptions[o])
         DB.store(streamerOptions, 'streamer_options')
