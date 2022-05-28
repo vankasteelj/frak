@@ -4,6 +4,7 @@ const Search = {
   query: () => {
     const query = $('#query').val()
     if (!query) return
+    $('#details-sources .sources .noresult').hide()
 
     const data = JSON.parse($('#details > .container > .data').text())
     const type = (data.show && 'show') || (data.movie && 'movie')
@@ -17,6 +18,12 @@ const Search = {
       Search.addRemote(results)
 
       $('#details-sources .query .search').addClass('fa-search').removeClass('fa-spin fa-circle-o-notch')
+
+      // if there are no results
+      if (!document.querySelectorAll('.sources > div').length) {
+        console.debug('No results')
+        $('#details-sources .sources .noresult').show()
+      }
     }).catch(err => {
       $('#details-sources .query .search').addClass('fa-search').removeClass('fa-spin fa-circle-o-notch')
       console.error('Search.query', err)

@@ -913,6 +913,15 @@
   width: 100%;
 }
 
+#details-sources .sources .noresult {
+  line-height: 20vh;
+  text-align: center;
+  display: none;
+  font-family: var(--font);
+  font-style: italic;
+  color: var(--app-font-color-dimmed);
+}
+
 #details-sources,
 #details-loading,
 #details-spinner,
