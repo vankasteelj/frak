@@ -288,7 +288,7 @@ const Discover = {
         const item = Items.constructDiscoverShow(show)
         $('#discover .disc-proposal .row').append(item)
       }
-      Items.applyRatings(DB.get('traktratings'), true)
+      Items.applyRatings(DB.get('traktratings'))
       $('#discover .disc-proposal .categories div').removeClass('active')
       $('#discover .disc-proposal .categories .shows').addClass('active')
     },
