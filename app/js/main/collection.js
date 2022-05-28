@@ -88,7 +88,7 @@ const Collection = {
       if (!Player.mpv && !(process.platform === 'win32' && fs.existsSync('./mpv/mpv.exe'))) {
         Interface.requireMPV()
       } else {
-        setTimeout(Interface.showMain, 0)
+        setTimeout(Interface.showMain, 1000)
       }
     },
     local: () => {
@@ -262,7 +262,7 @@ const Collection = {
           const menu = Misc.customContextMenu(context)
           item.oncontextmenu = (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY))
           i++
-          setTimeout(doLoop, 0)
+          setTimeout(doLoop, 200)
         }
         doLoop()
       }

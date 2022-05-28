@@ -548,19 +548,30 @@ const Items = {
     WB.markAsUnwatched(id)
   },
 
-  applyRatings: (ratings = []) => {
+  applyRatings: (ratings = [], specific = false) => {
     if (!ratings.length) return
 
     $('.corner-rating span').text('')
     $('.corner-rating').hide()
 
+    let count = 0
     for (const item of ratings) {
       if (['show', 'movie'].indexOf(item.type) === -1) continue
 
-      $(`#${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show()
-      $(`.${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show()
-      if ($('#details .id').text() === item[item.type].ids.slug) $('#details .corner-rating span').text(item.rating).parent().show()
+      if ($('#details .id').text() === item[item.type].ids.slug) {
+        $('#details .corner-rating span').text(item.rating).parent().show()
+        count++
+        continue
+      }
+
+      const el = document.querySelector(`[id='${item[item.type].ids.slug}']`)
+      if (el) {
+        count++
+        $(`#${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show()
+        $(`.${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show()
+      }
     }
+    console.log('Items.applyRatings made %s iterations', count)
   },
 
   rate: (slug) => {

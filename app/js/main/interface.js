@@ -169,20 +169,8 @@ const Interface = {
 
   // USER INTERACTION: click navbar
   showDiscover: () => {
-    Discover.load.trending().then(() => {
-      window.scrollTo(0, 0)
-      setTimeout(() => {
-        $('#navbar .nav').removeClass('active')
-        $('#collection #shows').hide()
-        $('#collection #locals').hide()
-        $('#collection #movies').hide()
-        $('#settings').hide()
-        $('#trakt #history').hide()
-        $('#trakt #stats').hide()
-        $('#trakt #discover').show()
-        $('#navbar .discover').addClass('active')
-      }, 0)
-    })
+    Discover.load.trending()
+    window.scrollTo(0, 0)
     $('#navbar .nav').removeClass('active')
     $('#collection #shows').hide()
     $('#collection #locals').hide()

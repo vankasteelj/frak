@@ -72,8 +72,6 @@ const Discover = {
 
   load: {
     trending: () => {
-      Discover.reset()
-
       const lastTab = $('#discover .disc-proposal .categories .movies').hasClass('active') ? 'movies' : 'shows'
 
       $('#discover .type div').removeClass('active')
@@ -103,8 +101,6 @@ const Discover = {
       }
     },
     popular: () => {
-      Discover.reset()
-
       const lastTab = $('#discover .disc-proposal .categories .movies').hasClass('active') ? 'movies' : 'shows'
 
       $('#discover .type div').removeClass('active')
@@ -134,8 +130,6 @@ const Discover = {
       }
     },
     watched: () => {
-      Discover.reset()
-
       const lastTab = $('#discover .disc-proposal .categories .movies').hasClass('active') ? 'movies' : 'shows'
 
       $('#discover .type div').removeClass('active')
@@ -165,8 +159,6 @@ const Discover = {
       }
     },
     anticipated: () => {
-      Discover.reset()
-
       const lastTab = $('#discover .disc-proposal .categories .movies').hasClass('active') ? 'movies' : 'shows'
 
       $('#discover .type div').removeClass('active')
@@ -196,8 +188,6 @@ const Discover = {
       }
     },
     recommended: () => {
-      Discover.reset()
-
       const lastTab = $('#discover .disc-proposal .categories .movies').hasClass('active') ? 'movies' : 'shows'
 
       $('#discover .type div').removeClass('active')
@@ -233,8 +223,6 @@ const Discover = {
       }
     },
     top50: () => {
-      Discover.reset()
-
       const lastTab = $('#discover .disc-proposal .categories .movies').hasClass('active') ? 'movies' : 'shows'
 
       $('#discover .type div').removeClass('active')
@@ -300,7 +288,7 @@ const Discover = {
         const item = Items.constructDiscoverShow(show)
         $('#discover .disc-proposal .row').append(item)
       }
-      Items.applyRatings(DB.get('traktratings'))
+      Items.applyRatings(DB.get('traktratings'), true)
       $('#discover .disc-proposal .categories div').removeClass('active')
       $('#discover .disc-proposal .categories .shows').addClass('active')
     },
