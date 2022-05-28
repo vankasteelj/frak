@@ -337,10 +337,11 @@ const Interface = {
     console.info('Switching to %s items', wasBig ? 'smaller' : 'bigger')
 
     const size = {
-      from: wasBig ? { sm: 6, md: 6, lg: 4 } : { sm: 6, md: 4, lg: 3 },
-      to: wasBig ? { sm: 6, md: 4, lg: 3 } : { sm: 6, md: 6, lg: 4 }
+      from: wasBig ? Settings.grid.mainNormal : Settings.grid.mainSmall,
+      to: wasBig ? Settings.grid.mainSmall : Settings.grid.mainNormal
     }
 
+    $(`.col-${size.from.xs}`).addClass(`col-${size.to.xs}`).removeClass(`col-${size.from.xs}`)
     $(`.col-sm-${size.from.sm}`).addClass(`col-sm-${size.to.sm}`).removeClass(`col-sm-${size.from.sm}`)
     $(`.col-md-${size.from.md}`).addClass(`col-md-${size.to.md}`).removeClass(`col-md-${size.from.md}`)
     $(`.col-lg-${size.from.lg}`).addClass(`col-lg-${size.to.lg}`).removeClass(`col-lg-${size.from.lg}`)

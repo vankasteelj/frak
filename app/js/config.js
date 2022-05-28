@@ -68,5 +68,11 @@ const Settings = {
       'http://torrent.nwps.ws/announce'
     ]
   },
-  supportedVideoFiles: ['.mkv', '.avi', '.mp4', '.m4v', '.mts', '.m2ts', '.ts']
+  supportedVideoFiles: ['.mkv', '.avi', '.mp4', '.m4v', '.mts', '.m2ts', '.ts'],
+  grid: {
+    mainSmall: {sm:4, md:4, lg:3},
+    mainNormal: {sm:6, md:6, lg:4},
+    historySmall: {sm:2, md:2, lg:1},
+    historyNormal: {sm:3, md:3, lg:2}
+  }
 }

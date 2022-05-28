@@ -39,7 +39,7 @@ const Items = {
       id: movie.movie.ids.slug,
       data: JSON.stringify(movie),
       rating: Misc.percentage(movie.movie.rating),
-      size: DB.get('small_items') ? { sm: 6, md: 4, lg: 3 } : { sm: 6, md: 6, lg: 4 }
+      size: DB.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal
     }
 
     const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
@@ -100,7 +100,7 @@ const Items = {
       sxe: `s${Misc.pad(show.next_episode.season)}e${Misc.pad(show.next_episode.number)}`,
       data: JSON.stringify(show),
       rating: Misc.percentage(show.show.rating),
-      size: DB.get('small_items') ? { sm: 6, md: 4, lg: 3 } : { sm: 6, md: 6, lg: 4 }
+      size: DB.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal
     }
 
     const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
@@ -237,7 +237,7 @@ const Items = {
       title: show.episode.title || '',
       data: JSON.stringify(show),
       rating: Misc.percentage(show.show.rating),
-      size: DB.get('small_items') ? { sm: 3, md: 2, lg: 1 } : { sm: 4, md: 3, lg: 2 },
+      size: DB.get('small_items') ? Settings.grid.historySmall : Settings.grid.historyNormal,
       watched_at: (function () {
         const d = new Date(show.watched_at)
         return d.toLocaleDateString() + ' ' + Misc.pad(d.getHours()) + ':' + Misc.pad(d.getMinutes())
@@ -284,7 +284,7 @@ const Items = {
       title: movie.movie.title,
       data: JSON.stringify(movie),
       rating: Misc.percentage(movie.movie.rating),
-      size: DB.get('small_items') ? { sm: 3, md: 2, lg: 1 } : { sm: 4, md: 3, lg: 2 },
+      size: DB.get('small_items') ? Settings.grid.historySmall : Settings.grid.historyNormal,
       watched_at: (function () {
         const d = new Date(movie.watched_at)
         return d.toLocaleDateString() + ' ' + Misc.pad(d.getHours()) + ':' + Misc.pad(d.getMinutes())
@@ -325,7 +325,7 @@ const Items = {
   },
   constructHistoryMore: () => {
     const d = {
-      size: DB.get('small_items') ? { sm: 3, md: 2, lg: 1 } : { sm: 4, md: 3, lg: 2 }
+      size: DB.get('small_items') ? Settings.grid.historySmall : Settings.grid.historyNormal
     }
 
     const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="showMore">` +
@@ -363,7 +363,7 @@ const Items = {
       })(),
       data: JSON.stringify(show),
       rating: Misc.percentage(show.show.rating),
-      size: DB.get('small_items') ? { sm: 6, md: 4, lg: 3 } : { sm: 6, md: 6, lg: 4 },
+      size: DB.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal,
       watchlisted: (() => {
         const want = DB.get('traktshowscollection').find(o => o.show.ids.slug === show.show.ids.slug)
         const watched = WB.find.show(show.show.ids.slug)
@@ -444,7 +444,7 @@ const Items = {
       })(),
       data: JSON.stringify(movie),
       rating: Misc.percentage(movie.movie.rating),
-      size: DB.get('small_items') ? { sm: 6, md: 4, lg: 3 } : { sm: 6, md: 6, lg: 4 },
+      size: DB.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal,
       watchlisted: DB.get('traktmoviescollection').find(o => o.movie.ids.slug === movie.movie.ids.slug),
       watched: WB.find.movie(movie.movie.ids.slug)
     }
