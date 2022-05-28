@@ -8,6 +8,8 @@ const Items = {
       return Images.get[type](ids).then(images => {
         if (images && images[route]) {
           return Items.getImage(images[route])
+        } else if (images && (images.poster || images.fanart)) {
+          return Items.getImage(images.poster || images.fanart)
         } else {
           return false
         }

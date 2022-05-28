@@ -169,8 +169,8 @@ const Details = {
       }, 'locals')
 
       Images.get.movie(file.metadata.movie.ids).then(images => {
-        Details.loadImage(images.fanart || images.poster, 'fanart')
-        Details.loadImage(images.poster || images.fanart, 'poster')
+        Details.loadImage((images.fanart || images.poster), 'fanart')
+        Details.loadImage((images.poster || images.fanart), 'poster')
       })
 
       Search.addLocal(file)
@@ -196,8 +196,8 @@ const Details = {
       }, 'locals')
 
       Images.get.show(file.metadata.show.ids).then(images => {
-        Details.loadImage(images.fanart || images.poster, 'fanart')
-        Details.loadImage(images.poster || images.fanart, 'poster')
+        Details.loadImage((images.fanart || images.poster), 'fanart')
+        Details.loadImage((images.poster || images.fanart), 'poster')
       })
 
       Search.addLocal(file)
@@ -245,8 +245,8 @@ const Details = {
         trailer: item.movie.trailer
       }, from)
 
-      Details.loadImage(IB.get(item.movie.ids).fanart, 'fanart')
-      Details.loadImage(IB.get(item.movie.ids).poster, 'poster')
+      Details.loadImage((IB.get(item.movie.ids).fanart || IB.get(item.movie.ids).poster), 'fanart')
+      Details.loadImage((IB.get(item.movie.ids).poster || IB.get(item.movie.ids).fanart), 'poster')
 
       const offline = Search.offline(item)
       if (offline) {
@@ -272,8 +272,8 @@ const Details = {
         trailer: item.show.trailer
       }, from)
 
-      Details.loadImage(IB.get(item.show.ids).fanart, 'fanart')
-      Details.loadImage(IB.get(item.show.ids).poster, 'poster')
+      Details.loadImage((IB.get(item.show.ids).fanart || IB.get(item.show.ids).poster), 'fanart')
+      Details.loadImage((IB.get(item.show.ids).poster || IB.get(item.show.ids).fanart), 'poster')
 
       const offline = Search.offline(item)
       if (offline) {
