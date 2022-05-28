@@ -67,7 +67,7 @@ const Search = {
     if (data.show) {
       try {
         return library[found].seasons[data.next_episode.season].episodes[data.next_episode.number]
-      } catch (e) {}
+      } catch (e) {return}
     }
   },
 
