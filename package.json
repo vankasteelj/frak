@@ -52,7 +52,7 @@
     "webtorrent-health": "1.1.2"
   },
   "devDependencies": {
-    "del": "6.1.1",
+    "del": "7.0.0",
     "gulp": "4.0.2",
     "gulp-gzip": "1.4.2",
     "gulp-load-plugins": "2.0.7",
