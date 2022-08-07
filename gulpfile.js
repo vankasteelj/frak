@@ -5,7 +5,6 @@
  ***************/
 const gulp = require('gulp')
 const glp = require('gulp-load-plugins')()
-const NwBuilder = require('nw-builder')
 const del = require('del')
 const currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js')
 const yargs = require('yargs')
@@ -91,6 +90,7 @@ gulp.task('nwjs', () => {
     }
   }
 
+  const NwBuilder = require('nw-builder')
   const nw = new NwBuilder(nwOptions).on('log', console.log)
 
   return nw.build()
@@ -124,11 +124,6 @@ gulp.task('run', () => {
     const bp = yargs.argv.bp ? '--bp' : ''
     const hid = yargs.argv.hidden ? '--hidden' : ''
     const child = spawn(bin, ['.', dev, bp, hid])
-
-    // nwjs console speaks to stderr
-    child.stderr.on('data', (buf) => {
-      console.log(buf.toString())
-    })
 
     child.on('close', (exitCode) => {
       console.log('%s exited with code %d', pkJson.name, exitCode)

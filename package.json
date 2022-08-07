@@ -25,7 +25,7 @@
     "min_height": 518,
     "show": false
   },
-  "chromium-args": "--disable-raf-throttling --future --single-process --in-process-gpu",
+  "chromium-args": "--disable-raf-throttling --future --in-process-gpu",
   "node-remote": "*://*",
   "repository": {
     "type": "git",
@@ -35,7 +35,7 @@
     "auto-launch": "5.0.5",
     "cheerio": "0.22.0",
     "fs-extra": "10.1.0",
-    "got": "11.3.0",
+    "got": "11.8.5",
     "i18n": "0.15.0",
     "image-downloader": "4.3.0",
     "ip": "1.1.8",
@@ -57,12 +57,12 @@
     "gulp-gzip": "1.4.2",
     "gulp-load-plugins": "2.0.7",
     "gulp-tar": "3.1.0",
-    "gulp-zip": "5.0.1",
+    "gulp-zip": "5.1.0",
     "modclean": "3.0.0-beta.1",
     "node-7z-forall": "2.1.5",
     "nw-builder": "3.6.0",
     "standard": "16.0.3",
-    "yargs": "17.2.1"
+    "yargs": "17.5.1"
   },
   "nwjs": {
     "version": "0.64.1",
