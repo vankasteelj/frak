@@ -36,9 +36,11 @@ const Network = {
           Network.peers[existing].name = body.name
           Network.peers[existing].cast_allowed = body.cast_allowed
 
-          Network.getFreePort(server.ip).then(port => {
-            Network.peers[existing].assignedPort = port
-          })
+          if (!Network.peers[existing].assignedPort) {
+            Network.getFreePort(server.ip).then(port => {
+              Network.peers[existing].assignedPort = port
+            })
+          }
         }
       }
 
@@ -198,26 +200,21 @@ const Network = {
     console.log('Network: \'%s\' ready to stream on port %d (requested by %s @ %s)', file.filename, Network.peers[clientId].assignedPort, Network.peers[clientId].ip, Network.peers[clientId].name)
   },
 
-  // tries defined port for main server + 1, then keeps trying until a free port is found
-  getFreePort: (ip, port = Network.port + 1) => {
-    return new Promise((resolve, reject) => {
-      for (const existing in Network.peers) {
-        if (Network.peers[existing].assignedPort === port && Network.peers[existing].ip === ip) return resolve(port)
-        if (Network.peers[existing].assignedPort === port && Network.peers[existing].ip !== ip) return resolve(Network.getFreePort(port += 1))
-      }
-
+  // find a free port to use by selecting port:0
+  getFreePort: () => {
+    return new Promise(resolve => {
       const server = http.createServer()
-
-      server.once('error', () => {
-        return resolve(Network.getFreePort(port += 1))
+      server.once('error', (err) => {
+        console.log(err)
       })
 
       server.once('listening', () => {
+        let port = server.address().port
         server.close()
         return resolve(port)
       })
 
-      server.listen(port)
+      server.listen(0)
     })
   },
 
