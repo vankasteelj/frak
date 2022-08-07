@@ -170,34 +170,52 @@ const Network = {
 
     // serve the file on assigned port
     Network.peers[clientId].playbackServer = http.createServer((req, res) => {
-      const range = req.headers.range
+      let pathname = url.parse(req.url).pathname
+      switch(pathname) {
+        case '/subtitles': 
+          // only working for a ".srt file" using the exact same name as the video file
+          let ext = file.filename.split('.').pop()
+          let srtPath = file.path.replace(ext, 'srt')
+          let srtName = file.filename.replace(ext, 'srt')
+          if (fs.existsSync(srtPath)) {
+            fs.createReadStream(srtPath).pipe(res)
+          } else {
+            res.writeHead(404, {'Content-Type': 'text/html'})
+            res.write('404 Not Found')
+            res.end()
+          }
+        break
+        default:
+          const range = req.headers.range
 
-      if (range) { // this allows seeking on client
-        const parts = range.replace(/bytes=/, '').split('-')
-        const start = parseInt(parts[0], 10)
-        const end = parts[1] ? parseInt(parts[1], 10) : file.size - 1
-        const chunksize = (end - start) + 1
-        const fileStream = fs.createReadStream(file.path, { start, end })
+          if (range) { // this allows seeking on client
+            const parts = range.replace(/bytes=/, '').split('-')
+            const start = parseInt(parts[0], 10)
+            const end = parts[1] ? parseInt(parts[1], 10) : file.size - 1
+            const chunksize = (end - start) + 1
+            const fileStream = fs.createReadStream(file.path, { start, end })
 
-        res.writeHead(206, {
-          'Content-Range': `bytes ${start}-${end}/${file.size}`,
-          'Accept-Ranges': 'bytes',
-          'Content-Length': chunksize,
-          'Content-Type': 'video/mp4'
-        })
-        fileStream.pipe(res)
-      } else {
-        res.writeHead(200, {
-          'Content-Length': file.size,
-          'Content-Type': 'video/mp4'
-        })
-        fs.createReadStream(file.path).pipe(res)
+            res.writeHead(206, {
+              'Content-Range': `bytes ${start}-${end}/${file.size}`,
+              'Accept-Ranges': 'bytes',
+              'Content-Length': chunksize,
+              'Content-Type': 'video/mp4'
+            })
+            fileStream.pipe(res)
+          } else {
+            res.writeHead(200, {
+              'Content-Length': file.size,
+              'Content-Type': 'video/mp4'
+            })
+            fs.createReadStream(file.path).pipe(res)
+          }
+        break
       }
     })
 
     Network.peers[clientId].playbackServer.listen(Network.peers[clientId].assignedPort)
 
-    console.log('Network: \'%s\' ready to stream on port %d (requested by %s @ %s)', file.filename, Network.peers[clientId].assignedPort, Network.peers[clientId].ip, Network.peers[clientId].name)
+    console.log(`Network: '${file.filename}' ready to stream on port:${Network.peers[clientId].assignedPort} (requested by ${Network.peers[clientId].ip} @ ${Network.peers[clientId].name})`)
   },
 
   // find a free port to use by selecting port:0
@@ -230,6 +248,19 @@ const Network = {
     }).catch(err => {
       console.error('Network.getFileFromPeer()', err)
     })
+  },
+
+  // download subtitles srt in temps and use it
+  getSubtitlesFromPeer: (file, url) => {
+    let ext = file.filename.split('.').pop()
+    let srtName = file.filename.replace(ext, 'srt')
+    let srtPath = path.join(Cache.dir, srtName)
+
+    got(url+'/subtitles').then(res => { // prevent piping if no subs are available
+      got.stream(url+'/subtitles').pipe(fs.createWriteStream(srtPath)).on('finish', () => {
+        Player.mpv.addSubtitles(srtPath, 'cached', srtName)
+      })
+    }).catch(err => {})
   },
 
   // update local library with client's available items

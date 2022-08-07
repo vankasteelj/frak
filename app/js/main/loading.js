@@ -19,6 +19,7 @@ const Loading = {
       $('#streaminfo .source span').text(url)
       $('#streaminfo .connection').hide()
       Player.play(url, {}, Details.model)
+      setTimeout(() => Network.getSubtitlesFromPeer(file, url), 1500)
     })
 
     Loading.subfails = 0

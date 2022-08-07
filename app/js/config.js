@@ -10,6 +10,7 @@ const spawn = require('child_process').spawn
 const request = require('request')
 const https = require('https')
 const http = require('http')
+const url = require('url')
 const dns = require('dns')
 const crypt = require('crypto')
 const i18n = require('i18n')
