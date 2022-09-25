@@ -12,6 +12,7 @@ const https = require('https')
 const http = require('http')
 const url = require('url')
 const dns = require('dns')
+dns.setDefaultResultOrder('ipv4first') // force ipv4 use for nodejs (see: https://forum.opensubtitles.org/viewtopic.php?f=8&t=17963)
 const crypt = require('crypto')
 const i18n = require('i18n')
 const got = require('got')
@@ -50,7 +51,7 @@ const Settings = {
   })(),
   streamer: {
     magnetTimeout: 10000,
-    maxConns: 40,
+    maxConns: 20,
     downloadLimit: -1,
     uploadLimit: -1,
     announce: [
