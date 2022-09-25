@@ -5,7 +5,6 @@
 
 ## Prerequisites
 - A [trakt](https://trakt.tv/) account (you'll be prompted to create one or login)
-- [MPV player](https://mpv.io/) for macOS (should be automatically installed on Windows/Linux)
 
 ## Features
 - Fully synced with Trakt.tv (watchlist, up next to watch, currently watching, watched history)
@@ -20,7 +19,7 @@
 - Localization support
 - Theming support
 - Automatic update notification
-- Compatible with Windows (7, 8, 10), OSX and major Linux distributions (even ARM, see [#115](https://github.com/vankasteelj/frak/issues/115))
+- Developed for Windows (7, 8, 10 and 11). OSX and Linux (even ARM, see [#115](https://github.com/vankasteelj/frak/issues/115)) might work if you know what you're doing.
 - Hackable (written in NodeJS/HTML5/CSS3, open source, shipped with devtools)
 
 [Download the latest Frak release!](https://github.com/vankasteelj/frak/releases)
@@ -47,4 +46,4 @@
         
         
 ## License
-Copyright Jean van Kasteel - GNU GPL v3.0
+Copyright Jean van Kasteel - GNU GPL v3.0 - developed since july 2017
