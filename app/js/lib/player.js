@@ -25,7 +25,6 @@ const Player = {
 
       // mpv properties setup
       Player.mpv.observeProperty('percent-pos', 50)
-      Player.mpv.observeProperty('fullscreen', 51)
       for (const prop in args) {
         Player.mpv.setProperty(prop, args[prop])
       }
@@ -64,19 +63,28 @@ const Player = {
 
   handleEvents: () => {
     if (Player.config.events) return
+    Player.config.states = {}
 
-    Player.mpv.on('statuschange', states => {
-      // workaround for https://github.com/j-holub/Node-MPV/issues/66
-      if (states['percent-pos'] && Player.config.states) Player.config.states.position = states['percent-pos']
+    Player.mpv.on('status', states => {
+      Player.config.states[states['property']] = states['value']
 
-      Player.config.states = states
+      if (states['property'] === 'pause') {
+        if (states['value']) {
+          Trakt.scrobble('pause')
+          $('#streaminfo .control .play').addClass('fa-play').removeClass('fa-pause')
+        } else {
+          Trakt.scrobble('start')
+          $('#streaminfo .control .play').addClass('fa-pause').removeClass('fa-play')
+        }
+        return
+      }
 
       if (!nw.global.playerPopup) return
-      if (states.fullscreen && !Player.config.popup && sessionStorage.screens <= 1) {
+      if (Player.config.states.fullscreen && !Player.config.popup && sessionStorage.screens <= 1) {
         console.log('Player popup shown')
         nw.global.playerPopup.show()
         Player.config.popup = true
-      } else if (!states.fullscreen && Player.config.popup) {
+      } else if (!Player.config.states.fullscreen && Player.config.popup) {
         console.log('Player popup hidden')
         nw.global.playerPopup.hide()
         Player.config.popup = false
@@ -84,14 +92,6 @@ const Player = {
     })
     Player.mpv.on('seek', timepositions => {
       if (!Player.config.states.pause) Trakt.scrobble('start')
-    })
-    Player.mpv.on('paused', () => {
-      Trakt.scrobble('pause')
-      $('#streaminfo .control .play').addClass('fa-play').removeClass('fa-pause')
-    })
-    Player.mpv.on('resumed', () => {
-      Trakt.scrobble('start')
-      $('#streaminfo .control .play').addClass('fa-pause').removeClass('fa-play')
     })
     Player.mpv.on('stopped', () => {
       // bypass https://github.com/00SteinsGate00/Node-MPV/issues/49
@@ -119,6 +119,7 @@ const Player = {
     Player.mpv = new (require('node-mpv'))({
       binary: binary,
       auto_restart: false,
+      time_update: 1,
       debug: true
     }, options)
 
@@ -246,6 +247,5 @@ const Player = {
   },
   onTop: () => {
     Player.mpv.setProperty('ontop', true)
-    Player.mpv.setProperty('ontop', false)
   }
 }

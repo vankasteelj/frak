@@ -42,7 +42,7 @@
     "langs": "2.0.0",
     "local-video-library": "1.3.0",
     "mdata": "2.0.1",
-    "node-mpv": "https://github.com/00SteinsGate00/Node-MPV/archive/6fc603794e364ce5ee5ad92018c9cb0dcd6a817e.tar.gz",
+    "node-mpv": "2.0.0-beta.2",
     "opensubtitles-api": "5.1.2",
     "readdirp": "3.6.0",
     "trakt.tv": "8.1.1",
@@ -69,7 +69,7 @@
     "flavor": "sdk"
   },
   "mpv": {
-    "url": "https://sourceforge.net/projects/mpv-player-windows/files/release/mpv-0.30.0-x86_64.7z/download",
+    "url": "https://sourceforge.net/projects/mpv-player-windows/files/release/mpv-0.34.0-x86_64.7z/download",
     "youtube-dl": "https://yt-dl.org/latest/youtube-dl.exe"
   }
 }
