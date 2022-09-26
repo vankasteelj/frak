@@ -1,17 +1,16 @@
-const cheerio = require('cheerio')
-const got = require('got')
-const defaultURL = atob('aHR0cHM6Ly93d3cudG9ycmVudDkuZ2c=')
-const name = atob('VG9ycmVudDk=')
+var got = require('got')
+var cheerio = require('cheerio')
+var defaultURL = atob('aHR0cHM6Ly93d3cudG9ycmVudDkxMS5jYw==')
+var name = atob('VG9ycmVudDkxMQ==')
 
-const get = (keywords, cfg = {}) => {
-  const reqURL = [
-    cfg.url || defaultURL,
-    'search_torrent',
-    // cfg.cat,
-    escape(keywords)// + '.html,trie-seeds-d'
+var get = (keywords) => {
+  var reqURL = [
+    defaultURL,
+    'recherche',
+    escape(keywords)
   ].join('/')
 
-  const torrents = []
+  var torrents = []
 
   return got(reqURL, {
     timeout: 3500
@@ -20,16 +19,16 @@ const get = (keywords, cfg = {}) => {
       throw new Error('Error at fetching %s', name)
     }
 
-    const $ = cheerio.load(response.body)
+    var $ = cheerio.load(response.body)
 
     if (!$) {
       throw new Error('Error at loading %s', name)
     }
 
-    const torrentsTemp = []
+    var torrentsTemp = []
 
-    $('.table-striped tr').each((index, el) => {
-      const torrent = {
+    $('table tbody tr').each((index, el) => {
+      var torrent = {
         name: $(el).find('a').eq(0).text(),
         seeds: parseInt($(el).find('td').eq(2).text()),
         peers: parseInt($(el).find('td').eq(3).text()),
@@ -37,10 +36,10 @@ const get = (keywords, cfg = {}) => {
         source: name
       }
 
-      const str = $(el).find('td').eq(1).text()
+      var str = $(el).find('td').eq(1).text()
       let size
       if (str) {
-        const s = parseFloat(str).toString()
+        var s = parseFloat(str).toString()
         if (str.match(/g/i)) size = s * 1024 * 1024 * 1024
         if (str.match(/m/i)) size = s * 1024 * 1024
         if (str.match(/k/i)) size = s * 1024
@@ -54,8 +53,8 @@ const get = (keywords, cfg = {}) => {
   }).then((torrentsTemp) => {
     return Promise.all(torrentsTemp.map(torrent => {
       return got(defaultURL + torrent.magnet, { timeout: 3500 }).then(response => {
-        const $ = cheerio.load(response.body)
-        torrent.magnet = 'magnet:?xt=urn:btih:' + $('.download-btn a')[1].attribs.href.split('&')[0] + '&dn=' + escape(torrent.name)
+        var $ = cheerio.load(response.body)
+        torrent.magnet = $('.btn-magnet a')[0].attribs.href
         torrents.push(torrent)
       })
     }))
@@ -69,7 +68,7 @@ module.exports = {
   name: name,
   url: defaultURL,
   search: (opts) => {
-    const req = {}
+    var req = {}
 
     // categories is broken
     switch (opts.type) {
