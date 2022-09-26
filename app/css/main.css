@@ -1354,6 +1354,18 @@ a {
   color: var(--category-text-hover);
 }
 
+#locals .local-item .getHistory {
+  visibility: hidden;
+  color: var(--app-font-color-dimmedstrong);
+}
+
+#locals .local-item .gotHistory {
+  color: var(--app-font-color-dimmedstrong);
+  font-size: .9em;
+  font-style: italic;
+  margin-left: 5px;
+}
+
 #locals .local-item .episode {
   margin-left: -40px;
   padding-left: 80px;
@@ -1395,6 +1407,10 @@ a {
 
 #locals .local-item:hover {
   background-color: var(--localitem-main-hover);
+}
+
+#locals .local-item:hover > .getHistory {
+  visibility: visible;
 }
 
 #locals .local-item.active,

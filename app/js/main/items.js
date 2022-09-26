@@ -226,10 +226,32 @@ const Items = {
 
     const item = `<div class="local-item" id="${d.id}" onClick="Interface.locals.showSeasons('${d.id}')">` +
                 `<span class="title">${show.metadata.show.title}</span>` +
+                `<span class="getHistory fa fa-info-circle tooltipped" title="${i18n.__('Show last watched episode')}" onClick="Items.getLocalShowHistory(event, '${show.metadata.show.ids.slug}', '${d.id}')"></span>` +
+                `<span class="gotHistory"></span>` +
                 `<div class="seasons">${seasons}</div>` +
             '</div>'
 
     return item
+  },
+  getLocalShowHistory: (e, slug, id) => {
+    e = e || window.event
+    e.preventDefault()
+    e.stopPropagation()
+
+    Trakt.client.shows.progress.watched({id: slug}).then((watched) => {
+      var last = watched.last_watched_at
+      var episode
+      for (var i in watched.seasons) {
+          for (var ii in watched.seasons[i].episodes) {
+              if (watched.seasons[i].episodes[ii].last_watched_at == last) {
+                  episode = 'S'+Misc.pad(watched.seasons[i].number)+'E'+Misc.pad(watched.seasons[i].episodes[ii].number)
+              }
+          }
+      }
+
+      var date = new Date(watched.last_watched_at)
+      $(`#${id} .gotHistory`).text(i18n.__('Last watched episode was %s on %s', episode, date.toLocaleDateString()))
+    }).catch(console.error)
   },
   constructHistoryShow: (show) => {
     const d = {

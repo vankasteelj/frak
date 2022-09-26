@@ -356,5 +356,7 @@
 	"Default: -1": "Par défaut: -1",
 	"Maximum download speed in kb/s (-1 by default)": "Vitesse de download maximale en ko/s (-1 par défaut)",
 	"Maximum upload speed in kb/s (-1 by default)": "Vitesse d'upload maximale en ko/s (-1 par défaut)",
-	"Donghua": "Donghua"
+	"Donghua": "Donghua",
+    "Show last watched episode": "Montrer le dernier épisode visionné",
+	"Last watched episode was %s on %s": "Dernier épisode visionné: %s le %s"
 }
