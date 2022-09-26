@@ -167,9 +167,9 @@
 
 #collection .fanart,
 #trakt .fanart {
-  background-position: 50%;
-  background-size: cover;
+  background-size: contain;
   overflow: hidden;
+  will-change: transform;
   position: relative;
 }
 
