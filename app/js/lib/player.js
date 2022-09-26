@@ -66,7 +66,11 @@ const Player = {
     Player.config.states = {}
 
     Player.mpv.on('status', states => {
-      Player.config.states[states['property']] = states['value']
+      if (states['property'] === 'percent-pos') {
+        if (states['value']) Player.config.states['percent-pos'] = states['value']
+      } else {
+        Player.config.states[states['property']] = states['value']
+      }
 
       if (states['property'] === 'pause') {
         if (states['value']) {
