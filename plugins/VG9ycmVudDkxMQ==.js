@@ -1,16 +1,16 @@
-var got = require('got')
-var cheerio = require('cheerio')
-var defaultURL = atob('aHR0cHM6Ly93d3cudG9ycmVudDkxMS5jYw==')
-var name = atob('VG9ycmVudDkxMQ==')
+const got = require('got')
+const cheerio = require('cheerio')
+const defaultURL = atob('aHR0cHM6Ly93d3cudG9ycmVudDkxMS5jYw==')
+const name = atob('VG9ycmVudDkxMQ==')
 
-var get = (keywords) => {
-  var reqURL = [
+const get = (keywords) => {
+  const reqURL = [
     defaultURL,
     'recherche',
     escape(keywords)
   ].join('/')
 
-  var torrents = []
+  const torrents = []
 
   return got(reqURL, {
     timeout: 3500
@@ -19,16 +19,16 @@ var get = (keywords) => {
       throw new Error('Error at fetching %s', name)
     }
 
-    var $ = cheerio.load(response.body)
+    const $ = cheerio.load(response.body)
 
     if (!$) {
       throw new Error('Error at loading %s', name)
     }
 
-    var torrentsTemp = []
+    const torrentsTemp = []
 
     $('table tbody tr').each((index, el) => {
-      var torrent = {
+      const torrent = {
         name: $(el).find('a').eq(0).text(),
         seeds: parseInt($(el).find('td').eq(2).text()),
         peers: parseInt($(el).find('td').eq(3).text()),
@@ -36,10 +36,10 @@ var get = (keywords) => {
         source: name
       }
 
-      var str = $(el).find('td').eq(1).text()
+      const str = $(el).find('td').eq(1).text()
       let size
       if (str) {
-        var s = parseFloat(str).toString()
+        const s = parseFloat(str).toString()
         if (str.match(/g/i)) size = s * 1024 * 1024 * 1024
         if (str.match(/m/i)) size = s * 1024 * 1024
         if (str.match(/k/i)) size = s * 1024
@@ -53,7 +53,7 @@ var get = (keywords) => {
   }).then((torrentsTemp) => {
     return Promise.all(torrentsTemp.map(torrent => {
       return got(defaultURL + torrent.magnet, { timeout: 3500 }).then(response => {
-        var $ = cheerio.load(response.body)
+        const $ = cheerio.load(response.body)
         torrent.magnet = $('.btn-magnet a')[0].attribs.href
         torrents.push(torrent)
       })
@@ -68,7 +68,7 @@ module.exports = {
   name: name,
   url: defaultURL,
   search: (opts) => {
-    var req = {}
+    const req = {}
 
     // categories is broken
     switch (opts.type) {
