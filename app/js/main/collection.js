@@ -306,6 +306,54 @@ const Collection = {
     }
   },
 
+  search: () => {
+    const container = $('#coll-search')
+    const input = $('#coll-search input')
+    let timestamp = 0
+    let lastSearch = false
+    let searchCount = 0
+    let searchLoop = false
+
+    container.show()
+    input.focus()
+
+    // search logic: on keydown check every 500ms is the input has change
+    // fire a search when a new input is available and the person is not actively typing
+    const clearSearch = () => {
+      clearInterval(searchLoop)
+      searchLoop = false
+      searchCount = 0
+      timestamp = 0
+    }
+    const search = () => {
+      let split = input.val().split(' ').join('')
+      if (timestamp === 0 || Date.now() - timestamp < 500 || lastSearch === split) {
+        searchCount++
+        if (searchCount > 10) clearSearch()
+      } else {
+        lastSearch = split
+        // The actual search starts here
+        console.log('rechercher', input.val())
+        clearSearch()
+      }
+    }
+    input.on('keydown', (e) => {
+      timestamp = Date.now()
+      if (searchLoop === false) searchLoop = setInterval(search, 500)
+    })
+
+    // close search if clicked elsewhere
+    $(document).on('click', (e) => {
+      if ($(e.target).closest('#coll-search').length === 0) {
+        clearSearch()
+        container.hide()
+        $(document).off('click')
+        input.off('keydown')
+        input.val('')
+      }
+    })
+  },
+
   show: {
     shows: (shows = []) => {
       $('#collection #shows').html('')

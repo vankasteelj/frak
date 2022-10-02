@@ -103,6 +103,25 @@
   height: 56px;
 }
 
+#collection #coll-search {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+}
+
+#collection #coll-search input {
+  color: var(--app-font-color);
+  background-color: var(--app-color-main);
+  height: 40px;
+  border: 1px solid var(--app-color-alt);
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-right: 40px;
+  padding: 20px;
+}
+
 #collection .actions .trailer,
 #discover .actions .trailer {
   font-size: 1.8em;
