@@ -11,7 +11,6 @@ const Keyboard = {
       } else if (key.ctrlKey && key.charCode === 18) { // ctrl+r
         Misc.restartApp()
       } else if (key.ctrlKey && key.charCode == 6) { // ctrl+f
-        console.log('Search')
         Collection.search()
       }
     })

@@ -307,6 +307,8 @@ const Collection = {
   },
 
   search: () => {
+    if (['movies', 'shows'].indexOf(DB.get('active_tab')) === -1) return
+    
     const container = $('#coll-search')
     const input = $('#coll-search input')
     let timestamp = 0
@@ -316,6 +318,15 @@ const Collection = {
 
     container.show()
     input.focus()
+
+    // actual search
+    const displayElements = (text) => {
+      console.log('displayElements', text)
+      if (!text) text = ''
+      $('div.grid-item').filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(text) > -1)
+      })
+    }
 
     // search logic: on keydown check every 500ms is the input has change
     // fire a search when a new input is available and the person is not actively typing
@@ -334,6 +345,7 @@ const Collection = {
         lastSearch = split
         // The actual search starts here
         console.log('rechercher', input.val())
+        displayElements(input.val())
         clearSearch()
       }
     }
@@ -350,6 +362,7 @@ const Collection = {
         $(document).off('click')
         input.off('keydown')
         input.val('')
+        displayElements()
       }
     })
   },

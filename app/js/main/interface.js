@@ -77,6 +77,7 @@ const Interface = {
     $('#settings').hide()
     $('#navbar .movies').addClass('active')
     DB.store('movies', 'last_tab')
+    DB.store('movies', 'active_tab')
     window.scrollTo(0, 0)
   },
   // USER INTERACTION: click navbar
@@ -91,6 +92,7 @@ const Interface = {
     $('#settings').hide()
     $('#navbar .shows').addClass('active')
     DB.store('shows', 'last_tab')
+    DB.store('shows', 'active_tab')
     window.scrollTo(0, 0)
   },
   // USER INTERACTION: click navbar
@@ -107,6 +109,7 @@ const Interface = {
     $('#locals .categories').show()
     $('#locals .items').hide()
     DB.store('locals', 'last_tab')
+    DB.store('locals', 'active_tab')
     window.scrollTo(0, 0)
   },
   // USER INTERACTION: click navbar
@@ -120,6 +123,7 @@ const Interface = {
     $('#trakt #discover').hide()
     $('#trakt #stats').hide()
     $('#navbar .settings').addClass('active')
+    DB.store('settings', 'active_tab')
   },
   // USER INTERACTION: click navbar
   showHistory: () => {
@@ -145,6 +149,7 @@ const Interface = {
     $('#trakt #discover').hide()
     $('#trakt #stats').hide()
     $('#settings').hide()
+    DB.store('history', 'active_tab')
   },
   // USER INTERACTION: click navbar
   showStats: () => {
@@ -164,6 +169,7 @@ const Interface = {
     Stats.load().then(() => {
       $('#trakt #stats #sloading').hide()
       $('#trakt #stats #sloaded').show()
+      DB.store('stats', 'active_tab')
     })
   },
 
@@ -180,6 +186,7 @@ const Interface = {
     $('#trakt #stats').hide()
     $('#trakt #discover').show()
     $('#navbar .discover').addClass('active')
+    DB.store('discover', 'active_tab')
   },
 
   // AUTO: right click menu on movies & shows
