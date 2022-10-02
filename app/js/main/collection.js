@@ -308,7 +308,7 @@ const Collection = {
 
   search: () => {
     if (['movies', 'shows'].indexOf(DB.get('active_tab')) === -1) return
-    
+
     const container = $('#coll-search')
     const input = $('#coll-search input')
     let timestamp = 0
@@ -344,7 +344,7 @@ const Collection = {
       } else {
         lastSearch = split
         // The actual search starts here
-        console.log('rechercher', input.val())
+        console.debug('Recherche', input.val())
         displayElements(input.val())
         clearSearch()
       }
