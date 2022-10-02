@@ -403,8 +403,7 @@ const Boot = {
     if (start === 'last') start = DB.get('last_tab') || def
 
     // set active
-    $(`#navbar .nav.${start}`).addClass('active')
-    $(`#collection #${start}`).show()
+    $(`#navbar .nav.${start}`).click()
 
     // prepare settings
     const $setting = $('#startscreen')
