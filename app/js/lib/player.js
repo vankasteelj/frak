@@ -66,14 +66,14 @@ const Player = {
     Player.config.states = {}
 
     Player.mpv.on('status', states => {
-      if (states['property'] === 'percent-pos') {
-        if (states['value']) Player.config.states['percent-pos'] = states['value']
+      if (states.property === 'percent-pos') {
+        if (states.value) Player.config.states['percent-pos'] = states.value
       } else {
-        Player.config.states[states['property']] = states['value']
+        Player.config.states[states.property] = states.value
       }
 
-      if (states['property'] === 'pause') {
-        if (states['value']) {
+      if (states.property === 'pause') {
+        if (states.value) {
           Trakt.scrobble('pause')
           $('#streaminfo .control .play').addClass('fa-play').removeClass('fa-pause')
         } else {

@@ -170,22 +170,23 @@ const Network = {
 
     // serve the file on assigned port
     Network.peers[clientId].playbackServer = http.createServer((req, res) => {
-      let pathname = url.parse(req.url).pathname
-      switch(pathname) {
-        case '/subtitles': 
+      const pathname = url.parse(req.url).pathname
+      switch (pathname) {
+        case '/subtitles': {
           // only working for a ".srt file" using the exact same name as the video file
-          let ext = file.filename.split('.').pop()
-          let srtPath = file.path.replace(ext, 'srt')
-          let srtName = file.filename.replace(ext, 'srt')
+          const ext = file.filename.split('.').pop()
+          const srtPath = file.path.replace(ext, 'srt')
+          const srtName = file.filename.replace(ext, 'srt')
           if (fs.existsSync(srtPath)) {
             fs.createReadStream(srtPath).pipe(res)
           } else {
-            res.writeHead(404, {'Content-Type': 'text/html'})
+            res.writeHead(404, { 'Content-Type': 'text/html' })
             res.write('404 Not Found')
             res.end()
           }
-        break
-        default:
+          break
+        }
+        default: {
           const range = req.headers.range
 
           if (range) { // this allows seeking on client
@@ -209,7 +210,8 @@ const Network = {
             })
             fs.createReadStream(file.path).pipe(res)
           }
-        break
+          break
+        }
       }
     })
 
@@ -227,7 +229,7 @@ const Network = {
       })
 
       server.once('listening', () => {
-        let port = server.address().port
+        const port = server.address().port
         server.close()
         return resolve(port)
       })
@@ -252,15 +254,17 @@ const Network = {
 
   // download subtitles srt in temps and use it
   getSubtitlesFromPeer: (file, url) => {
-    let ext = file.filename.split('.').pop()
-    let srtName = file.filename.replace(ext, 'srt')
-    let srtPath = path.join(Cache.dir, srtName)
+    const ext = file.filename.split('.').pop()
+    const srtName = file.filename.replace(ext, 'srt')
+    const srtPath = path.join(Cache.dir, srtName)
 
-    got(url+'/subtitles').then(res => { // prevent piping if no subs are available
-      got.stream(url+'/subtitles').pipe(fs.createWriteStream(srtPath)).on('finish', () => {
+    got(url + '/subtitles').then(res => { // prevent piping if no subs are available
+      got.stream(url + '/subtitles').pipe(fs.createWriteStream(srtPath)).on('finish', () => {
         Player.mpv.addSubtitles(srtPath, 'cached', srtName)
       })
-    }).catch(err => {})
+    }).catch(err => {
+      console.debug('Network.getSubtitlesFromPeer failed', err)
+    })
   },
 
   // update local library with client's available items

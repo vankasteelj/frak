@@ -321,11 +321,11 @@ const Collection = {
 
     // actual search
     const displayElements = (text) => {
-      console.log('displayElements', text)
       if (!text) text = ''
-      $('div.grid-item').filter(function() {
-        $(this).toggle($(this).text().toLowerCase().indexOf(text) > -1)
-      })
+      $('div.grid-item').filter(function () {
+        $(this).hide()
+        return $(this).text().toLowerCase().indexOf(text) > -1
+      }).show()
     }
 
     // search logic: on keydown check every 500ms is the input has change
@@ -337,7 +337,7 @@ const Collection = {
       timestamp = 0
     }
     const search = () => {
-      let split = input.val().split(' ').join('')
+      const split = input.val().split(' ').join('')
       if (timestamp === 0 || Date.now() - timestamp < 500 || lastSearch === split) {
         searchCount++
         if (searchCount > 10) clearSearch()

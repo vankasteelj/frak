@@ -94,9 +94,9 @@ const IB = {
     }
 
     // only return full objects
-    /*if (db[id] && (!db[id].poster || !db[id].fanart)) {
+    /* if (db[id] && (!db[id].poster || !db[id].fanart)) {
       return {}
-    }*/
+    } */
 
     // locally cached
     if (db[id] && (

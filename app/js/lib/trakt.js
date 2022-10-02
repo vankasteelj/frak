@@ -258,7 +258,7 @@ const Trakt = {
       return
     }
 
-    let progress = Player.config.states && Player.config.states['percent-pos'] || 0
+    let progress = (Player.config.states && Player.config.states['percent-pos']) || 0
     progress = parseFloat(progress.toFixed(2))
 
     let model, type

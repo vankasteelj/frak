@@ -10,7 +10,7 @@ const Keyboard = {
         win.showDevTools()
       } else if (key.ctrlKey && key.charCode === 18) { // ctrl+r
         Misc.restartApp()
-      } else if (key.ctrlKey && key.charCode == 6) { // ctrl+f
+      } else if (key.ctrlKey && key.charCode === 6) { // ctrl+f
         Collection.search()
       }
     })

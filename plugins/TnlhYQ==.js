@@ -1,11 +1,11 @@
-const cheerio = require('cheerio');
-const got = require('got');
+const cheerio = require('cheerio')
+const got = require('got')
 const defaultURL = atob('aHR0cHM6Ly9ueWFhLnNp')
 const name = atob('TnlhYQ==')
 
 const get = (query, cat) => {
   const torrents = []
-  const url = defaultURL + "?f=0&c=0_0&q=" + query + "&s=seeders&o=desc"
+  const url = defaultURL + '?f=0&c=0_0&q=' + query + '&s=seeders&o=desc'
   return got(url).then((html) => {
     const $ = cheerio.load(html.body)
 
@@ -35,7 +35,6 @@ const get = (query, cat) => {
     return []
   })
 }
-
 
 module.exports = {
   name: name,

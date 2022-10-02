@@ -425,6 +425,7 @@ const sd = (fix) => {
         'localStorage',
         'i18n',
         'got',
+        'url',
 
         // JS files
         'Boot',
