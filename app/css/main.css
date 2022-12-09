@@ -1101,6 +1101,75 @@ a {
   width: 100%;
 }
 
+#switchaccount {
+  display: none;
+  z-index: 100;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+}
+#switchaccount .background {
+  background-color: rgba(50,50,50,.5);
+  width: 100vw;
+  height: 100vh;
+}
+
+#switchaccount .wrapper {
+  position: absolute;
+  width: 400px;
+  height: 140px;
+  background-color: var(--app-color-alt);
+  top: 35%;
+  left: calc(50% - 200px);
+  border-radius: 4px;
+}
+
+#switchaccount .addnew {
+  bottom: 0;
+  position: absolute;
+  text-align: center;
+  width: 400px;
+  font-family: var(--font);
+  cursor: pointer;
+}
+
+#switchaccount .accounts {
+  position: absolute;
+  width: 400px;
+  height: 100px;
+  background: var(--app-color-main);
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  justify-content: center;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+#switchaccount .accounts .account {
+  height: 100px;
+  width: 70px;
+  min-width: 0;
+}
+
+#switchaccount .accounts .account img {
+  width: 50px;
+  height: 50px;
+  border: 2px solid var(--app-font-color);
+  border-radius: 30px;
+  margin: 15px 10px 5px 10px;
+}
+
+#switchaccount .accounts .account .accountname {
+  font-family: var(--font-semibold);
+  color: var(--app-font-color-dimmed);
+  font-size: 12px;
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 #stats #suserinfo {
   text-align: center;
   line-height: 1.1;
@@ -1128,6 +1197,24 @@ a {
 }
 #stats #suserjoined span {
   color: var(--app-font-color-dimmed);
+}
+
+#stats #saccounts {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  opacity: .8;
+  transition: all .5s;
+}
+#stats #saccounts:hover {
+  opacity: 1;
+}
+
+#stats #saccounts p {
+  font-family: var(--font);
+  float: right;
+  margin: 1px 5px;
 }
 
 #stats #sloaded {

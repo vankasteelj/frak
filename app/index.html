@@ -52,7 +52,7 @@
         </div>
 
         <div class="reset">
-          <button class="disconnect" onClick="DB.reset()">
+          <button class="disconnect" onClick="Trakt.disconnect()">
             <i18n>Stuck? Click here to reset the app.</i18n>
           </button>
         </div>
@@ -152,6 +152,16 @@
       <div class="online"></div>
     </section>
 
+    <section id="switchaccount">
+      <div class="background"></div>
+      <div class="wrapper">
+        <div class="accounts"></div>
+        <div class="addnew">
+          <p><i18n>Add a new account</i18n></p>
+        </div>
+      </div>
+    </section>
+    
     <section id="trailer" onClick="Interface.closeTrailer()">
       <div class="spinner">
         <div class="double-bounce1"></div>
@@ -233,6 +243,11 @@
           <img src="images/trakt-logo.png"/>
           <p id="susername"></p>
           <p id="suserjoined"><i18n>Trakt member since</i18n> <span></span></p>
+        </div>
+        <div id="saccounts" onClick="Interface.switchAccount()">
+          <div class="fa fa-retweet">
+            <p><i18n>Switch account</i18n></p>
+          </div>
         </div>
         <div id="sloading">
           <div class="spinner">

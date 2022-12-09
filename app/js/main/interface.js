@@ -47,6 +47,7 @@ const Interface = {
     $('#traktwelcome .spinner').show()
 
     setTimeout(() => $('#traktwelcome button').show(), 30000) // display reset if still here after 30sec
+    Interface.buildSwitch()
   },
 
   // AUTO: from welcome page
@@ -193,8 +194,13 @@ const Interface = {
     DB.store('discover', 'active_tab')
   },
 
-  // AUTO: right click menu on movies & shows
+  // AUTO: right click menu on movies & shows, and account popup
   rightClickNav: () => {
+    // right click ACCOUNT
+    $('#navbar .stats').off('contextmenu').on('contextmenu', (e) => {
+      Interface.switchAccount()
+    })
+
     // right click MOVIES
     const movielabels = {}
 
@@ -443,5 +449,14 @@ const Interface = {
         console.debug('Player popup closed')
       })
     })
+  },
+  switchAccount: () => {
+    console.log('switch account')
+    $('#switchaccount').show();
+    $('#switchaccount .background').off('click').on('click', () => $('#switchaccount').hide())
+  },
+  buildSwitch: () => {
+    const activeProfile = DB.get('trakt_profile')
+    $('#switchaccount .accounts').append(`<div class="account"><img src="${activeProfile.images.avatar.full}"/><div class="accountname">${activeProfile.username}</div></div>`)
   }
 }

@@ -359,5 +359,7 @@
 	"Donghua": "Donghua",
 	"Show last watched episode": "Montrer le dernier épisode visionné",
 	"Last watched episode was %s on %s": "Dernier épisode visionné: %s le %s",
-	"Account": "Compte"
+	"Account": "Compte",
+	"Switch account": "Changer de compte",
+	"Add a new account": "Ajouter un nouveau compte"
 }
