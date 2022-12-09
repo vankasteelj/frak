@@ -1107,6 +1107,14 @@ a {
   margin: 5px 0px;
 }
 
+#stats #suserinfo img {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  margin-bottom: 10px;
+  border: 2px solid var(--tab-text);
+}
+
 #stats #susername {
   font-size: 26px;
   font-family: var(--font-semibold);
@@ -1115,7 +1123,7 @@ a {
 #stats #suserjoined {
   text-transform: uppercase;
   font-family: var(--font-bold);
-  font-size: 14px;
+  font-size: 12px;
   color: var(--app-font-color-dimmedstrong);
 }
 #stats #suserjoined span {
@@ -1127,13 +1135,13 @@ a {
 }
 #stats #stotalwatched .category {
   font-size: 12px;
-  border-radius: 4px;
-  background-color: rgba(0,0,0,.5);
   height: 60px;
   padding: 8px;
   width: 280px;
   float: left;
   display: inline-flex;
+  border-radius: 4px;
+  background: rgba(0,0,0,.5);
 }
 #stats #stotalwatched .category.show {
   margin-left: calc(30% - 140px);
@@ -1146,7 +1154,6 @@ a {
 #stats #sloaded #stop .category {
   float: left;
   padding: 20px;
-  padding-top: 40px;
   width: 350px;
   text-align: center;
 }
@@ -1256,7 +1263,7 @@ a {
 #stats #sfunfacts {
   clear: both;
   width: 800px;
-  height: 300px;
+  height: 475px;
   margin: 15px auto;
   padding: 20px;
 }
@@ -1285,9 +1292,6 @@ a {
   float: left;
   margin: 5px;
   margin-bottom: 40px;
-  border-color: var(--app-color-alt);
-  border-width: 1px;
-  border-style: solid;
   border-radius: 4px;
 }
 
@@ -1547,13 +1551,33 @@ a {
   white-space: nowrap;
 }
 
+#navbar .nav .avatar {
+  background-image: url(../images/trakt-logo.png);
+  border-radius: 50px;
+  height: 22px;
+  margin-top: -19px;
+  position: absolute;
+  width: 22px;
+  background-size: cover;
+  border: 1px solid var(--tab-text);
+}
+
+#navbar .nav.stats .fa-circle:before {
+  opacity: 0;
+}
+
+#navbar .nav.stats {
+  bottom: 60px;
+  position: absolute;
+}
+  
 #navbar .nav.active {
   background-color: var(--tab-bg-select);
   color: var(--tab-text-select);
 }
 
 #navbar .nav.bigpicture {
-  bottom: 60px;
+  bottom: 120px;
   position: absolute;
 }
 
@@ -2028,6 +2052,7 @@ a {
   border-radius: 40px;
   height: 80px;
   width: 80px;
+  border: 2px solid var(--tab-text);
 }
 
 #traktinit input,

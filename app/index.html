@@ -119,15 +119,6 @@
         </div>
       </div>
 
-      <div class="nav stats" onClick="Interface.showStats()">
-        <div class="fa fa-spin fa-refresh"></div>
-        <div class="fa fa-bar-chart">
-          <div class="text">
-            <i18n>Stats</i18n>
-          </div>
-        </div>
-      </div>
-
       <div class="nav bigpicture" onClick="Interface.bigPicture()">
         <div class="fa fa-arrows-alt">
           <div class="text">
@@ -139,6 +130,14 @@
         <div class="fa fa-times-circle">
           <div class="text">
             <i18n>Exit</i18n>
+          </div>
+        </div>
+      </div>
+      <div class="nav stats" onClick="Interface.showStats()">
+        <div class="fa fa-circle">
+          <div class="avatar"></div>
+          <div class="text">
+            <i18n>Account</i18n>
           </div>
         </div>
       </div>
@@ -231,6 +230,7 @@
       <div id="stats">
         <div id="sbackground"></div>
         <div id="suserinfo">
+          <img src="images/trakt-logo.png"/>
           <p id="susername"></p>
           <p id="suserjoined"><i18n>Trakt member since</i18n> <span></span></p>
         </div>
@@ -241,7 +241,6 @@
           </div>
         </div>
         <div id="sloaded">
-
           <div id="stotalwatched">
             <div class="category show">
               <div class="fa fa-television"></div>

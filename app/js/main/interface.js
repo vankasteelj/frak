@@ -27,6 +27,8 @@ const Interface = {
       // we already have a profile
       $('#welcomeprofile .welcomemessage').text(i18n.__('Welcome back'))
       $('#welcomeprofile img').attr('src', info.images.avatar.full)
+      $('#stats #suserinfo img').attr('src', info.images.avatar.full)
+      $('#navbar .nav .avatar').css('background-image', 'url("'+info.images.avatar.full+'")')
       $('#welcomeprofile .username').text(info.username)
     } else {
       Trakt.client.users.profile({
@@ -36,6 +38,8 @@ const Interface = {
         DB.store(profile, 'trakt_profile')
         $('#welcomeprofile .welcomemessage').text(i18n.__('Welcome'))
         $('#welcomeprofile img').attr('src', profile.images.avatar.full)
+        $('#stats #suserinfo img').attr('src', profile.images.avatar.full)
+        $('#navbar .nav .avatar').css('background-image', 'url("'+info.images.avatar.full+'")')
         $('#welcomeprofile .username').text(profile.username)
       })
     }
