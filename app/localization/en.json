@@ -319,5 +319,13 @@
 	"sharing %s files (port %s)": "sharing %s files (port %s)",
 	"Redownload image": "Redownload image",
 	"- %s connected peer(s)": "- %s connected peer(s)",
-	"Donghua": "Donghua"
+	"Donghua": "Donghua",
+	"Account": "Account",
+	"Add a new account": "Add a new account",
+	"Switch account": "Switch account",
+	"Download speed limit": "Download speed limit",
+	"Upload speed limit": "Upload speed limit",
+	"Maximum download speed in kb/s (0 by default)": "Maximum download speed in kb/s (0 by default)",
+	"Default: 0": "Default: 0",
+	"Maximum upload speed in kb/s (0 by default)": "Maximum upload speed in kb/s (0 by default)"
 }
