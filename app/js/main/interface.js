@@ -23,11 +23,11 @@ const Interface = {
     $('#init').show()
     $('#traktwelcome').show()
 
-    let profile = Profiles.get(DB.app.get('trakt_active_profile')).profile
+    const profile = Profiles.get(DB.app.get('trakt_active_profile')).profile
     $('#welcomeprofile .welcomemessage').text(i18n.__('Welcome'))
     $('#welcomeprofile img').attr('src', profile.images.avatar.full)
     $('#stats #suserinfo img').attr('src', profile.images.avatar.full)
-    $('#navbar .nav .avatar').css('background-image', 'url("'+profile.images.avatar.full+'")')
+    $('#navbar .nav .avatar').css('background-image', 'url("' + profile.images.avatar.full + '")')
     $('#welcomeprofile .username').text(profile.username)
     $('#settings .trakt .username').text(profile.username)
 
@@ -439,13 +439,13 @@ const Interface = {
     })
   },
   switchTraktAccount: () => {
-    $('#switchaccount').show();
+    $('#switchaccount').show()
     $('#switchaccount .background').off('click').on('click', () => $('#switchaccount').hide())
   },
   buildSwitch: () => {
     $('#switchaccount .accounts').html('')
     const profiles = Profiles.list()
-    for (let i of profiles) {
+    for (const i of profiles) {
       $('#switchaccount .accounts').append(`<div class="account" onClick="Interface.selectTraktAccount('${i.profile.username}')"><img src="${i.profile.images.avatar.full}"/><div class="accountname">${i.profile.username}</div></div>`)
     }
   },

@@ -16,7 +16,6 @@ const Trakt = {
     if (!auth) {
       $('#init').show()
       if (Profiles.list().length !== 0) $('#traktinit .existingaccounts').css('display', 'inline-flex')
-      return
     } else {
       Trakt.client.import_token(Profiles.get(auth).auth).then(Trakt.connected)
     }
@@ -43,7 +42,7 @@ const Trakt = {
     // Notify.requestAttention()
 
     Interface.traktConnected(DB.app.get('trakt_active_profile'))
-     Collection.load()
+    Collection.load()
   },
 
   last_activities: (type) => {

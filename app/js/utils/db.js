@@ -40,13 +40,13 @@ const DB = {
     store: (data, key) => {
       try {
         const active = DB._get('trakt_active_profile')
-        return DB._store(data, active+key)
+        return DB._store(data, active + key)
       } catch (e) {}
     },
     get: (key) => {
       try {
         const active = DB._get('trakt_active_profile')
-        return DB._get(active+key)
+        return DB._get(active + key)
       } catch (e) {}
     }
   }
