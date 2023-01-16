@@ -1,12 +1,12 @@
 'use strict'
 
 const DB = {
-  store: (data, key) => {
+  _store: (data, key) => {
     if (typeof data !== 'string') data = JSON.stringify(data)
     localStorage[key] = zlib.deflateSync(data).toString('base64')
     return true
   },
-  get: (key) => {
+  _get: (key) => {
     let data
 
     try {
@@ -27,5 +27,27 @@ const DB = {
   },
   remove: (key) => {
     localStorage.removeItem(key)
+  },
+  app: {
+    store: (data, key) => {
+      return DB._store(data, key)
+    },
+    get: (key) => {
+      return DB._get(key)
+    }
+  },
+  trakt: {
+    store: (data, key) => {
+      try {
+        const active = DB._get('trakt_active_profile')
+        return DB._store(data, active+key)
+      } catch (e) {}
+    },
+    get: (key) => {
+      try {
+        const active = DB._get('trakt_active_profile')
+        return DB._get(active+key)
+      } catch (e) {}
+    }
   }
 }

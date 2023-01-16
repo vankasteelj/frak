@@ -361,5 +361,6 @@
 	"Last watched episode was %s on %s": "Dernier épisode visionné: %s le %s",
 	"Account": "Compte",
 	"Switch account": "Changer de compte",
-	"Add a new account": "Ajouter un nouveau compte"
+	"Add a new account": "Ajouter un nouveau compte",
+	"Other accounts": "Autres comptes"
 }

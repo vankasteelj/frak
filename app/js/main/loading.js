@@ -29,7 +29,7 @@ const Loading = {
     })
   },
   remote: (url) => {
-    const localUrl = DB.get('localip') ? url.replace('127.0.0.1', DB.get('localip')) : url
+    const localUrl = DB.app.get('localip') ? url.replace('127.0.0.1', DB.app.get('localip')) : url
 
     $('#streaminfo .filename span').text(Streamer.streaminfo.file_name)
     $('#streaminfo .source span').text(localUrl)
@@ -115,7 +115,7 @@ const Loading = {
 
     Subtitles.search(subopts).then(subs => {
       console.info('Found subtitles', subs)
-      const locale = DB.get('locale')
+      const locale = DB.app.get('locale')
 
       if (Object.keys(subs).length) $('#subtitles').css('visibility', 'visible')
       $('#subtitles .sub').remove()

@@ -11,7 +11,7 @@ const Stats = {
   load: () => {
     console.log('Loading trakt stats')
 
-    const suserinfo = DB.get('trakt_profile')
+    const suserinfo = Profiles.get(DB.app.get('trakt_active_profile')).profile
     $('#stats #susername').text(i18n.__('Hello, %s', suserinfo.name.split(' ')[0] || suserinfo.username))
     $('#stats #suserjoined span').text(new Date(suserinfo.joined_at).toLocaleDateString())
 
@@ -81,7 +81,7 @@ const Stats = {
   getRatings: () => {
     if (Stats.cache.ratings) return Stats.cache.ratings
 
-    const ratings = DB.get('traktratings')
+    const ratings = DB.trakt.get('traktratings')
     const sort = Object.keys(ratings).sort((a, b) => ratings[b].rating - ratings[a].rating)
 
     Stats.cache.ratings = { movie: [], show: [] }
@@ -110,7 +110,7 @@ const Stats = {
   getShowsStats: () => {
     if (Stats.cache.showsStats) return Promise.resolve(Stats.cache.showsStats)
 
-    const shows = DB.get('watchedShows')
+    const shows = DB.trakt.get('watchedShows')
     let mostWatched = { idx: null, timespent: null }
     let genres = []; let countries = []; let networks = []; let years = []
 

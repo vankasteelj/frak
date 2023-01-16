@@ -41,7 +41,7 @@ const Items = {
       id: movie.movie.ids.slug,
       data: JSON.stringify(movie),
       rating: Misc.percentage(movie.movie.rating),
-      size: DB.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal
+      size: DB.app.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal
     }
 
     const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
@@ -102,7 +102,7 @@ const Items = {
       sxe: `s${Misc.pad(show.next_episode.season)}e${Misc.pad(show.next_episode.number)}`,
       data: JSON.stringify(show),
       rating: Misc.percentage(show.show.rating),
-      size: DB.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal
+      size: DB.app.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal
     }
 
     const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
@@ -261,7 +261,7 @@ const Items = {
       title: show.episode.title || '',
       data: JSON.stringify(show),
       rating: Misc.percentage(show.show.rating),
-      size: DB.get('small_items') ? Settings.grid.historySmall : Settings.grid.historyNormal,
+      size: DB.app.get('small_items') ? Settings.grid.historySmall : Settings.grid.historyNormal,
       watched_at: (function () {
         const d = new Date(show.watched_at)
         return d.toLocaleDateString() + ' ' + Misc.pad(d.getHours()) + ':' + Misc.pad(d.getMinutes())
@@ -308,7 +308,7 @@ const Items = {
       title: movie.movie.title,
       data: JSON.stringify(movie),
       rating: Misc.percentage(movie.movie.rating),
-      size: DB.get('small_items') ? Settings.grid.historySmall : Settings.grid.historyNormal,
+      size: DB.app.get('small_items') ? Settings.grid.historySmall : Settings.grid.historyNormal,
       watched_at: (function () {
         const d = new Date(movie.watched_at)
         return d.toLocaleDateString() + ' ' + Misc.pad(d.getHours()) + ':' + Misc.pad(d.getMinutes())
@@ -349,7 +349,7 @@ const Items = {
   },
   constructHistoryMore: () => {
     const d = {
-      size: DB.get('small_items') ? Settings.grid.historySmall : Settings.grid.historyNormal
+      size: DB.app.get('small_items') ? Settings.grid.historySmall : Settings.grid.historyNormal
     }
 
     const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="showMore">` +
@@ -387,9 +387,9 @@ const Items = {
       })(),
       data: JSON.stringify(show),
       rating: Misc.percentage(show.show.rating),
-      size: DB.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal,
+      size: DB.app.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal,
       watchlisted: (() => {
-        const want = DB.get('traktshowscollection').find(o => o.show.ids.slug === show.show.ids.slug)
+        const want = DB.trakt.get('traktshowscollection').find(o => o.show.ids.slug === show.show.ids.slug)
         const watched = WB.find.show(show.show.ids.slug)
         return Boolean(want || watched)
       })(),
@@ -440,7 +440,7 @@ const Items = {
       labels.separator = true
       show.show.source === 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.shows.hide({
         id: show.show.ids.slug
-      }).then(() => DB.store(0, 'lastrecommendedsync')).then(() => $(`#discover #${d.id}`).remove()))
+      }).then(() => DB.trakt.store(0, 'lastrecommendedsync')).then(() => $(`#discover #${d.id}`).remove()))
       labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`)
       const menu = Misc.customContextMenu(labels)
       $(`#discover #${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
@@ -468,8 +468,8 @@ const Items = {
       })(),
       data: JSON.stringify(movie),
       rating: Misc.percentage(movie.movie.rating),
-      size: DB.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal,
-      watchlisted: DB.get('traktmoviescollection').find(o => o.movie.ids.slug === movie.movie.ids.slug),
+      size: DB.app.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal,
+      watchlisted: DB.trakt.get('traktmoviescollection').find(o => o.movie.ids.slug === movie.movie.ids.slug),
       watched: WB.find.movie(movie.movie.ids.slug)
     }
 
@@ -514,7 +514,7 @@ const Items = {
       labels.separator = true
       movie.movie.source === 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.movies.hide({
         id: movie.movie.ids.slug
-      }).then(() => DB.store(0, 'lastrecommendedsync')).then(() => $(`#discover #${d.id}`).remove()))
+      }).then(() => DB.trakt.store(0, 'lastrecommendedsync')).then(() => $(`#discover #${d.id}`).remove()))
       labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`)
       const menu = Misc.customContextMenu(labels)
       $(`#discover #${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))

@@ -25,11 +25,11 @@ const Plugins = {
           const tmp = require(plugin)
 
           // add to db if missing
-          if (DB.get(tmp.name) === undefined) {
-            DB.store(false, tmp.name)
+          if (DB.app.get(tmp.name) === undefined) {
+            DB.app.store(false, tmp.name)
           }
 
-          const active = DB.get(tmp.name)
+          const active = DB.app.get(tmp.name)
           Plugins.available[tmp.name] = {
             name: tmp.name,
             path: plugin,
@@ -66,7 +66,7 @@ const Plugins = {
       Interface.showWarning()
 
       const isActive = evt.target.checked
-      DB.store(isActive, plugin.name)
+      DB.app.store(isActive, plugin.name)
 
       if (isActive) {
         console.info('Plugins - %s is loaded', plugin.name)

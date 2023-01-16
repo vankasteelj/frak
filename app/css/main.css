@@ -457,6 +457,12 @@
   display: none;
 }
 
+#init {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+}
+
 #details #keepWatching .selector .list {
   background-color: var(--app-color-alt);
   border-radius: 3px;
@@ -1118,7 +1124,6 @@ a {
   position: absolute;
   width: 400px;
   height: 140px;
-  background-color: var(--app-color-alt);
   top: 35%;
   left: calc(50% - 200px);
   border-radius: 4px;
@@ -1130,7 +1135,18 @@ a {
   text-align: center;
   width: 400px;
   font-family: var(--font);
+  background-color: var(--button-bg);
+  color: var(--button-text);
   cursor: pointer;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 0 0 4px 4px;
+  transition: all .5s;
+}
+
+#switchaccount .addnew:hover {
+  background-color: var(--button-bg-hover);
+  color: var(--button-text-hover)
 }
 
 #switchaccount .accounts {
@@ -1138,6 +1154,7 @@ a {
   width: 400px;
   height: 100px;
   background: var(--app-color-main);
+  color: var(--app-font-color);
   border-radius: 4px 4px 0 0;
   display: flex;
   justify-content: center;
@@ -1146,9 +1163,17 @@ a {
 }
 
 #switchaccount .accounts .account {
-  height: 100px;
+  cursor: pointer;
   width: 70px;
   min-width: 0;
+  margin-top: 5px;
+  height: 90px;
+  border-radius: 5px;
+  transition: all .5s;
+}
+
+#switchaccount .accounts .account:hover {
+  background-color: var(--icons-hover-bg);
 }
 
 #switchaccount .accounts .account img {
@@ -2110,6 +2135,14 @@ a {
 #requirempv a {
   display: block;
   font-size: 13px;
+  padding: 10px;
+}
+
+#traktinit .createaccount {
+  display: inline-flex;
+}
+#traktinit .existingaccounts {
+  display: none;
 }
 
 #traktinit button,

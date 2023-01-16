@@ -70,7 +70,7 @@ const Subtitles = {
   defaultLanguage: () => {
     const langs = require('langs')
     const available = langs.all()
-    const defaultsublocale = DB.get('defaultsublocale')
+    const defaultsublocale = DB.app.get('defaultsublocale')
 
     for (const i in available) {
       // insert element in dropdown
@@ -87,13 +87,13 @@ const Subtitles = {
     if (!defaultsublocale) {
       const lang2B = langs.where('1', i18n.getLocale())['2B']
       $('#sub-language').val(lang2B)
-      DB.store(lang2B, 'defaultsublocale')
+      DB.app.store(lang2B, 'defaultsublocale')
     }
 
     // on dropdown click, change lang
     $('#sub-language').on('change', (e) => {
       // store new lang
-      DB.store(e.target.value, 'defaultsublocale')
+      DB.app.store(e.target.value, 'defaultsublocale')
       // reload to use new lang
       Player.setMPV()
     })
@@ -115,8 +115,8 @@ const Subtitles = {
     })
 
     Subtitles.client.login().then((res) => {
-      DB.store(username, 'os_username')
-      DB.store(password, 'os_password')
+      DB.app.store(username, 'os_username')
+      DB.app.store(password, 'os_password')
       Subtitles.opensubLogged(res)
     }).catch((err) => {
       console.error('Opensubtitles.org login error', err)
@@ -145,8 +145,8 @@ const Subtitles = {
     console.info('Logged out of Opensubtitles.org')
   },
   opensubReLogin: () => {
-    const username = DB.get('os_username')
-    const password = DB.get('os_password')
+    const username = DB.app.get('os_username')
+    const password = DB.app.get('os_password')
     if (!username || !password) return
 
     Subtitles.opensubLogin(username, password)

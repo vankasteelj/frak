@@ -21,7 +21,8 @@ const Boot = {
     Boot.online() // check if online
     Dragdrop.setup() // allow drag&drop
     Subtitles.opensubReLogin() // opensubtitles login if needed
-    // Gamepad.init();                       // gamepad support
+    Interface.buildSwitch() // switch trakt account screen
+    // Gamepad.init(); // gamepad support
     Boot.idle() // periodically update
 
     // right clicks
@@ -33,15 +34,15 @@ const Boot = {
   // STARTUP: setup network connexion
   online: () => {
     const localip = require('ip').address() || '127.0.0.1'
-    DB.store(localip, 'localip')
+    DB.app.store(localip, 'localip')
     $('#localip input').val(localip)
 
     /* TODO check if online or not
         let online = window.navigator.onLine;
         if (online) {
-            !DB.get('online') && DB.store(true, 'online') && console.info('App is online');
+            !DB.app.get('online') && DB.app.store(true, 'online') && console.info('App is online');
         } else {
-            DB.get('online') && DB.store(false, 'online') && console.info('No internet connection');
+            DB.app.get('online') && DB.app.store(false, 'online') && console.info('No internet connection');
         }
         setTimeout(() => {
             Boot.online()
@@ -59,12 +60,12 @@ const Boot = {
     nw.Screen.on('displayAdded', () => {
       sessionStorage.screens = Object.keys(nw.Screen.screens).length
       console.info('Multiple monitors (%s) detected', sessionStorage.screens)
-      Player.setMPV(DB.get('mpv'))
+      Player.setMPV(DB.app.get('mpv'))
     })
     nw.Screen.on('displayRemoved', (screen) => {
       console.info('A monitor was removed')
       sessionStorage.screens = Object.keys(nw.Screen.screens).length
-      Player.setMPV(DB.get('mpv'))
+      Player.setMPV(DB.app.get('mpv'))
     })
   },
 
@@ -103,10 +104,10 @@ const Boot = {
     const defaultHeight = PKJSON.window.height
 
     // check stored settings or use package.json values
-    const width = parseInt(DB.get('width') ? DB.get('width') : defaultWidth)
-    const height = parseInt(DB.get('height') ? DB.get('height') : defaultHeight)
-    let x = parseInt(DB.get('posX') ? DB.get('posX') : -1)
-    let y = parseInt(DB.get('posY') ? DB.get('posY') : -1)
+    const width = parseInt(DB.app.get('width') ? DB.app.get('width') : defaultWidth)
+    const height = parseInt(DB.app.get('height') ? DB.app.get('height') : defaultHeight)
+    let x = parseInt(DB.app.get('posX') ? DB.app.get('posX') : -1)
+    let y = parseInt(DB.app.get('posY') ? DB.app.get('posY') : -1)
 
     // reset x
     if (x < 0 || (x + width) > screen.width) {
@@ -123,26 +124,26 @@ const Boot = {
     // set win size
     win.width = width
     win.height = height
-    DB.get('wasMaximized') && win.maximize()
+    DB.app.get('wasMaximized') && win.maximize()
 
     // remember positionning
     win.on('move', (x, y) => {
       if (DB && x && y) {
-        DB.store(Math.round(x), 'posX')
-        DB.store(Math.round(y), 'posY')
+        DB.app.store(Math.round(x), 'posX')
+        DB.app.store(Math.round(y), 'posY')
       }
     })
 
     // remember if the app was maximized or not
     win.on('maximize', () => {
-      DB.store(true, 'wasMaximized')
+      DB.app.store(true, 'wasMaximized')
     })
     win.on('restore', () => {
-      if (!win.isMaximized) DB.store(false, 'wasMaximized')
+      if (!win.isMaximized) DB.app.store(false, 'wasMaximized')
     })
     win.on('minimize', () => {
-      win.isMaximized = DB.get('wasMaximized')
-      if (DB.get('minimizeToTray')) win.hide()
+      win.isMaximized = DB.app.get('wasMaximized')
+      if (DB.app.get('minimizeToTray')) win.hide()
     })
   },
 
@@ -161,9 +162,6 @@ const Boot = {
     Localization.setupDropdown()
     Subtitles.defaultLanguage()
 
-    // username
-    $('#settings .trakt .username').text(DB.get('trakt_profile') && DB.get('trakt_profile').username)
-
     // search paths for locals
     Local.setupPaths()
 
@@ -174,8 +172,8 @@ const Boot = {
     Details.default = $('#details').html()
 
     // look for updates
-    if (DB.get('lookForUpdates') !== false) {
-      DB.store(true, 'lookForUpdates')
+    if (DB.app.get('lookForUpdates') !== false) {
+      DB.app.store(true, 'lookForUpdates')
       document.querySelector('#lookForUpdates').checked = true
     }
 
@@ -185,12 +183,12 @@ const Boot = {
     }
 
     // items size
-    if (DB.get('small_items')) {
+    if (DB.app.get('small_items')) {
       document.querySelector('#items-size').checked = true
     }
 
     // big picture button visibility
-    if (DB.get('bp_button')) {
+    if (DB.app.get('bp_button')) {
       document.querySelector('#bp-button').checked = true
       $('#disablezoom').show()
     } else {
@@ -198,51 +196,51 @@ const Boot = {
       $('#disablezoom').hide()
     }
 
-    if (DB.get('bpzoomdisable')) {
+    if (DB.app.get('bpzoomdisable')) {
       document.querySelector('#bpzoomdisable-button').checked = true
     }
 
-    if (DB.get('playerPopup')) {
+    if (DB.app.get('playerPopup')) {
       document.querySelector('#allowplayerpopup-button').checked = true
     }
 
     // minimze to tray
-    if (DB.get('minimizeToTray')) {
+    if (DB.app.get('minimizeToTray')) {
       document.querySelector('#tray').checked = true
     }
 
     // use mpv for trailers
-    if (DB.get('trailers_use_mpv')) {
+    if (DB.app.get('trailers_use_mpv')) {
       document.querySelector('#trailers_use_mpv').checked = true
     }
 
     // allow local network sharing
-    if (DB.get('localsharing')) {
+    if (DB.app.get('localsharing')) {
       document.querySelector('#allow_localsharing').checked = true
       $('#settings .resumeplayback').show()
     }
 
     // allow direct playback feature on local network
-    if (DB.get('localplayback')) {
+    if (DB.app.get('localplayback')) {
       document.querySelector('#allow_resumeplayback').checked = true
     }
 
     // start minimized
-    if (DB.get('startminimized')) {
+    if (DB.app.get('startminimized')) {
       document.querySelector('#startminimized').checked = true
     }
 
     // auto-launch on start up
-    if (DB.get('autolaunch')) {
+    if (DB.app.get('autolaunch')) {
       document.querySelector('#autolaunch').checked = true
       $('#autolaunchminimized').show()
     }
 
     // default player options
-    let playerOptions = DB.get('player_options')
+    let playerOptions = DB.app.get('player_options')
     const _poptions = Settings.player
     playerOptions = Object.assign(_poptions, playerOptions)
-    DB.store(playerOptions, 'player_options')
+    DB.app.store(playerOptions, 'player_options')
 
     // setup player options
     for (const o in playerOptions) {
@@ -255,10 +253,10 @@ const Boot = {
     }
 
     // default streamer options
-    let streamerOptions = DB.get('streamer_options')
+    let streamerOptions = DB.app.get('streamer_options')
     const _soptions = Settings.streamer
     streamerOptions = Object.assign(_soptions, streamerOptions)
-    DB.store(streamerOptions, 'streamer_options')
+    DB.app.store(streamerOptions, 'streamer_options')
 
     // setup streamer options
     for (const o in streamerOptions) {
@@ -280,7 +278,7 @@ const Boot = {
 
   setupInputs: () => {
     document.querySelector('#lookForUpdates').addEventListener('click', (evt) => {
-      DB.store(evt.target.checked, 'lookForUpdates')
+      DB.app.store(evt.target.checked, 'lookForUpdates')
       Update.check()
     })
 
@@ -295,11 +293,11 @@ const Boot = {
     })
 
     document.querySelector('#trailers_use_mpv').addEventListener('click', (evt) => {
-      DB.store(evt.target.checked, 'trailers_use_mpv')
+      DB.app.store(evt.target.checked, 'trailers_use_mpv')
     })
 
     document.querySelector('#allow_localsharing').addEventListener('click', (evt) => {
-      DB.store(evt.target.checked, 'localsharing')
+      DB.app.store(evt.target.checked, 'localsharing')
       if (evt.target.checked) {
         Network.init()
         $('#settings .resumeplayback').show()
@@ -310,13 +308,13 @@ const Boot = {
     })
 
     document.querySelector('#allow_resumeplayback').addEventListener('click', (evt) => {
-      DB.store(evt.target.checked, 'localplayback')
+      DB.app.store(evt.target.checked, 'localplayback')
       Network.disconnect()
       Network.init()
     })
 
     document.querySelector('#bp-button').addEventListener('click', (evt) => {
-      DB.store(evt.target.checked, 'bp_button')
+      DB.app.store(evt.target.checked, 'bp_button')
       if (evt.target.checked) {
         $('.nav.bigpicture').show()
         $('#disablezoom').show()
@@ -327,42 +325,42 @@ const Boot = {
     })
 
     document.querySelector('#bpzoomdisable-button').addEventListener('click', (evt) => {
-      DB.store(evt.target.checked, 'bpzoomdisable')
+      DB.app.store(evt.target.checked, 'bpzoomdisable')
     })
     document.querySelector('#allowplayerpopup-button').addEventListener('click', (evt) => {
-      DB.store(evt.target.checked, 'playerPopup')
+      DB.app.store(evt.target.checked, 'playerPopup')
     })
 
     document.querySelector('#tray').addEventListener('click', (evt) => {
-      DB.store(evt.target.checked, 'minimizeToTray')
+      DB.app.store(evt.target.checked, 'minimizeToTray')
     })
 
     document.querySelector('#autolaunch').addEventListener('click', (evt) => {
-      DB.store(evt.target.checked, 'autolaunch')
+      DB.app.store(evt.target.checked, 'autolaunch')
       Misc.autoLaunch(evt.target.checked)
 
       $('#autolaunchminimized')[evt.target.checked ? 'show' : 'hide']()
     })
 
     document.querySelector('#startminimized').addEventListener('click', (evt) => {
-      DB.store(evt.target.checked, 'startminimized')
+      DB.app.store(evt.target.checked, 'startminimized')
       Misc.autoLaunch(true)
     })
 
     document.querySelector('#items-size').addEventListener('click', (evt) => {
       const isSmall = evt.target.checked
-      DB.store(isSmall, 'small_items')
+      DB.app.store(isSmall, 'small_items')
       Interface.switchCollectionSize(isSmall)
     }, false)
 
-    const playerOptions = DB.get('player_options')
+    const playerOptions = DB.app.get('player_options')
     for (const o in playerOptions) {
       const c = o.match('centered|fullscreen|sub_auto|multimonitor') ? 'checked' : 'value'
 
       document.querySelector(`#${o}`).addEventListener('change', (evt) => {
         playerOptions[o] = document.querySelector(`#${o}`)[c]
         console.log('Player setting `%s` changed to:', o, playerOptions[o])
-        DB.store(playerOptions, 'player_options')
+        DB.app.store(playerOptions, 'player_options')
 
         if (o.match('multimonitor')) {
           if (playerOptions[o]) {
@@ -371,11 +369,11 @@ const Boot = {
             $('#mpvmonitoroption').hide()
           }
         }
-        Player.setMPV(DB.get('mpv'))
+        Player.setMPV(DB.app.get('mpv'))
       })
     }
 
-    const streamerOptions = DB.get('streamer_options')
+    const streamerOptions = DB.app.get('streamer_options')
     for (const o in streamerOptions) {
       const c = document.querySelector(`#${o}`)
       if (!c) continue
@@ -387,7 +385,7 @@ const Boot = {
           streamerOptions[o] = c.value.replace(/\s/gm, '').split(',')
         }
         console.log('Streamer setting `%s` changed to:', o, streamerOptions[o])
-        DB.store(streamerOptions, 'streamer_options')
+        DB.app.store(streamerOptions, 'streamer_options')
       })
     }
 
@@ -398,9 +396,9 @@ const Boot = {
 
   startScreen: () => {
     const def = 'shows'
-    const opt = DB.get('startscreen') || def
+    const opt = DB.app.get('startscreen') || def
     let start = opt
-    if (start === 'last') start = DB.get('last_tab') || def
+    if (start === 'last') start = DB.app.get('last_tab') || def
 
     // set active
     $(`#navbar .nav.${start}`).click()
@@ -409,7 +407,7 @@ const Boot = {
     const $setting = $('#startscreen')
     $setting.val(opt).on('change', () => {
       const selected = $setting.val()
-      DB.store(selected, 'startscreen')
+      DB.app.store(selected, 'startscreen')
     })
   },
 

@@ -18,35 +18,23 @@ const Interface = {
   },
 
   // AUTO: from lib/trakt or boot
-  traktConnected: (info) => {
+  traktConnected: () => {
     $('#traktinit').hide()
     $('#init').show()
     $('#traktwelcome').show()
 
-    if (info) {
-      // we already have a profile
-      $('#welcomeprofile .welcomemessage').text(i18n.__('Welcome back'))
-      $('#welcomeprofile img').attr('src', info.images.avatar.full)
-      $('#stats #suserinfo img').attr('src', info.images.avatar.full)
-      $('#navbar .nav .avatar').css('background-image', 'url("'+info.images.avatar.full+'")')
-      $('#welcomeprofile .username').text(info.username)
-    } else {
-      Trakt.client.users.profile({
-        username: 'me',
-        extended: 'full'
-      }).then(profile => {
-        DB.store(profile, 'trakt_profile')
-        $('#welcomeprofile .welcomemessage').text(i18n.__('Welcome'))
-        $('#welcomeprofile img').attr('src', profile.images.avatar.full)
-        $('#stats #suserinfo img').attr('src', profile.images.avatar.full)
-        $('#navbar .nav .avatar').css('background-image', 'url("'+info.images.avatar.full+'")')
-        $('#welcomeprofile .username').text(profile.username)
-      })
-    }
+    let profile = Profiles.get(DB.app.get('trakt_active_profile')).profile
+    $('#welcomeprofile .welcomemessage').text(i18n.__('Welcome'))
+    $('#welcomeprofile img').attr('src', profile.images.avatar.full)
+    $('#stats #suserinfo img').attr('src', profile.images.avatar.full)
+    $('#navbar .nav .avatar').css('background-image', 'url("'+profile.images.avatar.full+'")')
+    $('#welcomeprofile .username').text(profile.username)
+    $('#settings .trakt .username').text(profile.username)
+
     $('#welcomeprofile').show()
     $('#traktwelcome .spinner').show()
 
-    setTimeout(() => $('#traktwelcome button').show(), 30000) // display reset if still here after 30sec
+    setTimeout(() => $('#traktwelcome button').show(), 20000) // display reset if still here after 20sec
     Interface.buildSwitch()
   },
 
@@ -81,8 +69,8 @@ const Interface = {
     $('#trakt #stats').hide()
     $('#settings').hide()
     $('#navbar .movies').addClass('active')
-    DB.store('movies', 'last_tab')
-    DB.store('movies', 'active_tab')
+    DB.app.store('movies', 'last_tab')
+    DB.app.store('movies', 'active_tab')
     window.scrollTo(0, 0)
   },
   // USER INTERACTION: click navbar
@@ -96,8 +84,8 @@ const Interface = {
     $('#trakt #stats').hide()
     $('#settings').hide()
     $('#navbar .shows').addClass('active')
-    DB.store('shows', 'last_tab')
-    DB.store('shows', 'active_tab')
+    DB.app.store('shows', 'last_tab')
+    DB.app.store('shows', 'active_tab')
     window.scrollTo(0, 0)
   },
   // USER INTERACTION: click navbar
@@ -113,8 +101,8 @@ const Interface = {
     $('#navbar .locals').addClass('active')
     $('#locals .categories').show()
     $('#locals .items').hide()
-    DB.store('locals', 'last_tab')
-    DB.store('locals', 'active_tab')
+    DB.app.store('locals', 'last_tab')
+    DB.app.store('locals', 'active_tab')
     window.scrollTo(0, 0)
   },
   // USER INTERACTION: click navbar
@@ -128,7 +116,7 @@ const Interface = {
     $('#trakt #discover').hide()
     $('#trakt #stats').hide()
     $('#navbar .settings').addClass('active')
-    DB.store('settings', 'active_tab')
+    DB.app.store('settings', 'active_tab')
   },
   // USER INTERACTION: click navbar
   showHistory: () => {
@@ -154,7 +142,7 @@ const Interface = {
     $('#trakt #discover').hide()
     $('#trakt #stats').hide()
     $('#settings').hide()
-    DB.store('history', 'active_tab')
+    DB.app.store('history', 'active_tab')
   },
   // USER INTERACTION: click navbar
   showStats: () => {
@@ -174,7 +162,7 @@ const Interface = {
     Stats.load().then(() => {
       $('#trakt #stats #sloading').hide()
       $('#trakt #stats #sloaded').show()
-      DB.store('stats', 'active_tab')
+      DB.app.store('stats', 'active_tab')
     })
   },
 
@@ -191,14 +179,14 @@ const Interface = {
     $('#trakt #stats').hide()
     $('#trakt #discover').show()
     $('#navbar .discover').addClass('active')
-    DB.store('discover', 'active_tab')
+    DB.app.store('discover', 'active_tab')
   },
 
   // AUTO: right click menu on movies & shows, and account popup
   rightClickNav: () => {
     // right click ACCOUNT
     $('#navbar .stats').off('contextmenu').on('contextmenu', (e) => {
-      Interface.switchAccount()
+      Interface.switchTraktAccount()
     })
 
     // right click MOVIES
@@ -275,7 +263,7 @@ const Interface = {
   playTrailer: (url) => {
     const ytc = url.split('=')[1]
 
-    if (DB.get('trailers_use_mpv')) {
+    if (DB.app.get('trailers_use_mpv')) {
       Player.play(url)
       return
     }
@@ -364,13 +352,13 @@ const Interface = {
   },
 
   showWarning: () => {
-    if (DB.get('legal_notice_read')) return
+    if (DB.app.get('legal_notice_read')) return
 
     $('#legal').show()
   },
   hideWarning: () => {
     $('#legal').hide()
-    DB.store(true, 'legal_notice_read')
+    DB.app.store(true, 'legal_notice_read')
   },
 
   bigPictureScale: {
@@ -401,27 +389,27 @@ const Interface = {
   },
 
   bigPicture: (onStart) => {
-    if (!DB.get('bigPicture')) {
+    if (!DB.app.get('bigPicture')) {
       console.info('Entering Big Picture mode', Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor])
-      win.zoomLevel = Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor] && !DB.get('bpzoomdisable') ? Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor].zoomLevel : 0
+      win.zoomLevel = Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor] && !DB.app.get('bpzoomdisable') ? Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor].zoomLevel : 0
       win.enterFullscreen()
       $('.nav.bigpicture > div').addClass('fa-compress').removeClass('fa-arrows-alt')
-      DB.store(true, 'bigPicture')
+      DB.app.store(true, 'bigPicture')
 
       if (onStart) {
         $('.nav.bigpicture').hide()
         $('.nav.exitapp').show()
-        DB.store(false, 'bigPicture')
+        DB.app.store(false, 'bigPicture')
       }
     } else {
       console.info('Exiting Big Picture mode')
       win.zoomLevel = 0
       win.leaveFullscreen()
       $('.nav.bigpicture > div').addClass('fa-arrows-alt').removeClass('fa-compress')
-      DB.store(false, 'bigPicture')
+      DB.app.store(false, 'bigPicture')
     }
 
-    Misc.sleep(400).then(() => Player.setMPV(DB.get('mpv')))
+    Misc.sleep(400).then(() => Player.setMPV(DB.app.get('mpv')))
   },
   playerPopup: () => {
     nw.Window.open('app/html/playerPopup.html', {
@@ -450,13 +438,27 @@ const Interface = {
       })
     })
   },
-  switchAccount: () => {
-    console.log('switch account')
+  switchTraktAccount: () => {
     $('#switchaccount').show();
     $('#switchaccount .background').off('click').on('click', () => $('#switchaccount').hide())
   },
   buildSwitch: () => {
-    const activeProfile = DB.get('trakt_profile')
-    $('#switchaccount .accounts').append(`<div class="account"><img src="${activeProfile.images.avatar.full}"/><div class="accountname">${activeProfile.username}</div></div>`)
+    $('#switchaccount .accounts').html('')
+    const profiles = Profiles.list()
+    for (let i of profiles) {
+      $('#switchaccount .accounts').append(`<div class="account" onClick="Interface.selectTraktAccount('${i.profile.username}')"><img src="${i.profile.images.avatar.full}"/><div class="accountname">${i.profile.username}</div></div>`)
+    }
+  },
+  addTraktAccount: () => {
+    DB.remove('trakt_active_profile')
+    win.reload()
+  },
+  selectTraktAccount: (username) => {
+    if (DB.app.get('trakt_active_profile') === username) {
+      $('#switchaccount .background').click()
+      return
+    }
+    DB.app.store(username, 'trakt_active_profile')
+    win.reload()
   }
 }

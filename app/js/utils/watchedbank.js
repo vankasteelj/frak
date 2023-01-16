@@ -2,16 +2,16 @@
 
 const WB = {
   store: {
-    movies: (watchedMovies) => DB.store(watchedMovies, 'watchedMovies'),
-    shows: (watchedShows) => DB.store(watchedShows, 'watchedShows')
+    movies: (watchedMovies) => DB.trakt.store(watchedMovies, 'watchedMovies'),
+    shows: (watchedShows) => DB.trakt.store(watchedShows, 'watchedShows')
   },
   get: {
-    movies: () => DB.get('watchedMovies') || [],
-    shows: () => DB.get('watchedShows') || []
+    movies: () => DB.trakt.get('watchedMovies') || [],
+    shows: () => DB.trakt.get('watchedShows') || []
   },
   find: {
-    movie: (id) => DB.get('watchedMovies').find(o => o.movie.ids.slug === id),
-    show: (id) => DB.get('watchedShows').find(o => o.show.ids.slug === id)
+    movie: (id) => DB.trakt.get('watchedMovies').find(o => o.movie.ids.slug === id),
+    show: (id) => DB.trakt.get('watchedShows').find(o => o.show.ids.slug === id)
   },
   markAsWatched: (data) => {
     let db, found

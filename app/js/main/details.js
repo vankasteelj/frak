@@ -97,7 +97,7 @@ const Details = {
     }
 
     // rate
-    const traktrating = DB.get('traktratings').find((i) => i[i.type].ids.slug === d.ids.slug)
+    const traktrating = DB.trakt.get('traktratings').find((i) => i[i.type].ids.slug === d.ids.slug)
     traktrating && $('#details .corner-rating span').text(traktrating.rating).parent().show()
     $('#details-metadata .rating').attr('onClick', `Details.rate('${d.ids.slug}')`).css('cursor', 'pointer')
 
@@ -391,7 +391,7 @@ const Details = {
   },
 
   loadLocalNext: (fromDetails) => {
-    const collection = DB.get('local_shows')
+    const collection = DB.app.get('local_shows')
 
     const findShow = (title) => collection.find((show) => show.metadata.show.title === title)
     const show = findShow(Details.model.metadata.show.title)
@@ -582,9 +582,9 @@ const Details = {
       }
       if (Details.from === 'locals') { // send a playback request
         data.file = Details.model
-        data.file.source = DB.get('localip')
+        data.file.source = DB.app.get('localip')
       } else { // send a link directly
-        data.url = Streamer.streaminfo.url.replace('127.0.0.1', DB.get('localip'))
+        data.url = Streamer.streaminfo.url.replace('127.0.0.1', DB.app.get('localip'))
       }
 
       const $sub = $('.sub.active .data').text()
@@ -625,7 +625,7 @@ const Details = {
 
   handleCast: () => {
     // peer casting
-    if (DB.get('localsharing') && DB.get('localplayback') && Network.peers.length) {
+    if (DB.app.get('localsharing') && DB.app.get('localplayback') && Network.peers.length) {
       $('#cast .peers').show()
     }
   },

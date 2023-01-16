@@ -12,13 +12,14 @@ const Trakt = {
   }),
 
   reconnect: () => {
-    const auth = DB.get('trakt_auth')
+    const auth = DB.app.get('trakt_active_profile')
     if (!auth) {
       $('#init').show()
+      if (Profiles.list().length !== 0) $('#traktinit .existingaccounts').css('display', 'inline-flex')
       return
+    } else {
+      Trakt.client.import_token(Profiles.get(auth).auth).then(Trakt.connected)
     }
-
-    Trakt.client.import_token(auth).then(Trakt.connected)
   },
 
   login: () => {
@@ -27,47 +28,28 @@ const Trakt = {
       console.info('Opening trakt.tv auth url')
       Interface.traktLogin(poll)
       return Trakt.client.poll_access(poll)
-    }).then(Trakt.connected).catch(console.error)
+    }).then(Profiles.add).then(Trakt.connected).catch(console.error)
   },
 
   disconnect: () => {
-    DB.remove('trakt_auth')
-    DB.remove('traktmovies')
-    DB.remove('traktmoviescollection')
-    DB.remove('traktmovieswatched')
-    DB.remove('traktshows')
-    DB.remove('traktshowscollection')
-    DB.remove('traktshowswatched')
-    DB.remove('traktsync')
-    DB.remove('traktsynchistory')
-    DB.remove('traktsyncrating')
-    DB.remove('traktratings')
-    DB.remove('trakt_profile')
-    DB.remove('trakthistory')
-    DB.remove('trakthistorycollection')
-    DB.remove('traktlastactivities')
-    DB.remove('watchedMovies')
-    DB.remove('watchedShows')
-
+    Profiles.disconnect(DB.app.get('trakt_active_profile'))
     win.reload()
   },
 
-  connected: (info) => {
+  connected: () => {
     console.info('Trakt is connected')
 
     Interface.focus(true)
     // Notify.requestAttention()
 
-    DB.store(Trakt.client.export_token(), 'trakt_auth')
-    Interface.traktConnected(DB.get('trakt_profile'))
-
-    Collection.load()
+    Interface.traktConnected(DB.app.get('trakt_active_profile'))
+     Collection.load()
   },
 
   last_activities: (type) => {
     let cached = false
     return new Promise((resolve, reject) => {
-      const cachedData = DB.get('traktlastactivities')
+      const cachedData = DB.trakt.get('traktlastactivities')
       if (cachedData && (cachedData.ttl > Date.now())) {
         console.debug('We got cached trakt last_activities')
         cached = true
@@ -78,7 +60,7 @@ const Trakt = {
     }).then(results => {
       if (!cached) {
         results.ttl = Date.now() + (1000 * 10) // 10s cache, avoid multiple calls
-        DB.store(results, 'traktlastactivities')
+        DB.trakt.store(results, 'traktlastactivities')
       }
 
       if (type === 'rate') {
@@ -107,16 +89,16 @@ const Trakt = {
 
   getRatings: () => {
     return Trakt.last_activities('rate').then(activities => {
-      if (!DB.get('traktratings') || activities > (DB.get('traktsyncrating') || 0)) {
+      if (!DB.trakt.get('traktratings') || activities > (DB.trakt.get('traktsyncrating') || 0)) {
         console.info('Fetching ratings from remote server')
         return Trakt.client.sync.ratings.get().then(ratings => {
-          DB.store(ratings, 'traktratings')
-          DB.store(Date.now(), 'traktsyncrating')
+          DB.trakt.store(ratings, 'traktratings')
+          DB.trakt.store(Date.now(), 'traktsyncrating')
           return ratings
         })
       } else {
         console.info('Using cached ratings')
-        return DB.get('traktratings')
+        return DB.trakt.get('traktratings')
       }
     }).then(Items.applyRatings)
   },
@@ -158,7 +140,7 @@ const Trakt = {
     console.info('Trakt - %s rating for %s', method, model.ids.slug)
 
     return Trakt.client.sync.ratings[method](post).then(() => {
-      let ratings = DB.get('traktratings')
+      let ratings = DB.trakt.get('traktratings')
 
       // remove
       ratings = ratings.filter(i => {
@@ -184,7 +166,7 @@ const Trakt = {
         ratings.push(pushable)
       }
 
-      DB.store(ratings, 'traktratings')
+      DB.trakt.store(ratings, 'traktratings')
       Items.applyRatings(ratings)
     })
   },
@@ -194,13 +176,13 @@ const Trakt = {
     console.debug('Trakt reload (update = %s / type = %s / slug = %s)', update, type, slug)
 
     const cached = {
-      movies: DB.get('traktmovies'),
-      moviescollection: DB.get('traktmoviescollection'),
-      shows: DB.get('traktshows'),
-      showscollection: DB.get('traktshowscollection'),
-      sync: DB.get('traktsync'),
-      syncrating: DB.get('traktsyncrating'),
-      ratings: DB.get('traktratings')
+      movies: DB.trakt.get('traktmovies'),
+      moviescollection: DB.trakt.get('traktmoviescollection'),
+      shows: DB.trakt.get('traktshows'),
+      showscollection: DB.trakt.get('traktshowscollection'),
+      sync: DB.trakt.get('traktsync'),
+      syncrating: DB.trakt.get('traktsyncrating'),
+      ratings: DB.trakt.get('traktratings')
     }
 
     if (!update) {
@@ -210,13 +192,13 @@ const Trakt = {
 
     const handleError = (e) => {
       console.error('Trakt reload failed', e)
-      DB.store(cached.movies, 'traktmovies')
-      DB.store(cached.moviescollection, 'traktmoviescollection')
-      DB.store(cached.shows, 'traktshows')
-      DB.store(cached.showscollection, 'traktshowscollection')
-      DB.store(cached.sync, 'traktsync')
-      DB.store(cached.syncrating, 'traktsyncrating')
-      DB.store(cached.ratings, 'traktratings')
+      DB.trakt.store(cached.movies, 'traktmovies')
+      DB.trakt.store(cached.moviescollection, 'traktmoviescollection')
+      DB.trakt.store(cached.shows, 'traktshows')
+      DB.trakt.store(cached.showscollection, 'traktshowscollection')
+      DB.trakt.store(cached.sync, 'traktsync')
+      DB.trakt.store(cached.syncrating, 'traktsyncrating')
+      DB.trakt.store(cached.ratings, 'traktratings')
     }
 
     switch (type) {
@@ -340,7 +322,7 @@ const Trakt = {
     }
   },
   getGenres: () => {
-    const cached = DB.get('traktgenres')
+    const cached = DB.app.get('traktgenres')
     if (cached && (cached.ttl > Date.now())) {
       console.debug('We got cached trakt genres')
       return Promise.resolve(cached)
@@ -353,7 +335,7 @@ const Trakt = {
       return Trakt.client.genres({ type: 'shows' })
     }).then(showgenres => {
       genres.shows = showgenres
-      DB.store(genres, 'traktgenres')
+      DB.app.store(genres, 'traktgenres')
       return genres
     }).catch(err => {
       console.error('Unable to get genres from Trakt', err)

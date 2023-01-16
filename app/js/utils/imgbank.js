@@ -54,12 +54,12 @@ const IB = {
   },
 
   _load: () => {
-    let db = DB.get('imgBank')
+    let db = DB.app.get('imgBank')
     if (!db) db = {}
     return db
   },
   _save: (db) => {
-    DB.store(db, 'imgBank')
+    DB.app.store(db, 'imgBank')
     return true
   },
 

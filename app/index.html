@@ -39,6 +39,9 @@
         <a class="createaccount" onClick="Misc.openExternal('https://trakt.tv/auth/join')">
           <i18n>Create an account online</i18n>
         </a>
+        <a class="existingaccounts" onClick="Interface.switchTraktAccount()">
+          <i18n>Other accounts</i18n>
+        </a>
       </div>
       <div id="traktwelcome">
         <div id="welcomeprofile">
@@ -156,7 +159,7 @@
       <div class="background"></div>
       <div class="wrapper">
         <div class="accounts"></div>
-        <div class="addnew">
+        <div class="addnew" onClick="Interface.addTraktAccount()">
           <p><i18n>Add a new account</i18n></p>
         </div>
       </div>
@@ -244,7 +247,7 @@
           <p id="susername"></p>
           <p id="suserjoined"><i18n>Trakt member since</i18n> <span></span></p>
         </div>
-        <div id="saccounts" onClick="Interface.switchAccount()">
+        <div id="saccounts" onClick="Interface.switchTraktAccount()">
           <div class="fa fa-retweet">
             <p><i18n>Switch account</i18n></p>
           </div>
@@ -1178,6 +1181,7 @@
 <script src="js/main/stats.js" type="application/javascript"></script>
 
 <script src="js/lib/trakt.js" type="application/javascript"></script>
+<script src="js/lib/profiles.js" type="application/javascript"></script>
 <script src="js/lib/local.js" type="application/javascript"></script>
 <script src="js/lib/network.js" type="application/javascript"></script>
 <script src="js/lib/images.js" type="application/javascript"></script>

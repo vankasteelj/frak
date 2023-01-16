@@ -9,8 +9,8 @@ const Collection = {
     // should trakt update?
     Trakt.last_activities('watch').then(activities => {
       if (
-        (activities > (DB.get('traktsync') || 0)) ||
-                (Date.now() - (DB.get('traktsync') || 0) > 3600000)
+        (activities > (DB.trakt.get('traktsync') || 0)) ||
+                (Date.now() - (DB.trakt.get('traktsync') || 0) > 3600000)
       ) {
         console.info('Fetching from remote server...')
         Collection.get.traktcached() // display what we have while we update
@@ -47,8 +47,8 @@ const Collection = {
       }).then(results => {
         console.info('Trakt.tv - "show watchlist" collection recieved')
 
-        DB.store(Date.now(), 'traktsync')
-        DB.store(results, 'traktshows')
+        DB.trakt.store(Date.now(), 'traktsync')
+        DB.trakt.store(results, 'traktshows')
 
         return Collection.format.traktshows(results.shows)
       }).catch(e => {
@@ -65,8 +65,8 @@ const Collection = {
       }).then(results => {
         console.info('Trakt.tv - "movie watchlist" collection recieved')
 
-        DB.store(Date.now(), 'traktsync')
-        DB.store(results, 'traktmovies')
+        DB.trakt.store(Date.now(), 'traktsync')
+        DB.trakt.store(results, 'traktmovies')
 
         return Collection.format.traktmovies(results)
       }).catch(e => {
@@ -75,8 +75,8 @@ const Collection = {
       })
     },
     traktcached: (update) => {
-      const movies = DB.get('traktmoviescollection')
-      const shows = DB.get('traktshowscollection')
+      const movies = DB.trakt.get('traktmoviescollection')
+      const shows = DB.trakt.get('traktshowscollection')
 
       if (!shows && !movies) return
 
@@ -92,7 +92,7 @@ const Collection = {
       }
     },
     local: () => {
-      const collection = DB.get('local_library')
+      const collection = DB.app.get('local_library')
 
       if (!collection) $('#navbar .locals .fa-spin').css('opacity', 1)
 
@@ -110,7 +110,7 @@ const Collection = {
         console.info('Local library collection recieved')
         Local.scans--
 
-        DB.store(results, 'local_library')
+        DB.app.store(results, 'local_library')
 
         if (Local.scans <= 0) {
           $('#navbar .locals .fa-spin').css('opacity', 0)
@@ -128,20 +128,20 @@ const Collection = {
     history: () => {
       $('#navbar .history .fa-spin').css('opacity', 1)
       return Trakt.last_activities('history').then(activities => {
-        if (!DB.get('trakthistory') || activities > (DB.get('traktsynchistory') || 0)) {
+        if (!DB.trakt.get('trakthistory') || activities > (DB.trakt.get('traktsynchistory') || 0)) {
           console.info('Fetching history from remote server')
           return Trakt.client.sync.history.get({
             limit: 23, // because bootstap column is 12 (23+1 show more)
             page: 1,
             extended: 'full'
           }).then(results => {
-            DB.store(results, 'trakthistory')
-            DB.store(activities, 'traktsynchistory')
+            DB.trakt.store(results, 'trakthistory')
+            DB.trakt.store(activities, 'traktsynchistory')
             return results
           })
         } else {
           console.info('Using cached history')
-          return DB.get('trakthistory')
+          return DB.trakt.get('trakthistory')
         }
       }).then(results => {
         console.info('Trakt.tv - history recieved', results)
@@ -188,7 +188,7 @@ const Collection = {
         // sort
         collection = Collection.sort.movies.listed(collection)
 
-        DB.store(collection, 'traktmoviescollection')
+        DB.trakt.store(collection, 'traktmoviescollection')
         $('#navbar .movies .fa-spin').css('opacity', 0)
         return collection
       }).catch(console.error)
@@ -207,7 +207,7 @@ const Collection = {
         // sort
         collection = Collection.sort.shows.nextEpisode(collection)
 
-        DB.store(collection, 'traktshowscollection')
+        DB.trakt.store(collection, 'traktshowscollection')
         $('#navbar .shows .fa-spin').css('opacity', 0)
         return collection
       }).catch(console.error)
@@ -223,11 +223,11 @@ const Collection = {
       $('#collection #locals .categories .unmatched').hide()
 
       const movies = Misc.sortAlphabetical(collection.movies)
-      DB.store(movies, 'local_movies')
+      DB.app.store(movies, 'local_movies')
       Collection.show.locals.movies(movies)
 
       const shows = Misc.sortAlphabetical(collection.shows)
-      DB.store(shows, 'local_shows')
+      DB.app.store(shows, 'local_shows')
       Collection.show.locals.shows(shows)
 
       const unmatched = Misc.sortAlphabetical(collection.unmatched)
@@ -299,7 +299,7 @@ const Collection = {
           return 0
         })
 
-        DB.store(collection, 'trakthistorycollection')
+        DB.trakt.store(collection, 'trakthistorycollection')
         $('#navbar .history .fa-spin').css('opacity', 0)
         return collection
       }).catch(console.error)
@@ -307,7 +307,7 @@ const Collection = {
   },
 
   search: () => {
-    if (['movies', 'shows'].indexOf(DB.get('active_tab')) === -1) return
+    if (['movies', 'shows'].indexOf(DB.app.get('active_tab')) === -1) return
 
     const container = $('#coll-search')
     const input = $('#coll-search input')
@@ -372,11 +372,11 @@ const Collection = {
       $('#collection #shows').html('')
       const items = []
       for (const show of shows) {
-        if (DB.get('hiddenitems') && DB.get('hiddenitems')[show.show.ids.slug]) continue
+        if (DB.trakt.get('hiddenitems') && DB.trakt.get('hiddenitems')[show.show.ids.slug]) continue
         items.push(Items.constructShow(show))
       }
       $('#collection #shows').append(items)
-      Items.applyRatings(DB.get('traktratings'))
+      Items.applyRatings(DB.trakt.get('traktratings'))
 
       if (!$('#collection #shows .grid-item').length) {
         return $('#collection #shows').append(Items.constructMessage('No episode to display. Start watching a TV show or add one to your watchlist, and check back here.'))
@@ -387,14 +387,14 @@ const Collection = {
       const untrack = []
       const items = []
       for (const movie of movies) {
-        if (!movie.movie.released || new Date(movie.movie.released.split('-')).valueOf() > Date.now() || DB.get('hiddenmovies')[movie.movie.ids.slug] || (DB.get('hiddenitems') && DB.get('hiddenitems')[movie.movie.ids.slug])) {
+        if (!movie.movie.released || new Date(movie.movie.released.split('-')).valueOf() > Date.now() || DB.trakt.get('hiddenmovies')[movie.movie.ids.slug] || (DB.trakt.get('hiddenitems') && DB.trakt.get('hiddenitems')[movie.movie.ids.slug])) {
           untrack.push(movie.movie.title)
           continue
         }
         items.push(Items.constructMovie(movie))
       }
       $('#collection #movies').append(items)
-      Items.applyRatings(DB.get('traktratings'))
+      Items.applyRatings(DB.trakt.get('traktratings'))
 
       if (!$('#collection #movies .grid-item').length) {
         return $('#collection #movies').append(Items.constructMessage('No movie to display, add one to your watchlist and check back here.'))
@@ -461,41 +461,41 @@ const Collection = {
       }
 
       $('#trakt #history').append(items)
-      Items.applyRatings(DB.get('traktratings'))
+      Items.applyRatings(DB.trakt.get('traktratings'))
     }
   },
 
   hiddenMovies: {
     verify: () => {
-      const db = DB.get('hiddenmovies') || {}
+      const db = DB.trakt.get('hiddenmovies') || {}
       for (const movie in db) { if (db[movie] < Date.now()) delete db[movie] }
-      DB.store(db, 'hiddenmovies')
+      DB.trakt.store(db, 'hiddenmovies')
     },
     add: (slug, time) => {
-      const db = DB.get('hiddenmovies') || {}
+      const db = DB.trakt.get('hiddenmovies') || {}
       db[slug] = time
-      DB.store(db, 'hiddenmovies')
+      DB.trakt.store(db, 'hiddenmovies')
       return true
     },
     reset: () => {
-      DB.store({}, 'hiddenmovies')
+      DB.trakt.store({}, 'hiddenmovies')
     }
   },
 
   hiddenItems: {
     add: (slug) => {
-      const db = DB.get('hiddenitems')
+      const db = DB.trakt.get('hiddenitems')
       db[slug] = true
-      DB.store(db, 'hiddenitems')
+      DB.trakt.store(db, 'hiddenitems')
     },
     reset: () => {
-      DB.store({}, 'hiddenitems')
+      DB.trakt.store({}, 'hiddenitems')
     }
   },
 
   sort: {
     shows: {
-      nextEpisode: (shows = DB.get('traktshowscollection')) => {
+      nextEpisode: (shows = DB.trakt.get('traktshowscollection')) => {
         return shows.sort(function (a, b) {
           if (a.next_episode.first_aired > b.next_episode.first_aired) {
             return -1
@@ -506,7 +506,7 @@ const Collection = {
           return 0
         })
       },
-      firstAired: (shows = DB.get('traktshowscollection')) => {
+      firstAired: (shows = DB.trakt.get('traktshowscollection')) => {
         return shows.sort(function (a, b) {
           if (a.show.first_aired > b.show.first_aired) {
             return -1
@@ -517,7 +517,7 @@ const Collection = {
           return 0
         })
       },
-      title: (shows = DB.get('traktshowscollection')) => {
+      title: (shows = DB.trakt.get('traktshowscollection')) => {
         return shows.sort(function (a, b) {
           if (a.show.title < b.show.title) {
             return -1
@@ -528,7 +528,7 @@ const Collection = {
           return 0
         })
       },
-      rating: (shows = DB.get('traktshowscollection')) => {
+      rating: (shows = DB.trakt.get('traktshowscollection')) => {
         return shows.sort(function (a, b) {
           if (a.show.rating > b.show.rating) {
             return -1
@@ -539,7 +539,7 @@ const Collection = {
           return 0
         })
       },
-      runtime: (shows = DB.get('traktshowscollection')) => {
+      runtime: (shows = DB.trakt.get('traktshowscollection')) => {
         return shows.sort(function (a, b) {
           if (a.show.runtime < b.show.runtime) {
             return -1
@@ -550,12 +550,12 @@ const Collection = {
           return 0
         })
       },
-      genre: (genre, shows = DB.get('traktshowscollection')) => {
+      genre: (genre, shows = DB.trakt.get('traktshowscollection')) => {
         return shows.filter(a => a.show.genres.indexOf(genre) !== -1)
       }
     },
     movies: {
-      listed: (movies = DB.get('traktmoviescollection')) => {
+      listed: (movies = DB.trakt.get('traktmoviescollection')) => {
         return movies.sort(function (a, b) {
           if (a.listed_at > b.listed_at) {
             return -1
@@ -566,7 +566,7 @@ const Collection = {
           return 0
         })
       },
-      title: (movies = DB.get('traktmoviescollection')) => {
+      title: (movies = DB.trakt.get('traktmoviescollection')) => {
         return movies.sort(function (a, b) {
           if (a.movie.title < b.movie.title) {
             return -1
@@ -577,7 +577,7 @@ const Collection = {
           return 0
         })
       },
-      released: (movies = DB.get('traktmoviescollection')) => {
+      released: (movies = DB.trakt.get('traktmoviescollection')) => {
         return movies.sort(function (a, b) {
           if (a.movie.released > b.movie.released) {
             return -1
@@ -588,7 +588,7 @@ const Collection = {
           return 0
         })
       },
-      rating: (movies = DB.get('traktmoviescollection')) => {
+      rating: (movies = DB.trakt.get('traktmoviescollection')) => {
         return movies.sort(function (a, b) {
           if (a.movie.rating > b.movie.rating) {
             return -1
@@ -599,7 +599,7 @@ const Collection = {
           return 0
         })
       },
-      genre: (genre, movies = DB.get('traktmoviescollection')) => {
+      genre: (genre, movies = DB.trakt.get('traktmoviescollection')) => {
         return movies.filter(a => a.movie.genres.indexOf(genre) !== -1)
       }
     }
