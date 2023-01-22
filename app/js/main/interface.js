@@ -54,6 +54,7 @@ const Interface = {
   showMain: () => {
     $('#traktwelcome').hide()
     $('#requirempv').hide()
+    $('#init').hide()
     !$('#details').is(':visible') && $('#collection').show()
     $('#navbar').show()
   },
