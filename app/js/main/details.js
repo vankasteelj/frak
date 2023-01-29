@@ -86,6 +86,7 @@ const Details = {
     d.year ? $('#details-metadata .year').text(d.year).show() : $('#details-metadata .year').hide()
     d.runtime ? $('#details-metadata .runtime').text(`${d.runtime} ${i18n.__('min')}`).show() : $('#details-metadata .runtime').hide()
     d.network ? $('#details-metadata .network').text(`${d.network}`).show() : $('#details-metadata .network').hide()
+    d.country ? $('#details-metadata .fi').addClass(`fi-${d.country}`).attr('title', `${countryList[d.country.toUpperCase()]}`).show() : $('#details-metadata .country').hide()
     $('#details-metadata .rating').text(`${d.rating || 0} / 10`).show()
 
     if (d.genres) {
@@ -166,6 +167,7 @@ const Details = {
         year: file.metadata.movie.year,
         rating: parseFloat(file.metadata.movie.rating).toFixed(1),
         runtime: file.metadata.movie.runtime,
+        country: file.metadata.movie.country,
         genres: file.metadata.movie.genres,
         trailer: file.metadata.movie.trailer
       }, 'locals')
@@ -194,6 +196,7 @@ const Details = {
         rating: parseFloat(file.metadata.show.rating).toFixed(1),
         runtime: file.metadata.show.runtime,
         network: file.metadata.show.network,
+        country: file.metadata.show.country,
         genres: file.metadata.show.genres,
         trailer: file.metadata.show.trailer
       }, 'locals')
@@ -244,6 +247,7 @@ const Details = {
         year: item.movie.year,
         rating: parseFloat(item.movie.rating).toFixed(1),
         runtime: item.movie.runtime,
+        country: item.movie.country,
         genres: item.movie.genres,
         trailer: item.movie.trailer
       }, from)
@@ -272,6 +276,7 @@ const Details = {
         rating: parseFloat(item.show.rating).toFixed(1),
         runtime: item.show.runtime,
         network: item.show.network,
+        country: item.show.country,
         genres: item.show.genres,
         trailer: item.show.trailer
       }, from)

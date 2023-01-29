@@ -465,7 +465,8 @@ const sd = (fix) => {
         '$',
         'event',
         'Image',
-        'screen'
+        'screen',
+        'countryList'
       ]
     }, (error, res) => {
       if (error) return reject(error)

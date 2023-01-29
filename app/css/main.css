@@ -757,6 +757,11 @@
   content: '';
 }
 
+#details-metadata .md-line .fi {
+  width: 65px;
+  margin-right: -25px;
+}
+
 #details-metadata .poster {
   background-image: url('../images/placeholder.png');
   background-position: 50%;

@@ -18,6 +18,7 @@ const i18n = require('i18n')
 const got = require('got')
 const os = require('os')
 const PKJSON = require('../package.json')
+const countryList = require('../app/js/vendor/ISO3166-1.alpha2.json')
 
 // default settings
 const Settings = {

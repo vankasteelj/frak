@@ -52,7 +52,6 @@ const Stats = {
       $('#stats #smostwatchedoverview').text(showsStats.most_watched.show.show.overview)
 
       // fun cards
-      const countryList = require('../app/js/vendor/ISO3166-1.alpha2.json')
       const totgenres = Stats._totCount(showsStats.genres)
       const totcountries = Stats._totCount(showsStats.countries)
 
