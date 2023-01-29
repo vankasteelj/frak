@@ -33,6 +33,7 @@ const Details = {
   },
 
   loadDetails: (d, from = 'collection') => {
+    console.log(d)
     Details.from = from
     Details.fromScroll = window.scrollY
 
@@ -84,6 +85,7 @@ const Details = {
 
     d.year ? $('#details-metadata .year').text(d.year).show() : $('#details-metadata .year').hide()
     d.runtime ? $('#details-metadata .runtime').text(`${d.runtime} ${i18n.__('min')}`).show() : $('#details-metadata .runtime').hide()
+    d.network ? $('#details-metadata .network').text(`${d.network}`).show() : $('#details-metadata .network').hide()
     $('#details-metadata .rating').text(`${d.rating || 0} / 10`).show()
 
     if (d.genres) {
@@ -191,6 +193,7 @@ const Details = {
         year: file.metadata.show.year,
         rating: parseFloat(file.metadata.show.rating).toFixed(1),
         runtime: file.metadata.show.runtime,
+        network: file.metadata.show.network,
         genres: file.metadata.show.genres,
         trailer: file.metadata.show.trailer
       }, 'locals')
@@ -268,6 +271,7 @@ const Details = {
         year: item.show.year,
         rating: parseFloat(item.show.rating).toFixed(1),
         runtime: item.show.runtime,
+        network: item.show.network,
         genres: item.show.genres,
         trailer: item.show.trailer
       }, from)
