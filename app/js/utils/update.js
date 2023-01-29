@@ -12,6 +12,10 @@ const Update = {
 
     // only check every 7 days
     if (parseInt(DB.app.get('lastUpdateCheck')) + (1000 * 60 * 60 * 24 * 7) > Date.now()) return
+    Update.lookForUpdates()
+  },
+
+  lookForUpdates: (manual) => {
     DB.app.store(Date.now(), 'lastUpdateCheck')
 
     // fetch remote package.json
@@ -35,6 +39,7 @@ const Update = {
           DB.remove('availableUpdate')
           DB.remove('availableUpdateUrl')
           console.debug('No update available')
+          if (manual) Notify.snack(i18n.__('No update available'), 15000)
         }
       })
     }).on('error', (e) => {
