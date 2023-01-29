@@ -28,7 +28,7 @@ const Interface = {
     $('#welcomeprofile .avatar').attr('src', profile.images.avatar.full)
     $('#stats #suserinfo #suserimage').attr('src', profile.images.avatar.full)
     $('#navbar .nav .avatar').css('background-image', 'url("' + profile.images.avatar.full + '")')
-    $('#welcomeprofile .username').text(profile.username)
+    $('#welcomeprofile .username').text(profile.name.split(' ')[0] || profile.username)
     $('#settings .trakt .username').text(profile.username)
     if (profile.vip || profile.vip_ep) $('#stats #suservip').show()
 
@@ -448,7 +448,7 @@ const Interface = {
     $('#switchaccount .accounts').html('')
     const profiles = Profiles.list()
     for (const i of profiles) {
-      $('#switchaccount .accounts').append(`<div class="account" onClick="Interface.selectTraktAccount('${i.profile.username}')"><img src="${i.profile.images.avatar.full}"/><div class="accountname">${i.profile.username}</div></div>`)
+      $('#switchaccount .accounts').append(`<div class="account" onClick="Interface.selectTraktAccount('${i.profile.username}')"><img src="${i.profile.images.avatar.full}"/><div class="accountname">${i.profile.name.split(' ')[0] || i.profile.username}</div></div>`)
     }
   },
   addTraktAccount: () => {

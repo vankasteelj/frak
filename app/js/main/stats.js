@@ -37,10 +37,18 @@ const Stats = {
       for (let i = 0; i < 10; i++) {
         const s = collection.show[i]
         const m = collection.movie[i]
-        const els = `<li><a onclick="Misc.openExternal('https://trakt.tv/shows/${s.item.ids.slug}')">${s.item.title}</a></li>`
-        const elm = `<li><a onclick="Misc.openExternal('https://trakt.tv/movies/${m.item.ids.slug}')">${m.item.title}</a></li>`
-        $('#stats #stopratedshows').append(els)
-        $('#stats #stopratedmovies').append(elm)
+        if (s) {
+          const els = `<li><a onclick="Misc.openExternal('https://trakt.tv/shows/${s.item.ids.slug}')">${s.item.title}</a></li>`
+          $('#stats #stopratedshows').append(els)
+        } else {
+          $('#stats #stop .show h3').hide()
+        }
+        if (m) {
+          const elm = `<li><a onclick="Misc.openExternal('https://trakt.tv/movies/${m.item.ids.slug}')">${m.item.title}</a></li>`
+          $('#stats #stopratedmovies').append(elm)
+        } else {
+          $('#stats #stop .movie h3').hide()
+        }
       }
       return Stats.getShowsStats()
     }).then(showsStats => {
@@ -56,12 +64,20 @@ const Stats = {
       const totcountries = Stats._totCount(showsStats.countries)
 
       for (let i = 0; i < 4; i++) {
-        const favgenre = `<li>${i18n.__(Misc.capitalize(showsStats.genres[i].item))} (${Number((showsStats.genres[i].frequency / totgenres) * 100).toFixed()}%)</li>`
-        const favcountry = `<li>${countryList[showsStats.countries[i].item.toUpperCase()]} (${Number((showsStats.countries[i].frequency / totcountries) * 100).toFixed()}%)</li>`
-        const favyear = `<li>${showsStats.years[i].item}</li>`
-        $('#stats #sfunfacts #sfavgenres').append(favgenre)
-        $('#stats #sfunfacts #sfavcountries').append(favcountry)
-        $('#stats #sfunfacts #sfavyears').append(favyear)
+        if (showsStats.genres[i]) {
+          const favgenre = `<li>${i18n.__(Misc.capitalize(showsStats.genres[i].item))} (${Number((showsStats.genres[i].frequency / totgenres) * 100).toFixed()}%)</li>`
+          $('#stats #sfunfacts #sfavgenres').append(favgenre)
+        }
+        
+        if (showsStats.countries[i]) {
+          const favcountry = `<li>${countryList[showsStats.countries[i].item.toUpperCase()]} (${Number((showsStats.countries[i].frequency / totcountries) * 100).toFixed()}%)</li>`
+          $('#stats #sfunfacts #sfavcountries').append(favcountry)
+        }
+        
+        if (showsStats.years[i]) {
+          const favyear = `<li>${showsStats.years[i].item}</li>`
+          $('#stats #sfunfacts #sfavyears').append(favyear)          
+        }
       }
 
       return Stats.getLastMonth()
