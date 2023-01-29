@@ -187,6 +187,11 @@ const Boot = {
       document.querySelector('#items-size').checked = true
     }
 
+    // translate overview button
+    if (DB.app.get('translateOverviews')) {
+      document.querySelector('#tro-button').checked = true
+    }
+
     // big picture button visibility
     if (DB.app.get('bp_button')) {
       document.querySelector('#bp-button').checked = true
@@ -322,6 +327,10 @@ const Boot = {
         $('.nav.bigpicture').hide()
         $('#disablezoom').hide()
       }
+    })
+
+    document.querySelector('#tro-button').addEventListener('click', (evt) => {
+      DB.app.store(evt.target.checked, 'translateOverviews')
     })
 
     document.querySelector('#bpzoomdisable-button').addEventListener('click', (evt) => {

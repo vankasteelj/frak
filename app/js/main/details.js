@@ -33,7 +33,6 @@ const Details = {
   },
 
   loadDetails: (d, from = 'collection') => {
-    console.log(d)
     Details.from = from
     Details.fromScroll = window.scrollY
 
@@ -81,7 +80,6 @@ const Details = {
 
     d['ep-title'] ? $('#details-metadata .ep-title').show().text(d['ep-title']) : $('#details-metadata .ep-title').hide()
     d.trailer ? $('#details-metadata .trailer').attr('onClick', `Interface.playTrailer('${d.trailer}')`) : $('#details-metadata .trailer').hide()
-    $('#details-metadata .synopsis').text(d.synopsis === 'No overview found.' ? i18n.__('No synopsis available') : (d.synopsis || i18n.__('No synopsis available')))
 
     d.year ? $('#details-metadata .year').text(d.year).show() : $('#details-metadata .year').hide()
     d.runtime ? $('#details-metadata .runtime').text(`${d.runtime} ${i18n.__('min')}`).show() : $('#details-metadata .runtime').hide()
@@ -104,8 +102,26 @@ const Details = {
     traktrating && $('#details .corner-rating span').text(traktrating.rating).parent().show()
     $('#details-metadata .rating').attr('onClick', `Details.rate('${d.ids.slug}')`).css('cursor', 'pointer')
 
-    // search online
+    // search online & overview translation
     const type = (d.data.show && 'show') || (d.data.movie && 'movie')
+
+    if (DB.app.get('translateOverviews') && DB.app.get('locale') !== 'en') {
+      Trakt.client[type+'s'].translations({id: d.ids.trakt, language: DB.app.get('locale')}).then((r) => {
+        if (r && r[0] && r[0].overview) {
+          $('#details-metadata .synopsis').text(r[0].overview)
+        } else {
+          $('#details-metadata .synopsis').text(d.synopsis === 'No overview found.' ? i18n.__('No synopsis available') : (d.synopsis || i18n.__('No synopsis available')))
+        }
+
+        if (r && r[0] && r[0].title) $('#details .titles .title').attr('title', i18n.__('Translated title:') + ' ' + r[0].title)
+      }).catch(err => {
+        console.error(err)
+        $('#details-metadata .synopsis').text(d.synopsis === 'No overview found.' ? i18n.__('No synopsis available') : (d.synopsis || i18n.__('No synopsis available')))
+      })
+    } else {
+      $('#details-metadata .synopsis').text(d.synopsis === 'No overview found.' ? i18n.__('No synopsis available') : (d.synopsis || i18n.__('No synopsis available')))
+    }
+
     if (Object.keys(Plugins.loaded).length && type) {
       let keywords = d.data[type].title
 
