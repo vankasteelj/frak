@@ -29,7 +29,7 @@ const IB = {
   clean: () => {
     const db = IB._load()
     const ttl = 15 * 24 * 60 * 60 * 1000 // 15 days
-    const minsize = 25000 // according to my testings, below that it's a corrupted image
+    const minsize = 20000 // according to my testings, below that it's a corrupted image
     let outdated = 0
     let toosmall = 0
 
