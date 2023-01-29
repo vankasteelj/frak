@@ -173,6 +173,7 @@ const Trakt = {
   reload: (update, type, slug) => {
     console.info('Trakt reload')
     console.debug('Trakt reload (update = %s / type = %s / slug = %s)', update, type, slug)
+    const username = DB.app.get('trakt_active_profile')
 
     const cached = {
       movies: DB.trakt.get('traktmovies'),
@@ -185,8 +186,8 @@ const Trakt = {
     }
 
     if (!update) {
-      DB.remove('traktsyncrating')
-      DB.remove('traktratings')
+      DB.remove(username + 'traktsyncrating')
+      DB.remove(username + 'traktratings')
     }
 
     const handleError = (e) => {
@@ -205,9 +206,9 @@ const Trakt = {
       case 'episodes':
       case 'show':
       case 'shows':
-        DB.remove('traktshows')
-        DB.remove('traktshowscollection')
-        DB.remove('traktsync')
+        DB.remove(username + 'traktshows')
+        DB.remove(username + 'traktshowscollection')
+        DB.remove(username + 'traktsync')
         return Collection.get.traktshows(update, slug, cached.shows).then(collection => {
           Collection.get.traktcached(update)
           Trakt.getRatings()
@@ -215,20 +216,20 @@ const Trakt = {
         }).catch(handleError)
       case 'movie':
       case 'movies':
-        DB.remove('traktmovies')
-        DB.remove('traktmoviescollection')
-        DB.remove('traktsync')
+        DB.remove(username + 'traktmovies')
+        DB.remove(username + 'traktmoviescollection')
+        DB.remove(username + 'traktsync')
         return Collection.get.traktmovies(update).then(collection => {
           Collection.get.traktcached(update)
           Trakt.getRatings()
           return [collection]
         }).catch(handleError)
       default:
-        DB.remove('traktmovies')
-        DB.remove('traktmoviescollection')
-        DB.remove('traktshows')
-        DB.remove('traktshowscollection')
-        DB.remove('traktsync')
+        DB.remove(username + 'traktmovies')
+        DB.remove(username + 'traktmoviescollection')
+        DB.remove(username + 'traktshows')
+        DB.remove(username + 'traktshowscollection')
+        DB.remove(username + 'traktsync')
         return Promise.all([
           Collection.get.traktshows(update),
           Collection.get.traktmovies(update)

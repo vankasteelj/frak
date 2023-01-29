@@ -24,12 +24,13 @@ const Interface = {
     $('#traktwelcome').show()
 
     const profile = Profiles.get(DB.app.get('trakt_active_profile')).profile
-    $('#welcomeprofile .welcomemessage').text(i18n.__('Welcome'))
-    $('#welcomeprofile img').attr('src', profile.images.avatar.full)
-    $('#stats #suserinfo img').attr('src', profile.images.avatar.full)
+    $('#welcomeprofile .welcomemessage').text(i18n.__('Welcome back'))
+    $('#welcomeprofile .avatar').attr('src', profile.images.avatar.full)
+    $('#stats #suserinfo #suserimage').attr('src', profile.images.avatar.full)
     $('#navbar .nav .avatar').css('background-image', 'url("' + profile.images.avatar.full + '")')
     $('#welcomeprofile .username').text(profile.username)
     $('#settings .trakt .username').text(profile.username)
+    if (profile.vip || profile.vip_ep) $('#stats #suservip').show()
 
     $('#welcomeprofile').show()
     $('#traktwelcome .spinner').show()
