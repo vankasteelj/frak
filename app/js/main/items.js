@@ -37,7 +37,10 @@ const Items = {
 
   constructMovie: (movie) => {
     // detect if in custom list
-    const existing = Collection.customsbank.indexOf(movie.movie.ids.slug)
+    let existing = -1
+    try {
+      existing = Collection.customsbank.indexOf(movie.movie.ids.slug)
+    } catch (e) {}
 
     const d = {
       image: Images.reduce(IB.get(movie.movie.ids).fanart) || IB.get(movie.movie.ids).poster,
@@ -102,7 +105,10 @@ const Items = {
   },
   constructShow: (show) => {
     // detect if in custom list
-    const existing = Collection.customsbank.indexOf(show.show.ids.slug)
+    let existing = -1
+    try {
+      existing = Collection.customsbank.indexOf(show.show.ids.slug)
+    } catch (e) {}
 
     const d = {
       image: Images.reduce(IB.get(show.show.ids).fanart) || IB.get(show.show.ids).poster,
@@ -176,7 +182,10 @@ const Items = {
   },
   constructCustomMovie: (movie) => {
     // detect if in watchlist
-    const existing = Collection.moviesbank.indexOf(movie.movie.ids.slug)
+    let existing = -1
+    try {
+      existing = Collection.moviesbank.indexOf(movie.movie.ids.slug)
+    } catch (e) {}
 
     const d = {
       image: Images.reduce(IB.get(movie.movie.ids).fanart) || IB.get(movie.movie.ids).poster,
@@ -233,7 +242,10 @@ const Items = {
   },
   constructCustomShow: (show) => {
     // detect if in watchlist
-    const existing = Collection.showsbank.indexOf(show.show.ids.slug)
+    let existing = -1
+    try {
+      existing = Collection.showsbank.indexOf(show.show.ids.slug)
+    } catch (e) {}
     if (existing !== -1) {
       show.next_episode = Items.getData($(`#${show.show.ids.slug}`)).next_episode
     } else {
