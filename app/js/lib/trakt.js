@@ -357,7 +357,7 @@ const Trakt = {
       return Promise.reject(new Error('Invalid format'))
     }
 
-    return Trakt.client.users.list.get({username: username, id: id}).then(res => {
+    return Trakt.client.users.list.get({ username: username, id: id }).then(res => {
       console.log('Custom List check:', res)
       return {
         username: username,
@@ -367,29 +367,29 @@ const Trakt = {
   },
   removeFromCustom: (data) => {
     // remove({shows:[{ids}], movies:[{ids}]}
-    let list = DB.app.get('customs_params')
-    let item = {}
+    const list = DB.app.get('customs_params')
+    const item = {}
     if (data.show) {
       item.shows = [data.show]
     } else if (data.movie) {
       item.movies = [data.movie]
     }
-    let post = Object.assign(list, item)
+    const post = Object.assign(list, item)
     return Trakt.client.users.list.items.remove(post).then(res => {
       console.log('Item removed from custom list')
       return res
     }).catch(console.error)
   },
-  
+
   addToCustom: (data) => {
-    let list = DB.app.get('customs_params')
-    let item = {}
+    const list = DB.app.get('customs_params')
+    const item = {}
     if (data.show) {
       item.shows = [data.show]
     } else if (data.movie) {
       item.movies = [data.movie]
     }
-    let post = Object.assign(list, item)
+    const post = Object.assign(list, item)
     return Trakt.client.users.list.items.add(post).then(res => {
       console.log('Item added to the custom list')
       return res

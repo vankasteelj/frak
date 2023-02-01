@@ -387,7 +387,7 @@ const Boot = {
       Trakt.checkCustomUrl(customUrl).then((obj) => {
         DB.app.store(customUrl, 'customs_url')
         DB.app.store(obj, 'customs_params')
-        Notify.snack(i18n.__(`It's done`), 5000)
+        Notify.snack(i18n.__('It\'s done'), 5000)
         return Collection.get.traktcustoms(false)
       }).then(() => {
         Collection.get.traktcached()

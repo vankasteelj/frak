@@ -106,7 +106,7 @@ const Details = {
     const type = (d.data.show && 'show') || (d.data.movie && 'movie')
 
     if (DB.app.get('translateOverviews') && DB.app.get('locale') !== 'en') {
-      Trakt.client[type+'s'].translations({id: d.ids.trakt, language: DB.app.get('locale')}).then((r) => {
+      Trakt.client[type + 's'].translations({ id: d.ids.trakt, language: DB.app.get('locale') }).then((r) => {
         if (r && r[0] && r[0].overview) {
           $('#details-metadata .synopsis').text(r[0].overview)
         } else {
@@ -551,7 +551,7 @@ const Details = {
         return resolve()
       } else {
         console.log('Details.markAsWatched: Couldnt find the appropriate ID, looking up online')
-        return Trakt.client.episodes.summary({id: base.show.ids.slug, season: model.season, episode: model.number}).then(summary => {
+        return Trakt.client.episodes.summary({ id: base.show.ids.slug, season: model.season, episode: model.number }).then(summary => {
           item.ids = summary.ids
           post[type] = [item]
           return resolve()

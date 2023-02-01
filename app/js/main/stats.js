@@ -69,15 +69,15 @@ const Stats = {
           const favgenre = `<li>${i18n.__(Misc.capitalize(showsStats.genres[i].item))} (${Number((showsStats.genres[i].frequency / totgenres) * 100).toFixed()}%)</li>`
           $('#stats #sfunfacts #sfavgenres').append(favgenre)
         }
-        
+
         if (showsStats.countries[i]) {
           const favcountry = `<li>${countryList[showsStats.countries[i].item.toUpperCase()]} (${Number((showsStats.countries[i].frequency / totcountries) * 100).toFixed()}%)</li>`
           $('#stats #sfunfacts #sfavcountries').append(favcountry)
         }
-        
+
         if (showsStats.years[i]) {
           const favyear = `<li>${showsStats.years[i].item}</li>`
-          $('#stats #sfunfacts #sfavyears').append(favyear)          
+          $('#stats #sfunfacts #sfavyears').append(favyear)
         }
       }
 

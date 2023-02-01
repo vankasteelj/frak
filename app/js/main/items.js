@@ -180,7 +180,7 @@ const Items = {
 
     const d = {
       image: Images.reduce(IB.get(movie.movie.ids).fanart) || IB.get(movie.movie.ids).poster,
-      id: 'custom-'+movie.movie.ids.slug,
+      id: 'custom-' + movie.movie.ids.slug,
       data: JSON.stringify(movie),
       rating: Misc.percentage(movie.movie.rating),
       size: DB.app.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal
@@ -246,7 +246,7 @@ const Items = {
 
     const d = {
       image: Images.reduce(IB.get(show.show.ids).fanart) || IB.get(show.show.ids).poster,
-      id: 'custom-'+show.show.ids.slug,
+      id: 'custom-' + show.show.ids.slug,
       data: JSON.stringify(show),
       rating: Misc.percentage(show.show.rating),
       size: DB.app.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal
@@ -802,7 +802,6 @@ const Items = {
       return data
     } catch (e) {
       console.error('Coulnt parse JSON data (Items.getData) for $(#%s)', id)
-      return
     }
   },
   removeFromCustom: (elm) => {

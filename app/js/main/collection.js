@@ -1,7 +1,9 @@
 'use strict'
 
 const Collection = {
-  moviesbank: [], customsbank: [], showsbank: [],
+  moviesbank: [],
+  customsbank: [],
+  showsbank: [],
   load: () => {
     console.info('Loading collection')
 
@@ -77,10 +79,10 @@ const Collection = {
       })
     },
     traktcustoms: (update) => {
-      if (!DB.app.get('customs_params') || !DB.app.get('use_customs')) return Promise.reject()
+      if (!DB.app.get('customs_params') || !DB.app.get('use_customs')) return Promise.resolve()
 
       $('#navbar .customs .fa-spin').css('opacity', update ? 0 : 1)
-      return Trakt.client.users.list.items.get(Object.assign(DB.app.get('customs_params'), {extended: 'full'})).then(results => {
+      return Trakt.client.users.list.items.get(Object.assign(DB.app.get('customs_params'), { extended: 'full' })).then(results => {
         console.info('Trakt.tv - "custom list" collection recieved')
 
         DB.app.store(results, 'traktcustoms')
@@ -198,7 +200,7 @@ const Collection = {
   format: {
     traktmovies: (movies) => {
       let collection = []
-      let bank = []
+      const bank = []
 
       return Promise.all(movies.map((movie) => {
         return Images.get.movie(movie.movie.ids).then(images => {
@@ -220,7 +222,7 @@ const Collection = {
     },
     traktshows: (shows) => {
       let collection = []
-      let bank = []
+      const bank = []
 
       return Promise.all(shows.map((show) => {
         return Images.get.show(show.show.ids).then(images => {
@@ -242,10 +244,10 @@ const Collection = {
     },
     traktcustoms: (items) => {
       let collection = []
-      let bank = []
+      const bank = []
 
       return Promise.all(items.map((item) => {
-        if (['movie', 'show'].indexOf(item.type) === -1) return
+        if (['movie', 'show'].indexOf(item.type) === -1) return null
         return Images.get[item.type](item[item.type].ids).then(images => {
           collection.push(item)
           bank.push(item[item.type].ids.slug)
