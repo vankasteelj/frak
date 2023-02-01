@@ -546,7 +546,20 @@ const Details = {
     console.info('Mark as watched:', base.movie ? model.ids.slug : `${base.show.ids.slug} ${model.season}x${model.number}`)
     Details.buttonAsWatched()
 
-    Trakt.client.sync.history.add(post).finally(() => {
+    return new Promise((resolve) => {
+      if (model.ids) {
+        return resolve()
+      } else {
+        console.log('Details.markAsWatched: Couldnt find the appropriate ID, looking up online')
+        return Trakt.client.episodes.summary({id: base.show.ids.slug, season: model.season, episode: model.number}).then(summary => {
+          item.ids = summary.ids
+          post[type] = [item]
+          return resolve()
+        })
+      }
+    }).then(() => {
+      Trakt.client.sync.history.add(post)
+    }).finally(() => {
       if (type === 'episodes') {
         setTimeout(() => {
           $('#details-sources').hide()
@@ -559,7 +572,11 @@ const Details = {
 
         Misc.sleep(800).then(() => {
           WB.markAsWatched(base)
-          return Trakt.reload(true, type, base.show.ids.slug)
+          if (model.ids) {
+            return Trakt.reload(true, type, base.show.ids.slug)
+          } else {
+            return Trakt.reload()
+          }
         }).then(collections => {
           base.episode ? Details.loadLocalNext(true) : Details.loadNext(true)
         })

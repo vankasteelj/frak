@@ -180,6 +180,8 @@ const Trakt = {
       moviescollection: DB.trakt.get('traktmoviescollection'),
       shows: DB.trakt.get('traktshows'),
       showscollection: DB.trakt.get('traktshowscollection'),
+      customs: DB.app.get('traktcustoms'),
+      customscollection: DB.app.get('traktcustomscollection'),
       sync: DB.trakt.get('traktsync'),
       syncrating: DB.trakt.get('traktsyncrating'),
       ratings: DB.trakt.get('traktratings')
@@ -196,6 +198,8 @@ const Trakt = {
       DB.trakt.store(cached.moviescollection, 'traktmoviescollection')
       DB.trakt.store(cached.shows, 'traktshows')
       DB.trakt.store(cached.showscollection, 'traktshowscollection')
+      DB.app.store(cached.customs, 'traktcustoms')
+      DB.app.store(cached.customscollection, 'traktcustomscollection')
       DB.trakt.store(cached.sync, 'traktsync')
       DB.trakt.store(cached.syncrating, 'traktsyncrating')
       DB.trakt.store(cached.ratings, 'traktratings')
@@ -229,10 +233,13 @@ const Trakt = {
         DB.remove(username + 'traktmoviescollection')
         DB.remove(username + 'traktshows')
         DB.remove(username + 'traktshowscollection')
+        DB.remove('traktcustoms')
+        DB.remove('traktcustomscollection')
         DB.remove(username + 'traktsync')
         return Promise.all([
           Collection.get.traktshows(update),
-          Collection.get.traktmovies(update)
+          Collection.get.traktmovies(update),
+          Collection.get.traktcustoms(update)
         ]).then((collections) => {
           if (Misc.isError(collections[0]) || Misc.isError(collections[1])) throw new Error('Trakt.reload failed')
 
@@ -357,5 +364,35 @@ const Trakt = {
         id: id
       }
     })
+  },
+  removeFromCustom: (data) => {
+    // remove({shows:[{ids}], movies:[{ids}]}
+    let list = DB.app.get('customs_params')
+    let item = {}
+    if (data.show) {
+      item.shows = [data.show]
+    } else if (data.movie) {
+      item.movies = [data.movie]
+    }
+    let post = Object.assign(list, item)
+    return Trakt.client.users.list.items.remove(post).then(res => {
+      console.log('Item removed from custom list')
+      return res
+    }).catch(console.error)
+  },
+  
+  addToCustom: (data) => {
+    let list = DB.app.get('customs_params')
+    let item = {}
+    if (data.show) {
+      item.shows = [data.show]
+    } else if (data.movie) {
+      item.movies = [data.movie]
+    }
+    let post = Object.assign(list, item)
+    return Trakt.client.users.list.items.add(post).then(res => {
+      console.log('Item added to the custom list')
+      return res
+    }).catch(console.error)
   }
 }

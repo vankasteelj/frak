@@ -388,6 +388,10 @@ const Boot = {
         DB.app.store(customUrl, 'customs_url')
         DB.app.store(obj, 'customs_params')
         Notify.snack(i18n.__(`It's done`), 5000)
+        return Collection.get.traktcustoms(false)
+      }).then(() => {
+        Collection.get.traktcached()
+        Trakt.getRatings()
       }).catch((err) => {
         Notify.snack(i18n.__('The Custom List URL is invalid') + '<br>' + err.message, 5000)
       })

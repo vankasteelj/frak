@@ -378,5 +378,15 @@
 	"The Custom List can take any name you want, it will be displayed in the navigation menu": "La liste personnalisée peut prendre le nom de votre choix, qui sera utilisé dans la barre de navigation",
 	"Custom List URL": "URL de la liste personnalisée",
 	"Trakt URL for the Custom List (format: https://trakt.tv/users/<id>/lists/<name>)": "L'URL Trakt de la liste personnalisée (format: https://trakt.tv/users/<id>/lists/<titre>)",
-	"The Custom List URL is invalid": "L'URL pour la liste personnalisée n'est pas correcte"
+	"The Custom List URL is invalid": "L'URL pour la liste personnalisée n'est pas correcte",
+	"Nothing to display, the Custom List seems empty.": "Il n'y a rien à afficher, la liste personnalisée semble vide.",
+	"Movie": "Film",
+	"Remove from custom list": "Retirer de la liste personnalisée",
+	"Show": "Série",
+	"Edit list on Trakt.tv": "Éditer la liste sur Trakt.tv",
+	"Refresh list": "Rafraîchir la liste",
+	"Also present in watchlist": "Également présent dans la liste principale",
+	"Also present in Custom list": "Également présent dans la liste personnalisée",
+	"Add to custom list": "Ajouter à la liste personnalisée",
+	"Rank": "Rang"
 }

@@ -123,7 +123,8 @@
 }
 
 #collection .actions .trailer,
-#discover .actions .trailer {
+#discover .actions .trailer,
+#collection .actions .remove {
   font-size: 1.8em;
   padding-top: 7px;
 }
@@ -176,6 +177,30 @@
   top: 0;
   width: 0;
 }
+
+#collection .fanart .exists-elsewhere {
+  color: white;
+  background: #e85d04;
+  top: 5px;
+  left: 5px;
+  padding: 5px;
+  position: absolute;
+  cursor: help;
+  z-index: 1;
+  border-radius: 50px;
+  font-size: 11px;
+  transition: all .5s;
+  display: none;
+}
+
+#collection .fanart .exists-elsewhere:hover {
+  background: #EE8D4F;
+}
+
+#collection .fanart .exists-elsewhere.active {
+  display: inline-block;
+}
+
 
 #collection .fanart img,
 #trakt .fanart img {
@@ -2278,6 +2303,18 @@ a {
 .actions .watched.selected,
 .actions .watched:hover {
   background-color: #8e44ad;
+  color: #fafafa;
+}
+
+.actions .remove,
+.actions .remove.selected:hover {
+  background-color: transparent;
+  color: #16a085;
+}
+
+.actions .remove.selected,
+.actions .remove:hover {
+  background-color: #16a085;
   color: #fafafa;
 }
 

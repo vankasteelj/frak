@@ -36,6 +36,9 @@ const Items = {
   },
 
   constructMovie: (movie) => {
+    // detect if in custom list
+    const existing = Collection.customsbank.indexOf(movie.movie.ids.slug)
+
     const d = {
       image: Images.reduce(IB.get(movie.movie.ids).fanart) || IB.get(movie.movie.ids).poster,
       id: movie.movie.ids.slug,
@@ -47,6 +50,7 @@ const Items = {
     const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
                 `<span class="data">${d.data}</span>` +
                 '<div class="fanart">' +
+                    `<div class="exists-elsewhere fa fa-tags ${existing !== -1 && DB.app.get('use_customs') ? 'active' : ''}" title="${i18n.__('Also present in Custom list')}"></div>` +
                     '<div class="corner-rating"><span></span></div>' +
                     '<img class="base" src="images/placeholder.png">' +
                     '<div class="shadow"></div>' +
@@ -76,6 +80,7 @@ const Items = {
       labels['Play now'] = () => $(`#${d.id} .play`).trigger('click')
       movie.movie.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).trigger('click'))
       labels['Mark as watched'] = () => $(`#${d.id} .watched`).trigger('click')
+      DB.app.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${d.id}`)))
       labels.separator = true
       labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`)
       labels['Redownload image'] = () => Items.redownloadImage(d.id, d.image, movie.movie.ids, 'movie', 'fanart')
@@ -96,6 +101,9 @@ const Items = {
     return item
   },
   constructShow: (show) => {
+    // detect if in custom list
+    const existing = Collection.customsbank.indexOf(show.show.ids.slug)
+
     const d = {
       image: Images.reduce(IB.get(show.show.ids).fanart) || IB.get(show.show.ids).poster,
       id: show.show.ids.slug,
@@ -108,6 +116,7 @@ const Items = {
     const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
                 `<span class="data">${d.data}</span>` +
                 '<div class="fanart">' +
+                    `<div class="exists-elsewhere fa fa-tags ${existing !== -1 && DB.app.get('use_customs') ? 'active' : ''}" title="${i18n.__('Also present in Custom list')}"></div>` +
                     '<div class="corner-rating"><span></span></div>' +
                     '<img class="base" src="images/placeholder.png">' +
                     '<div class="shadow"></div>' +
@@ -143,6 +152,7 @@ const Items = {
       labels['Play now'] = () => $(`#${d.id} .play`).trigger('click')
       show.show.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).trigger('click'))
       labels['Mark as watched'] = () => $(`#${d.id} .watched`).trigger('click')
+      DB.app.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${d.id}`)))
       labels.separator = true
       if (show.next_episode.number === 1 && show.next_episode.season === 1) {
         labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`)
@@ -158,6 +168,129 @@ const Items = {
           shows: [show.show]
         }).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(show.show.ids.slug)).catch(console.error)
       }
+      const menu = Misc.customContextMenu(labels)
+      $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
+    })
+
+    return item
+  },
+  constructCustomMovie: (movie) => {
+    // detect if in watchlist
+    const existing = Collection.moviesbank.indexOf(movie.movie.ids.slug)
+
+    const d = {
+      image: Images.reduce(IB.get(movie.movie.ids).fanart) || IB.get(movie.movie.ids).poster,
+      id: 'custom-'+movie.movie.ids.slug,
+      data: JSON.stringify(movie),
+      rating: Misc.percentage(movie.movie.rating),
+      size: DB.app.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal
+    }
+
+    const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
+                `<span class="data">${d.data}</span>` +
+                '<div class="fanart">' +
+                    `<div class="exists-elsewhere fa fa-tags ${existing !== -1 ? 'active' : ''}" title="${i18n.__('Also present in watchlist')}"></div>` +
+                    '<div class="corner-rating"><span></span></div>' +
+                    '<img class="base" src="images/placeholder.png">' +
+                    '<div class="shadow"></div>' +
+                    '<div class="titles">' +
+                      '<h4>' +
+                        `<span class="sxe">${i18n.__('Movie')}</span>` +
+                      '</h4><br/>' +
+                        `<h3>${movie.movie.title}<span class="year">${movie.movie.year || ''}</span></h3>` +
+                    '</div>' +
+                '</div>' +
+                '<div class="quick-icons">' +
+                    '<div class="actions">' +
+                        `<div class="remove fa fa-times-circle tooltipped i18n" title="${i18n.__('Remove from custom list')}" onClick="Items.removeFromCustom(this)"></div>` +
+                        (movie.movie.trailer ? `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>` : '') +
+                        `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.movie(this)"></div>` +
+                    '</div>' +
+                    '<div class="metadata">' +
+                        `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
+                        '<div class="fa fa-heart"></div>' +
+                        `${d.rating}&nbsp%` +
+                    '</div>' +
+                '</div>' +
+            '</div>'
+
+    Items.getImage(d.image, movie.movie.ids, 'movie', 'fanart').then((img) => {
+      img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0')
+
+      // right click menu
+      const labels = {}
+      labels['Play now'] = () => $(`#${d.id} .play`).trigger('click')
+      movie.movie.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).trigger('click'))
+      labels.separator = true
+      labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`)
+      labels['Redownload image'] = () => Items.redownloadImage(d.id, d.image, movie.movie.ids, 'movie', 'fanart')
+
+      const menu = Misc.customContextMenu(labels)
+      $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
+    })
+
+    return item
+  },
+  constructCustomShow: (show) => {
+    // detect if in watchlist
+    const existing = Collection.showsbank.indexOf(show.show.ids.slug)
+    if (existing !== -1) {
+      show.next_episode = Items.getData($(`#${show.show.ids.slug}`)).next_episode
+    } else {
+      // inject s01e01 for watch now
+      show.next_episode = {
+        number: 1,
+        season: 1
+      }
+    }
+
+    const d = {
+      image: Images.reduce(IB.get(show.show.ids).fanart) || IB.get(show.show.ids).poster,
+      id: 'custom-'+show.show.ids.slug,
+      data: JSON.stringify(show),
+      rating: Misc.percentage(show.show.rating),
+      size: DB.app.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal
+    }
+
+    const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
+                `<span class="data">${d.data}</span>` +
+                '<div class="fanart">' +
+                    `<div class="exists-elsewhere fa fa-tags ${existing !== -1 ? 'active' : ''}" title="${i18n.__('Also present in watchlist')}"></div>` +
+                    '<div class="corner-rating"><span></span></div>' +
+                    '<img class="base" src="images/placeholder.png">' +
+                    '<div class="shadow"></div>' +
+                    '<div class="titles">' +
+                        '<h4>' +
+                            `<span class="sxe">${i18n.__('Show')}</span>` +
+                        '</h4><br/>' +
+                        `<h3>${show.show.title}<span class="year">${show.show.year || ''}</span></h3>` +
+                    '</div>' +
+                '</div>' +
+                '<div class="quick-icons">' +
+                    '<div class="actions">' +
+                        `<div class="remove fa fa-times-circle tooltipped i18n" title="${i18n.__('Remove from custom list')}" onClick="Items.removeFromCustom(this)"></div>` +
+                        (show.show.trailer ? `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${show.show.trailer}')"></div>` : '') +
+                        `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.episode(this)"></div>` +
+                    '</div>' +
+                    '<div class="metadata">' +
+                        `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
+                        '<div class="fa fa-heart"></div>' +
+                        `${d.rating}&nbsp;%` +
+                    '</div>' +
+                '</div>' +
+            '</div>'
+
+    Items.getImage(d.image, show.show.ids, 'show', 'fanart').then(img => {
+      img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0')
+
+      // right click menu
+      const labels = {}
+      labels['Play now'] = () => $(`#${d.id} .play`).trigger('click')
+      show.show.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).trigger('click'))
+      labels.separator = true
+      labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}/seasons/${show.next_episode.season}/episodes/${show.next_episode.number}`)
+      labels['Redownload image'] = () => Items.redownloadImage(d.id, d.image, show.show.ids, 'show', 'fanart')
+
       const menu = Misc.customContextMenu(labels)
       $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
     })
@@ -436,6 +569,7 @@ const Items = {
       const labels = {}
       labels['Play now'] = () => $(`#discover #${d.id} .play`).trigger('click')
       show.show.trailer && (labels['Watch trailer'] = () => $(`#discover #${d.id} .trailer`).trigger('click'))
+      DB.app.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${d.id}`)))
       labels['Add to watchlist'] = () => $(`#discover #${d.id} .watchlist`).trigger('click')
       labels.separator = true
       show.show.source === 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.shows.hide({
@@ -510,6 +644,7 @@ const Items = {
       const labels = {}
       labels['Play now'] = () => $(`#discover #${d.id} .play`).trigger('click')
       movie.movie.trailer && (labels['Watch trailer'] = () => $(`#discover #${d.id} .trailer`).trigger('click'))
+      DB.app.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${d.id}`)))
       labels['Add to watchlist'] = () => $(`#discover #${d.id} .watchlist`).trigger('click')
       labels.separator = true
       movie.movie.source === 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.movies.hide({
@@ -588,6 +723,12 @@ const Items = {
         $(`#${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show()
         $(`.${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show()
       }
+
+      const el_ = document.querySelector(`[id='custom-${item[item.type].ids.slug}']`)
+      if (el_) {
+        $(`#custom-${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show()
+        $(`.custom-${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show()
+      }
     }
   },
 
@@ -654,9 +795,22 @@ const Items = {
   getData: (elm) => {
     // extract json from data div
     const $elm = $(elm)[0]
-    const id = ($elm.offsetParent && $elm.offsetParent.id) || $elm.id
-    const data = JSON.parse($(`#${id}`).find('.data').text())
-
-    return data
+    if (!$elm) return
+    const id = ($elm.offsetParent && (['shows', 'movies', 'customs'].indexOf($elm.offsetParent.id) === -1) && $elm.offsetParent.id) || $elm.id
+    try {
+      const data = JSON.parse($(`#${id}`).find('.data').text())
+      return data
+    } catch (e) {
+      console.error('Coulnt parse JSON data (Items.getData) for $(#%s)', id)
+      return
+    }
+  },
+  removeFromCustom: (elm) => {
+    const data = Items.getData(elm)
+    Trakt.removeFromCustom(data).then(Collection.get.traktcustoms).then(Collection.get.traktcached)
+  },
+  addToCustom: (elm) => {
+    const data = Items.getData(elm)
+    Trakt.addToCustom(data).then(Collection.get.traktcustoms).then(Collection.get.traktcached)
   }
 }
