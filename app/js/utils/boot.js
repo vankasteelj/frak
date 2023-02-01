@@ -235,6 +235,20 @@ const Boot = {
       document.querySelector('#startminimized').checked = true
     }
 
+    // use the "Custom" feature
+    if (DB.app.get('use_customs')) {
+      document.querySelector('#customs-feature').checked = true
+      $('#navbar .customs').show()
+    }
+    if (DB.app.get('customs_name')) {
+      const name = DB.app.get('customs_name')
+      $('#navbar .customs .text').text(name)
+      document.querySelector('#customs-name').value = name
+    }
+    if (DB.app.get('customs_url')) {
+      document.querySelector('#customs-url').value = DB.app.get('customs_url')
+    }
+
     // auto-launch on start up
     if (DB.app.get('autolaunch')) {
       document.querySelector('#autolaunch').checked = true
@@ -354,6 +368,29 @@ const Boot = {
     document.querySelector('#startminimized').addEventListener('click', (evt) => {
       DB.app.store(evt.target.checked, 'startminimized')
       Misc.autoLaunch(true)
+    })
+
+    // custom list settings change
+    document.querySelector('#customs-feature').addEventListener('click', (evt) => {
+      DB.app.store(evt.target.checked, 'use_customs')
+      $('#navbar .customs')[evt.target.checked ? 'show' : 'hide']()
+    })
+    document.querySelector('#customs-name').addEventListener('change', (evt) => {
+      const name = document.querySelector('#customs-name').value
+      console.log('Custom List name changed to %s', name)
+      DB.app.store(name, 'customs_name')
+      $('#navbar .customs .text').text(name)
+    })
+    document.querySelector('#customs-url').addEventListener('change', (evt) => {
+      const customUrl = document.querySelector('#customs-url').value
+      console.log('Custom URL changed to `%s`, checking it', customUrl)
+      Trakt.checkCustomUrl(customUrl).then((obj) => {
+        DB.app.store(customUrl, 'customs_url')
+        DB.app.store(obj, 'customs_params')
+        Notify.snack(i18n.__(`It's done`), 5000)
+      }).catch((err) => {
+        Notify.snack(i18n.__('The Custom List URL is invalid') + '<br>' + err.message, 5000)
+      })
     })
 
     document.querySelector('#items-size').addEventListener('click', (evt) => {

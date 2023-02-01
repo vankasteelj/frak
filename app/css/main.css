@@ -1731,6 +1731,10 @@ a {
   margin: 20px 0;
 }
 
+#navbar .customs {
+  display: none;
+}
+
 #navbar:hover {
   width: 150px;
 }
@@ -1910,7 +1914,8 @@ a {
 #settings .opensubtitles input,
 #settings .localsharing input,
 #settings .streamer input,
-#settings .streamer textarea {
+#settings .streamer textarea,
+#settings .custom input {
   background-color: var(--input-bg);
 }
 
@@ -1933,7 +1938,8 @@ a {
 #settings .opensubtitles input,
 #settings .localsharing input,
 #settings .streamer input,
-#settings .streamer textarea {
+#settings .streamer textarea,
+#settings .custom input {
   cursor: pointer;
   font-family: monospace;
   font-size: 12px;
@@ -2215,7 +2221,8 @@ a {
 #settings .opensubtitles input,
 #settings .localsharing input,
 #settings .streamer input,
-#settings .streamer textarea {
+#settings .streamer textarea,
+#settings .custom input {
   color: var(--input-text);
 }
 

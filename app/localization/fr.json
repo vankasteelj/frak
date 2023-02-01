@@ -368,5 +368,15 @@
 	"Translated title:": "Titre traduit :",
 	"Translate overviews": "Traduire les synopsis",
 	"Overviews and titles will be translated to the currently used language": "Les synopsis et les titres seront traduits dans la langue utilisée par l'application",
-	"Open Trakt profile page in a browser": "Visiter le profil Trakt dans un navigateur"
+	"Open Trakt profile page in a browser": "Visiter le profil Trakt dans un navigateur",
+	"Custom": "Perso.",
+	"Activate the Custom List feature": "Activer la fonctionnalité Liste Personnalisée",
+	"Activate the feature and display a 'Custom' button in the navigation menu": "Activer la fonctionnalité et afficher un bouton 'Personnalisé' dans la barre de navigation",
+	"Custom list": "Liste perso.",
+	"Default: Custom": "Par défaut : Perso.",
+	"Customize the 'Custom List' name": "Personnaliser le nom de la liste",
+	"The Custom List can take any name you want, it will be displayed in the navigation menu": "La liste personnalisée peut prendre le nom de votre choix, qui sera utilisé dans la barre de navigation",
+	"Custom List URL": "URL de la liste personnalisée",
+	"Trakt URL for the Custom List (format: https://trakt.tv/users/<id>/lists/<name>)": "L'URL Trakt de la liste personnalisée (format: https://trakt.tv/users/<id>/lists/<titre>)",
+	"The Custom List URL is invalid": "L'URL pour la liste personnalisée n'est pas correcte"
 }

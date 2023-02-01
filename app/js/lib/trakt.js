@@ -340,5 +340,22 @@ const Trakt = {
     }).catch(err => {
       console.error('Unable to get genres from Trakt', err)
     })
+  },
+  checkCustomUrl: (custom) => {
+    let username, id
+    try {
+      username = custom.split('/')[4]
+      id = custom.split('/')[6].split('?')[0]
+    } catch (e) {
+      return Promise.reject(new Error('Invalid format'))
+    }
+
+    return Trakt.client.users.list.get({username: username, id: id}).then(res => {
+      console.log('Custom List check:', res)
+      return {
+        username: username,
+        id: id
+      }
+    })
   }
 }
