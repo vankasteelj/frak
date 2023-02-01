@@ -13,6 +13,7 @@ const Stats = {
 
     const suserinfo = Profiles.get(DB.app.get('trakt_active_profile')).profile
     $('#stats #susername').text(i18n.__('Hello, %s', suserinfo.name.split(' ')[0] || suserinfo.username))
+    $('#stats #suserjoined').attr('onClick', `Misc.openExternal('https://trakt.tv/users/${suserinfo.username}')`).attr('title', i18n.__('Open Trakt profile page in a browser'))
     $('#stats #suserjoined span').text(new Date(suserinfo.joined_at).toLocaleDateString())
 
     // reset

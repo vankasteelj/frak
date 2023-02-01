@@ -1222,6 +1222,7 @@ a {
 #stats #suserjoined {
   text-transform: uppercase;
   font-family: var(--font-bold);
+  cursor: pointer;
   font-size: 12px;
   color: var(--app-font-color-dimmedstrong);
 }
