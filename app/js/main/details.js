@@ -103,7 +103,7 @@ const Details = {
     $('#details-metadata .rating').attr('onClick', `Details.rate('${d.ids.slug}')`).css('cursor', 'pointer')
 
     // search online & overview translation
-    const type = (d.data.show && 'show') || (d.data.movie && 'movie')
+    const type = ((d.data.show || (d.data.metadata && d.data.metadata.show)) && 'show') || ((d.data.movie || (d.data.metadata && d.data.metadata.movie)) && 'movie')
 
     if (DB.app.get('translateOverviews') && DB.app.get('locale') !== 'en') {
       Trakt.client[type + 's'].translations({ id: d.ids.trakt, language: DB.app.get('locale') }).then((r) => {
@@ -122,7 +122,7 @@ const Details = {
       $('#details-metadata .synopsis').text(d.synopsis === 'No overview found.' ? i18n.__('No synopsis available') : (d.synopsis || i18n.__('No synopsis available')))
     }
 
-    if (Object.keys(Plugins.loaded).length && type) {
+    if (Object.keys(Plugins.loaded).length && type && from !== 'locals') {
       let keywords = d.data[type].title
 
       if (d.data.show) {
