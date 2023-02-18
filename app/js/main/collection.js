@@ -289,35 +289,6 @@ const Collection = {
         $('#collection #locals .waitforlibrary .spinner').css('visibility', 'hidden')
         $('#collection #locals .waitforlibrary .scanning').hide()
         $('#collection #locals .waitforlibrary .notfound').show()
-      } else {
-        // build context menu without hogging
-        const items = document.getElementsByClassName('local-context')
-        let i = 0
-        const doLoop = () => {
-          if (i < items.length) buildContext()
-        }
-        const buildContext = () => {
-          const item = items.item(i)
-          const file = JSON.parse(item.firstChild.innerText)
-          let context = {
-            'Play now': () => item.trigger('click')
-          }
-          if (!file.source) {
-            context = Object.assign(context, {
-              'Show in file explorer': () => {
-                console.info('[File explorer opened] Showing', file.path)
-                gui.Shell.showItemInFolder(path.normalize(file.path))
-                Notify.snack(i18n.__('Opening the file location'))
-              }
-            })
-          }
-
-          const menu = Misc.customContextMenu(context)
-          item.oncontextmenu = (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY))
-          i++
-          setTimeout(doLoop, 200)
-        }
-        doLoop()
       }
     },
 

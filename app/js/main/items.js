@@ -315,7 +315,7 @@ const Items = {
       data: JSON.stringify(movie)
     }
 
-    const item = `<div class="local-item local-context tooltipped" onClick="Details.local.movie(this)" id="${d.id}" title="${movie.filename + ' - ' + Misc.fileSize(movie.size)}">` +
+    const item = `<div class="local-item tooltipped" onClick="Details.local.movie(this)" id="${d.id}" title="${movie.filename + ' - ' + Misc.fileSize(movie.size)}">` +
                 `<span class="data">${d.data}</span>` +
                 `<span class="title">${movie.metadata.movie.title}</span>` +
                 (movie.source ? `<span class="peer fa fa-download" title="${i18n.__('Shared by %s', movie.source)}"></span>` : '') +
@@ -335,6 +335,20 @@ const Items = {
                 (file.source ? `<span class="peer fa fa-download" title="${i18n.__('Shared by %s', file.source)}"></span>` : '') +
             '</div>'
 
+    // right click menu
+    const labels = {}
+    labels['Play now'] = () => $(`#${d.id}`).trigger('click')
+    labels['Show in file explorer'] = () => {
+      console.info('[File explorer opened] Showing', file.path)
+      gui.Shell.showItemInFolder(path.normalize(file.path))
+      Notify.snack(i18n.__('Opening the file location'))
+    }
+
+    const menu = Misc.customContextMenu(labels)
+    Misc.sleep(100).then(() => {
+      $(`#${d.id}`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
+    })
+    
     return item
   },
   constructLocalShow: (show) => {
@@ -357,7 +371,7 @@ const Items = {
           const data = show.seasons[s].episodes[e]
           data.metadata.show = show.metadata.show
 
-          str += `<div class="episode local-context tooltipped e${e}" onClick="Details.local.episode(this)" id="${epid}" title="${data.filename + ' - ' + Misc.fileSize(data.size)}">` +
+          str += `<div class="episode tooltipped e${e}" onClick="Details.local.episode(this)" id="${epid}" title="${data.filename + ' - ' + Misc.fileSize(data.size)}">` +
                             `<span class="data">${JSON.stringify(data)}</span>` +
                             `<span class="e-title">${title ? sxe + ' - ' + title : sxe}</span>` +
                             (data.source ? `<span class="peer fa fa-download" title="${i18n.__('Shared by %s', data.source)}"></span>` : '') +
