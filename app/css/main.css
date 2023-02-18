@@ -214,6 +214,7 @@
   background-size: cover;
   overflow: hidden;
   position: relative;
+  background-position: center;
 }
 
 #collection .local-item {

@@ -14,6 +14,7 @@ const IB = {
   reset: () => {
     try {
       fs.removeSync(IB.dir)
+      DB.remove('imgBank')
     } catch (e) {}
   },
   calcSize: () => {
