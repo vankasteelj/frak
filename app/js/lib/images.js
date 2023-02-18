@@ -39,10 +39,10 @@ const Images = {
     }
   },
 
-  reduce: (link, full) => {
+  reduce: (link) => {
     if (!link) return null
 
-    full && link.match('fanart.tv') && (link = link.replace('fanart.tv/fanart', 'fanart.tv/preview'))
+    link.match('fanart.tv') && (link = link.replace('fanart.tv/fanart', 'fanart.tv/preview'))
     link.match('tmdb.org') && (link = link.replace('w780', 'w342').replace('/original/', '/w1280/'))
     link.match('thetvdb.com') && (link = link.replace('.jpg', '_t.jpg'))
 

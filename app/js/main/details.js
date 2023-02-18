@@ -19,8 +19,6 @@ const Details = {
   },
 
   loadImage: (url, type) => {
-    url = Images.reduce(url, type === 'poster')
-
     Items.getImage(url).then(img => {
       if (!img) return
 

@@ -29,7 +29,7 @@ const IB = {
   clean: () => {
     const db = IB._load()
     const ttl = 15 * 24 * 60 * 60 * 1000 // 15 days
-    const minsize = 20000 // according to my testings, below that it's a corrupted image
+    const minsize = 10000 // according to my testings, below that it's a corrupted image
     let outdated = 0
     let toosmall = 0
 
@@ -69,12 +69,12 @@ const IB = {
 
     if (!db[id]) db[id] = {}
     if (urls.poster) {
-      db[id].poster = urls.poster
-      IB.download(urls.poster, path.join(IB.dir, id + 'p'))
+      db[id].poster = Images.reduce(urls.poster)
+      IB.download(db[id].poster, path.join(IB.dir, id + 'p'))
     }
     if (urls.fanart) {
-      db[id].fanart = urls.fanart
-      IB.download(urls.fanart, path.join(IB.dir, id + 'f'))
+      db[id].fanart = Images.reduce(urls.fanart)
+      IB.download(db[id].fanart, path.join(IB.dir, id + 'f'))
     }
 
     db[id].ttl = Date.now()
@@ -92,11 +92,6 @@ const IB = {
       IB.remove(ids)
       return {}
     }
-
-    // only return full objects
-    /* if (db[id] && (!db[id].poster || !db[id].fanart)) {
-      return {}
-    } */
 
     // locally cached
     if (db[id] && (

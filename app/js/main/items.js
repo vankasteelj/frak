@@ -31,6 +31,7 @@ const Items = {
     setTimeout(() => {
       Items.getImage(null, ids, type, route).then((img) => {
         img && $(`#${id} .fanart`).css('background-image', `url('${img}')`) && $(`#${id} .fanart img`).css('opacity', '0')
+        console.log('Image re-downloaded for %s', id)
       })
     }, 250)
   },
@@ -43,7 +44,7 @@ const Items = {
     } catch (e) {}
 
     const d = {
-      image: Images.reduce(IB.get(movie.movie.ids).fanart) || IB.get(movie.movie.ids).poster,
+      image: IB.get(movie.movie.ids).fanart || IB.get(movie.movie.ids).poster,
       id: movie.movie.ids.slug,
       data: JSON.stringify(movie),
       rating: Misc.percentage(movie.movie.rating),
@@ -111,7 +112,7 @@ const Items = {
     } catch (e) {}
 
     const d = {
-      image: Images.reduce(IB.get(show.show.ids).fanart) || IB.get(show.show.ids).poster,
+      image: IB.get(show.show.ids).fanart || IB.get(show.show.ids).poster,
       id: show.show.ids.slug,
       sxe: `s${Misc.pad(show.next_episode.season)}e${Misc.pad(show.next_episode.number)}`,
       data: JSON.stringify(show),
@@ -188,7 +189,7 @@ const Items = {
     } catch (e) {}
 
     const d = {
-      image: Images.reduce(IB.get(movie.movie.ids).fanart) || IB.get(movie.movie.ids).poster,
+      image: IB.get(movie.movie.ids).fanart || IB.get(movie.movie.ids).poster,
       id: 'custom-' + movie.movie.ids.slug,
       data: JSON.stringify(movie),
       rating: Misc.percentage(movie.movie.rating),
@@ -257,7 +258,7 @@ const Items = {
     }
 
     const d = {
-      image: Images.reduce(IB.get(show.show.ids).fanart) || IB.get(show.show.ids).poster,
+      image: IB.get(show.show.ids).fanart || IB.get(show.show.ids).poster,
       id: 'custom-' + show.show.ids.slug,
       data: JSON.stringify(show),
       rating: Misc.percentage(show.show.rating),
@@ -414,7 +415,7 @@ const Items = {
   },
   constructHistoryShow: (show) => {
     const d = {
-      image: IB.get(show.show.ids).poster || Images.reduce(IB.get(show.show.ids).fanart),
+      image: IB.get(show.show.ids).poster || IB.get(show.show.ids).fanart,
       id: show.show.ids.slug,
       sxe: `${show.episode.season}x${Misc.pad(show.episode.number)}`,
       title: show.episode.title || '',
@@ -462,7 +463,7 @@ const Items = {
   },
   constructHistoryMovie: (movie) => {
     const d = {
-      image: IB.get(movie.movie.ids).poster || Images.reduce(IB.get(movie.movie.ids).fanart),
+      image: IB.get(movie.movie.ids).poster || IB.get(movie.movie.ids).fanart,
       id: movie.movie.ids.slug,
       title: movie.movie.title,
       data: JSON.stringify(movie),
@@ -535,7 +536,7 @@ const Items = {
     }
 
     const d = {
-      image: Images.reduce(IB.get(show.show.ids).fanart) || IB.get(show.show.ids).poster,
+      image: IB.get(show.show.ids).fanart || IB.get(show.show.ids).poster,
       id: show.show.ids.slug,
       key: (function () {
         if (show.watchers) return i18n.__('%s people watching', Misc.numberWithCommas(show.watchers))
@@ -617,7 +618,7 @@ const Items = {
     }
 
     const d = {
-      image: Images.reduce(IB.get(movie.movie.ids).fanart) || IB.get(movie.movie.ids).poster,
+      image: IB.get(movie.movie.ids).fanart || IB.get(movie.movie.ids).poster,
       id: movie.movie.ids.slug,
       key: (function () {
         if (movie.watchers) return i18n.__('%s people watching', Misc.numberWithCommas(movie.watchers))
