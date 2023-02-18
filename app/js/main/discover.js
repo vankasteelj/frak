@@ -33,7 +33,7 @@ const Discover = {
         $('#discover .disc-results .row').append(`<span class="notfound">${i18n.__("These aren't the droids you're looking for")}</span>`)
       }
 
-      Items.applyRatings(DB.trakt.get('traktratings'))
+      DB.trakt._get('traktratings').then(Items.applyRatings)
       $('#discover .disc-search .search').removeClass('fa-spinner fa-spin')
     })
   },
@@ -288,7 +288,7 @@ const Discover = {
         const item = Items.constructDiscoverShow(show)
         $('#discover .disc-proposal .row').append(item)
       }
-      Items.applyRatings(DB.trakt.get('traktratings'))
+      DB.trakt._get('traktratings').then(Items.applyRatings)
       $('#discover .disc-proposal .categories div').removeClass('active')
       $('#discover .disc-proposal .categories .shows').addClass('active')
     },
@@ -311,7 +311,7 @@ const Discover = {
         const item = Items.constructDiscoverMovie(movie)
         $('#discover .disc-proposal .row').append(item)
       }
-      Items.applyRatings(DB.trakt.get('traktratings'))
+      DB.trakt._get('traktratings').then(Items.applyRatings)
       $('#discover .disc-proposal .categories div').removeClass('active')
       $('#discover .disc-proposal .categories .movies').addClass('active')
     }

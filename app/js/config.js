@@ -10,6 +10,7 @@ const spawn = require('child_process').spawn
 const request = require('request')
 const https = require('https')
 const http = require('http')
+const localforage = require('localforage')
 const url = require('url')
 const dns = require('dns')
 dns.setDefaultResultOrder('ipv4first') // force ipv4 use for nodejs (see: https://forum.opensubtitles.org/viewtopic.php?f=8&t=17963)

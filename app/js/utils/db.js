@@ -48,6 +48,15 @@ const DB = {
         const active = DB._get('trakt_active_profile')
         return DB._get(active + key)
       } catch (e) {}
+    },
+    _store: (data, key) => {
+      return localforage.setItem(DB._get('trakt_active_profile') + key, data)
+    },
+    _get: (key) => {
+      return localforage.getItem(DB._get('trakt_active_profile') + key)
+    },
+    _remove: (key) => {
+      return localforage.removeItem(DB._get('trakt_active_profile') + key)
     }
   }
 }

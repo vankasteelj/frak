@@ -400,7 +400,7 @@ const Collection = {
         items.push(Items.constructShow(show))
       }
       $('#collection #shows').append(items)
-      Items.applyRatings(DB.trakt.get('traktratings'))
+      DB.trakt._get('traktratings').then(Items.applyRatings)
 
       if (!$('#collection #shows .grid-item').length) {
         return $('#collection #shows').append(Items.constructMessage('No episode to display. Start watching a TV show or add one to your watchlist, and check back here.'))
@@ -419,7 +419,7 @@ const Collection = {
         items.push(Items.constructMovie(movie))
       }
       $('#collection #movies').append(items)
-      Items.applyRatings(DB.trakt.get('traktratings'))
+      DB.trakt._get('traktratings').then(Items.applyRatings)
 
       if (!$('#collection #movies .grid-item').length) {
         return $('#collection #movies').append(Items.constructMessage('No movie to display, add one to your watchlist and check back here.'))
@@ -445,7 +445,7 @@ const Collection = {
         }
       }
       $('#collection #customs').append(items)
-      Items.applyRatings(DB.trakt.get('traktratings'))
+      DB.trakt._get('traktratings').then(Items.applyRatings)
 
       if (!$('#collection #customs .grid-item').length) {
         return $('#collection #customs').append(Items.constructMessage('Nothing to display, the Custom List seems empty.'))
@@ -512,7 +512,7 @@ const Collection = {
       }
 
       $('#trakt #history').append(items)
-      Items.applyRatings(DB.trakt.get('traktratings'))
+      DB.trakt._get('traktratings').then(Items.applyRatings)
     }
   },
 

@@ -422,6 +422,7 @@ const sd = (fix) => {
         'atob',
         'sessionStorage',
         'localStorage',
+        'localforage',
         'i18n',
         'got',
         'url',

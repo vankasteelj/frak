@@ -733,7 +733,7 @@ const Items = {
   },
 
   applyRatings: (ratings = []) => {
-    if (!ratings.length) return
+    if (!ratings) return
 
     $('.corner-rating span').text('')
     $('.corner-rating').hide()

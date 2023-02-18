@@ -96,9 +96,11 @@ const Details = {
     }
 
     // rate
-    const traktrating = DB.trakt.get('traktratings').find((i) => i[i.type].ids.slug === d.ids.slug)
-    traktrating && $('#details .corner-rating span').text(traktrating.rating).parent().show()
-    $('#details-metadata .rating').attr('onClick', `Details.rate('${d.ids.slug}')`).css('cursor', 'pointer')
+    DB.trakt._get('traktratings').then(traktratings => {
+      traktrating = traktratings.find((i) => i[i.type].ids.slug === d.ids.slug)
+      traktrating && $('#details .corner-rating span').text(traktrating.rating).parent().show()
+      $('#details-metadata .rating').attr('onClick', `Details.rate('${d.ids.slug}')`).css('cursor', 'pointer')
+    })
 
     // search online & overview translation
     const type = ((d.data.show || (d.data.metadata && d.data.metadata.show)) && 'show') || ((d.data.movie || (d.data.metadata && d.data.metadata.movie)) && 'movie')

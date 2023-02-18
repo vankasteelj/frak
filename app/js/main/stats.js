@@ -97,21 +97,22 @@ const Stats = {
   getRatings: () => {
     if (Stats.cache.ratings) return Stats.cache.ratings
 
-    const ratings = DB.trakt.get('traktratings')
-    const sort = Object.keys(ratings).sort((a, b) => ratings[b].rating - ratings[a].rating)
+    return DB.trakt._get('traktratings').then(ratings => {
+      const sort = Object.keys(ratings).sort((a, b) => ratings[b].rating - ratings[a].rating)
 
-    Stats.cache.ratings = { movie: [], show: [] }
+      Stats.cache.ratings = { movie: [], show: [] }
 
-    for (const i of sort) {
-      const item = ratings[i]
-      Stats.cache.ratings[item.type].push({
-        rating: item.rating,
-        item: item[item.type]
-      })
-      if (Stats.cache.ratings.movie.length >= 10 && Stats.cache.ratings.show.length >= 10) break
-    }
+      for (const i of sort) {
+        const item = ratings[i]
+        Stats.cache.ratings[item.type].push({
+          rating: item.rating,
+          item: item[item.type]
+        })
+        if (Stats.cache.ratings.movie.length >= 10 && Stats.cache.ratings.show.length >= 10) break
+      }
 
-    return Stats.cache.ratings
+      return Stats.cache.ratings
+    })
   },
 
   getTraktStats: (username) => {
