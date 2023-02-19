@@ -80,12 +80,14 @@ const Network = {
 
   // the exposed api on main server
   buildJsonApi: () => {
-    Network.jsonApi = {
-      available: DB.sync.get('local_library'),
-      ip: DB.sync.get('localip'),
-      name: process.env.COMPUTERNAME,
-      cast_allowed: Boolean(DB.sync.get('localplayback'))
-    }
+    return DB.app.get('local_library').then(library => {
+      Network.jsonApi = {
+        available: library || [],
+        ip: DB.sync.get('localip'),
+        name: process.env.COMPUTERNAME,
+        cast_allowed: Boolean(DB.sync.get('localplayback'))
+      }
+    })
   },
 
   // headers used when talking to a peer
@@ -270,22 +272,23 @@ const Network = {
   // update local library with client's available items
   rearrangeLocals: () => {
     // local collection
-    const collection = DB.sync.get('local_library')
-    let items = 0
+    return DB.app.get('local_library').then(collection => {
+      let items = 0
 
-    // add each available item (and its source);
-    for (const i in Network.peers) {
-      for (const j in Network.peers[i].available) {
-        items++
-        collection.push(Object.assign(Network.peers[i].available[j], {
-          source: Network.peers[i].ip
-        }))
+      // add each available item (and its source);
+      for (const i in Network.peers) {
+        for (const j in Network.peers[i].available) {
+          items++
+          collection.push(Object.assign(Network.peers[i].available[j], {
+            source: Network.peers[i].ip
+          }))
+        }
       }
-    }
 
-    console.info('Network: found %d available file(s) on %d peer(s)', items, Network.peers.length)
-    $('#settings .localsharing .localstatus .clients').text(i18n.__('- %s connected peer(s)', Network.peers.length))
-    Collection.format.locals(collection)
+      console.info('Network: found %d available file(s) on %d peer(s)', items, Network.peers.length)
+      $('#settings .localsharing .localstatus .clients').text(i18n.__('- %s connected peer(s)', Network.peers.length))
+      return Collection.format.locals(collection)
+    })
   },
 
   resumePlayback: (data) => {
@@ -323,17 +326,10 @@ const Network = {
     // option to disallow sharing alltogether
     if (!DB.sync.get('localsharing')) return
 
-    // build json api
-    Network.buildJsonApi()
-
-    // set the headers we'll need to send on each request
-    Network.buildHeaders()
-
-    // fire up the server
-    Network.buildMainServer()
-
-    // search for peers on local network
-    Network.findPeers()
+    Network.buildJsonApi() // build json api
+      .then(Network.buildHeaders) // set the headers we'll need to send on each request
+      .then(Network.buildMainServer) // fire up the server
+      .then(Network.findPeers) // search for peers on local network
   },
 
   disconnect: () => {

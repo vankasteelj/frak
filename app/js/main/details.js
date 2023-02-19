@@ -416,54 +416,54 @@ const Details = {
   },
 
   loadLocalNext: (fromDetails) => {
-    const collection = DB.sync.get('local_shows')
+    DB.app.get('local_shows').then(collection => {
+      const findShow = (title) => collection.find((show) => show.metadata.show.title === title)
+      const show = findShow(Details.model.metadata.show.title)
 
-    const findShow = (title) => collection.find((show) => show.metadata.show.title === title)
-    const show = findShow(Details.model.metadata.show.title)
+      const s = Details.model.metadata.episode.season
+      const e = Details.model.metadata.episode.number
 
-    const s = Details.model.metadata.episode.season
-    const e = Details.model.metadata.episode.number
+      const findNext = (s, e) => {
+        const season = show.seasons[s]
+        const episode = season && season.episodes[e]
 
-    const findNext = (s, e) => {
-      const season = show.seasons[s]
-      const episode = season && season.episodes[e]
-
-      return episode && episode.path
-    }
-    const next = findNext(s, e + 1) || findNext(s, e + 2) || findNext(s + 1, 1)
-
-    if (next) {
-      const $nextEpisode = $(`#locals #${Misc.slugify(next)}`)
-
-      if (!$nextEpisode.length) {
-        if (fromDetails) {
-          setTimeout(() => {
-            $('#details-sources').show()
-            $('#details-loading').hide()
-            $('#details-spinner').hide()
-          }, 50)
-        } else {
-          Details.closeDetails()
-        }
-        return
+        return episode && episode.path
       }
+      const next = findNext(s, e + 1) || findNext(s, e + 2) || findNext(s + 1, 1)
 
-      const data = JSON.parse($nextEpisode.find('.data').text())
-      console.info('Next episode is ready', data)
+      if (next) {
+        const $nextEpisode = $(`#locals #${Misc.slugify(next)}`)
 
-      $('#details-next .content .next-title span').text(`S${Misc.pad(data.metadata.episode.season)}E${Misc.pad(data.metadata.episode.number)}` + (data.metadata.episode.title ? ` - ${data.metadata.episode.title}` : ''))
-      setTimeout(() => {
-        $('#details-sources').hide()
-        $('#details-loading').hide()
-        $('#details-spinner').hide()
-        $('#details-next').show()
-      }, 50)
+        if (!$nextEpisode.length) {
+          if (fromDetails) {
+            setTimeout(() => {
+              $('#details-sources').show()
+              $('#details-loading').hide()
+              $('#details-spinner').hide()
+            }, 50)
+          } else {
+            Details.closeDetails()
+          }
+          return
+        }
 
-      $('#playnext').on('click', () => {
-        Details.closeDetails()
-        $nextEpisode.trigger('click')
-      })
-    }
+        const data = JSON.parse($nextEpisode.find('.data').text())
+        console.info('Next episode is ready', data)
+
+        $('#details-next .content .next-title span').text(`S${Misc.pad(data.metadata.episode.season)}E${Misc.pad(data.metadata.episode.number)}` + (data.metadata.episode.title ? ` - ${data.metadata.episode.title}` : ''))
+        setTimeout(() => {
+          $('#details-sources').hide()
+          $('#details-loading').hide()
+          $('#details-spinner').hide()
+          $('#details-next').show()
+        }, 50)
+
+        $('#playnext').on('click', () => {
+          Details.closeDetails()
+          $nextEpisode.trigger('click')
+        })
+      }
+    })
   },
 
   rate: (slug) => {

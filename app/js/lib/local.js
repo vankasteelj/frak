@@ -102,13 +102,14 @@ const Local = {
     Local.setupPaths()
 
     // remove untracked files
-    const library = DB.sync.get('local_library') || []
-    const newLibrary = []
-    for (const file of library) {
-      if (!file.path.startsWith(p)) newLibrary.push(file)
-    }
-    DB.sync.store(newLibrary, 'local_library')
-    Collection.format.locals(newLibrary)
+    DB.app.get('local_library').then(local_library => {
+      const library = local_library || []
+      const newLibrary = []
+      for (const file of library) {
+        if (!file.path.startsWith(p)) newLibrary.push(file)
+      }
+      return DB.app.store(newLibrary, 'local_library')
+    }).then(Collection.format.locals(newLibrary))
   },
   addPath: (p) => {
     const paths = DB.sync.get('local_paths')
@@ -123,14 +124,14 @@ const Local = {
     }, 300)
   },
   rescan: () => {
-    DB.sync.remove('local_library')
+    DB.app.remove('local_library').then(() => {
+      $('#collection #locals .waitforlibrary').show()
+      $('#collection #locals .waitforlibrary .spinner').css('visibility', 'visible')
+      $('#collection #locals .categories .movies').hide()
+      $('#collection #locals .categories .shows').hide()
+      $('#collection #locals .categories .unmatched').hide()
 
-    $('#collection #locals .waitforlibrary').show()
-    $('#collection #locals .waitforlibrary .spinner').css('visibility', 'visible')
-    $('#collection #locals .categories .movies').hide()
-    $('#collection #locals .categories .shows').hide()
-    $('#collection #locals .categories .unmatched').hide()
-
-    Collection.get.local()
+      Collection.get.local()
+    })
   }
 }

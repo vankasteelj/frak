@@ -112,7 +112,7 @@ const Collection = {
 
         Collection.show.movies(movies)
         Collection.show.shows(shows)
-        Misc.sleep(500).then(() => Collection.show.customs(customs))
+        DB.sync.get('use_customs') && Misc.sleep(500).then(() => Collection.show.customs(customs))
 
         if (update) return
 
@@ -124,26 +124,26 @@ const Collection = {
       })
     },
     local: () => {
-      const collection = DB.sync.get('local_library')
+      return DB.app.get('local_library').then(collection => {
+        if (!collection) $('#navbar .locals .fa-spin').css('opacity', 1)
 
-      if (!collection) $('#navbar .locals .fa-spin').css('opacity', 1)
+        $('#collection #locals .waitforlibrary').show()
+        $('#collection #locals .waitforlibrary .spinner').css('visibility', 'visible')
+        $('#collection #locals .waitforlibrary .notfound').hide()
+        $('#collection #locals .waitforlibrary .scanning').show()
 
-      $('#collection #locals .waitforlibrary').show()
-      $('#collection #locals .waitforlibrary .spinner').css('visibility', 'visible')
-      $('#collection #locals .waitforlibrary .notfound').hide()
-      $('#collection #locals .waitforlibrary .scanning').show()
+        const method = collection ? 'update' : 'scan'
+        method === 'update' && $('#locals .refreshing').show()
 
-      const method = collection ? 'update' : 'scan'
-      method === 'update' && $('#locals .refreshing').show()
+        Local.scans++
 
-      Local.scans++
-
-      Local[method](collection).then(results => {
+        return Local[method](collection)
+      }).then(results => {
         console.info('Local library collection recieved')
         Local.scans--
 
-        DB.sync.store(results, 'local_library')
-
+        return DB.app.store(results, 'local_library')
+      }).then(results => {
         if (Local.scans <= 0) {
           $('#navbar .locals .fa-spin').css('opacity', 0)
           $('#locals .refreshing').hide()
@@ -151,9 +151,9 @@ const Collection = {
 
         if (Network.peers.length) {
           Network.init()
-          Network.rearrangeLocals()
+          return Network.rearrangeLocals()
         } else {
-          Collection.format.locals(results)
+          return Collection.format.locals(results)
         }
       }).then(Network.init).catch(console.error)
     },
@@ -287,11 +287,10 @@ const Collection = {
       $('#collection #locals .categories .unmatched').hide()
 
       const movies = Misc.sortAlphabetical(collection.movies)
-      DB.sync.store(movies, 'local_movies')
       Collection.show.locals.movies(movies)
 
       const shows = Misc.sortAlphabetical(collection.shows)
-      DB.sync.store(shows, 'local_shows')
+      DB.app.store(shows, 'local_shows')
       Collection.show.locals.shows(shows)
 
       const unmatched = Misc.sortAlphabetical(collection.unmatched)
