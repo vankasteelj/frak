@@ -14,27 +14,27 @@ const Images = {
 
   get: {
     movie: (args) => {
-      const cached = IB.get(args)
-      if (cached.poster || cached.fanart) return Promise.resolve(cached)
-      console.debug('Movie - getting poster/fanart for', args)
-      return Images.client.images.movie(args).then((response) => {
-        IB.store(response, args)
-        return response
-      }).catch(err => {
-        console.error(err)
-        return Promise.resolve(Images.defaults)
+      return IB.get(args).then(cached => {
+        if (cached.poster || cached.fanart) return cached
+        console.debug('Movie - getting poster/fanart for', args)
+        return Images.client.images.movie(args).then((response) => {
+          return IB.store(response, args).then(() => response)
+        }).catch(err => {
+          console.error(err)
+          return Images.defaults
+        })
       })
     },
     show: (args) => {
-      const cached = IB.get(args)
-      if (cached.poster || cached.fanart) return Promise.resolve(cached)
-      console.debug('Show - getting poster/fanart for', args)
-      return Images.client.images.show(args).then((response) => {
-        IB.store(response, args)
-        return response
-      }).catch(err => {
-        console.error(err)
-        return Promise.resolve(Images.defaults)
+      return IB.get(args).then(cached => {
+        if (cached.poster || cached.fanart) return cached
+        console.debug('Show - getting poster/fanart for', args)
+        return Images.client.images.show(args).then((response) => {
+          return IB.store(response, args).then(() => response)
+        }).catch(err => {
+          console.error(err)
+          return Images.defaults
+        })
       })
     }
   },

@@ -27,13 +27,12 @@ const Items = {
     })
   },
   redownloadImage: (id, url, ids, type, route) => {
-    IB.remove(ids)
-    setTimeout(() => {
-      Items.getImage(null, ids, type, route).then((img) => {
-        img && $(`#${id} .fanart`).css('background-image', `url('${img}')`) && $(`#${id} .fanart img`).css('opacity', '0')
-        console.log('Image re-downloaded for %s', id)
-      })
-    }, 250)
+    IB.remove(ids).then(() => {
+      return Items.getImage(null, ids, type, route)
+    }).then((img) => {
+      img && $(`#${id} .fanart`).css('background-image', `url('${img}')`) && $(`#${id} .fanart img`).css('opacity', '0')
+      console.log('Image re-downloaded for %s', id)
+    })
   },
 
   constructMovie: (movie) => {
@@ -44,7 +43,6 @@ const Items = {
     } catch (e) {}
 
     const d = {
-      image: IB.get(movie.movie.ids).fanart || IB.get(movie.movie.ids).poster,
       id: movie.movie.ids.slug,
       data: JSON.stringify(movie),
       rating: Misc.percentage(movie.movie.rating),
@@ -76,7 +74,11 @@ const Items = {
                 '</div>' +
             '</div>'
 
-    Items.getImage(d.image, movie.movie.ids, 'movie', 'fanart').then((img) => {
+    let image;
+    IB.get(movie.movie.ids).then(cached => {
+      image = cached.fanart || cached.poster
+      return Items.getImage(image, movie.movie.ids, 'movie', 'fanart')
+    }).then((img) => {
       img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0')
 
       // right click menu
@@ -87,7 +89,7 @@ const Items = {
       DB.sync.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${d.id}`)))
       labels.separator = true
       labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`)
-      labels['Redownload image'] = () => Items.redownloadImage(d.id, d.image, movie.movie.ids, 'movie', 'fanart')
+      labels['Redownload image'] = () => Items.redownloadImage(d.id, image, movie.movie.ids, 'movie', 'fanart')
       labels['Remove from watchlist'] = () => Trakt.client.sync.watchlist.remove({
         movies: [movie.movie]
       }).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(movie.movie.ids.slug)).catch(console.error)
@@ -112,7 +114,6 @@ const Items = {
     } catch (e) {}
 
     const d = {
-      image: IB.get(show.show.ids).fanart || IB.get(show.show.ids).poster,
       id: show.show.ids.slug,
       sxe: `s${Misc.pad(show.next_episode.season)}e${Misc.pad(show.next_episode.number)}`,
       data: JSON.stringify(show),
@@ -150,7 +151,11 @@ const Items = {
                 '</div>' +
             '</div>'
 
-    Items.getImage(d.image, show.show.ids, 'show', 'fanart').then(img => {
+    let image;
+    IB.get(show.show.ids).then(cached => {
+      image = cached.fanart || cached.poster
+      return Items.getImage(image, show.show.ids, 'show', 'fanart')
+    }).then(img => {
       img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0')
       if (show.unseen - 1 > 0) $(`#${d.id} .unseen`).show()
 
@@ -163,13 +168,13 @@ const Items = {
       labels.separator = true
       if (show.next_episode.number === 1 && show.next_episode.season === 1) {
         labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`)
-        labels['Redownload image'] = () => Items.redownloadImage(d.id, d.image, show.show.ids, 'show', 'fanart')
+        labels['Redownload image'] = () => Items.redownloadImage(d.id, image, show.show.ids, 'show', 'fanart')
         labels['Remove from watchlist'] = () => Trakt.client.sync.watchlist.remove({
           shows: [show.show]
         }).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(show.show.ids.slug)).catch(console.error)
       } else {
         labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}/seasons/${show.next_episode.season}/episodes/${show.next_episode.number}`)
-        labels['Redownload image'] = () => Items.redownloadImage(d.id, d.image, show.show.ids, 'show', 'fanart')
+        labels['Redownload image'] = () => Items.redownloadImage(d.id, image, show.show.ids, 'show', 'fanart')
         labels['Hide this show'] = () => Trakt.client.users.hidden.add({
           section: 'progress_watched',
           shows: [show.show]
@@ -189,7 +194,6 @@ const Items = {
     } catch (e) {}
 
     const d = {
-      image: IB.get(movie.movie.ids).fanart || IB.get(movie.movie.ids).poster,
       id: 'custom-' + movie.movie.ids.slug,
       data: JSON.stringify(movie),
       rating: Misc.percentage(movie.movie.rating),
@@ -224,7 +228,11 @@ const Items = {
                 '</div>' +
             '</div>'
 
-    Items.getImage(d.image, movie.movie.ids, 'movie', 'fanart').then((img) => {
+    let image;
+    IB.get(movie.movie.ids).then(cached => {
+      image = cached.fanart || cached.poster
+      return Items.getImage(image, movie.movie.ids, 'movie', 'fanart')
+    }).then((img) => {
       img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0')
 
       // right click menu
@@ -233,7 +241,7 @@ const Items = {
       movie.movie.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).trigger('click'))
       labels.separator = true
       labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`)
-      labels['Redownload image'] = () => Items.redownloadImage(d.id, d.image, movie.movie.ids, 'movie', 'fanart')
+      labels['Redownload image'] = () => Items.redownloadImage(d.id, image, movie.movie.ids, 'movie', 'fanart')
 
       const menu = Misc.customContextMenu(labels)
       $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
@@ -258,7 +266,6 @@ const Items = {
     }
 
     const d = {
-      image: IB.get(show.show.ids).fanart || IB.get(show.show.ids).poster,
       id: 'custom-' + show.show.ids.slug,
       data: JSON.stringify(show),
       rating: Misc.percentage(show.show.rating),
@@ -293,7 +300,11 @@ const Items = {
                 '</div>' +
             '</div>'
 
-    Items.getImage(d.image, show.show.ids, 'show', 'fanart').then(img => {
+    let image;
+    IB.get(show.show.ids).then(cached => {
+      image = cached.fanart || cached.poster
+      return Items.getImage(image, show.show.ids, 'show', 'fanart')
+    }).then(img => {
       img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0')
 
       // right click menu
@@ -302,7 +313,7 @@ const Items = {
       show.show.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).trigger('click'))
       labels.separator = true
       labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}/seasons/${show.next_episode.season}/episodes/${show.next_episode.number}`)
-      labels['Redownload image'] = () => Items.redownloadImage(d.id, d.image, show.show.ids, 'show', 'fanart')
+      labels['Redownload image'] = () => Items.redownloadImage(d.id, image, show.show.ids, 'show', 'fanart')
 
       const menu = Misc.customContextMenu(labels)
       $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
@@ -419,7 +430,6 @@ const Items = {
   },
   constructHistoryShow: (show) => {
     const d = {
-      image: IB.get(show.show.ids).poster || IB.get(show.show.ids).fanart,
       id: show.show.ids.slug,
       sxe: `${show.episode.season}x${Misc.pad(show.episode.number)}`,
       title: show.episode.title || '',
@@ -459,7 +469,11 @@ const Items = {
                 '</div>' +
             '</div>'
 
-    Items.getImage(d.image, show.show.ids, 'show', 'poster').then(img => {
+    let image;
+    IB.get(show.show.ids).then(cached => {
+      image = cached.fanart || cached.poster
+      return Items.getImage(image, show.show.ids, 'show', 'poster')
+    }).then(img => {
       img && $(`#${d.watchedId} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.watchedId} .fanart img`).css('opacity', '0')
     })
 
@@ -467,7 +481,6 @@ const Items = {
   },
   constructHistoryMovie: (movie) => {
     const d = {
-      image: IB.get(movie.movie.ids).poster || IB.get(movie.movie.ids).fanart,
       id: movie.movie.ids.slug,
       title: movie.movie.title,
       data: JSON.stringify(movie),
@@ -505,7 +518,11 @@ const Items = {
                 '</div>' +
             '</div>'
 
-    Items.getImage(d.image, movie.movie.ids, 'movie', 'poster').then(img => {
+    let image;
+    IB.get(movie.movie.ids).then(cached => {
+      image = cached.fanart || cached.poster
+      return Items.getImage(image, movie.movie.ids, 'movie', 'poster')
+    }).then(img => {
       img && $(`#${d.watchedId} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.watchedId} .fanart img`).css('opacity', '0')
     })
 
@@ -544,7 +561,6 @@ const Items = {
       DB.trakt.get('traktshowscollection')
     ]).then(([watched, traktshowscollection]) => {
       const d = {
-        image: IB.get(show.show.ids).fanart || IB.get(show.show.ids).poster,
         id: show.show.ids.slug,
         key: (function () {
           if (show.watchers) return i18n.__('%s people watching', Misc.numberWithCommas(show.watchers))
@@ -592,7 +608,11 @@ const Items = {
                   '</div>' +
               '</div>'
 
-      Items.getImage(d.image, show.show.ids, 'show', 'fanart').then(img => {
+    let image;
+    IB.get(show.show.ids).then(cached => {
+      image = cached.fanart || cached.poster
+      return Items.getImage(image, show.show.ids, 'show', 'fanart')
+    }).then(img => {
         img && $(`#discover #${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#discover  #${d.id} .fanart img`).css('opacity', '0')
         !d.key && $(`#discover #${d.id} .ep-title`).hide()
         d.watchlisted && $(`#discover #${d.id} .watchlist`)[0] && ($(`#discover #${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>')
@@ -629,7 +649,6 @@ const Items = {
       DB.trakt.get('traktmoviescollection')
     ]).then(([watched, traktmoviescollection]) => {
       const d = {
-        image: IB.get(movie.movie.ids).fanart || IB.get(movie.movie.ids).poster,
         id: movie.movie.ids.slug,
         key: (function () {
           if (movie.watchers) return i18n.__('%s people watching', Misc.numberWithCommas(movie.watchers))
@@ -672,7 +691,11 @@ const Items = {
                   '</div>' +
               '</div>'
 
-      Items.getImage(d.image, movie.movie.ids, 'movie', 'fanart').then(img => {
+    let image;
+    IB.get(movie.movie.ids).then(cached => {
+      image = cached.fanart || cached.poster
+      return Items.getImage(image, movie.movie.ids, 'movie', 'fanart')
+    }).then(img => {
         img && $(`#discover #${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#discover #${d.id} .fanart img`).css('opacity', '0')
         !d.key && $(`#discover #${d.id} .ep-title`).hide()
         d.watchlisted && $(`#discover #${d.id} .watchlist`)[0] && ($(`#discover #${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>')

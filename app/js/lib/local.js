@@ -109,7 +109,7 @@ const Local = {
         if (!file.path.startsWith(p)) newLibrary.push(file)
       }
       return DB.app.store(newLibrary, 'local_library')
-    }).then(Collection.format.locals(newLibrary))
+    }).then(Collection.format.locals)
   },
   addPath: (p) => {
     const paths = DB.sync.get('local_paths')

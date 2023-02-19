@@ -254,57 +254,59 @@ const Details = {
     movie: (elm, from) => {
       const item = Details.getData(elm)
 
-      Details.loadDetails({
-        id: item.movie.ids.slug,
-        data: item,
-        ids: item.movie.ids,
-        title: item.movie.title,
-        synopsis: item.movie.overview,
-        year: item.movie.year,
-        rating: parseFloat(item.movie.rating).toFixed(1),
-        runtime: item.movie.runtime,
-        country: item.movie.country,
-        genres: item.movie.genres,
-        trailer: item.movie.trailer
-      }, from)
+      IB.get(item.movie.ids).then(i => {
+        Details.loadDetails({
+          id: item.movie.ids.slug,
+          data: item,
+          ids: item.movie.ids,
+          title: item.movie.title,
+          synopsis: item.movie.overview,
+          year: item.movie.year,
+          rating: parseFloat(item.movie.rating).toFixed(1),
+          runtime: item.movie.runtime,
+          country: item.movie.country,
+          genres: item.movie.genres,
+          trailer: item.movie.trailer
+        }, from)
+        Details.loadImage((i.fanart || i.poster), 'fanart')
+        Details.loadImage((i.poster || i.fanart), 'poster')
 
-      Details.loadImage((IB.get(item.movie.ids).fanart || IB.get(item.movie.ids).poster), 'fanart')
-      Details.loadImage((IB.get(item.movie.ids).poster || IB.get(item.movie.ids).fanart), 'poster')
-
-      const offline = Search.offline(item)
-      if (offline) {
-        console.info('Found match in local library', offline)
-        Search.addLocal(offline)
-      }
+        const offline = Search.offline(item)
+        if (offline) {
+          console.info('Found match in local library', offline)
+          Search.addLocal(offline)
+        }
+      })
     },
 
     episode: (elm, from) => {
       const item = Details.getData(elm)
 
-      Details.loadDetails({
-        id: item.show.ids.slug,
-        data: item,
-        ids: item.show.ids,
-        title: item.show.title,
-        'ep-title': `S${Misc.pad(item.next_episode.season)}E${Misc.pad(item.next_episode.number)}` + (item.next_episode.title ? ` - ${item.next_episode.title}` : ''),
-        synopsis: item.show.overview,
-        year: item.show.year,
-        rating: parseFloat(item.show.rating).toFixed(1),
-        runtime: item.show.runtime,
-        network: item.show.network,
-        country: item.show.country,
-        genres: item.show.genres,
-        trailer: item.show.trailer
-      }, from)
+      IB.get(item.show.ids).then(i => {
+        Details.loadDetails({
+          id: item.show.ids.slug,
+          data: item,
+          ids: item.show.ids,
+          title: item.show.title,
+          'ep-title': `S${Misc.pad(item.next_episode.season)}E${Misc.pad(item.next_episode.number)}` + (item.next_episode.title ? ` - ${item.next_episode.title}` : ''),
+          synopsis: item.show.overview,
+          year: item.show.year,
+          rating: parseFloat(item.show.rating).toFixed(1),
+          runtime: item.show.runtime,
+          network: item.show.network,
+          country: item.show.country,
+          genres: item.show.genres,
+          trailer: item.show.trailer
+        }, from)
+        Details.loadImage((i.fanart || i.poster), 'fanart')
+        Details.loadImage((i.poster || i.fanart), 'poster')
 
-      Details.loadImage((IB.get(item.show.ids).fanart || IB.get(item.show.ids).poster), 'fanart')
-      Details.loadImage((IB.get(item.show.ids).poster || IB.get(item.show.ids).fanart), 'poster')
-
-      const offline = Search.offline(item)
-      if (offline) {
-        console.info('Found match in local library', offline)
-        Search.addLocal(offline)
-      }
+        const offline = Search.offline(item)
+        if (offline) {
+          console.info('Found match in local library', offline)
+          Search.addLocal(offline)
+        }
+      })
     }
   },
 
