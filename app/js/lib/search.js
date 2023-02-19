@@ -53,22 +53,23 @@ const Search = {
   },
   offline: (data) => {
     const type = (data.show && 'show') || (data.movie && 'movie')
-    const id = data[type].ids.slug
-    const library = DB.sync.get(`local_${type}s`)
+    return DB.app.get(`local_${type}s`).then(library => {
+      const id = data[type].ids.slug
 
-    if (!id || !library) return
+      if (!id || !library) return
 
-    const find = (slug) => library.findIndex((item) => item.metadata[type].ids.slug === slug)
-    const found = find(id)
+      const find = (slug) => library.findIndex((item) => item.metadata[type].ids.slug === slug)
+      const found = find(id)
 
-    if (data.movie) {
-      return library[found]
-    }
-    if (data.show) {
-      try {
-        return library[found].seasons[data.next_episode.season].episodes[data.next_episode.number]
-      } catch (e) {}
-    }
+      if (data.movie) {
+        return library[found]
+      }
+      if (data.show) {
+        try {
+          return library[found].seasons[data.next_episode.season].episodes[data.next_episode.number]
+        } catch (e) {}
+      }
+    })
   },
 
   sortOnline: (input) => {

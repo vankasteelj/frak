@@ -271,7 +271,8 @@ const Details = {
         Details.loadImage((i.fanart || i.poster), 'fanart')
         Details.loadImage((i.poster || i.fanart), 'poster')
 
-        const offline = Search.offline(item)
+        return Search.offline(item)
+      }).then(offline => {
         if (offline) {
           console.info('Found match in local library', offline)
           Search.addLocal(offline)
@@ -301,7 +302,8 @@ const Details = {
         Details.loadImage((i.fanart || i.poster), 'fanart')
         Details.loadImage((i.poster || i.fanart), 'poster')
 
-        const offline = Search.offline(item)
+        return Search.offline(item)
+      }).then(offline => {
         if (offline) {
           console.info('Found match in local library', offline)
           Search.addLocal(offline)
