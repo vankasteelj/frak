@@ -195,7 +195,7 @@ const Stats = {
         weekend: null
       }
       for (const i in days) {
-        const d = days[i].item
+        const d = parseInt(days[i].item)
         if (d === 0 || d === 6) {
           week.weekend += days[i].frequency
         } else {
