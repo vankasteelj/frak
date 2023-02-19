@@ -97,8 +97,8 @@ const Details = {
 
     // rate
     DB.trakt._get('traktratings').then(traktratings => {
-      traktrating = traktratings.find((i) => i[i.type].ids.slug === d.ids.slug)
-      traktrating && $('#details .corner-rating span').text(traktrating.rating).parent().show()
+      traktratings = traktratings.find((i) => i[i.type].ids.slug === d.ids.slug)
+      traktratings && $('#details .corner-rating span').text(traktratings.rating).parent().show()
       $('#details-metadata .rating').attr('onClick', `Details.rate('${d.ids.slug}')`).css('cursor', 'pointer')
     })
 
