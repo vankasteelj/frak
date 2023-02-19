@@ -12,7 +12,7 @@ const Trakt = {
   }),
 
   reconnect: () => {
-    const auth = DB.app.get('trakt_active_profile')
+    const auth = DB.sync.get('trakt_active_profile')
     if (!auth) {
       $('#init').show()
       if (Profiles.list().length !== 0) $('#traktinit .existingaccounts').css('display', 'inline-flex')
@@ -31,7 +31,7 @@ const Trakt = {
   },
 
   disconnect: () => {
-    Profiles.disconnect(DB.app.get('trakt_active_profile'))
+    Profiles.disconnect(DB.sync.get('trakt_active_profile'))
     win.reload()
   },
 
@@ -41,13 +41,13 @@ const Trakt = {
     Interface.focus(true)
     // Notify.requestAttention()
 
-    Interface.traktConnected(DB.app.get('trakt_active_profile'))
+    Interface.traktConnected(DB.sync.get('trakt_active_profile'))
     Collection.load()
   },
 
   last_activities: (type) => {
     let cached = false
-    return DB.trakt._get('traktlastactivities').then(cachedData => {
+    return DB.trakt.get('traktlastactivities').then(cachedData => {
       if (cachedData && (cachedData.ttl > Date.now())) {
         console.debug('We got cached trakt last_activities')
         cached = true
@@ -58,7 +58,7 @@ const Trakt = {
     }).then(results => {
       if (!cached) {
         results.ttl = Date.now() + (1000 * 10) // 10s cache, avoid multiple calls
-        DB.trakt._store(results, 'traktlastactivities')
+        DB.trakt.store(results, 'traktlastactivities')
       }
 
       if (type === 'rate') {
@@ -87,15 +87,15 @@ const Trakt = {
 
   getRatings: () => {
     return Promise.all([
-      DB.trakt._get('traktratings'), 
-      DB.trakt._get('traktsyncrating'), 
+      DB.trakt.get('traktratings'), 
+      DB.trakt.get('traktsyncrating'), 
       Trakt.last_activities('rate')
     ]).then(([traktratings, traktsyncrating, activities]) => {
       if (!traktratings || activities > (traktsyncrating || 0)) {
         console.info('Fetching ratings from remote server')
         return Trakt.client.sync.ratings.get().then(ratings => {
-          DB.trakt._store(ratings, 'traktratings')
-          DB.trakt._store(Date.now(), 'traktsyncrating')
+          DB.trakt.store(ratings, 'traktratings')
+          DB.trakt.store(Date.now(), 'traktsyncrating')
           return ratings
         })
       } else {
@@ -142,7 +142,7 @@ const Trakt = {
     console.info('Trakt - %s rating for %s', method, model.ids.slug)
 
     return Promise.all([
-      DB.trakt._get('traktratings'), 
+      DB.trakt.get('traktratings'), 
       Trakt.client.sync.ratings[method](post)
     ]).then(([ratings, response]) => {
       // remove
@@ -169,7 +169,7 @@ const Trakt = {
         ratings.push(pushable)
       }
 
-      DB.trakt._store(ratings, 'traktratings')
+      DB.trakt.store(ratings, 'traktratings')
       Items.applyRatings(ratings)
     })
   },
@@ -177,27 +177,34 @@ const Trakt = {
   reload: (update, type, slug) => {
     console.info('Trakt reload')
     console.debug('Trakt reload (update = %s / type = %s / slug = %s)', update, type, slug)
-    const username = DB.app.get('trakt_active_profile')
+    const username = DB.sync.get('trakt_active_profile')
 
     return Promise.all([
-      DB.trakt._get('traktsyncrating'), 
-      DB.trakt._get('traktratings')
-    ]).then(([traktsyncrating, traktratings]) => {
+      DB.trakt.get('traktsyncrating'), 
+      DB.trakt.get('traktratings'),
+      DB.trakt.get('traktsync'),
+      DB.trakt.get('traktshowscollection'),
+      DB.trakt.get('traktshows'),
+      DB.trakt.get('traktmoviescollection'),
+      DB.trakt.get('traktmovies'),
+      DB.app.get('traktcustomscollection'),
+      DB.app.get('traktcustoms')
+    ]).then(([traktsyncrating, traktratings, traktsync, traktshowscollection, traktshows, traktmoviescollection, traktmovies, traktcustomscollection, traktcustoms]) => {
       const cached = {
-        movies: DB.trakt.get('traktmovies'),
-        moviescollection: DB.trakt.get('traktmoviescollection'),
-        shows: DB.trakt.get('traktshows'),
-        showscollection: DB.trakt.get('traktshowscollection'),
-        customs: DB.app.get('traktcustoms'),
-        customscollection: DB.app.get('traktcustomscollection'),
-        sync: DB.trakt.get('traktsync'),
+        movies: traktmovies,
+        moviescollection: traktmoviescollection,
+        shows: traktshows,
+        showscollection: traktshowscollection,
+        customs: traktcustoms,
+        customscollection: traktcustomscollection,
+        sync: traktsync,
         syncrating: traktsyncrating,
         ratings: traktratings
       }
 
       if (!update) {
-        DB.trakt._remove('traktsyncrating')
-        DB.trakt._remove('traktratings')
+        DB.trakt.remove('traktsyncrating')
+        DB.trakt.remove('traktratings')
       }
 
       const handleError = (e) => {
@@ -209,8 +216,8 @@ const Trakt = {
         DB.app.store(cached.customs, 'traktcustoms')
         DB.app.store(cached.customscollection, 'traktcustomscollection')
         DB.trakt.store(cached.sync, 'traktsync')
-        DB.trakt._store(cached.syncrating, 'traktsyncrating')
-        DB.trakt._store(cached.ratings, 'traktratings')
+        DB.trakt.store(cached.syncrating, 'traktsyncrating')
+        DB.trakt.store(cached.ratings, 'traktratings')
       }
 
       switch (type) {
@@ -218,37 +225,46 @@ const Trakt = {
         case 'episodes':
         case 'show':
         case 'shows':
-          DB.remove(username + 'traktshows')
-          DB.remove(username + 'traktshowscollection')
-          DB.remove(username + 'traktsync')
-          return Collection.get.traktshows(update, slug, cached.shows).then(collection => {
+          return Promise.all([
+            DB.trakt.remove('traktshows'),
+            DB.trakt.remove('traktshowscollection'),
+            DB.trakt.remove('traktsync')
+          ]).then(() => {
+            return Collection.get.traktshows(update, slug, cached.shows)
+          }).then(collection => {
             Collection.get.traktcached(update)
             Trakt.getRatings()
             return [collection]
           }).catch(handleError)
         case 'movie':
         case 'movies':
-          DB.remove(username + 'traktmovies')
-          DB.remove(username + 'traktmoviescollection')
-          DB.remove(username + 'traktsync')
-          return Collection.get.traktmovies(update).then(collection => {
+          return Promise.all([
+            DB.trakt.remove('traktmovies'),
+            DB.trakt.remove('traktmoviescollection'),
+            DB.trakt.remove('traktsync')
+          ]).then(() => {
+            return Collection.get.traktmovies(update)
+          }).then(collection => {
             Collection.get.traktcached(update)
             Trakt.getRatings()
             return [collection]
           }).catch(handleError)
         default:
-          DB.remove(username + 'traktmovies')
-          DB.remove(username + 'traktmoviescollection')
-          DB.remove(username + 'traktshows')
-          DB.remove(username + 'traktshowscollection')
-          DB.remove('traktcustoms')
-          DB.remove('traktcustomscollection')
-          DB.remove(username + 'traktsync')
           return Promise.all([
-            Collection.get.traktshows(update),
-            Collection.get.traktmovies(update),
-            Collection.get.traktcustoms(update)
-          ]).then((collections) => {
+            DB.trakt.remove('traktmovies'),
+            DB.trakt.remove('traktmoviescollection'),
+            DB.trakt.remove('traktshows'),
+            DB.trakt.remove('traktshowscollection'),
+            DB.trakt.remove('traktsync'),
+            DB.app.remove('traktcustoms'),
+            DB.app.remove('traktcustomscollection')
+          ]).then(() => {
+            return Promise.all([
+              Collection.get.traktshows(update),
+              Collection.get.traktmovies(update),
+              Collection.get.traktcustoms(update)
+            ])
+          }).then((collections) => {
             if (Misc.isError(collections[0]) || Misc.isError(collections[1])) throw new Error('Trakt.reload failed')
 
             Collection.get.traktcached(update)
@@ -338,7 +354,7 @@ const Trakt = {
     }
   },
   getGenres: () => {
-    const cached = DB.app.get('traktgenres')
+    const cached = DB.sync.get('traktgenres')
     if (cached && (cached.ttl > Date.now())) {
       console.debug('We got cached trakt genres')
       return Promise.resolve(cached)
@@ -351,7 +367,7 @@ const Trakt = {
       return Trakt.client.genres({ type: 'shows' })
     }).then(showgenres => {
       genres.shows = showgenres
-      DB.app.store(genres, 'traktgenres')
+      DB.sync.store(genres, 'traktgenres')
       return genres
     }).catch(err => {
       console.error('Unable to get genres from Trakt', err)
@@ -376,7 +392,7 @@ const Trakt = {
   },
   removeFromCustom: (data) => {
     // remove({shows:[{ids}], movies:[{ids}]}
-    const list = DB.app.get('customs_params')
+    const list = DB.sync.get('customs_params')
     const item = {}
     if (data.show) {
       item.shows = [data.show]
@@ -391,7 +407,7 @@ const Trakt = {
   },
 
   addToCustom: (data) => {
-    const list = DB.app.get('customs_params')
+    const list = DB.sync.get('customs_params')
     const item = {}
     if (data.show) {
       item.shows = [data.show]

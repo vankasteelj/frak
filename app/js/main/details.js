@@ -96,7 +96,7 @@ const Details = {
     }
 
     // rate
-    DB.trakt._get('traktratings').then(traktratings => {
+    DB.trakt.get('traktratings').then(traktratings => {
       traktratings = traktratings.find((i) => i[i.type].ids.slug === d.ids.slug)
       traktratings && $('#details .corner-rating span').text(traktratings.rating).parent().show()
       $('#details-metadata .rating').attr('onClick', `Details.rate('${d.ids.slug}')`).css('cursor', 'pointer')
@@ -105,8 +105,8 @@ const Details = {
     // search online & overview translation
     const type = ((d.data.show || (d.data.metadata && d.data.metadata.show)) && 'show') || ((d.data.movie || (d.data.metadata && d.data.metadata.movie)) && 'movie')
 
-    if (DB.app.get('translateOverviews') && DB.app.get('locale') !== 'en') {
-      Trakt.client[type + 's'].translations({ id: d.ids.trakt, language: DB.app.get('locale') }).then((r) => {
+    if (DB.sync.get('translateOverviews') && DB.sync.get('locale') !== 'en') {
+      Trakt.client[type + 's'].translations({ id: d.ids.trakt, language: DB.sync.get('locale') }).then((r) => {
         if (r && r[0] && r[0].overview) {
           $('#details-metadata .synopsis').text(r[0].overview)
         } else {
@@ -416,7 +416,7 @@ const Details = {
   },
 
   loadLocalNext: (fromDetails) => {
-    const collection = DB.app.get('local_shows')
+    const collection = DB.sync.get('local_shows')
 
     const findShow = (title) => collection.find((show) => show.metadata.show.title === title)
     const show = findShow(Details.model.metadata.show.title)
@@ -625,9 +625,9 @@ const Details = {
       }
       if (Details.from === 'locals') { // send a playback request
         data.file = Details.model
-        data.file.source = DB.app.get('localip')
+        data.file.source = DB.sync.get('localip')
       } else { // send a link directly
-        data.url = Streamer.streaminfo.url.replace('127.0.0.1', DB.app.get('localip'))
+        data.url = Streamer.streaminfo.url.replace('127.0.0.1', DB.sync.get('localip'))
       }
 
       const $sub = $('.sub.active .data').text()
@@ -668,7 +668,7 @@ const Details = {
 
   handleCast: () => {
     // peer casting
-    if (DB.app.get('localsharing') && DB.app.get('localplayback') && Network.peers.length) {
+    if (DB.sync.get('localsharing') && DB.sync.get('localplayback') && Network.peers.length) {
       $('#cast .peers').show()
     }
   },

@@ -18,7 +18,7 @@ const Player = {
     Player.mpv.isRunning() ? Player.quit() : Player.handleEvents();
 
     // player popup
-    (DB.app.get('bigPicture') || DB.app.get('playerPopup')) && Interface.playerPopup()
+    (DB.sync.get('bigPicture') || DB.sync.get('playerPopup')) && Interface.playerPopup()
 
     Player.mpv.start().then(() => Player.mpv.load(file)).then(() => {
       console.info('Playing:', file)
@@ -117,7 +117,7 @@ const Player = {
   },
 
   setMPV: (p) => {
-    const binary = p || DB.app.get('mpv')
+    const binary = p || DB.sync.get('mpv')
     const options = Player.getOptions()
 
     Player.mpv = new (require('node-mpv'))({
@@ -132,9 +132,9 @@ const Player = {
   },
 
   getOptions: () => {
-    const options = DB.app.get('player_options')
+    const options = DB.sync.get('player_options')
     let scale = options.scale
-    if (DB.app.get('bigPicture')) {
+    if (DB.sync.get('bigPicture')) {
       scale = Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor] ? Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor].osc : 1.5
     }
 
@@ -142,7 +142,7 @@ const Player = {
       options.multimonitor && (sessionStorage.screens >= options.monitor) ? '--screen=' + (options.monitor - 1) : '',
       (options.fullscreen || win.isFullscreen) ? '--fs' : '',
       options.fullscreen && options.multimonitor && (sessionStorage.screens >= options.monitor) ? '--fs-screen=' + (options.monitor - 1) : '',
-      options.sub_auto ? DB.app.get('defaultsublocale') ? `--slang=${DB.app.get('defaultsublocale')}` : '' : '--sid=no',
+      options.sub_auto ? DB.sync.get('defaultsublocale') ? `--slang=${DB.sync.get('defaultsublocale')}` : '' : '--sid=no',
       options.centered ? '--geometry=50%' : '',
       '--sub-font-size=' + options.sub_size,
       '--sub-color=' + options.sub_color,
@@ -163,13 +163,13 @@ const Player = {
 
     // is it a portable win32?
     if (process.platform === 'win32' && fs.existsSync('./mpv/mpv.exe')) {
-      DB.app.store('./mpv/mpv.exe', 'mpv')
+      DB.sync.store('./mpv/mpv.exe', 'mpv')
       Player.setMPV('./mpv/mpv.exe')
       return
     }
 
     // did we store it?
-    let found = DB.app.get('mpv')
+    let found = DB.sync.get('mpv')
     if (found && fs.existsSync(found)) {
       Player.setMPV(found)
       return
@@ -207,7 +207,7 @@ const Player = {
           console.info('Found mpv in', d.fullParentDir)
 
           found = d.fullPath.replace(/\\/g, '/')
-          DB.app.store(found, 'mpv')
+          DB.sync.store(found, 'mpv')
 
           Player.setMPV(found)
         }
@@ -216,13 +216,13 @@ const Player = {
   },
 
   subFontSize: (n) => {
-    const saved = DB.app.get('player_options')
+    const saved = DB.sync.get('player_options')
     saved.sub_size += n
 
     Player.notify(i18n.__('Subtitle size: %d', saved.sub_size))
     Player.mpv.setProperty('sub-font-size', saved.sub_size)
 
-    DB.app.store(saved, 'player_options')
+    DB.sync.store(saved, 'player_options')
     $('#sub_size').val(saved.sub_size)
   },
   subDelay: (n) => {

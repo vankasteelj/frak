@@ -81,10 +81,10 @@ const Network = {
   // the exposed api on main server
   buildJsonApi: () => {
     Network.jsonApi = {
-      available: DB.app.get('local_library'),
-      ip: DB.app.get('localip'),
+      available: DB.sync.get('local_library'),
+      ip: DB.sync.get('localip'),
       name: process.env.COMPUTERNAME,
-      cast_allowed: Boolean(DB.app.get('localplayback'))
+      cast_allowed: Boolean(DB.sync.get('localplayback'))
     }
   },
 
@@ -270,7 +270,7 @@ const Network = {
   // update local library with client's available items
   rearrangeLocals: () => {
     // local collection
-    const collection = DB.app.get('local_library')
+    const collection = DB.sync.get('local_library')
     let items = 0
 
     // add each available item (and its source);
@@ -289,7 +289,7 @@ const Network = {
   },
 
   resumePlayback: (data) => {
-    if (!DB.app.get('localplayback')) return
+    if (!DB.sync.get('localplayback')) return
 
     const getSubtitle = () => {
       if (data.subtitle) {
@@ -321,7 +321,7 @@ const Network = {
 
   init: () => {
     // option to disallow sharing alltogether
-    if (!DB.app.get('localsharing')) return
+    if (!DB.sync.get('localsharing')) return
 
     // build json api
     Network.buildJsonApi()

@@ -14,7 +14,7 @@ const IB = {
   reset: () => {
     try {
       fs.removeSync(IB.dir)
-      DB.remove('imgBank')
+      DB.sync.remove('imgBank')
     } catch (e) {}
   },
   calcSize: () => {
@@ -55,12 +55,12 @@ const IB = {
   },
 
   _load: () => {
-    let db = DB.app.get('imgBank')
+    let db = DB.sync.get('imgBank')
     if (!db) db = {}
     return db
   },
   _save: (db) => {
-    DB.app.store(db, 'imgBank')
+    DB.sync.store(db, 'imgBank')
     return true
   },
 

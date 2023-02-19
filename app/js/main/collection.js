@@ -10,11 +10,11 @@ const Collection = {
     Collection.hiddenMovies.verify()
 
     // should trakt update?
-    Trakt.last_activities('watch').then(activities => {
-      if (
-        (activities > (DB.trakt.get('traktsync') || 0)) ||
-                (Date.now() - (DB.trakt.get('traktsync') || 0) > 3600000)
-      ) {
+    Promise.all([
+      Trakt.last_activities('watch'),
+      DB.trakt.get('traktsync')
+    ]).then(([activities, traktsync]) => {
+      if ((activities > (traktsync || 0)) || (Date.now() - (traktsync || 0) > 60*60*1000)) { // 1 hour
         console.info('Fetching from remote server...')
         Collection.get.traktcached() // display what we have while we update
         Collection.get.traktwatched().then(() => {
@@ -55,10 +55,10 @@ const Collection = {
       }).then(results => {
         console.info('Trakt.tv - "show watchlist" collection recieved')
 
-        DB.trakt.store(Date.now(), 'traktsync')
-        DB.trakt.store(results, 'traktshows')
-
-        return Collection.format.traktshows(results.shows)
+        return Promise.all([
+          DB.trakt.store(Date.now(), 'traktsync'),
+          DB.trakt.store(results, 'traktshows'),
+        ]).then(() => Collection.format.traktshows(results.shows))
       }).catch(e => {
         $('#navbar .shows .fa-spin').css('opacity', 0)
         return e
@@ -73,54 +73,58 @@ const Collection = {
       }).then(results => {
         console.info('Trakt.tv - "movie watchlist" collection recieved')
 
-        DB.trakt.store(Date.now(), 'traktsync')
-        DB.trakt.store(results, 'traktmovies')
-
-        return Collection.format.traktmovies(results)
+        return Promise.all([
+          DB.trakt.store(Date.now(), 'traktsync'),
+          DB.trakt.store(results, 'traktmovies')
+        ]).then(() => Collection.format.traktmovies(results))
       }).catch(e => {
         $('#navbar .movies .fa-spin').css('opacity', 0)
         return e
       })
     },
     traktcustoms: (update) => {
-      if (!DB.app.get('customs_params') || !DB.app.get('use_customs')) return Promise.resolve()
+      if (!DB.sync.get('customs_params') || !DB.sync.get('use_customs')) return Promise.resolve()
 
       $('#navbar .customs .fa-spin').css('opacity', update ? 0 : 1)
-      return Trakt.client.users.list.items.get(Object.assign(DB.app.get('customs_params'), { extended: 'full' })).then(results => {
+      return Trakt.client.users.list.items.get(Object.assign(DB.sync.get('customs_params'), { extended: 'full' })).then(results => {
         console.info('Trakt.tv - "custom list" collection recieved')
 
-        DB.app.store(results, 'traktcustoms')
-        return Collection.format.traktcustoms(results)
+        return DB.app.store(results, 'traktcustoms').then(() => Collection.format.traktcustoms(results))
       }).catch(e => {
         $('#navbar .customs .fa-spin').css('opacity', 0)
         return e
       })
     },
     traktcached: (update) => {
-      const movies = DB.trakt.get('traktmoviescollection')
-      const shows = DB.trakt.get('traktshowscollection')
-      const customs = DB.app.get('traktcustomscollection')
+      Promise.all([
+        DB.trakt.get('traktmoviescollection'),
+        DB.trakt.get('traktshowscollection'),
+        DB.app.get('traktcustomscollection'),
+        DB.trakt.get('moviesbank'),
+        DB.trakt.get('showsbank'),
+        DB.app.get('customsbank')
+      ]).then(([movies, shows, customs, moviesbank, showsbank, customsbank]) => {
+        if (!shows && !movies) return
 
-      if (!shows && !movies) return
+        Collection.moviesbank = moviesbank
+        Collection.showsbank = showsbank
+        Collection.customsbank = customsbank
 
-      Collection.moviesbank = DB.trakt.get('moviesbank')
-      Collection.showsbank = DB.trakt.get('showsbank')
-      Collection.customsbank = DB.app.get('customsbank')
+        Collection.show.movies(movies)
+        Collection.show.shows(shows)
+        Misc.sleep(500).then(() => Collection.show.customs(customs))
 
-      Collection.show.movies(movies)
-      Collection.show.shows(shows)
-      Collection.show.customs(customs)
+        if (update) return
 
-      if (update) return
-
-      if (!Player.mpv && !(process.platform === 'win32' && fs.existsSync('./mpv/mpv.exe'))) {
-        Interface.requireMPV()
-      } else {
-        setTimeout(Interface.showMain, 1000)
-      }
+        if (!Player.mpv && !(process.platform === 'win32' && fs.existsSync('./mpv/mpv.exe'))) {
+          Interface.requireMPV()
+        } else {
+          setTimeout(Interface.showMain, 1000)
+        }
+      })
     },
     local: () => {
-      const collection = DB.app.get('local_library')
+      const collection = DB.sync.get('local_library')
 
       if (!collection) $('#navbar .locals .fa-spin').css('opacity', 1)
 
@@ -138,7 +142,7 @@ const Collection = {
         console.info('Local library collection recieved')
         Local.scans--
 
-        DB.app.store(results, 'local_library')
+        DB.sync.store(results, 'local_library')
 
         if (Local.scans <= 0) {
           $('#navbar .locals .fa-spin').css('opacity', 0)
@@ -155,8 +159,12 @@ const Collection = {
     },
     history: () => {
       $('#navbar .history .fa-spin').css('opacity', 1)
-      return Trakt.last_activities('history').then(activities => {
-        if (!DB.trakt.get('trakthistory') || activities > (DB.trakt.get('traktsynchistory') || 0)) {
+      return Promise.all([
+        Trakt.last_activities('history'),
+        DB.trakt.get('trakthistory'),
+        DB.trakt.get('traktsynchistory')
+      ]).then(([activities, trakthistory, traktsynchistory]) => {
+        if (!trakthistory || activities > (traktsynchistory || 0)) {
           console.info('Fetching history from remote server')
           return Trakt.client.sync.history.get({
             limit: 23, // because bootstap column is 12 (23+1 show more)
@@ -169,7 +177,7 @@ const Collection = {
           })
         } else {
           console.info('Using cached history')
-          return DB.trakt.get('trakthistory')
+          return trakthistory
         }
       }).then(results => {
         console.info('Trakt.tv - history recieved', results)
@@ -279,11 +287,11 @@ const Collection = {
       $('#collection #locals .categories .unmatched').hide()
 
       const movies = Misc.sortAlphabetical(collection.movies)
-      DB.app.store(movies, 'local_movies')
+      DB.sync.store(movies, 'local_movies')
       Collection.show.locals.movies(movies)
 
       const shows = Misc.sortAlphabetical(collection.shows)
-      DB.app.store(shows, 'local_shows')
+      DB.sync.store(shows, 'local_shows')
       Collection.show.locals.shows(shows)
 
       const unmatched = Misc.sortAlphabetical(collection.unmatched)
@@ -334,7 +342,7 @@ const Collection = {
   },
 
   search: () => {
-    if (['movies', 'shows', 'customs'].indexOf(DB.app.get('active_tab')) === -1) return
+    if (['movies', 'shows', 'customs'].indexOf(DB.sync.get('active_tab')) === -1) return
 
     const container = $('#coll-search')
     const input = $('#coll-search input')
@@ -397,65 +405,79 @@ const Collection = {
   show: {
     shows: (shows = []) => {
       $('#collection #shows').html('')
-      Collection.showsbank = DB.trakt.get('showsbank') || []
-      const items = []
-      for (const show of shows) {
-        if (DB.trakt.get('hiddenitems') && DB.trakt.get('hiddenitems')[show.show.ids.slug]) continue
-        items.push(Items.constructShow(show))
-      }
-      $('#collection #shows').append(items)
-      DB.trakt._get('traktratings').then(Items.applyRatings)
+      Promise.all([
+        DB.trakt.get('showsbank'),
+        DB.trakt.get('hiddenitems')
+      ]).then(([showsbank, hiddenitems]) => {
+        Collection.showsbank = showsbank || []
+        const items = []
+        for (const show of shows) {
+          if (hiddenitems && hiddenitems[show.show.ids.slug]) continue
+          items.push(Items.constructShow(show))
+        }
+        $('#collection #shows').append(items)
+        DB.trakt.get('traktratings').then(Items.applyRatings)
 
-      if (!$('#collection #shows .grid-item').length) {
-        return $('#collection #shows').append(Items.constructMessage('No episode to display. Start watching a TV show or add one to your watchlist, and check back here.'))
-      }
+        if (!$('#collection #shows .grid-item').length) {
+          return $('#collection #shows').append(Items.constructMessage('No episode to display. Start watching a TV show or add one to your watchlist, and check back here.'))
+        }        
+      })
     },
     movies: (movies = []) => {
       $('#collection #movies').html('')
-      Collection.moviesbank = DB.trakt.get('moviesbank') || []
-      const untrack = []
-      const items = []
-      for (const movie of movies) {
-        if (!movie.movie.released || new Date(movie.movie.released.split('-')).valueOf() > Date.now() || DB.trakt.get('hiddenmovies')[movie.movie.ids.slug] || (DB.trakt.get('hiddenitems') && DB.trakt.get('hiddenitems')[movie.movie.ids.slug])) {
-          untrack.push(movie.movie.title)
-          continue
+      Promise.all([
+        DB.trakt.get('moviesbank'),
+        DB.trakt.get('hiddenmovies'),
+        DB.trakt.get('hiddenitems')
+      ]).then(([moviesbank, hiddenmovies, hiddenitems]) => {
+        if (!hiddenmovies) hiddenmovies = {}
+        Collection.moviesbank = moviesbank || []
+        const untrack = []
+        const items = []
+        for (const movie of movies) {
+          if (!movie.movie.released || new Date(movie.movie.released.split('-')).valueOf() > Date.now() || hiddenmovies[movie.movie.ids.slug] || (hiddenitems && hiddenitems[movie.movie.ids.slug])) {
+            untrack.push(movie.movie.title)
+            continue
+          }
+          items.push(Items.constructMovie(movie))
         }
-        items.push(Items.constructMovie(movie))
-      }
-      $('#collection #movies').append(items)
-      DB.trakt._get('traktratings').then(Items.applyRatings)
+        $('#collection #movies').append(items)
+        DB.trakt.get('traktratings').then(Items.applyRatings)
 
-      if (!$('#collection #movies .grid-item').length) {
-        return $('#collection #movies').append(Items.constructMessage('No movie to display, add one to your watchlist and check back here.'))
-      }
+        if (!$('#collection #movies .grid-item').length) {
+          return $('#collection #movies').append(Items.constructMessage('No movie to display, add one to your watchlist and check back here.'))
+        }
 
-      untrack.length && console.info('Some movies are hidden or not released yet, not showing:', untrack.join(', '))
+        untrack.length && console.info('Some movies are hidden or not released yet, not showing:', untrack.join(', '))        
+      })
     },
     customs: (collection = []) => {
       $('#collection #customs').html('')
-      Collection.customsbank = DB.app.get('customsbank') || []
-      const items = []
-      const untrack = []
-      for (const item of collection) {
-        if (item.type === 'movie') {
-          if (!item.movie.released || new Date(item.movie.released.split('-')).valueOf() > Date.now()) {
-            untrack.push(item.movie.title)
-            continue
+      DB.app.get('customsbank').then(customsbank => {
+        Collection.customsbank = customsbank || []
+        const items = []
+        const untrack = []
+        for (const item of collection) {
+          if (item.type === 'movie') {
+            if (!item.movie.released || new Date(item.movie.released.split('-')).valueOf() > Date.now()) {
+              untrack.push(item.movie.title)
+              continue
+            }
+            items.push(Items.constructCustomMovie(item))
           }
-          items.push(Items.constructCustomMovie(item))
+          if (item.type === 'show') {
+            items.push(Items.constructCustomShow(item))
+          }
         }
-        if (item.type === 'show') {
-          items.push(Items.constructCustomShow(item))
+        $('#collection #customs').append(items)
+        DB.trakt.get('traktratings').then(Items.applyRatings)
+
+        if (!$('#collection #customs .grid-item').length) {
+          return $('#collection #customs').append(Items.constructMessage('Nothing to display, the Custom List seems empty.'))
         }
-      }
-      $('#collection #customs').append(items)
-      DB.trakt._get('traktratings').then(Items.applyRatings)
 
-      if (!$('#collection #customs .grid-item').length) {
-        return $('#collection #customs').append(Items.constructMessage('Nothing to display, the Custom List seems empty.'))
-      }
-
-      untrack.length && console.info('Some movies/tv shows are hidden or not released yet, not showing:', untrack.join(', '))
+        untrack.length && console.info('Some movies/tv shows are hidden or not released yet, not showing:', untrack.join(', '))
+      })
     },
     locals: {
       movies: (movies = []) => {
@@ -516,21 +538,23 @@ const Collection = {
       }
 
       $('#trakt #history').append(items)
-      DB.trakt._get('traktratings').then(Items.applyRatings)
+      DB.trakt.get('traktratings').then(Items.applyRatings)
     }
   },
 
   hiddenMovies: {
     verify: () => {
-      const db = DB.trakt.get('hiddenmovies') || {}
-      for (const movie in db) { if (db[movie] < Date.now()) delete db[movie] }
-      DB.trakt.store(db, 'hiddenmovies')
+      DB.trakt.get('hiddenmovies').then((db = {}) => {
+        for (const movie in db) { if (db[movie] < Date.now()) delete db[movie] }
+        DB.trakt.store(db, 'hiddenmovies')
+      })
     },
     add: (slug, time) => {
-      const db = DB.trakt.get('hiddenmovies') || {}
-      db[slug] = time
-      DB.trakt.store(db, 'hiddenmovies')
-      return true
+      return DB.trakt.get('hiddenmovies').then((db = {}) => {
+        db[slug] = time
+        DB.trakt.store(db, 'hiddenmovies')
+        return true
+      })
     },
     reset: () => {
       DB.trakt.store({}, 'hiddenmovies')
@@ -539,9 +563,10 @@ const Collection = {
 
   hiddenItems: {
     add: (slug) => {
-      const db = DB.trakt.get('hiddenitems')
-      db[slug] = true
-      DB.trakt.store(db, 'hiddenitems')
+      DB.trakt.get('hiddenitems').then((db = {}) => {
+        db[slug] = true
+        DB.trakt.store(db, 'hiddenitems')
+      })
     },
     reset: () => {
       DB.trakt.store({}, 'hiddenitems')
@@ -550,7 +575,7 @@ const Collection = {
 
   sort: {
     customs: {
-      rank: (items = DB.app.get('traktcustomscollection')) => {
+      rank: (items) => {
         return items.sort(function (a, b) {
           if (a.rank > b.rank) {
             return 1
@@ -561,7 +586,7 @@ const Collection = {
           return 0
         })
       },
-      rating: (items = DB.app.get('traktcustomscollection')) => {
+      rating: (items) => {
         return items.sort(function (a, b) {
           if (((a.show && a.show.rating) || (a.movie && a.movie.rating)) > ((b.show && b.show.rating) || (b.movie && b.movie.rating))) {
             return -1
@@ -572,7 +597,7 @@ const Collection = {
           return 0
         })
       },
-      title: (items = DB.app.get('traktcustomscollection')) => {
+      title: (items) => {
         return items.sort(function (a, b) {
           if (((a.show && a.show.title) || (a.movie && a.movie.title)) < ((b.show && b.show.title) || (b.movie && b.movie.title))) {
             return -1
@@ -583,7 +608,7 @@ const Collection = {
           return 0
         })
       },
-      released: (items = DB.app.get('traktcustomscollection')) => {
+      released: (items) => {
         return items.sort(function (a, b) {
           if (((a.show && a.show.year) || (a.movie && a.movie.year)) > ((b.show && b.show.year) || (b.movie && b.movie.year))) {
             return -1
@@ -594,7 +619,7 @@ const Collection = {
           return 0
         })
       },
-      listed: (items = DB.app.get('traktcustomscollection')) => {
+      listed: (items) => {
         return items.sort(function (a, b) {
           if (a.listed_at > b.listed_at) {
             return -1
@@ -607,7 +632,7 @@ const Collection = {
       }
     },
     shows: {
-      nextEpisode: (shows = DB.trakt.get('traktshowscollection')) => {
+      nextEpisode: (shows) => {
         return shows.sort(function (a, b) {
           if (a.next_episode.first_aired > b.next_episode.first_aired) {
             return -1
@@ -618,7 +643,7 @@ const Collection = {
           return 0
         })
       },
-      firstAired: (shows = DB.trakt.get('traktshowscollection')) => {
+      firstAired: (shows) => {
         return shows.sort(function (a, b) {
           if (a.show.first_aired > b.show.first_aired) {
             return -1
@@ -629,7 +654,7 @@ const Collection = {
           return 0
         })
       },
-      title: (shows = DB.trakt.get('traktshowscollection')) => {
+      title: (shows) => {
         return shows.sort(function (a, b) {
           if (a.show.title < b.show.title) {
             return -1
@@ -640,7 +665,7 @@ const Collection = {
           return 0
         })
       },
-      rating: (shows = DB.trakt.get('traktshowscollection')) => {
+      rating: (shows) => {
         return shows.sort(function (a, b) {
           if (a.show.rating > b.show.rating) {
             return -1
@@ -651,7 +676,7 @@ const Collection = {
           return 0
         })
       },
-      runtime: (shows = DB.trakt.get('traktshowscollection')) => {
+      runtime: (shows) => {
         return shows.sort(function (a, b) {
           if (a.show.runtime < b.show.runtime) {
             return -1
@@ -662,12 +687,12 @@ const Collection = {
           return 0
         })
       },
-      genre: (genre, shows = DB.trakt.get('traktshowscollection')) => {
+      genre: (genre, shows) => {
         return shows.filter(a => a.show.genres.indexOf(genre) !== -1)
       }
     },
     movies: {
-      listed: (movies = DB.trakt.get('traktmoviescollection')) => {
+      listed: (movies) => {
         return movies.sort(function (a, b) {
           if (a.listed_at > b.listed_at) {
             return -1
@@ -678,7 +703,7 @@ const Collection = {
           return 0
         })
       },
-      title: (movies = DB.trakt.get('traktmoviescollection')) => {
+      title: (movies) => {
         return movies.sort(function (a, b) {
           if (a.movie.title < b.movie.title) {
             return -1
@@ -689,7 +714,7 @@ const Collection = {
           return 0
         })
       },
-      released: (movies = DB.trakt.get('traktmoviescollection')) => {
+      released: (movies) => {
         return movies.sort(function (a, b) {
           if (a.movie.released > b.movie.released) {
             return -1
@@ -700,7 +725,7 @@ const Collection = {
           return 0
         })
       },
-      rating: (movies = DB.trakt.get('traktmoviescollection')) => {
+      rating: (movies) => {
         return movies.sort(function (a, b) {
           if (a.movie.rating > b.movie.rating) {
             return -1
@@ -711,7 +736,7 @@ const Collection = {
           return 0
         })
       },
-      genre: (genre, movies = DB.trakt.get('traktmoviescollection')) => {
+      genre: (genre, movies) => {
         return movies.filter(a => a.movie.genres.indexOf(genre) !== -1)
       }
     }

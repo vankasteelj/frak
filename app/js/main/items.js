@@ -48,13 +48,13 @@ const Items = {
       id: movie.movie.ids.slug,
       data: JSON.stringify(movie),
       rating: Misc.percentage(movie.movie.rating),
-      size: DB.app.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal
+      size: DB.sync.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal
     }
 
     const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
                 `<span class="data">${d.data}</span>` +
                 '<div class="fanart">' +
-                    `<div class="exists-elsewhere fa fa-tags ${existing !== -1 && DB.app.get('use_customs') ? 'active' : ''}" title="${i18n.__('Also present in Custom list')}"></div>` +
+                    `<div class="exists-elsewhere fa fa-tags ${existing !== -1 && DB.sync.get('use_customs') ? 'active' : ''}" title="${i18n.__('Also present in Custom list')}"></div>` +
                     '<div class="corner-rating"><span></span></div>' +
                     '<img class="base" src="images/placeholder.png">' +
                     '<div class="shadow"></div>' +
@@ -84,7 +84,7 @@ const Items = {
       labels['Play now'] = () => $(`#${d.id} .play`).trigger('click')
       movie.movie.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).trigger('click'))
       labels['Mark as watched'] = () => $(`#${d.id} .watched`).trigger('click')
-      DB.app.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${d.id}`)))
+      DB.sync.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${d.id}`)))
       labels.separator = true
       labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`)
       labels['Redownload image'] = () => Items.redownloadImage(d.id, d.image, movie.movie.ids, 'movie', 'fanart')
@@ -117,13 +117,13 @@ const Items = {
       sxe: `s${Misc.pad(show.next_episode.season)}e${Misc.pad(show.next_episode.number)}`,
       data: JSON.stringify(show),
       rating: Misc.percentage(show.show.rating),
-      size: DB.app.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal
+      size: DB.sync.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal
     }
 
     const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
                 `<span class="data">${d.data}</span>` +
                 '<div class="fanart">' +
-                    `<div class="exists-elsewhere fa fa-tags ${existing !== -1 && DB.app.get('use_customs') ? 'active' : ''}" title="${i18n.__('Also present in Custom list')}"></div>` +
+                    `<div class="exists-elsewhere fa fa-tags ${existing !== -1 && DB.sync.get('use_customs') ? 'active' : ''}" title="${i18n.__('Also present in Custom list')}"></div>` +
                     '<div class="corner-rating"><span></span></div>' +
                     '<img class="base" src="images/placeholder.png">' +
                     '<div class="shadow"></div>' +
@@ -159,7 +159,7 @@ const Items = {
       labels['Play now'] = () => $(`#${d.id} .play`).trigger('click')
       show.show.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).trigger('click'))
       labels['Mark as watched'] = () => $(`#${d.id} .watched`).trigger('click')
-      DB.app.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${d.id}`)))
+      DB.sync.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${d.id}`)))
       labels.separator = true
       if (show.next_episode.number === 1 && show.next_episode.season === 1) {
         labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`)
@@ -193,7 +193,7 @@ const Items = {
       id: 'custom-' + movie.movie.ids.slug,
       data: JSON.stringify(movie),
       rating: Misc.percentage(movie.movie.rating),
-      size: DB.app.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal
+      size: DB.sync.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal
     }
 
     const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
@@ -262,7 +262,7 @@ const Items = {
       id: 'custom-' + show.show.ids.slug,
       data: JSON.stringify(show),
       rating: Misc.percentage(show.show.rating),
-      size: DB.app.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal
+      size: DB.sync.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal
     }
 
     const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="${d.id}">` +
@@ -421,7 +421,7 @@ const Items = {
       title: show.episode.title || '',
       data: JSON.stringify(show),
       rating: Misc.percentage(show.show.rating),
-      size: DB.app.get('small_items') ? Settings.grid.historySmall : Settings.grid.historyNormal,
+      size: DB.sync.get('small_items') ? Settings.grid.historySmall : Settings.grid.historyNormal,
       watched_at: (function () {
         const d = new Date(show.watched_at)
         return d.toLocaleDateString() + ' ' + Misc.pad(d.getHours()) + ':' + Misc.pad(d.getMinutes())
@@ -468,7 +468,7 @@ const Items = {
       title: movie.movie.title,
       data: JSON.stringify(movie),
       rating: Misc.percentage(movie.movie.rating),
-      size: DB.app.get('small_items') ? Settings.grid.historySmall : Settings.grid.historyNormal,
+      size: DB.sync.get('small_items') ? Settings.grid.historySmall : Settings.grid.historyNormal,
       watched_at: (function () {
         const d = new Date(movie.watched_at)
         return d.toLocaleDateString() + ' ' + Misc.pad(d.getHours()) + ':' + Misc.pad(d.getMinutes())
@@ -509,7 +509,7 @@ const Items = {
   },
   constructHistoryMore: () => {
     const d = {
-      size: DB.app.get('small_items') ? Settings.grid.historySmall : Settings.grid.historyNormal
+      size: DB.sync.get('small_items') ? Settings.grid.historySmall : Settings.grid.historyNormal
     }
 
     const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="showMore">` +
@@ -536,8 +536,9 @@ const Items = {
     }
 
     return Promise.all([
-      WB.find.show(show.show.ids.slug)
-    ]).then(([watched]) => {
+      WB.find.show(show.show.ids.slug),
+      DB.trakt.get('traktshowscollection')
+    ]).then(([watched, traktshowscollection]) => {
       const d = {
         image: IB.get(show.show.ids).fanart || IB.get(show.show.ids).poster,
         id: show.show.ids.slug,
@@ -550,9 +551,9 @@ const Items = {
         })(),
         data: JSON.stringify(show),
         rating: Misc.percentage(show.show.rating),
-        size: DB.app.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal,
+        size: DB.sync.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal,
         watchlisted: (() => {
-          const want = DB.trakt.get('traktshowscollection').find(o => o.show.ids.slug === show.show.ids.slug)
+          const want = traktshowscollection.find(o => o.show.ids.slug === show.show.ids.slug)
           return Boolean(want || watched)
         })(),
         watched: (() => {
@@ -597,12 +598,12 @@ const Items = {
         const labels = {}
         labels['Play now'] = () => $(`#discover #${d.id} .play`).trigger('click')
         show.show.trailer && (labels['Watch trailer'] = () => $(`#discover #${d.id} .trailer`).trigger('click'))
-        DB.app.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${d.id}`)))
+        DB.sync.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${d.id}`)))
         labels['Add to watchlist'] = () => $(`#discover #${d.id} .watchlist`).trigger('click')
         labels.separator = true
         show.show.source === 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.shows.hide({
           id: show.show.ids.slug
-        }).then(() => DB.trakt._store(0, 'lastrecommendedsync')).then(() => $(`#discover #${d.id}`).remove()))
+        }).then(() => DB.trakt.store(0, 'lastrecommendedsync')).then(() => $(`#discover #${d.id}`).remove()))
         labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`)
         const menu = Misc.customContextMenu(labels)
         $(`#discover #${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
@@ -620,8 +621,9 @@ const Items = {
     }
 
     return Promise.all([
-      WB.find.movie(movie.movie.ids.slug)
-    ]).then(([watched]) => {
+      WB.find.movie(movie.movie.ids.slug),
+      DB.trakt.get('traktmoviescollection')
+    ]).then(([watched, traktmoviescollection]) => {
       const d = {
         image: IB.get(movie.movie.ids).fanart || IB.get(movie.movie.ids).poster,
         id: movie.movie.ids.slug,
@@ -634,8 +636,8 @@ const Items = {
         })(),
         data: JSON.stringify(movie),
         rating: Misc.percentage(movie.movie.rating),
-        size: DB.app.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal,
-        watchlisted: DB.trakt.get('traktmoviescollection').find(o => o.movie.ids.slug === movie.movie.ids.slug),
+        size: DB.sync.get('small_items') ? Settings.grid.mainSmall : Settings.grid.mainNormal,
+        watchlisted: traktmoviescollection.find(o => o.movie.ids.slug === movie.movie.ids.slug),
         watched: watched
       }
 
@@ -676,12 +678,12 @@ const Items = {
         const labels = {}
         labels['Play now'] = () => $(`#discover #${d.id} .play`).trigger('click')
         movie.movie.trailer && (labels['Watch trailer'] = () => $(`#discover #${d.id} .trailer`).trigger('click'))
-        DB.app.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${d.id}`)))
+        DB.sync.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${d.id}`)))
         labels['Add to watchlist'] = () => $(`#discover #${d.id} .watchlist`).trigger('click')
         labels.separator = true
         movie.movie.source === 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.movies.hide({
           id: movie.movie.ids.slug
-        }).then(() => DB.trakt._store(0, 'lastrecommendedsync')).then(() => $(`#discover #${d.id}`).remove()))
+        }).then(() => DB.trakt.store(0, 'lastrecommendedsync')).then(() => $(`#discover #${d.id}`).remove()))
         labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`)
         const menu = Misc.customContextMenu(labels)
         $(`#discover #${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))

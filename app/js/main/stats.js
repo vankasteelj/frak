@@ -11,7 +11,7 @@ const Stats = {
   load: () => {
     console.log('Loading trakt stats')
 
-    const suserinfo = Profiles.get(DB.app.get('trakt_active_profile')).profile
+    const suserinfo = Profiles.get(DB.sync.get('trakt_active_profile')).profile
     $('#stats #susername').text(i18n.__('Hello, %s', suserinfo.name.split(' ')[0] || suserinfo.username))
     $('#stats #suserjoined').attr('onClick', `Misc.openExternal('https://trakt.tv/users/${suserinfo.username}')`).attr('title', i18n.__('Open Trakt profile page in a browser'))
     $('#stats #suserjoined span').text(new Date(suserinfo.joined_at).toLocaleDateString())
@@ -97,7 +97,7 @@ const Stats = {
   getRatings: () => {
     if (Stats.cache.ratings) return Stats.cache.ratings
 
-    return DB.trakt._get('traktratings').then(ratings => {
+    return DB.trakt.get('traktratings').then(ratings => {
       const sort = Object.keys(ratings).sort((a, b) => ratings[b].rating - ratings[a].rating)
 
       Stats.cache.ratings = { movie: [], show: [] }
@@ -127,7 +127,7 @@ const Stats = {
   getShowsStats: () => {
     if (Stats.cache.showsStats) return Promise.resolve(Stats.cache.showsStats)
 
-    return DB.trakt._get('watchedShows').then((shows = []) => {
+    return DB.trakt.get('watchedShows').then((shows = []) => {
       let mostWatched = { idx: null, timespent: null }
       let genres = []; let countries = []; let networks = []; let years = []
 

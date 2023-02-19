@@ -16,11 +16,11 @@ const Local = {
 
   updateClientPaths: (paths) => {
     Local.client.parser.options.paths = paths
-    DB.app.store(paths, 'local_paths')
+    DB.sync.store(paths, 'local_paths')
   },
 
   setupPaths: () => {
-    let paths = DB.app.get('local_paths')
+    let paths = DB.sync.get('local_paths')
     if (!paths || (paths && !paths[0])) paths = [process.env.HOME || path.join(process.env.HOMEDRIVE, process.env.HOMEPATH)]
 
     Local.updateClientPaths(paths)
@@ -95,26 +95,26 @@ const Local = {
   },
 
   removePath: (p) => {
-    const paths = DB.app.get('local_paths')
+    const paths = DB.sync.get('local_paths')
     paths.splice(paths.indexOf(p), 1)
 
-    DB.app.store(paths, 'local_paths')
+    DB.sync.store(paths, 'local_paths')
     Local.setupPaths()
 
     // remove untracked files
-    const library = DB.app.get('local_library') || []
+    const library = DB.sync.get('local_library') || []
     const newLibrary = []
     for (const file of library) {
       if (!file.path.startsWith(p)) newLibrary.push(file)
     }
-    DB.app.store(newLibrary, 'local_library')
+    DB.sync.store(newLibrary, 'local_library')
     Collection.format.locals(newLibrary)
   },
   addPath: (p) => {
-    const paths = DB.app.get('local_paths')
+    const paths = DB.sync.get('local_paths')
     paths.push(p)
 
-    DB.app.store(paths, 'local_paths')
+    DB.sync.store(paths, 'local_paths')
     Local.setupPaths()
 
     setTimeout(() => {
@@ -123,7 +123,7 @@ const Local = {
     }, 300)
   },
   rescan: () => {
-    DB.remove('local_library')
+    DB.sync.remove('local_library')
 
     $('#collection #locals .waitforlibrary').show()
     $('#collection #locals .waitforlibrary .spinner').css('visibility', 'visible')

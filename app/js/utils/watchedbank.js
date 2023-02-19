@@ -2,21 +2,21 @@
 
 const WB = {
   store: {
-    movies: (watchedMovies) => DB.trakt._store(watchedMovies, 'watchedMovies'),
-    shows: (watchedShows) => DB.trakt._store(watchedShows, 'watchedShows')
+    movies: (watchedMovies) => DB.trakt.store(watchedMovies, 'watchedMovies'),
+    shows: (watchedShows) => DB.trakt.store(watchedShows, 'watchedShows')
   },
   get: {
-    movies: () => DB.trakt._get('watchedMovies'),
-    shows: () => DB.trakt._get('watchedShows')
+    movies: () => DB.trakt.get('watchedMovies'),
+    shows: () => DB.trakt.get('watchedShows')
   },
   find: {
     movie: (id) => {
-      return DB.trakt._get('watchedMovies').then(wM => {
+      return DB.trakt.get('watchedMovies').then(wM => {
         return wM.find(o => o.movie.ids.slug === id)
       })
     },
     show: (id) => {
-      return DB.trakt._get('watchedShows').then(wS => {
+      return DB.trakt.get('watchedShows').then(wS => {
         return wS.find(o => o.show.ids.slug === id)
       })
     }

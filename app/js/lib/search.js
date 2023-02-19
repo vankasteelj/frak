@@ -54,7 +54,7 @@ const Search = {
   offline: (data) => {
     const type = (data.show && 'show') || (data.movie && 'movie')
     const id = data[type].ids.slug
-    const library = DB.app.get(`local_${type}s`)
+    const library = DB.sync.get(`local_${type}s`)
 
     if (!id || !library) return
 

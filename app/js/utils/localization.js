@@ -24,9 +24,9 @@ const Localization = {
     })
 
     // set lang to stored or detected one
-    i18n.setLocale(DB.app.get('locale') || Localization.detectedLocale)
+    i18n.setLocale(DB.sync.get('locale') || Localization.detectedLocale)
     // store it for safety
-    DB.app.store(DB.app.get('locale') || Localization.detectedLocale, 'locale')
+    DB.sync.store(DB.sync.get('locale') || Localization.detectedLocale, 'locale')
 
     // localize HTML
     Localization.localizeApp()
@@ -91,7 +91,7 @@ const Localization = {
     // on dropdown click, change lang
     $('#app-language').on('change', (e) => {
       // store new lang
-      DB.app.store(e.target.value, 'locale')
+      DB.sync.store(e.target.value, 'locale')
       // reload to use new lang
       win.reload()
     })

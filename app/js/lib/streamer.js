@@ -6,7 +6,7 @@ const Streamer = {
   streaminfo: {},
   getInstance: () => {
     if (Streamer.client === null) {
-      const _soptions = DB.app.get('streamer_options')
+      const _soptions = DB.sync.get('streamer_options')
       Streamer.client = new (require('webtorrent'))({
         maxConns: parseInt(_soptions.maxConns) | Settings.streamer.maxConns,
         webSeeds: false, // activating BEP19 makes nwjs 'hang' and stop working
@@ -57,7 +57,7 @@ const Streamer = {
 
       const timeout = setTimeout(() => {
         reject(new Error('Streamer - magnet timed out'))
-      }, DB.app.get('streamer_options').magnetTimeout)
+      }, DB.sync.get('streamer_options').magnetTimeout)
 
       torrent.on('metadata', () => {
         clearTimeout(timeout)

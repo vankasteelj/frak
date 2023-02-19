@@ -34,15 +34,15 @@ const Boot = {
   // STARTUP: setup network connexion
   online: () => {
     const localip = require('ip').address() || '127.0.0.1'
-    DB.app.store(localip, 'localip')
+    DB.sync.store(localip, 'localip')
     $('#localip input').val(localip)
 
     /* TODO check if online or not
         let online = window.navigator.onLine;
         if (online) {
-            !DB.app.get('online') && DB.app.store(true, 'online') && console.info('App is online');
+            !DB.sync.get('online') && DB.sync.store(true, 'online') && console.info('App is online');
         } else {
-            DB.app.get('online') && DB.app.store(false, 'online') && console.info('No internet connection');
+            DB.sync.get('online') && DB.sync.store(false, 'online') && console.info('No internet connection');
         }
         setTimeout(() => {
             Boot.online()
@@ -60,12 +60,12 @@ const Boot = {
     nw.Screen.on('displayAdded', () => {
       sessionStorage.screens = Object.keys(nw.Screen.screens).length
       console.info('Multiple monitors (%s) detected', sessionStorage.screens)
-      Player.setMPV(DB.app.get('mpv'))
+      Player.setMPV(DB.sync.get('mpv'))
     })
     nw.Screen.on('displayRemoved', (screen) => {
       console.info('A monitor was removed')
       sessionStorage.screens = Object.keys(nw.Screen.screens).length
-      Player.setMPV(DB.app.get('mpv'))
+      Player.setMPV(DB.sync.get('mpv'))
     })
   },
 
@@ -104,10 +104,10 @@ const Boot = {
     const defaultHeight = PKJSON.window.height
 
     // check stored settings or use package.json values
-    const width = parseInt(DB.app.get('width') ? DB.app.get('width') : defaultWidth)
-    const height = parseInt(DB.app.get('height') ? DB.app.get('height') : defaultHeight)
-    let x = parseInt(DB.app.get('posX') ? DB.app.get('posX') : -1)
-    let y = parseInt(DB.app.get('posY') ? DB.app.get('posY') : -1)
+    const width = parseInt(DB.sync.get('width') ? DB.sync.get('width') : defaultWidth)
+    const height = parseInt(DB.sync.get('height') ? DB.sync.get('height') : defaultHeight)
+    let x = parseInt(DB.sync.get('posX') ? DB.sync.get('posX') : -1)
+    let y = parseInt(DB.sync.get('posY') ? DB.sync.get('posY') : -1)
 
     // reset x
     if (x < 0 || (x + width) > screen.width) {
@@ -124,26 +124,26 @@ const Boot = {
     // set win size
     win.width = width
     win.height = height
-    DB.app.get('wasMaximized') && win.maximize()
+    DB.sync.get('wasMaximized') && win.maximize()
 
     // remember positionning
     win.on('move', (x, y) => {
       if (DB && x && y) {
-        DB.app.store(Math.round(x), 'posX')
-        DB.app.store(Math.round(y), 'posY')
+        DB.sync.store(Math.round(x), 'posX')
+        DB.sync.store(Math.round(y), 'posY')
       }
     })
 
     // remember if the app was maximized or not
     win.on('maximize', () => {
-      DB.app.store(true, 'wasMaximized')
+      DB.sync.store(true, 'wasMaximized')
     })
     win.on('restore', () => {
-      if (!win.isMaximized) DB.app.store(false, 'wasMaximized')
+      if (!win.isMaximized) DB.sync.store(false, 'wasMaximized')
     })
     win.on('minimize', () => {
-      win.isMaximized = DB.app.get('wasMaximized')
-      if (DB.app.get('minimizeToTray')) win.hide()
+      win.isMaximized = DB.sync.get('wasMaximized')
+      if (DB.sync.get('minimizeToTray')) win.hide()
     })
   },
 
@@ -172,8 +172,8 @@ const Boot = {
     Details.default = $('#details').html()
 
     // look for updates
-    if (DB.app.get('lookForUpdates') !== false) {
-      DB.app.store(true, 'lookForUpdates')
+    if (DB.sync.get('lookForUpdates') !== false) {
+      DB.sync.store(true, 'lookForUpdates')
       document.querySelector('#lookForUpdates').checked = true
     }
 
@@ -183,17 +183,17 @@ const Boot = {
     }
 
     // items size
-    if (DB.app.get('small_items')) {
+    if (DB.sync.get('small_items')) {
       document.querySelector('#items-size').checked = true
     }
 
     // translate overview button
-    if (DB.app.get('translateOverviews')) {
+    if (DB.sync.get('translateOverviews')) {
       document.querySelector('#tro-button').checked = true
     }
 
     // big picture button visibility
-    if (DB.app.get('bp_button')) {
+    if (DB.sync.get('bp_button')) {
       document.querySelector('#bp-button').checked = true
       $('#disablezoom').show()
     } else {
@@ -201,65 +201,65 @@ const Boot = {
       $('#disablezoom').hide()
     }
 
-    if (DB.app.get('bpzoomdisable')) {
+    if (DB.sync.get('bpzoomdisable')) {
       document.querySelector('#bpzoomdisable-button').checked = true
     }
 
-    if (DB.app.get('playerPopup')) {
+    if (DB.sync.get('playerPopup')) {
       document.querySelector('#allowplayerpopup-button').checked = true
     }
 
     // minimze to tray
-    if (DB.app.get('minimizeToTray')) {
+    if (DB.sync.get('minimizeToTray')) {
       document.querySelector('#tray').checked = true
     }
 
     // use mpv for trailers
-    if (DB.app.get('trailers_use_mpv')) {
+    if (DB.sync.get('trailers_use_mpv')) {
       document.querySelector('#trailers_use_mpv').checked = true
     }
 
     // allow local network sharing
-    if (DB.app.get('localsharing')) {
+    if (DB.sync.get('localsharing')) {
       document.querySelector('#allow_localsharing').checked = true
       $('#settings .resumeplayback').show()
     }
 
     // allow direct playback feature on local network
-    if (DB.app.get('localplayback')) {
+    if (DB.sync.get('localplayback')) {
       document.querySelector('#allow_resumeplayback').checked = true
     }
 
     // start minimized
-    if (DB.app.get('startminimized')) {
+    if (DB.sync.get('startminimized')) {
       document.querySelector('#startminimized').checked = true
     }
 
     // use the "Custom" feature
-    if (DB.app.get('use_customs')) {
+    if (DB.sync.get('use_customs')) {
       document.querySelector('#customs-feature').checked = true
       $('#navbar .customs').show()
     }
-    if (DB.app.get('customs_name')) {
-      const name = DB.app.get('customs_name')
+    if (DB.sync.get('customs_name')) {
+      const name = DB.sync.get('customs_name')
       $('#navbar .customs .text').text(name)
       document.querySelector('#customs-name').value = name
     }
-    if (DB.app.get('customs_url')) {
-      document.querySelector('#customs-url').value = DB.app.get('customs_url')
+    if (DB.sync.get('customs_url')) {
+      document.querySelector('#customs-url').value = DB.sync.get('customs_url')
     }
 
     // auto-launch on start up
-    if (DB.app.get('autolaunch')) {
+    if (DB.sync.get('autolaunch')) {
       document.querySelector('#autolaunch').checked = true
       $('#autolaunchminimized').show()
     }
 
     // default player options
-    let playerOptions = DB.app.get('player_options')
+    let playerOptions = DB.sync.get('player_options')
     const _poptions = Settings.player
     playerOptions = Object.assign(_poptions, playerOptions)
-    DB.app.store(playerOptions, 'player_options')
+    DB.sync.store(playerOptions, 'player_options')
 
     // setup player options
     for (const o in playerOptions) {
@@ -272,10 +272,10 @@ const Boot = {
     }
 
     // default streamer options
-    let streamerOptions = DB.app.get('streamer_options')
+    let streamerOptions = DB.sync.get('streamer_options')
     const _soptions = Settings.streamer
     streamerOptions = Object.assign(_soptions, streamerOptions)
-    DB.app.store(streamerOptions, 'streamer_options')
+    DB.sync.store(streamerOptions, 'streamer_options')
 
     // setup streamer options
     for (const o in streamerOptions) {
@@ -297,7 +297,7 @@ const Boot = {
 
   setupInputs: () => {
     document.querySelector('#lookForUpdates').addEventListener('click', (evt) => {
-      DB.app.store(evt.target.checked, 'lookForUpdates')
+      DB.sync.store(evt.target.checked, 'lookForUpdates')
       Update.check()
     })
 
@@ -312,11 +312,11 @@ const Boot = {
     })
 
     document.querySelector('#trailers_use_mpv').addEventListener('click', (evt) => {
-      DB.app.store(evt.target.checked, 'trailers_use_mpv')
+      DB.sync.store(evt.target.checked, 'trailers_use_mpv')
     })
 
     document.querySelector('#allow_localsharing').addEventListener('click', (evt) => {
-      DB.app.store(evt.target.checked, 'localsharing')
+      DB.sync.store(evt.target.checked, 'localsharing')
       if (evt.target.checked) {
         Network.init()
         $('#settings .resumeplayback').show()
@@ -327,13 +327,13 @@ const Boot = {
     })
 
     document.querySelector('#allow_resumeplayback').addEventListener('click', (evt) => {
-      DB.app.store(evt.target.checked, 'localplayback')
+      DB.sync.store(evt.target.checked, 'localplayback')
       Network.disconnect()
       Network.init()
     })
 
     document.querySelector('#bp-button').addEventListener('click', (evt) => {
-      DB.app.store(evt.target.checked, 'bp_button')
+      DB.sync.store(evt.target.checked, 'bp_button')
       if (evt.target.checked) {
         $('.nav.bigpicture').show()
         $('#disablezoom').show()
@@ -344,49 +344,49 @@ const Boot = {
     })
 
     document.querySelector('#tro-button').addEventListener('click', (evt) => {
-      DB.app.store(evt.target.checked, 'translateOverviews')
+      DB.sync.store(evt.target.checked, 'translateOverviews')
     })
 
     document.querySelector('#bpzoomdisable-button').addEventListener('click', (evt) => {
-      DB.app.store(evt.target.checked, 'bpzoomdisable')
+      DB.sync.store(evt.target.checked, 'bpzoomdisable')
     })
     document.querySelector('#allowplayerpopup-button').addEventListener('click', (evt) => {
-      DB.app.store(evt.target.checked, 'playerPopup')
+      DB.sync.store(evt.target.checked, 'playerPopup')
     })
 
     document.querySelector('#tray').addEventListener('click', (evt) => {
-      DB.app.store(evt.target.checked, 'minimizeToTray')
+      DB.sync.store(evt.target.checked, 'minimizeToTray')
     })
 
     document.querySelector('#autolaunch').addEventListener('click', (evt) => {
-      DB.app.store(evt.target.checked, 'autolaunch')
+      DB.sync.store(evt.target.checked, 'autolaunch')
       Misc.autoLaunch(evt.target.checked)
 
       $('#autolaunchminimized')[evt.target.checked ? 'show' : 'hide']()
     })
 
     document.querySelector('#startminimized').addEventListener('click', (evt) => {
-      DB.app.store(evt.target.checked, 'startminimized')
+      DB.sync.store(evt.target.checked, 'startminimized')
       Misc.autoLaunch(true)
     })
 
     // custom list settings change
     document.querySelector('#customs-feature').addEventListener('click', (evt) => {
-      DB.app.store(evt.target.checked, 'use_customs')
+      DB.sync.store(evt.target.checked, 'use_customs')
       $('#navbar .customs')[evt.target.checked ? 'show' : 'hide']()
     })
     document.querySelector('#customs-name').addEventListener('change', (evt) => {
       const name = document.querySelector('#customs-name').value
       console.log('Custom List name changed to %s', name)
-      DB.app.store(name, 'customs_name')
+      DB.sync.store(name, 'customs_name')
       $('#navbar .customs .text').text(name)
     })
     document.querySelector('#customs-url').addEventListener('change', (evt) => {
       const customUrl = document.querySelector('#customs-url').value
       console.log('Custom URL changed to `%s`, checking it', customUrl)
       Trakt.checkCustomUrl(customUrl).then((obj) => {
-        DB.app.store(customUrl, 'customs_url')
-        DB.app.store(obj, 'customs_params')
+        DB.sync.store(customUrl, 'customs_url')
+        DB.sync.store(obj, 'customs_params')
         Notify.snack(i18n.__('It\'s done'), 5000)
         return Collection.get.traktcustoms(false)
       }).then(() => {
@@ -399,18 +399,18 @@ const Boot = {
 
     document.querySelector('#items-size').addEventListener('click', (evt) => {
       const isSmall = evt.target.checked
-      DB.app.store(isSmall, 'small_items')
+      DB.sync.store(isSmall, 'small_items')
       Interface.switchCollectionSize(isSmall)
     }, false)
 
-    const playerOptions = DB.app.get('player_options')
+    const playerOptions = DB.sync.get('player_options')
     for (const o in playerOptions) {
       const c = o.match('centered|fullscreen|sub_auto|multimonitor') ? 'checked' : 'value'
 
       document.querySelector(`#${o}`).addEventListener('change', (evt) => {
         playerOptions[o] = document.querySelector(`#${o}`)[c]
         console.log('Player setting `%s` changed to:', o, playerOptions[o])
-        DB.app.store(playerOptions, 'player_options')
+        DB.sync.store(playerOptions, 'player_options')
 
         if (o.match('multimonitor')) {
           if (playerOptions[o]) {
@@ -419,11 +419,11 @@ const Boot = {
             $('#mpvmonitoroption').hide()
           }
         }
-        Player.setMPV(DB.app.get('mpv'))
+        Player.setMPV(DB.sync.get('mpv'))
       })
     }
 
-    const streamerOptions = DB.app.get('streamer_options')
+    const streamerOptions = DB.sync.get('streamer_options')
     for (const o in streamerOptions) {
       const c = document.querySelector(`#${o}`)
       if (!c) continue
@@ -435,7 +435,7 @@ const Boot = {
           streamerOptions[o] = c.value.replace(/\s/gm, '').split(',')
         }
         console.log('Streamer setting `%s` changed to:', o, streamerOptions[o])
-        DB.app.store(streamerOptions, 'streamer_options')
+        DB.sync.store(streamerOptions, 'streamer_options')
       })
     }
 
@@ -446,9 +446,9 @@ const Boot = {
 
   startScreen: () => {
     const def = 'shows'
-    const opt = DB.app.get('startscreen') || def
+    const opt = DB.sync.get('startscreen') || def
     let start = opt
-    if (start === 'last') start = DB.app.get('last_tab') || def
+    if (start === 'last') start = DB.sync.get('last_tab') || def
 
     // set active
     $(`#navbar .nav.${start}`).click()
@@ -457,7 +457,7 @@ const Boot = {
     const $setting = $('#startscreen')
     $setting.val(opt).on('change', () => {
       const selected = $setting.val()
-      DB.app.store(selected, 'startscreen')
+      DB.sync.store(selected, 'startscreen')
     })
   },
 

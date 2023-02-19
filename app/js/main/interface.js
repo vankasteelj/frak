@@ -23,7 +23,7 @@ const Interface = {
     $('#init').show()
     $('#traktwelcome').show()
 
-    const profile = Profiles.get(DB.app.get('trakt_active_profile')).profile
+    const profile = Profiles.get(DB.sync.get('trakt_active_profile')).profile
     $('#welcomeprofile .welcomemessage').text(i18n.__('Welcome back'))
     $('#welcomeprofile .avatar').attr('src', profile.images.avatar.full)
     $('#stats #suserinfo #suserimage').attr('src', profile.images.avatar.full)
@@ -72,8 +72,8 @@ const Interface = {
     $('#trakt #stats').hide()
     $('#settings').hide()
     $('#navbar .movies').addClass('active')
-    DB.app.store('movies', 'last_tab')
-    DB.app.store('movies', 'active_tab')
+    DB.sync.store('movies', 'last_tab')
+    DB.sync.store('movies', 'active_tab')
     window.scrollTo(0, 0)
   },
   // USER INTERACTION: click navbar
@@ -88,8 +88,8 @@ const Interface = {
     $('#trakt #stats').hide()
     $('#settings').hide()
     $('#navbar .shows').addClass('active')
-    DB.app.store('shows', 'last_tab')
-    DB.app.store('shows', 'active_tab')
+    DB.sync.store('shows', 'last_tab')
+    DB.sync.store('shows', 'active_tab')
     window.scrollTo(0, 0)
   },
   // USER INTERACTION: click navbar
@@ -104,8 +104,8 @@ const Interface = {
     $('#trakt #stats').hide()
     $('#settings').hide()
     $('#navbar .customs').addClass('active')
-    DB.app.store('customs', 'last_tab')
-    DB.app.store('customs', 'active_tab')
+    DB.sync.store('customs', 'last_tab')
+    DB.sync.store('customs', 'active_tab')
     window.scrollTo(0, 0)
   },
   // USER INTERACTION: click navbar
@@ -122,8 +122,8 @@ const Interface = {
     $('#navbar .locals').addClass('active')
     $('#locals .categories').show()
     $('#locals .items').hide()
-    DB.app.store('locals', 'last_tab')
-    DB.app.store('locals', 'active_tab')
+    DB.sync.store('locals', 'last_tab')
+    DB.sync.store('locals', 'active_tab')
     window.scrollTo(0, 0)
   },
   // USER INTERACTION: click navbar
@@ -138,7 +138,7 @@ const Interface = {
     $('#trakt #discover').hide()
     $('#trakt #stats').hide()
     $('#navbar .settings').addClass('active')
-    DB.app.store('settings', 'active_tab')
+    DB.sync.store('settings', 'active_tab')
   },
   // USER INTERACTION: click navbar
   showHistory: () => {
@@ -166,7 +166,7 @@ const Interface = {
     $('#trakt #discover').hide()
     $('#trakt #stats').hide()
     $('#settings').hide()
-    DB.app.store('history', 'active_tab')
+    DB.sync.store('history', 'active_tab')
   },
   // USER INTERACTION: click navbar
   showStats: () => {
@@ -187,7 +187,7 @@ const Interface = {
     Stats.load().then(() => {
       $('#trakt #stats #sloading').hide()
       $('#trakt #stats #sloaded').show()
-      DB.app.store('stats', 'active_tab')
+      DB.sync.store('stats', 'active_tab')
     })
   },
 
@@ -205,7 +205,7 @@ const Interface = {
     $('#trakt #stats').hide()
     $('#trakt #discover').show()
     $('#navbar .discover').addClass('active')
-    DB.app.store('discover', 'active_tab')
+    DB.sync.store('discover', 'active_tab')
   },
 
   // AUTO: right click menu on movies & shows, custom list and account popup
@@ -218,7 +218,7 @@ const Interface = {
     // right click CUSTOM
     const customlabels = {}
 
-    customlabels['Edit list on Trakt.tv'] = () => Misc.openExternal(DB.app.get('customs_url'))
+    customlabels['Edit list on Trakt.tv'] = () => Misc.openExternal(DB.sync.get('customs_url'))
     customlabels['Refresh list'] = () => Collection.get.traktcustoms().then(Collection.get.traktcached)
 
     customlabels.submenu1 = {
@@ -312,7 +312,7 @@ const Interface = {
   playTrailer: (url) => {
     const ytc = url.split('=')[1]
 
-    if (DB.app.get('trailers_use_mpv')) {
+    if (DB.sync.get('trailers_use_mpv')) {
       Player.play(url)
       return
     }
@@ -401,13 +401,13 @@ const Interface = {
   },
 
   showWarning: () => {
-    if (DB.app.get('legal_notice_read')) return
+    if (DB.sync.get('legal_notice_read')) return
 
     $('#legal').show()
   },
   hideWarning: () => {
     $('#legal').hide()
-    DB.app.store(true, 'legal_notice_read')
+    DB.sync.store(true, 'legal_notice_read')
   },
 
   bigPictureScale: {
@@ -438,27 +438,27 @@ const Interface = {
   },
 
   bigPicture: (onStart) => {
-    if (!DB.app.get('bigPicture')) {
+    if (!DB.sync.get('bigPicture')) {
       console.info('Entering Big Picture mode', Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor])
-      win.zoomLevel = Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor] && !DB.app.get('bpzoomdisable') ? Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor].zoomLevel : 0
+      win.zoomLevel = Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor] && !DB.sync.get('bpzoomdisable') ? Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor].zoomLevel : 0
       win.enterFullscreen()
       $('.nav.bigpicture > div').addClass('fa-compress').removeClass('fa-arrows-alt')
-      DB.app.store(true, 'bigPicture')
+      DB.sync.store(true, 'bigPicture')
 
       if (onStart) {
         $('.nav.bigpicture').hide()
         $('.nav.exitapp').show()
-        DB.app.store(false, 'bigPicture')
+        DB.sync.store(false, 'bigPicture')
       }
     } else {
       console.info('Exiting Big Picture mode')
       win.zoomLevel = 0
       win.leaveFullscreen()
       $('.nav.bigpicture > div').addClass('fa-arrows-alt').removeClass('fa-compress')
-      DB.app.store(false, 'bigPicture')
+      DB.sync.store(false, 'bigPicture')
     }
 
-    Misc.sleep(400).then(() => Player.setMPV(DB.app.get('mpv')))
+    Misc.sleep(400).then(() => Player.setMPV(DB.sync.get('mpv')))
   },
   playerPopup: () => {
     nw.Window.open('app/html/playerPopup.html', {
@@ -499,15 +499,15 @@ const Interface = {
     }
   },
   addTraktAccount: () => {
-    DB.remove('trakt_active_profile')
+    DB.sync.remove('trakt_active_profile')
     win.reload()
   },
   selectTraktAccount: (username) => {
-    if (DB.app.get('trakt_active_profile') === username) {
+    if (DB.sync.get('trakt_active_profile') === username) {
       $('#switchaccount .background').click()
       return
     }
-    DB.app.store(username, 'trakt_active_profile')
+    DB.sync.store(username, 'trakt_active_profile')
     win.reload()
   }
 }

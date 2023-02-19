@@ -199,7 +199,7 @@ const Misc = {
     const AutoLaunch = require('auto-launch')
     const launcher = new AutoLaunch({
       name: PKJSON.releaseName,
-      isHidden: DB.app.get('startminimized')
+      isHidden: DB.sync.get('startminimized')
     })
 
     launcher.isEnabled().then((isEnabled) => {

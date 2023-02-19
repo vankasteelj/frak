@@ -70,7 +70,7 @@ const Subtitles = {
   defaultLanguage: () => {
     const langs = require('langs')
     const available = langs.all()
-    const defaultsublocale = DB.app.get('defaultsublocale')
+    const defaultsublocale = DB.sync.get('defaultsublocale')
 
     for (const i in available) {
       // insert element in dropdown
@@ -87,13 +87,13 @@ const Subtitles = {
     if (!defaultsublocale) {
       const lang2B = langs.where('1', i18n.getLocale())['2B']
       $('#sub-language').val(lang2B)
-      DB.app.store(lang2B, 'defaultsublocale')
+      DB.sync.store(lang2B, 'defaultsublocale')
     }
 
     // on dropdown click, change lang
     $('#sub-language').on('change', (e) => {
       // store new lang
-      DB.app.store(e.target.value, 'defaultsublocale')
+      DB.sync.store(e.target.value, 'defaultsublocale')
       // reload to use new lang
       Player.setMPV()
     })
@@ -115,8 +115,8 @@ const Subtitles = {
     })
 
     Subtitles.client.login().then((res) => {
-      DB.app.store(username, 'os_username')
-      DB.app.store(password, 'os_password')
+      DB.sync.store(username, 'os_username')
+      DB.sync.store(password, 'os_password')
       Subtitles.opensubLogged(res)
     }).catch((err) => {
       console.error('Opensubtitles.org login error', err)
@@ -130,8 +130,8 @@ const Subtitles = {
     console.info('Logged in Opensubtitles.org')
   },
   opensubLogout: () => {
-    DB.remove('os_username')
-    DB.remove('os_password')
+    DB.sync.remove('os_username')
+    DB.sync.remove('os_password')
     Subtitles.client = new (require('opensubtitles-api'))({
       useragent: `${Settings.apikeys.opensubtitles} v${PKJSON.version}`
     })
@@ -145,8 +145,8 @@ const Subtitles = {
     console.info('Logged out of Opensubtitles.org')
   },
   opensubReLogin: () => {
-    const username = DB.app.get('os_username')
-    const password = DB.app.get('os_password')
+    const username = DB.sync.get('os_username')
+    const password = DB.sync.get('os_password')
     if (!username || !password) return
 
     Subtitles.opensubLogin(username, password)

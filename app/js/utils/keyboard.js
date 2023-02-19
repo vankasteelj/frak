@@ -22,7 +22,7 @@ const Keyboard = {
         } else if ($('#locals').is(':visible')) {
           $('.locals').trigger('click')
         } else if ($('#settings').is(':visible')) {
-          $(`.${DB.app.get('last_tab')}`).trigger('click')
+          $(`.${DB.sync.get('last_tab')}`).trigger('click')
         } else if ($('#trailer').is(':visible')) {
           Interface.closeTrailer()
         } else if ($('#about').is(':visible')) {
@@ -40,7 +40,7 @@ const Keyboard = {
         }
 
         const tabs = ['movies', 'shows', 'locals']
-        const active = DB.app.get('last_tab')
+        const active = DB.sync.get('last_tab')
 
         let next = tabs.indexOf(active)
         if (key.shiftKey) { // go previous

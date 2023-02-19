@@ -18,12 +18,12 @@ const Themes = {
     })
 
     // apply style at startup
-    Themes.apply(DB.app.get('theme'))
+    Themes.apply(DB.sync.get('theme'))
   },
 
   apply: (theme = 'dark') => {
     console.info('Theme applied:', theme)
-    DB.app.store(theme, 'theme')
+    DB.sync.store(theme, 'theme')
     document.documentElement.className = theme
     setTimeout(() => $('#theme').val(theme), 0)
   }

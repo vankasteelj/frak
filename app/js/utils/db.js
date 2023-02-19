@@ -1,62 +1,53 @@
 'use strict'
 
 const DB = {
-  _store: (data, key) => {
-    if (typeof data !== 'string') data = JSON.stringify(data)
-    localStorage[key] = zlib.deflateSync(data).toString('base64')
-    return true
-  },
-  _get: (key) => {
-    let data
-
-    try {
-      data = zlib.inflateSync(Buffer.from(localStorage[key], 'base64')).toString()
-    } catch (e) {}
-
-    try {
-      data = JSON.parse(data)
-    } catch (e) {}
-
-    return data
-  },
   reset: () => {
     localStorage.clear()
+    localforage.clear()
     IB.reset()
     Cache.delete()
     win.reload()
   },
-  remove: (key) => {
-    localStorage.removeItem(key)
-  },
-  app: {
+  sync: { // localStorage
     store: (data, key) => {
-      return DB._store(data, key)
+      if (typeof data !== 'string') data = JSON.stringify(data)
+      localStorage[key] = zlib.deflateSync(data).toString('base64')
+      return true
     },
     get: (key) => {
-      return DB._get(key)
+      let data
+      try {
+        data = zlib.inflateSync(Buffer.from(localStorage[key], 'base64')).toString()
+      } catch (e) {}
+      try {
+        data = JSON.parse(data)
+      } catch (e) {}
+      return data
+    }, 
+    remove: (key) => {
+      return localStorage.removeItem(key)
     }
   },
-  trakt: {
+  app: { // localforage
     store: (data, key) => {
-      try {
-        const active = DB._get('trakt_active_profile')
-        return DB._store(data, active + key)
-      } catch (e) {}
+      return localforage.setItem(key, data)
     },
     get: (key) => {
-      try {
-        const active = DB._get('trakt_active_profile')
-        return DB._get(active + key)
-      } catch (e) {}
+      return localforage.getItem(key)
     },
-    _store: (data, key) => {
-      return localforage.setItem(DB._get('trakt_active_profile') + key, data)
+    remove: (key) => {
+      return localforage.removeItem(key)
+    }
+  },
+  trakt: { // localforage
+    store: (data, key) => {
+      return localforage.setItem(DB.sync.get('trakt_active_profile') + key, data)
     },
-    _get: (key) => {
-      return localforage.getItem(DB._get('trakt_active_profile') + key)
+    get: (key) => {
+      return localforage.getItem(DB.sync.get('trakt_active_profile') + key)
     },
-    _remove: (key) => {
-      return localforage.removeItem(DB._get('trakt_active_profile') + key)
+    remove: (key) => {
+      return localforage.removeItem(DB.sync.get('trakt_active_profile') + key)
     }
   }
 }
