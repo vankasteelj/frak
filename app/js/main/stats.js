@@ -127,7 +127,7 @@ const Stats = {
   getShowsStats: () => {
     if (Stats.cache.showsStats) return Promise.resolve(Stats.cache.showsStats)
 
-    return DB.trakt.get('watchedShows').then((shows = []) => {
+    return DB.trakt._get('watchedShows').then((shows = []) => {
       let mostWatched = { idx: null, timespent: null }
       let genres = []; let countries = []; let networks = []; let years = []
 
