@@ -2,78 +2,90 @@
 
 const WB = {
   store: {
-    movies: (watchedMovies) => DB.trakt.store(watchedMovies, 'watchedMovies'),
-    shows: (watchedShows) => DB.trakt.store(watchedShows, 'watchedShows')
+    movies: (watchedMovies) => DB.trakt._store(watchedMovies, 'watchedMovies'),
+    shows: (watchedShows) => DB.trakt._store(watchedShows, 'watchedShows')
   },
   get: {
-    movies: () => DB.trakt.get('watchedMovies') || [],
-    shows: () => DB.trakt.get('watchedShows') || []
+    movies: () => DB.trakt._get('watchedMovies'),
+    shows: () => DB.trakt._get('watchedShows')
   },
   find: {
-    movie: (id) => DB.trakt.get('watchedMovies').find(o => o.movie.ids.slug === id),
-    show: (id) => DB.trakt.get('watchedShows').find(o => o.show.ids.slug === id)
+    movie: (id) => {
+      return DB.trakt._get('watchedMovies').then(wM => {
+        return wM.find(o => o.movie.ids.slug === id)
+      })
+    },
+    show: (id) => {
+      return DB.trakt._get('watchedShows').then(wS => {
+        return wS.find(o => o.show.ids.slug === id)
+      })
+    }
   },
   markAsWatched: (data) => {
     let db, found
     if (data.movie) {
-      db = WB.get.movies()
-      found = db.find((movie, index) => {
-        if (movie.movie.ids.slug === data.movie.ids.slug) {
-          db[index].plays++
-          return true
-        }
-        return false
-      })
-      if (!found) {
-        db.push({
-          plays: 1,
-          movie: data.movie
+      WB.get.movies().then((db = []) => {
+        found = db.find((movie, index) => {
+          if (movie.movie.ids.slug === data.movie.ids.slug) {
+            db[index].plays++
+            return true
+          }
+          return false
         })
-      }
-      WB.store.movies(db)
+        if (!found) {
+          db.push({
+            plays: 1,
+            movie: data.movie
+          })
+        }
+        WB.store.movies(db)
+      })
     } else {
-      db = WB.get.shows()
-      found = db.find((show, index) => {
-        if (show.show.ids.slug === data.show.ids.slug) {
-          db[index].plays++
-          return true
-        }
-        return false
-      })
-      if (!found) {
-        db.push({
-          plays: 1,
-          show: data.show
+      WB.get.shows().then((db = []) => {
+        found = db.find((show, index) => {
+          if (show.show.ids.slug === data.show.ids.slug) {
+            db[index].plays++
+            return true
+          }
+          return false
         })
-      }
-      WB.store.shows(db)
+        if (!found) {
+          db.push({
+            plays: 1,
+            show: data.show
+          })
+        }
+        WB.store.shows(db)
+      })
     }
   },
   markAsUnwatched: (slug) => {
-    const mdb = WB.get.movies()
-    const sdb = WB.get.shows()
-
-    mdb.find((movie, index) => {
-      if (movie.movie.ids.slug === slug) {
-        mdb[index].plays--
-        if (!mdb[index].plays) {
-          mdb.splice(index, 1)
+    return Promise.all([
+      WB.get.movies(),
+      WB.get.shows()
+    ]).then(([mdb = [], sdb = []]) => {
+      mdb.find((movie, index) => {
+        if (movie.movie.ids.slug === slug) {
+          mdb[index].plays--
+          if (!mdb[index].plays) {
+            mdb.splice(index, 1)
+          }
+          return true
         }
-        return true
-      }
-      return false
-    })
-    sdb.find((show, index) => {
-      if (show.show.ids.slug === slug) {
-        sdb[index].plays--
-        if (!sdb[index].plays) {
-          sdb.splice(index, 1)
+        return false
+      })
+      sdb.find((show, index) => {
+        if (show.show.ids.slug === slug) {
+          sdb[index].plays--
+          if (!sdb[index].plays) {
+            sdb.splice(index, 1)
+          }
+          return true
         }
-        return true
-      }
-      return false
+        return false
+      })
+      WB.store.movies(mdb)
+      WB.store.shows(sdb)
     })
-    WB.store.movies(mdb)
-    WB.store.shows(sdb)
   }
 }

@@ -571,12 +571,13 @@ const Details = {
         model.show && $(`#collection #${model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>')
 
         Misc.sleep(800).then(() => {
-          WB.markAsWatched(base)
+          return WB.markAsWatched(base)
+        }).then(() => {
           if (model.ids) {
             return Trakt.reload(true, type, base.show.ids.slug)
           } else {
             return Trakt.reload()
-          }
+          }            
         }).then(collections => {
           base.episode ? Details.loadLocalNext(true) : Details.loadNext(true)
         })

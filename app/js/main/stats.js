@@ -127,34 +127,35 @@ const Stats = {
   getShowsStats: () => {
     if (Stats.cache.showsStats) return Promise.resolve(Stats.cache.showsStats)
 
-    const shows = DB.trakt.get('watchedShows')
-    let mostWatched = { idx: null, timespent: null }
-    let genres = []; let countries = []; let networks = []; let years = []
+    return DB.trakt.get('watchedShows').then((shows = []) => {
+      let mostWatched = { idx: null, timespent: null }
+      let genres = []; let countries = []; let networks = []; let years = []
 
-    for (const s in shows) {
-      genres = genres.concat(shows[s].show.genres)
-      countries = countries.concat(shows[s].show.country)
-      networks = networks.concat(shows[s].show.network)
-      years = years.concat(shows[s].show.year)
+      for (const s in shows) {
+        genres = genres.concat(shows[s].show.genres)
+        countries = countries.concat(shows[s].show.country)
+        networks = networks.concat(shows[s].show.network)
+        years = years.concat(shows[s].show.year)
 
-      const timespent = shows[s].plays * shows[s].show.runtime
-      if (timespent > mostWatched.timespent) mostWatched = { idx: s, timespent: timespent }
-    }
+        const timespent = shows[s].plays * shows[s].show.runtime
+        if (timespent > mostWatched.timespent) mostWatched = { idx: s, timespent: timespent }
+      }
 
-    genres = Stats._freqCount(genres)
-    networks = Stats._freqCount(networks)
-    countries = Stats._freqCount(countries)
-    years = Stats._freqCount(years)
+      genres = Stats._freqCount(genres)
+      networks = Stats._freqCount(networks)
+      countries = Stats._freqCount(countries)
+      years = Stats._freqCount(years)
 
-    Stats.cache.showsStats = {
-      genres: genres,
-      years: years,
-      countries: countries,
-      networks: networks, // unused
-      most_watched: { show: shows[mostWatched.idx], time_spent: mostWatched.timespent * 60 }
-    }
+      Stats.cache.showsStats = {
+        genres: genres,
+        years: years,
+        countries: countries,
+        networks: networks, // unused
+        most_watched: { show: shows[mostWatched.idx], time_spent: mostWatched.timespent * 60 }
+      }
 
-    return Stats.cache.showsStats
+      return Stats.cache.showsStats
+    })
   },
 
   getLastMonth: () => {

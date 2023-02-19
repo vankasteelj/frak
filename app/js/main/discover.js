@@ -285,8 +285,7 @@ const Discover = {
       const shows = DB.trakt.get('traktshows' + key) || []
       $('#discover #disc-spinner').hide()
       for (const show of shows) {
-        const item = Items.constructDiscoverShow(show)
-        $('#discover .disc-proposal .row').append(item)
+        Items.constructDiscoverShow(show).then(item => $('#discover .disc-proposal .row').append(item))
       }
       DB.trakt._get('traktratings').then(Items.applyRatings)
       $('#discover .disc-proposal .categories div').removeClass('active')
@@ -308,8 +307,7 @@ const Discover = {
       $('#discover .disc-proposal .row').html('')
       $('#discover #disc-spinner').hide()
       for (const movie of movies) {
-        const item = Items.constructDiscoverMovie(movie)
-        $('#discover .disc-proposal .row').append(item)
+        Items.constructDiscoverMovie(movie).then(item => $('#discover .disc-proposal .row').append(item))
       }
       DB.trakt._get('traktratings').then(Items.applyRatings)
       $('#discover .disc-proposal .categories div').removeClass('active')
