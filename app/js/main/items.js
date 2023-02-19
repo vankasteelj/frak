@@ -602,7 +602,7 @@ const Items = {
         labels.separator = true
         show.show.source === 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.shows.hide({
           id: show.show.ids.slug
-        }).then(() => DB.trakt.store(0, 'lastrecommendedsync')).then(() => $(`#discover #${d.id}`).remove()))
+        }).then(() => DB.trakt._store(0, 'lastrecommendedsync')).then(() => $(`#discover #${d.id}`).remove()))
         labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`)
         const menu = Misc.customContextMenu(labels)
         $(`#discover #${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
@@ -681,7 +681,7 @@ const Items = {
         labels.separator = true
         movie.movie.source === 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.movies.hide({
           id: movie.movie.ids.slug
-        }).then(() => DB.trakt.store(0, 'lastrecommendedsync')).then(() => $(`#discover #${d.id}`).remove()))
+        }).then(() => DB.trakt._store(0, 'lastrecommendedsync')).then(() => $(`#discover #${d.id}`).remove()))
         labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`)
         const menu = Misc.customContextMenu(labels)
         $(`#discover #${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
