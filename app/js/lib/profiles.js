@@ -43,7 +43,7 @@ const Profiles = {
     DB.remove(username + 'traktsynchistory')
     DB.remove(username + 'trakthistory')
     DB.remove(username + 'trakthistorycollection')
-    DB.remove(username + 'traktlastactivities')
+    DB.trakt._remove('traktlastactivities')
     DB.trakt._remove('watchedMovies')
     DB.trakt._remove('watchedShows')
     DB.trakt._remove('traktsyncrating')

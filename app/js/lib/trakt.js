@@ -47,19 +47,18 @@ const Trakt = {
 
   last_activities: (type) => {
     let cached = false
-    return new Promise((resolve, reject) => {
-      const cachedData = DB.trakt.get('traktlastactivities')
+    return DB.trakt._get('traktlastactivities').then(cachedData => {
       if (cachedData && (cachedData.ttl > Date.now())) {
         console.debug('We got cached trakt last_activities')
         cached = true
-        resolve(cachedData)
+        return cachedData
       } else {
-        resolve(Trakt.client.sync.last_activities())
+        return Trakt.client.sync.last_activities()
       }
     }).then(results => {
       if (!cached) {
         results.ttl = Date.now() + (1000 * 10) // 10s cache, avoid multiple calls
-        DB.trakt.store(results, 'traktlastactivities')
+        DB.trakt._store(results, 'traktlastactivities')
       }
 
       if (type === 'rate') {

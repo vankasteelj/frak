@@ -77,8 +77,8 @@ const Discover = {
       $('#discover .type .trending').addClass('active')
 
       return DB.trakt._get('lasttrendingsync').then(lasttrendingsync => {
-        // cache for 30min  
-        if (lasttrendingsync && (Date.now() - lasttrendingsync < 30 * 60 * 1000)) {
+        // cache for 180min
+        if (lasttrendingsync && (Date.now() - lasttrendingsync < 180 * 60 * 1000)) {
           console.info('Trakt - trending movies/shows already in cache')
           return
         } else {
@@ -106,8 +106,8 @@ const Discover = {
       $('#discover .type .popular').addClass('active')
 
       return DB.trakt._get('lastpopularsync').then(lastpopularsync => {
-        // cache for 30min
-        if (lastpopularsync && (Date.now() - lastpopularsync < 30 * 60 * 1000)) {
+        // cache for 180min
+        if (lastpopularsync && (Date.now() - lastpopularsync < 180 * 60 * 1000)) {
           console.info('Trakt - popular movies/shows already in cache')
           return
         } else {
@@ -135,8 +135,8 @@ const Discover = {
       $('#discover .type .watched').addClass('active')
 
       return DB.trakt._get('lastwatchedsync').then(lastwatchedsync => {
-        // cache for 30min
-        if (lastwatchedsync && (Date.now() - lastwatchedsync < 30 * 60 * 1000)) {
+        // cache for 180min
+        if (lastwatchedsync && (Date.now() - lastwatchedsync < 180 * 60 * 1000)) {
           console.info('Trakt - watched movies/shows already in cache')
           return
         } else {
@@ -164,8 +164,8 @@ const Discover = {
       $('#discover .type .anticipated').addClass('active')
 
       return DB.trakt._get('lastanticipatedsync').then(lastanticipatedsync => {
-        // cache for 30min
-        if (lastanticipatedsync && (Date.now() - lastanticipatedsync < 30 * 60 * 1000)) {
+        // cache for 180min
+        if (lastanticipatedsync && (Date.now() - lastanticipatedsync < 180 * 60 * 1000)) {
           console.info('Trakt - anticipated movies/shows already in cache')
           return
         } else {
@@ -193,8 +193,8 @@ const Discover = {
       $('#discover .type .recommended').addClass('active')
 
       return DB.trakt._get('lastrecommendedsync').then(lastrecommendedsync => {
-        // cache for 30min
-        if (lastrecommendedsync && (Date.now() - lastrecommendedsync < 30 * 60 * 1000)) {
+        // cache for 180min
+        if (lastrecommendedsync && (Date.now() - lastrecommendedsync < 180 * 60 * 1000)) {
           console.info('Trakt - recommended movies/shows already in cache')
           return
         } else {
