@@ -310,48 +310,62 @@ const Trakt = {
       }
     }
 
-    const post = {
-      progress: progress
-    }
-    const item = {
-      ids: model.ids
-    }
-
-    post[type] = item
-
-    console.info('Trakt - scrobble %s (%s%)', action, progress)
-    Trakt.client.scrobble[action](post).catch(console.error)
-
-    if (progress > 80 && action === 'stop') {
-      Details.buttonAsWatched()
-
-      if (Player.config.model.metadata) {
-        // local item
-        if (type === 'episode') {
-          Details.loadLocalNext()
-        }
+    new Promise(resolve => {
+      if (type === 'episode' && !model.ids) { // this is s01e01 from Discover or Custom list
+        console.log('Trakt - scrobble needs episode.ids: fetching')
+        return Trakt.client.episodes.summary({id: Player.config.model.show.ids.slug, season: Player.config.model.next_episode.season, episode: Player.config.model.next_episode.number}).then(res => {
+          Player.config.model.next_episode = res
+          model = res
+          return resolve()
+        })
       } else {
-        // trakt list
-        if (type === 'episode') {
-          setTimeout(() => {
-            $('#details-sources').hide()
-            $('#details-loading').hide()
-            $('#details-spinner').show()
-          }, 50)
+        return resolve()
+      }
+    }).then(() => {
+      const post = {
+        progress: progress
+      }
+      const item = {
+        ids: model.ids
+      }
 
-          // display spinner on list
-          Player.config.model.show && $(`#collection #${Player.config.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>')
+      post[type] = item
 
-          Misc.sleep(2000).then(() => {
-            return Trakt.reload(true, type, Details.model.show.ids.slug)
-          }).then(collections => {
-            Details.loadNext()
-          })
+      console.info('Trakt - scrobble %s (%s%)', action, progress)
+      Trakt.client.scrobble[action](post).catch(console.error)
+
+      if (progress > 80 && action === 'stop') {
+        Details.buttonAsWatched()
+
+        if (Player.config.model.metadata) {
+          // local item
+          if (type === 'episode') {
+            Details.loadLocalNext()
+          }
         } else {
-          $(`#collection #${Player.config.model.movie.ids.slug}`).hide()
+          // trakt list
+          if (type === 'episode') {
+            setTimeout(() => {
+              $('#details-sources').hide()
+              $('#details-loading').hide()
+              $('#details-spinner').show()
+            }, 50)
+
+            // display spinner on list
+            Player.config.model.show && $(`#collection #${Player.config.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>')
+
+            Misc.sleep(2000).then(() => {
+              return Trakt.reload(true, type, Details.model.show.ids.slug)
+            }).then(collections => {
+              Details.loadNext()
+            })
+          } else {
+            $(`#collection #${Player.config.model.movie.ids.slug}`).hide()
+          }
         }
       }
-    }
+    })
+
   },
   getGenres: () => {
     const cached = DB.sync.get('traktgenres')
