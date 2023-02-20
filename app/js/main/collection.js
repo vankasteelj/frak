@@ -403,7 +403,6 @@ const Collection = {
 
   show: {
     shows: (shows = []) => {
-      $('#collection #shows').html('')
       Promise.all([
         DB.trakt.get('showsbank'),
         DB.trakt.get('hiddenitems')
@@ -414,7 +413,7 @@ const Collection = {
           if (hiddenitems && hiddenitems[show.show.ids.slug]) continue
           items.push(Items.constructShow(show))
         }
-        $('#collection #shows').append(items)
+        $('#collection #shows').html('').append(items)
         DB.trakt.get('traktratings').then(Items.applyRatings)
 
         if (!$('#collection #shows .grid-item').length) {
@@ -423,7 +422,6 @@ const Collection = {
       })
     },
     movies: (movies = []) => {
-      $('#collection #movies').html('')
       Promise.all([
         DB.trakt.get('moviesbank'),
         DB.trakt.get('hiddenmovies'),
@@ -440,7 +438,7 @@ const Collection = {
           }
           items.push(Items.constructMovie(movie))
         }
-        $('#collection #movies').append(items)
+        $('#collection #movies').html('').append(items)
         DB.trakt.get('traktratings').then(Items.applyRatings)
 
         if (!$('#collection #movies .grid-item').length) {
@@ -451,7 +449,6 @@ const Collection = {
       })
     },
     customs: (collection = []) => {
-      $('#collection #customs').html('')
       DB.app.get('customsbank').then(customsbank => {
         Collection.customsbank = customsbank || []
         const items = []
@@ -468,7 +465,7 @@ const Collection = {
             items.push(Items.constructCustomShow(item))
           }
         }
-        $('#collection #customs').append(items)
+        $('#collection #customs').html('').append(items)
         DB.trakt.get('traktratings').then(Items.applyRatings)
 
         if (!$('#collection #customs .grid-item').length) {
@@ -480,7 +477,6 @@ const Collection = {
     },
     locals: {
       movies: (movies = []) => {
-        $('#collection #locals .movies .row').html('')
         if (!movies.length) return
         $('#collection #locals .waitforlibrary').hide()
         $('#collection #locals .categories .movies').show()
@@ -489,10 +485,9 @@ const Collection = {
           if ($(`#${Misc.slugify(movie.path)}`).length) continue
           items.push(Items.constructLocalMovie(movie))
         }
-        $('#collection #locals .movies .row').append(items)
+        $('#collection #locals .movies .row').html('').append(items)
       },
       shows: (shows = []) => {
-        $('#collection #locals .shows .row').html('')
         if (!shows.length) return
         $('#collection #locals .waitforlibrary').hide()
         $('#collection #locals .categories .shows').show()
@@ -500,10 +495,9 @@ const Collection = {
         for (const show of shows) {
           items.push(Items.constructLocalShow(show))
         }
-        $('#collection #locals .shows .row').append(items)
+        $('#collection #locals .shows .row').html('').append(items)
       },
       unmatched: (unmatched = []) => {
-        $('#collection #locals .unmatched .row').html('')
         if (!unmatched.length) return
         $('#collection #locals .waitforlibrary').hide()
         $('#collection #locals .categories .unmatched').show()
@@ -511,7 +505,7 @@ const Collection = {
         for (const unmatch of unmatched) {
           items.push(Items.constructLocalUnmatched(unmatch))
         }
-        $('#collection #locals .unmatched .row').append(items)
+        $('#collection #locals .unmatched .row').html('').append(items)
       }
     },
     history: (collection = [], update = false) => {
