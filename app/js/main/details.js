@@ -562,7 +562,7 @@ const Details = {
         })
       }
     }).then(() => {
-      Trakt.client.sync.history.add(post)
+      return Trakt.client.sync.history.add(post)
     }).finally(() => {
       if (type === 'episodes') {
         setTimeout(() => {
@@ -574,15 +574,15 @@ const Details = {
         // display spinner on list
         model.show && $(`#collection #${model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>')
 
-        Misc.sleep(800).then(() => {
+        Misc.sleep(100).then(() => {
           return WB.markAsWatched(base)
         }).then(() => {
           if (model.ids) {
             return Trakt.reload(true, type, base.show.ids.slug)
           } else {
             return Trakt.reload()
-          }            
-        }).then(collections => {
+          }
+        }).then(() => Misc.sleep(700)).then(() => {
           base.episode ? Details.loadLocalNext(true) : Details.loadNext(true)
         })
       } else {
