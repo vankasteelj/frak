@@ -471,7 +471,7 @@ const Items = {
 
     let image;
     IB.get(show.show.ids).then(cached => {
-      image = cached.fanart || cached.poster
+      image = cached.poster || cached.fanart
       return Items.getImage(image, show.show.ids, 'show', 'poster')
     }).then(img => {
       img && $(`#${d.watchedId} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.watchedId} .fanart img`).css('opacity', '0')
@@ -520,7 +520,7 @@ const Items = {
 
     let image;
     IB.get(movie.movie.ids).then(cached => {
-      image = cached.fanart || cached.poster
+      image = cached.poster || cached.fanart
       return Items.getImage(image, movie.movie.ids, 'movie', 'poster')
     }).then(img => {
       img && $(`#${d.watchedId} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.watchedId} .fanart img`).css('opacity', '0')
