@@ -215,6 +215,13 @@
   overflow: hidden;
   position: relative;
   background-position: center;
+  filter: brightness(1) grayscale(0) opacity(1);
+  transition: all .5s;
+}
+
+.grid-item:hover>.fanart {
+  filter: brightness(1.15) grayscale(0) opacity(1) !important;
+  transition: all .5s;
 }
 
 #collection .local-item {
@@ -1108,12 +1115,12 @@ a {
 }
 
 #discover .grid-item > .watched {
-  filter: grayscale(70%) opacity(30%);
+  filter: brightness(1) grayscale(70%) opacity(30%);
   transition: all .5s;
 }
 
 #discover .grid-item:hover > .watched {
-  filter: grayscale(10%) opacity(90%);
+  filter: brightness(1) grayscale(10%) opacity(90%);
 }
 
 #discover .item-spinner .fa-spin,
