@@ -389,5 +389,7 @@
 	"Also present in Custom list": "Également présent dans la liste personnalisée",
 	"Add to custom list": "Ajouter à la liste personnalisée",
 	"Rank": "Rang",
-    "Last watched episode: none": "Dernier épisode visionné: aucun"
+	"Last watched episode: none": "Dernier épisode visionné: aucun",
+	"Clean all data (keep the settings)": "Nettoyer les données (conserve les paramètres)",
+	"This will delete all the downloaded data but will keep your settings intact": "Toutes les données téléchargées seront supprimées, mais les paramètres resteront inchangés"
 }

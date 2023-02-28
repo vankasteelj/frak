@@ -56,7 +56,7 @@
         </div>
 
         <div class="reset">
-          <button class="disconnect" onClick="Trakt.disconnect()">
+          <button class="disconnect" onClick="localforage.clear()">
             <i18n>Stuck? Click here to reset the app.</i18n>
           </button>
         </div>
@@ -955,6 +955,16 @@
               <span class="slider round"></span>
             </label>
             &nbsp;<i18n>yes</i18n>
+          </div>
+        </div>
+        <div class="option">
+          <div class="text i18n" title="This will delete all the downloaded data but will keep your settings intact">
+            <i18n>Clean all data (keep the settings)</i18n>
+          </div>
+          <div class="action">
+            <button class="disconnect" onClick="localforage.clear()">
+              <i18n>Reset</i18n>
+            </button>
           </div>
         </div>
         <div class="option">
