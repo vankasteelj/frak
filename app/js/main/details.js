@@ -574,7 +574,7 @@ const Details = {
         // display spinner on list
         model.show && $(`#collection #${model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>')
 
-        Misc.sleep(100).then(() => {
+        Misc.sleep(800).then(() => {
           return WB.markAsWatched(base)
         }).then(() => {
           if (model.ids) {
