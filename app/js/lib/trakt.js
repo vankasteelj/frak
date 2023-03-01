@@ -354,9 +354,9 @@ const Trakt = {
             // display spinner on list
             Player.config.model.show && $(`#collection #${Player.config.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>')
 
-            Misc.sleep(2000).then(() => {
+            Misc.sleep(800).then(() => {
               return Trakt.reload(true, type, Details.model.show.ids.slug)
-            }).then(collections => {
+            }).then(() => Misc.sleep(700)).then(() => {
               Details.loadNext()
             })
           } else {
