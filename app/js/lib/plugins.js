@@ -43,8 +43,21 @@ const Plugins = {
           console.info('Plugins - %s cannot be loaded', file, e)
         }
       }
+      Plugins.addTest()
       console.info('Plugins - loading:', debugnames.join(', '))
     })
+  },
+  addTest: () => {
+    const item = '<div class="option">' +
+      '<div class="text"></div>' +
+      '<div class="action">' +
+        '<button class="reload" onClick="Plugins.test()">' +
+          `<i18n>${i18n.__('Test plugins')}</i18n>` +
+        '</button>' +
+      '</div>' +
+    '</div>'
+
+    $('#settings .plugins').append(item)
   },
   addToSettings: (plugin) => {
     const id = plugin.name.toLowerCase().replace(/\s/g, '-')
@@ -80,5 +93,29 @@ const Plugins = {
     if (plugin.default) {
       $(`#${id}`).trigger('click')
     }
+  },
+  test: () => {
+    $('#testPlugins').show()
+    $('#testPlugins .background').on('click', (evt) => {
+      $('#testPlugins .background').off('click')
+      $('#testPlugins').hide()
+      $('#tP-wait').show()
+      $('#testPlugins .spinner').show()
+      $('#tP-results table').html('')
+    })
+
+    Search.testOnline().then(results => {
+      $('#tP-wait').hide()
+      $('#testPlugins .spinner').hide()
+      $('#tP-results table').append(`<tr><th></th><th>${i18n.__('Shows')}</th><th>${i18n.__('Movies')}</th></tr>`)
+
+      const check = (bool) => bool ? 'fa-check-circle' : 'fa-times-circle'
+      for (let i in results.shows) {
+        let item = `<tr><td>${results.shows[i].tested}</td><td><div class="fa ${check(results.shows[i].working)}"></div></td><td><div class="fa ${check(results.movies[i].working)}"></div></td></tr>`
+        $('#tP-results table').append(item)
+      }
+
+      $('#tP-results').show()
+    })
   }
 }

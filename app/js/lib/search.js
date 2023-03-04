@@ -30,6 +30,69 @@ const Search = {
     })
   },
 
+  testOnline: () => {
+    const getAll = (t) => {
+      return Promise.all(Object.keys(Plugins.loaded).map(plugin => {
+        try {
+          return Plugins.loaded[plugin].search(t).then(r => {
+            if (!r[0]) {
+              return Promise.resolve({
+                tested: plugin,
+                working: false,
+                results: undefined
+              })
+            } else {
+              return Promise.resolve({
+                tested: plugin,
+                working: true,
+                results: r
+              })
+            }
+          }).catch(err => {
+            return Promise.resolve({
+              tested: plugin,
+              working: false,
+              results: undefined
+            })
+          })
+        } catch (e) {
+          return Promise.resolve({
+            tested: plugin,
+            working: false,
+            results: undefined
+          })
+        }
+      })).then(r => {
+        //console.info('Online search results - %s:', t.type, r)
+        return r
+      })
+    }
+
+    const results = {
+      movies: undefined,
+      shows: undefined
+    }
+
+    console.info('Testing online search - shows...')
+    return getAll({
+      keywords: 's01e01',
+      type: 'show'
+    }).then(shows => {
+      results.shows = shows
+      return Misc.sleep(15000) //required for some apis
+    }).then(() => {
+      console.info('Testing online search - movies...')
+      return getAll({
+        keywords: 'the',
+        type: 'movie'
+      })
+    }).then(movies => {
+      results.movies = movies
+      console.info('Testing online search - testing is done.', results)
+      return results
+    })
+  },
+
   online: (keywords, type) => {
     console.info('Searching for \'%s\' [%s]', keywords, type)
 

@@ -48,8 +48,54 @@
 }
 
 #about .content,
-#legal .content {
+#legal .content,
+#testPlugins .content {
   background-color: var(--app-color-main);
+}
+
+#testPlugins .content h3 {
+  text-align: center;
+}
+
+#testPlugins #tP-wait {
+  text-align: center;
+  font-size: .9em;
+  color: var(--app-font-color-dimmedstrong);
+}
+
+#testPlugins .content {
+  height: 330px;
+}
+
+#testPlugins #tP-results {
+  height: 250px;
+  overflow-y: scroll;
+}
+
+#testPlugins #tP-results table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#testPlugins td {
+  border: 1px solid var(--app-color-alt);
+}
+
+#testPlugins th,
+#testPlugins td {
+  text-align: center;
+}
+
+#testPlugins .fa-check-circle {
+  color: var(--button-bg);
+}
+#testPlugins .fa-times-circle {
+  color: var(--button-warn);
+}
+
+#testPlugins th,
+#testPlugins td {
+  padding: 5px;
 }
 
 #collection .fanart,
@@ -482,6 +528,8 @@
 #stats #sloaded,
 #about,
 #legal,
+#testPlugins,
+#testPlugins #tP-results,
 #details,
 #details #details-next,
 #autolaunchminimized,
@@ -1460,20 +1508,23 @@ a {
   margin: 40px auto;
 }
 
-#legal {
+#legal,
+#testPlugins {
   height: 100vh;
   position: fixed;
   width: 100vw;
   z-index: 9997;
 }
 
-#legal .background {
+#legal .background,
+#testPlugins .background {
   height: 100%;
   position: absolute;
   width: 100%;
 }
 
-#legal .content {
+#legal .content,
+#testPlugins .content {
   border-radius: 5px;
   margin: 25vh calc(50% - 225px);
   padding: 10px;
@@ -1834,7 +1885,8 @@ a {
 }
 
 #playing,
-#legal .background {
+#legal .background,
+#testPlugins .background {
   background-color: rgba(11, 11, 11, .8);
 }
 

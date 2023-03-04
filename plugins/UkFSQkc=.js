@@ -3,8 +3,8 @@
 const got = require('got')
 const defaultURL = atob('aHR0cHM6Ly90b3JyZW50YXBpLm9yZy9wdWJhcGlfdjIucGhw')
 const name = atob('UkFSQkc=')
-let token = {};
-let defaultTTL = 15*60*1000
+const token = {};
+const defaultTTL = 15*60*1000
 
 const get = (keywords, cfg = {}) => {
   const url = cfg.url || defaultURL
