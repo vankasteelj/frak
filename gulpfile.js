@@ -386,7 +386,7 @@ gulp.task('build:modclean', () => {
   return Promise.all(parsePlatforms().map((platform) => {
     const mc = new ModClean({
       cwd: path.join(releasesDir, pkJson.releaseName, platform, 'node_modules'),
-      patterns: ['default:safe', 'default:caution']
+      patterns: ['default:safe']
     })
     return mc.clean().then(r => {
       console.log('ModClean - Build: %s files/folders removed', r.deleted.length)
