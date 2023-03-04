@@ -3,6 +3,8 @@
 const got = require('got')
 const defaultURL = atob('aHR0cHM6Ly90b3JyZW50YXBpLm9yZy9wdWJhcGlfdjIucGhw')
 const name = atob('UkFSQkc=')
+let token = {};
+let defaultTTL = 15*60*1000
 
 const get = (keywords, cfg = {}) => {
   const url = cfg.url || defaultURL
@@ -12,8 +14,21 @@ const get = (keywords, cfg = {}) => {
     }
   }
 
-  return got(defaultURL + '?get_token=get_token&app_id=pubapi', config).then(tok => {
-    return got(defaultURL + `?mode=search&search_string=${keywords}&format=json_extended&category=${cfg.cat}&sort=seeders&ranked=0&app_id=pubapi&token=${JSON.parse(tok.body).token}`, config)
+  const getToken = () => {
+    if (token.ttl > Date.now()) {
+      // token is good
+      return Promise.resolve(token.value)
+    } else {
+      return got(defaultURL + '?get_token=get_token&app_id=pubapi', config).then(tok => {
+        token.ttl = Date.now() + defaultTTL
+        token.value = JSON.parse(tok.body).token
+        return token.value
+      })
+    }
+  }
+
+  return getToken().then(tok => {
+    return got(defaultURL + `?mode=search&search_string=${keywords}&format=json_extended&category=${cfg.cat}&sort=seeders&ranked=0&app_id=pubapi&token=${tok}`, config)
   }).then(res => {
     const body = JSON.parse(res.body)
     const results = []
