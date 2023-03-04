@@ -427,7 +427,6 @@ const sd = (fix) => {
         'gui',
         'http',
         'https',
-        'request',
         'dns',
         'path',
         'spawn',

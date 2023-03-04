@@ -7,7 +7,6 @@ const path = require('path')
 const fs = require('fs-extra')
 const zlib = require('zlib')
 const spawn = require('child_process').spawn
-const request = require('request')
 const https = require('https')
 const http = require('http')
 const localforage = require('localforage')
