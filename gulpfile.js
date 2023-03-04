@@ -378,12 +378,25 @@ gulp.task('npm:modclean', () => {
   }).catch(console.log)
 })
 
+// remove unused node_modules from Build
+gulp.task('build:modclean', () => {
+  return Promise.all(parsePlatforms().map((platform) => {
+    const mc = new ModClean({
+      cwd: path.join(releasesDir, pkJson.releaseName, platform, 'node_modules'),
+      patterns: ['default:safe', 'default:caution']
+    })
+    return mc.clean().then(r => {
+      console.log('ModClean - Build: %s files/folders removed', r.deleted.length)
+    }).catch(console.log)
+  }))
+})
+
 // npm prune the build/<platform>/ folder (to remove devDeps)
 gulp.task('build:prune', () => {
   return Promise.all(parsePlatforms().map((platform) => {
     const dirname = path.join(releasesDir, pkJson.releaseName, platform)
     return new Promise((resolve, reject) => {
-      exec('cd "' + dirname + '" && npm prune', (error, stdout, stderr) => {
+      exec('cd "' + dirname + '" && npm prune --production', (error, stdout, stderr) => {
         if (error || stderr) {
           console.log('`npm prune` failed for %s\n', platform)
           console.log(stderr || error)
@@ -504,7 +517,7 @@ gulp.task('standard:fix', () => {
 })
 
 // build app from sources
-gulp.task('build', gulp.series('npm:modclean', 'mpv', 'nwjs', 'build:nwjsclean', 'build:prune'))
+gulp.task('build', gulp.series('npm:modclean', 'mpv', 'nwjs', 'build:nwjsclean', 'build:prune', 'build:modclean'))
 
 // create redistribuable packages
 gulp.task('dist', gulp.series('build', 'build:compress', 'build:deb', 'build:nsis'))
