@@ -363,7 +363,10 @@ gulp.task('build:nwjsclean', () => {
       dirname + '/payload.exe',
       dirname + '/pnacl',
       dirname + '/d3dcompiler_47.dll',
-      dirname + '/debug.log'
+      dirname + '/debug.log',
+      dirname + '/locales/*',
+      '!' + dirname + '/locales/fr.pak',
+      '!' + dirname + '/locales/en-US.pak',
     ]
     console.log('Removing unused %s nwjs files from %s...', platform, dirname)
     return del(removeArray).then(console.log).catch(console.error)
