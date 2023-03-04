@@ -462,6 +462,10 @@ const Collection = {
             items.push(Items.constructCustomMovie(item))
           }
           if (item.type === 'show') {
+            if (!item.show.first_aired) {
+              untrack.push(item.show.title)
+              continue
+            }
             items.push(Items.constructCustomShow(item))
           }
         }
