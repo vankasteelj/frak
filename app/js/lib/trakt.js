@@ -87,8 +87,8 @@ const Trakt = {
 
   getRatings: () => {
     return Promise.all([
-      DB.trakt.get('traktratings'), 
-      DB.trakt.get('traktsyncrating'), 
+      DB.trakt.get('traktratings'),
+      DB.trakt.get('traktsyncrating'),
       Trakt.last_activities('rate')
     ]).then(([traktratings, traktsyncrating, activities]) => {
       if (!traktratings || activities > (traktsyncrating || 0)) {
@@ -142,7 +142,7 @@ const Trakt = {
     console.info('Trakt - %s rating for %s', method, model.ids.slug)
 
     return Promise.all([
-      DB.trakt.get('traktratings'), 
+      DB.trakt.get('traktratings'),
       Trakt.client.sync.ratings[method](post)
     ]).then(([ratings, response]) => {
       // remove
@@ -180,7 +180,7 @@ const Trakt = {
     const username = DB.sync.get('trakt_active_profile')
 
     return Promise.all([
-      DB.trakt.get('traktsyncrating'), 
+      DB.trakt.get('traktsyncrating'),
       DB.trakt.get('traktratings'),
       DB.trakt.get('traktsync'),
       DB.trakt.get('traktshowscollection'),
@@ -313,7 +313,7 @@ const Trakt = {
     new Promise(resolve => {
       if (type === 'episode' && !model.ids) { // this is s01e01 from Discover or Custom list
         console.log('Trakt - scrobble needs episode.ids: fetching')
-        return Trakt.client.episodes.summary({id: Player.config.model.show.ids.slug, season: Player.config.model.next_episode.season, episode: Player.config.model.next_episode.number}).then(res => {
+        return Trakt.client.episodes.summary({ id: Player.config.model.show.ids.slug, season: Player.config.model.next_episode.season, episode: Player.config.model.next_episode.number }).then(res => {
           Player.config.model.next_episode = res
           model = res
           return resolve()
@@ -365,7 +365,6 @@ const Trakt = {
         }
       }
     })
-
   },
   getGenres: () => {
     const cached = DB.sync.get('traktgenres')

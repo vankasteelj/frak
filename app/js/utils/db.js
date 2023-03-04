@@ -23,7 +23,7 @@ const DB = {
         data = JSON.parse(data)
       } catch (e) {}
       return data
-    }, 
+    },
     remove: (key) => {
       return localStorage.removeItem(key)
     }

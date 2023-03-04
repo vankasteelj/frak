@@ -90,7 +90,7 @@ const IB = {
 
       db[id].ttl = Date.now()
 
-      return IB._save(db)      
+      return IB._save(db)
     })
   },
   get: (ids) => {
@@ -129,7 +129,7 @@ const IB = {
         delete db[id]
       }
 
-      return IB._save(db)      
+      return IB._save(db)
     })
   },
   download: (uri, filename) => {

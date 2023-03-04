@@ -22,7 +22,7 @@ const WB = {
     }
   },
   markAsWatched: (data) => {
-    let db, found
+    let found
     if (data.movie) {
       WB.get.movies().then((db = []) => {
         found = db.find((movie, index) => {

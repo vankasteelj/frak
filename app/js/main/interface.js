@@ -225,7 +225,7 @@ const Interface = {
       title: 'Sort by...',
       labels: {
         'Listed at': () => DB.app.get('traktcustomscollection').then(coll => Collection.show.customs(Collection.sort.customs.listed(coll))),
-        Year: () => DB.app.get('traktcustomscollection').then(coll =>  Collection.show.customs(Collection.sort.customs.released(coll))),
+        Year: () => DB.app.get('traktcustomscollection').then(coll => Collection.show.customs(Collection.sort.customs.released(coll))),
         Title: () => DB.app.get('traktcustomscollection').then(coll => Collection.show.customs(Collection.sort.customs.title(coll))),
         Rating: () => DB.app.get('traktcustomscollection').then(coll => Collection.show.customs(Collection.sort.customs.rating(coll))),
         Rank: () => DB.app.get('traktcustomscollection').then(coll => Collection.show.customs(Collection.sort.customs.rank(coll)))

@@ -49,6 +49,7 @@ const Search = {
               })
             }
           }).catch(err => {
+            console.error(err)
             return Promise.resolve({
               tested: plugin,
               working: false,
@@ -63,7 +64,7 @@ const Search = {
           })
         }
       })).then(r => {
-        //console.info('Online search results - %s:', t.type, r)
+        // console.info('Online search results - %s:', t.type, r)
         return r
       })
     }
@@ -79,7 +80,7 @@ const Search = {
       type: 'show'
     }).then(shows => {
       results.shows = shows
-      return Misc.sleep(15000) //required for some apis
+      return Misc.sleep(15000) // required for some apis
     }).then(() => {
       console.info('Testing online search - movies...')
       return getAll({

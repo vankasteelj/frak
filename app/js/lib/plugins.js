@@ -110,8 +110,8 @@ const Plugins = {
       $('#tP-results table').append(`<tr><th></th><th>${i18n.__('Shows')}</th><th>${i18n.__('Movies')}</th></tr>`)
 
       const check = (bool) => bool ? 'fa-check-circle' : 'fa-times-circle'
-      for (let i in results.shows) {
-        let item = `<tr><td>${results.shows[i].tested}</td><td><div class="fa ${check(results.shows[i].working)}"></div></td><td><div class="fa ${check(results.movies[i].working)}"></div></td></tr>`
+      for (const i in results.shows) {
+        const item = `<tr><td>${results.shows[i].tested}</td><td><div class="fa ${check(results.shows[i].working)}"></div></td><td><div class="fa ${check(results.movies[i].working)}"></div></td></tr>`
         $('#tP-results table').append(item)
       }
 

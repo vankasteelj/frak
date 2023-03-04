@@ -74,7 +74,7 @@ const Items = {
                 '</div>' +
             '</div>'
 
-    let image;
+    let image
     IB.get(movie.movie.ids).then(cached => {
       image = cached.fanart || cached.poster
       return Items.getImage(image, movie.movie.ids, 'movie', 'fanart')
@@ -151,7 +151,7 @@ const Items = {
                 '</div>' +
             '</div>'
 
-    let image;
+    let image
     IB.get(show.show.ids).then(cached => {
       image = cached.fanart || cached.poster
       return Items.getImage(image, show.show.ids, 'show', 'fanart')
@@ -228,7 +228,7 @@ const Items = {
                 '</div>' +
             '</div>'
 
-    let image;
+    let image
     IB.get(movie.movie.ids).then(cached => {
       image = cached.fanart || cached.poster
       return Items.getImage(image, movie.movie.ids, 'movie', 'fanart')
@@ -300,7 +300,7 @@ const Items = {
                 '</div>' +
             '</div>'
 
-    let image;
+    let image
     IB.get(show.show.ids).then(cached => {
       image = cached.fanart || cached.poster
       return Items.getImage(image, show.show.ids, 'show', 'fanart')
@@ -360,7 +360,7 @@ const Items = {
     Misc.sleep(100).then(() => {
       $(`#${d.id}`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
     })
-    
+
     return item
   },
   constructLocalShow: (show) => {
@@ -422,7 +422,7 @@ const Items = {
         }
 
         const date = new Date(watched.last_watched_at)
-        $(`#${id} .gotHistory`).text(i18n.__('Last watched episode was %s on %s', episode, date.toLocaleDateString()))        
+        $(`#${id} .gotHistory`).text(i18n.__('Last watched episode was %s on %s', episode, date.toLocaleDateString()))
       } else {
         $(`#${id} .gotHistory`).text(i18n.__('Last watched episode: none'))
       }
@@ -469,7 +469,7 @@ const Items = {
                 '</div>' +
             '</div>'
 
-    let image;
+    let image
     IB.get(show.show.ids).then(cached => {
       image = cached.poster || cached.fanart
       return Items.getImage(image, show.show.ids, 'show', 'poster')
@@ -518,7 +518,7 @@ const Items = {
                 '</div>' +
             '</div>'
 
-    let image;
+    let image
     IB.get(movie.movie.ids).then(cached => {
       image = cached.poster || cached.fanart
       return Items.getImage(image, movie.movie.ids, 'movie', 'poster')
@@ -608,11 +608,11 @@ const Items = {
                   '</div>' +
               '</div>'
 
-    let image;
-    IB.get(show.show.ids).then(cached => {
-      image = cached.fanart || cached.poster
-      return Items.getImage(image, show.show.ids, 'show', 'fanart')
-    }).then(img => {
+      let image
+      IB.get(show.show.ids).then(cached => {
+        image = cached.fanart || cached.poster
+        return Items.getImage(image, show.show.ids, 'show', 'fanart')
+      }).then(img => {
         img && $(`#discover #${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#discover  #${d.id} .fanart img`).css('opacity', '0')
         !d.key && $(`#discover #${d.id} .ep-title`).hide()
         d.watchlisted && $(`#discover #${d.id} .watchlist`)[0] && ($(`#discover #${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>')
@@ -691,11 +691,11 @@ const Items = {
                   '</div>' +
               '</div>'
 
-    let image;
-    IB.get(movie.movie.ids).then(cached => {
-      image = cached.fanart || cached.poster
-      return Items.getImage(image, movie.movie.ids, 'movie', 'fanart')
-    }).then(img => {
+      let image
+      IB.get(movie.movie.ids).then(cached => {
+        image = cached.fanart || cached.poster
+        return Items.getImage(image, movie.movie.ids, 'movie', 'fanart')
+      }).then(img => {
         img && $(`#discover #${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#discover #${d.id} .fanart img`).css('opacity', '0')
         !d.key && $(`#discover #${d.id} .ep-title`).hide()
         d.watchlisted && $(`#discover #${d.id} .watchlist`)[0] && ($(`#discover #${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>')

@@ -80,7 +80,6 @@ const Discover = {
         // cache for 180min
         if (lasttrendingsync && (Date.now() - lasttrendingsync < 180 * 60 * 1000)) {
           console.info('Trakt - trending movies/shows already in cache')
-          return
         } else {
           console.info('Trakt - loading trending movies/shows')
           const opts = { extended: 'full', limit: 20 }
@@ -109,7 +108,6 @@ const Discover = {
         // cache for 180min
         if (lastpopularsync && (Date.now() - lastpopularsync < 180 * 60 * 1000)) {
           console.info('Trakt - popular movies/shows already in cache')
-          return
         } else {
           console.info('Trakt - loading popular movies/shows')
           const opts = { extended: 'full', limit: 20 }
@@ -138,7 +136,6 @@ const Discover = {
         // cache for 180min
         if (lastwatchedsync && (Date.now() - lastwatchedsync < 180 * 60 * 1000)) {
           console.info('Trakt - watched movies/shows already in cache')
-          return
         } else {
           console.info('Trakt - loading watched movies/shows')
           const opts = { extended: 'full', limit: 20 }
@@ -167,7 +164,6 @@ const Discover = {
         // cache for 180min
         if (lastanticipatedsync && (Date.now() - lastanticipatedsync < 180 * 60 * 1000)) {
           console.info('Trakt - anticipated movies/shows already in cache')
-          return
         } else {
           console.info('Trakt - loading anticipated movies/shows')
           const opts = { extended: 'full', limit: 20 }
@@ -179,7 +175,7 @@ const Discover = {
               Discover.format.traktmovies(movies).then(coll => DB.trakt.store(coll, 'traktmoviesanticipated')),
               Discover.format.traktshows(shows).then(coll => DB.trakt.store(coll, 'traktshowsanticipated')),
               DB.trakt.store(Date.now(), 'lastanticipatedsync')
-            ])        
+            ])
           })
         }
       }).then(() => {
@@ -196,7 +192,6 @@ const Discover = {
         // cache for 180min
         if (lastrecommendedsync && (Date.now() - lastrecommendedsync < 180 * 60 * 1000)) {
           console.info('Trakt - recommended movies/shows already in cache')
-          return
         } else {
           console.info('Trakt - loading recommended movies/shows')
           const opts = { extended: 'full', limit: 20 }
@@ -227,7 +222,6 @@ const Discover = {
         // cache for 1 day
         if (lasttop50sync && (Date.now() - lasttop50sync < 24 * 60 * 60 * 1000)) {
           console.info('Trakt - top 50 movies/shows already in cache')
-          return
         } else {
           console.info('Trakt - loading top50 movies/shows')
           return Promise.all([
@@ -285,7 +279,7 @@ const Discover = {
         }
         DB.trakt.get('traktratings').then(Items.applyRatings)
         $('#discover .disc-proposal .categories div').removeClass('active')
-        $('#discover .disc-proposal .categories .shows').addClass('active')        
+        $('#discover .disc-proposal .categories .shows').addClass('active')
       })
     },
 
@@ -307,7 +301,7 @@ const Discover = {
         }
         DB.trakt.get('traktratings').then(Items.applyRatings)
         $('#discover .disc-proposal .categories div').removeClass('active')
-        $('#discover .disc-proposal .categories .movies').addClass('active')        
+        $('#discover .disc-proposal .categories .movies').addClass('active')
       })
     }
   },

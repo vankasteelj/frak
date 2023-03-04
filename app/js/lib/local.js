@@ -102,8 +102,8 @@ const Local = {
     Local.setupPaths()
 
     // remove untracked files
-    DB.app.get('local_library').then(local_library => {
-      const library = local_library || []
+    DB.app.get('local_library').then(localLibrary => {
+      const library = localLibrary || []
       const newLibrary = []
       for (const file of library) {
         if (!file.path.startsWith(p)) newLibrary.push(file)

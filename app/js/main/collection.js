@@ -14,7 +14,7 @@ const Collection = {
       Trakt.last_activities('watch'),
       DB.trakt.get('traktsync')
     ]).then(([activities, traktsync]) => {
-      if ((activities > (traktsync || 0)) || (Date.now() - (traktsync || 0) > 60*60*1000)) { // 1 hour
+      if ((activities > (traktsync || 0)) || (Date.now() - (traktsync || 0) > 60 * 60 * 1000)) { // 1 hour
         console.info('Fetching from remote server...')
         Collection.get.traktcached() // display what we have while we update
         Collection.get.traktwatched().then(() => {
@@ -57,7 +57,7 @@ const Collection = {
 
         return Promise.all([
           DB.trakt.store(Date.now(), 'traktsync'),
-          DB.trakt.store(results, 'traktshows'),
+          DB.trakt.store(results, 'traktshows')
         ]).then(() => Collection.format.traktshows(results.shows))
       }).catch(e => {
         $('#navbar .shows .fa-spin').css('opacity', 0)
@@ -418,7 +418,7 @@ const Collection = {
 
         if (!$('#collection #shows .grid-item').length) {
           return $('#collection #shows').append(Items.constructMessage('No episode to display. Start watching a TV show or add one to your watchlist, and check back here.'))
-        }        
+        }
       })
     },
     movies: (movies = []) => {
@@ -445,7 +445,7 @@ const Collection = {
           return $('#collection #movies').append(Items.constructMessage('No movie to display, add one to your watchlist and check back here.'))
         }
 
-        untrack.length && console.info('Some movies are hidden or not released yet, not showing:', untrack.join(', '))        
+        untrack.length && console.info('Some movies are hidden or not released yet, not showing:', untrack.join(', '))
       })
     },
     customs: (collection = []) => {
