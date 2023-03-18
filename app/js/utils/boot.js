@@ -25,6 +25,9 @@ const Boot = {
     // Gamepad.init(); // gamepad support
     Boot.idle() // periodically update
 
+    // events
+    Misc.events = new (require('node:events'))() // set up events
+
     // right clicks
     document.addEventListener('contextmenu', (e) => e.preventDefault())
     Interface.rightClickNav()

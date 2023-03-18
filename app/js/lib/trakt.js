@@ -234,6 +234,7 @@ const Trakt = {
           }).then(collection => {
             Collection.get.traktcached(update)
             Trakt.getRatings()
+            Misc.events.emit('loadNext')
             return [collection]
           }).catch(handleError)
         case 'movie':
@@ -356,8 +357,11 @@ const Trakt = {
 
             Misc.sleep(800).then(() => {
               return Trakt.reload(true, type, Details.model.show.ids.slug)
-            }).then(() => Misc.sleep(700)).then(() => {
-              Details.loadNext()
+            }).then(() => {
+              Misc.events.on('loadNext', () => {
+                Details.loadNext()
+                Misc.events.removeAllListeners()
+              })
             })
           } else {
             $(`#collection #${Player.config.model.movie.ids.slug}`).hide()

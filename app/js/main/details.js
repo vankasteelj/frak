@@ -582,8 +582,15 @@ const Details = {
           } else {
             return Trakt.reload()
           }
-        }).then(() => Misc.sleep(700)).then(() => {
-          base.episode ? Details.loadLocalNext(true) : Details.loadNext(true)
+        }).then(() => {
+          if (base.episode) {
+            Details.loadLocalNext(true)
+          } else {
+            Misc.events.on('loadNext', () => {
+              Details.loadNext(true)
+              Misc.events.removeAllListeners()
+            })
+          }
         })
       } else {
         $(`#collection #${model.ids.slug}`).hide()

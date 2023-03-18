@@ -416,6 +416,10 @@ const Collection = {
         $('#collection #shows').html('').append(items)
         DB.trakt.get('traktratings').then(Items.applyRatings)
 
+        Misc.sleep(500).then(() => {
+          Misc.events.emit('loadNext')
+        })
+
         if (!$('#collection #shows .grid-item').length) {
           return $('#collection #shows').append(Items.constructMessage('No episode to display. Start watching a TV show or add one to your watchlist, and check back here.'))
         }
