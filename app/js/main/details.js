@@ -106,14 +106,14 @@ const Details = {
     const type = ((d.data.show || (d.data.metadata && d.data.metadata.show)) && 'show') || ((d.data.movie || (d.data.metadata && d.data.metadata.movie)) && 'movie')
 
     if (DB.sync.get('translateOverviews') && DB.sync.get('locale') !== 'en') {
-      Trakt.client[type + 's'].translations({ id: d.ids.trakt, language: DB.sync.get('locale') }).then((r) => {
-        if (r && r[0] && r[0].overview) {
-          $('#details-metadata .synopsis').text(r[0].overview)
+      Localization.overview(type, d.ids.trakt).then((r) => {
+        if (r && r.overview) {
+          $('#details-metadata .synopsis').text(r.overview)
         } else {
           $('#details-metadata .synopsis').text(d.synopsis === 'No overview found.' ? i18n.__('No synopsis available') : (d.synopsis || i18n.__('No synopsis available')))
         }
 
-        if (r && r[0] && r[0].title) $('#details .titles .title').attr('title', i18n.__('Translated title:') + ' ' + r[0].title)
+        if (r && r.title) $('#details .titles .title').attr('title', i18n.__('Translated title:') + ' ' + r.title)
       }).catch(err => {
         console.error(err)
         $('#details-metadata .synopsis').text(d.synopsis === 'No overview found.' ? i18n.__('No synopsis available') : (d.synopsis || i18n.__('No synopsis available')))
