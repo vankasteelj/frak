@@ -234,7 +234,6 @@ const Trakt = {
           }).then(collection => {
             Collection.get.traktcached(update)
             Trakt.getRatings()
-            Misc.events.emit('loadNext')
             return [collection]
           }).catch(handleError)
         case 'movie':

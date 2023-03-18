@@ -416,7 +416,7 @@ const Collection = {
         $('#collection #shows').html('').append(items)
         DB.trakt.get('traktratings').then(Items.applyRatings)
 
-        Misc.sleep(500).then(() => {
+        Misc.sleep(800).then(() => {
           Misc.events.emit('loadNext')
         })
 
