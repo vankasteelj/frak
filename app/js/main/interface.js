@@ -70,6 +70,7 @@ const Interface = {
     $('#trakt #history').hide()
     $('#trakt #discover').hide()
     $('#trakt #stats').hide()
+    $('#trakt #ratings').hide()
     $('#settings').hide()
     $('#navbar .movies').addClass('active')
     DB.sync.store('movies', 'last_tab')
@@ -86,6 +87,7 @@ const Interface = {
     $('#trakt #history').hide()
     $('#trakt #discover').hide()
     $('#trakt #stats').hide()
+    $('#trakt #ratings').hide()
     $('#settings').hide()
     $('#navbar .shows').addClass('active')
     DB.sync.store('shows', 'last_tab')
@@ -102,6 +104,7 @@ const Interface = {
     $('#trakt #history').hide()
     $('#trakt #discover').hide()
     $('#trakt #stats').hide()
+    $('#trakt #ratings').hide()
     $('#settings').hide()
     $('#navbar .customs').addClass('active')
     DB.sync.store('customs', 'last_tab')
@@ -118,6 +121,7 @@ const Interface = {
     $('#trakt #history').hide()
     $('#trakt #discover').hide()
     $('#trakt #stats').hide()
+    $('#trakt #ratings').hide()
     $('#settings').hide()
     $('#navbar .locals').addClass('active')
     $('#locals .categories').show()
@@ -137,6 +141,7 @@ const Interface = {
     $('#collection #customs').hide()
     $('#trakt #discover').hide()
     $('#trakt #stats').hide()
+    $('#trakt #ratings').hide()
     $('#navbar .settings').addClass('active')
     DB.sync.store('settings', 'active_tab')
   },
@@ -154,6 +159,7 @@ const Interface = {
         $('#settings').hide()
         $('#trakt #discover').hide()
         $('#trakt #stats').hide()
+        $('#trakt #ratings').hide()
         $('#trakt #history').show()
       }, 0)
     })
@@ -165,6 +171,7 @@ const Interface = {
     $('#collection #movies').hide()
     $('#trakt #discover').hide()
     $('#trakt #stats').hide()
+    $('#trakt #ratings').hide()
     $('#settings').hide()
     DB.sync.store('history', 'active_tab')
   },
@@ -179,6 +186,7 @@ const Interface = {
     $('#collection #customs').hide()
     $('#trakt #discover').hide()
     $('#trakt #history').hide()
+    $('#trakt #ratings').hide()
     $('#settings').hide()
     $('#trakt #stats').show()
     $('#trakt #stats #sloaded').hide()
@@ -203,9 +211,28 @@ const Interface = {
     $('#settings').hide()
     $('#trakt #history').hide()
     $('#trakt #stats').hide()
+    $('#trakt #ratings').hide()
     $('#trakt #discover').show()
     $('#navbar .discover').addClass('active')
     DB.sync.store('discover', 'active_tab')
+  },
+
+  // USER INTERACTION: click navbar
+  showRatings: () => {
+    Ratings.show()
+    window.scrollTo(0, 0)
+    $('#navbar .nav').removeClass('active')
+    $('#collection #shows').hide()
+    $('#collection #locals').hide()
+    $('#collection #movies').hide()
+    $('#collection #customs').hide()
+    $('#settings').hide()
+    $('#trakt #history').hide()
+    $('#trakt #stats').hide()
+    $('#trakt #discover').hide()
+    $('#trakt #ratings').show()
+    $('#navbar .ratings').addClass('active')
+    DB.sync.store('ratings', 'active_tab')
   },
 
   // AUTO: right click menu on movies & shows, custom list and account popup

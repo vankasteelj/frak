@@ -542,6 +542,66 @@ const Items = {
 
     return item
   },
+  constructRatingsItem: (data) => {
+    const type = data.movie ? 'movie':'show';
+    const d = {
+      id: data[type].ids.slug,
+      title: data[type].title,
+      data: JSON.stringify(data),
+      rating: data.rating,
+      size: DB.sync.get('small_items') ? Settings.grid.historySmall : Settings.grid.historyNormal,
+      rated_at: (function () {
+        const d = new Date(data.rated_at)
+        return d.toLocaleDateString() + ' ' + Misc.pad(d.getHours()) + ':' + Misc.pad(d.getMinutes())
+      })(),
+      ratedId: data[type].ids.slug+'-rating'
+    }
+
+    const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg} ${d.id}" id="${d.ratedId}">` +
+                `<span class="data">${d.data}</span>` +
+                '<div class="fanart">' +
+                    '<img class="base" src="images/posterholder.png">' +
+                '</div>' +
+                '<div class="quick-icons">' +
+                    '<div class="metadata">' +
+                        `<div class="percentage tooltipped i18n">` +
+                        '<div class="fa fa-heart"></div>' +
+                            `${d.rating}` +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="titles">' +
+                    '<div class="title">' +
+                        `<span>${d.title}</span>` +
+                    '</div>' +
+                    `<span class="datetime">${d.rated_at}</span>` +
+                '</div>' +
+            '</div>'
+
+    let image
+    IB.get(data[type].ids).then(cached => {
+      image = cached.poster || cached.fanart
+      return Items.getImage(image, data[type].ids, type, 'poster')
+    }).then(img => {
+      img && $(`#${d.ratedId} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.ratedId} .fanart img`).css('opacity', '0')
+    })
+
+    return item
+  },
+  constructRatingsMore: () => {
+    const d = {
+      size: DB.sync.get('small_items') ? Settings.grid.historySmall : Settings.grid.historyNormal
+    }
+
+    const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg}" id="showMore">` +
+                '<div class="showMore_button" onClick="Ratings.loadMore()">' +
+                    '<div class="fa fa-search-plus"></div>' +
+                    `<div class="showMore_text">${i18n.__('Show more')}</div>` +
+                '</div>' +
+            '</div>'
+
+    return item
+  },
   constructDiscoverShow: (show) => {
     // standardize output
     if (!show.show) {

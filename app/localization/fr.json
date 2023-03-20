@@ -394,5 +394,6 @@
 	"This will delete all the downloaded data but will keep your settings intact": "Toutes les données téléchargées seront supprimées, mais les paramètres resteront inchangés",
 	"Test plugins": "Tester les plugins",
 	"Plugins tester": "Examen des plugins",
-	"The plugins are being tested, please wait for a few minutes": "Une vérification est en cours, veuillez patienter quelques minutes"
+	"The plugins are being tested, please wait for a few minutes": "Une vérification est en cours, veuillez patienter quelques minutes",
+	"Ratings": "Ratings"
 }

@@ -299,6 +299,11 @@
   padding-right: 10px;
 }
 
+#ratings .metadata {
+  position: absolute;
+  margin-left: calc(50% - 25px);
+}
+
 #collection .quick-icons,
 #trakt .quick-icons {
   height: 40px;
@@ -341,10 +346,16 @@
 
 #collection .row,
 #trakt #history.row,
-#trakt #discover .row {
+#trakt #discover .row,
+#trakt #ratings.row {
   position: absolute;
   right: 10px;
   width: calc(100% - 55px);
+}
+
+#trakt #ratings .row {
+  margin-right: 0;
+  margin-left: 0;
 }
 
 #collection .shadow,
@@ -524,6 +535,7 @@
 #settings,
 #trailer,
 #history,
+#ratings,
 #discover,
 #stats,
 #stats #sloaded,
@@ -1892,7 +1904,8 @@ a {
 }
 
 #settings,
-#stats {
+#stats,
+#ratings {
   height: 100vh;
   position: absolute;
   right: 0;
@@ -1911,7 +1924,8 @@ a {
 }
 
 #settings .about:hover,
-#trakt #history #showMore .showMore_button:hover {
+#trakt #history #showMore .showMore_button:hover;
+#trakt #ratings #showMore .showMore_button:hover {
   opacity: .9;
 }
 
@@ -2147,14 +2161,16 @@ a {
   width: 65%;
 }
 
-#trakt #history #showMore .fa {
+#trakt #history #showMore .fa,
+#trakt #ratings #showMore .fa {
   font-size: 35px;
   margin: 20% 20% 10%;
   text-align: center;
   width: 60%;
 }
 
-#trakt #history #showMore .showMore_button {
+#trakt #history #showMore .showMore_button,
+#trakt #ratings #showMore .showMore_button {
   border-style: dashed;
   border-width: 1px;
   cursor: pointer;
@@ -2165,13 +2181,15 @@ a {
   border-color: var(--app-font-color);
 }
 
-#trakt #history #showMore .showMore_text {
+#trakt #history #showMore .showMore_text,
+#trakt #ratings #showMore .showMore_text {
   font-size: 14px;
   margin-bottom: 20%;
   text-align: center;
 }
 
 #trakt #history #showMore .showMore_text,
+#trakt #ratings #showMore .showMore_text,
 #collection .titles h3,
 #discover .titles h3,
 #discover .disc-proposal .categories,
@@ -2190,11 +2208,13 @@ a {
   font-weight: 400;
 }
 
-#trakt #history .datetime {
+#trakt #history .datetime,
+#trakt #ratings .datetime {
   font-size: .9em;
 }
 
-#trakt #history .grid-item {
+#trakt #history .grid-item,
+#trakt #ratings .grid-item {
   padding: 10px;
 }
 
@@ -2203,18 +2223,25 @@ a {
 }
 
 #trakt #history .title,
-#trakt #history .datetime {
+#trakt #ratings .title,
+#trakt #history .datetime,
+#trakt #ratings .datetime {
   font-size: 16px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-#trakt #history .titles {
+#trakt #history .titles,
+#trakt #ratings .titles {
   font-family: var(--font);
   font-weight: 400;
   padding: 5px 0;
   text-align: center;
+}
+
+#trakt #ratings .titles .title {
+  font-family: var(--font-bold)
 }
 
 #trakt .row {

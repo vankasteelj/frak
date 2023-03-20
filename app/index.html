@@ -131,6 +131,15 @@
         </div>
       </div>
 
+     <div class="nav ratings" onClick="Interface.showRatings()">
+        <div class="fa fa-spin fa-refresh"></div>
+        <div class="fa fa-bar-chart">
+          <div class="text">
+            <i18n>Ratings</i18n>
+          </div>
+        </div>
+      </div>   
+
       <div class="nav bigpicture" onClick="Interface.bigPicture()">
         <div class="fa fa-arrows-alt">
           <div class="text">
@@ -390,6 +399,11 @@
             <div class="double-bounce2"></div>
           </div>
         </div>
+      </div>
+
+      <div class="row" id="ratings">
+        <div><p>filters here</p></div>
+        <div class="row"></div>
       </div>
     </section>
 
@@ -1274,6 +1288,7 @@
 <script src="js/main/loading.js" type="application/javascript"></script>
 <script src="js/main/discover.js" type="application/javascript"></script>
 <script src="js/main/stats.js" type="application/javascript"></script>
+<script src="js/main/ratings.js" type="application/javascript"></script>
 
 <script src="js/lib/trakt.js" type="application/javascript"></script>
 <script src="js/lib/profiles.js" type="application/javascript"></script>

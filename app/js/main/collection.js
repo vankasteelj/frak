@@ -540,6 +540,27 @@ const Collection = {
 
       $('#trakt #history').append(items)
       DB.trakt.get('traktratings').then(Items.applyRatings)
+    },
+    ratings: (collection = [], update = false) => {
+      if (update) {
+        $('#trakt #ratings .row #showMore').remove()
+      } else {
+        $('#trakt #ratings .row').html('')
+      }
+      
+      const items = []
+      for (const i of collection) {
+        items.push(Items.constructRatingsItem(i))
+      }
+
+      if (!items.length) {
+        items.push(Items.constructMessage('No ratings history found, rate something before checking back here.'))
+      } else {
+        items.push(Items.constructRatingsMore())
+      }
+      
+      $('#trakt #ratings .row').append(items)
+      DB.trakt.get('traktratings').then(Items.applyRatings)
     }
   },
 
