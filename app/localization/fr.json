@@ -103,7 +103,7 @@
 	"Fantasy": "Fantastique",
 	"Action": "Action",
 	"Anime": "Anime",
-	"Music": "Comédie musicale",
+	"Music": "Musique",
 	"War": "Guerre",
 	"Box": "Boîte flottante",
 	"Box (slim)": "Ligne flottante",
@@ -395,5 +395,12 @@
 	"Test plugins": "Tester les plugins",
 	"Plugins tester": "Examen des plugins",
 	"The plugins are being tested, please wait for a few minutes": "Une vérification est en cours, veuillez patienter quelques minutes",
-	"Ratings": "Ratings"
+	"Ratings": "Notes",
+	"Recently rated": "Par date",
+	"Highest rated": "Meilleurs notes",
+	"Lowest rated": "Pires notes",
+	"All types": "Films & séries",
+	"No ratings history found, rate something before checking back here.": "Aucune note retrouvée dans l'historique, notez quelque chose avant de revenir voir ici",
+	"All genres": "Tous les genres",
+	"All ratings": "Toutes les notes"
 }

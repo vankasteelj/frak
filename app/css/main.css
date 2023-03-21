@@ -2244,6 +2244,11 @@ a {
   font-family: var(--font-bold)
 }
 
+#trakt #ratings .filters {
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
 #trakt .row {
   background-color: var(--app-color-alt);
 }

@@ -584,6 +584,12 @@ const Items = {
       return Items.getImage(image, data[type].ids, type, 'poster')
     }).then(img => {
       img && $(`#${d.ratedId} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.ratedId} .fanart img`).css('opacity', '0')
+
+      // right click menu
+      const labels = {}
+      labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/${type}s/${d.id}`)
+      const menu = Misc.customContextMenu(labels)
+      $(`#ratings #${d.ratedId} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
     })
 
     return item
@@ -841,7 +847,9 @@ const Items = {
       }
 
       const el = document.querySelector(`[id='${item[item.type].ids.slug}']`)
-      if (el) {
+      let elc = false
+      try { elc = document.querySelector(`.${item[item.type].ids.slug}`) } catch(e) { elc = $(`.${item[item.type].ids.slug}`)}
+      if (el || elc) {
         $(`#${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show()
         $(`.${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show()
       }

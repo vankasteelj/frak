@@ -541,7 +541,7 @@ const Collection = {
       $('#trakt #history').append(items)
       DB.trakt.get('traktratings').then(Items.applyRatings)
     },
-    ratings: (collection = [], update = false) => {
+    ratings: (collection = [], update = false, filter = false) => {
       if (update) {
         $('#trakt #ratings .row #showMore').remove()
       } else {
@@ -554,9 +554,9 @@ const Collection = {
       }
 
       if (!items.length) {
-        items.push(Items.constructMessage('No ratings history found, rate something before checking back here.'))
+        if (!update) items.push(Items.constructMessage('No ratings history found, rate something before checking back here.'))
       } else {
-        items.push(Items.constructRatingsMore())
+        items.push(Items.constructRatingsMore(filter))
       }
       
       $('#trakt #ratings .row').append(items)

@@ -93,7 +93,7 @@ const Trakt = {
     ]).then(([traktratings, traktsyncrating, activities]) => {
       if (!traktratings || activities > (traktsyncrating || 0)) {
         console.info('Fetching ratings from remote server')
-        return Trakt.client.sync.ratings.get().then(ratings => {
+        return Trakt.client.sync.ratings.get({extended: 'full'}).then(ratings => {
           DB.trakt.store(ratings, 'traktratings')
           DB.trakt.store(Date.now(), 'traktsyncrating')
           return ratings

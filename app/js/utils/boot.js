@@ -21,6 +21,7 @@ const Boot = {
     Boot.online() // check if online
     Dragdrop.setup() // allow drag&drop
     Subtitles.opensubReLogin() // opensubtitles login if needed
+    Ratings.setupDropdown() // ratings init
     Interface.buildSwitch() // switch trakt account screen
     // Gamepad.init(); // gamepad support
     Boot.idle() // periodically update
