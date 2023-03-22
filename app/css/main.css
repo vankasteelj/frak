@@ -299,11 +299,6 @@
   padding-right: 10px;
 }
 
-#ratings .metadata {
-  position: absolute;
-  margin-left: calc(50% - 25px);
-}
-
 #collection .quick-icons,
 #trakt .quick-icons {
   height: 40px;

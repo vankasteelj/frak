@@ -102,6 +102,7 @@ const Ratings = {
     console.debug('Ratings indexes [%d => %d]:', begin, end, results)
 
     Collection.show.ratings(results, update)
+    DB.trakt.get('traktratings').then(Items.applyRatings) 
 
     return results
   }

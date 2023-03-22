@@ -463,7 +463,7 @@ const Items = {
                 '<div class="titles">' +
                     '<div class="title">' +
                         `<span class="sxe">${d.sxe}</span>&nbsp` +
-                        `<span>${d.title}</span>` +
+                        `<span title="${show.show.title}">${d.title}</span>` +
                     '</div>' +
                     `<span class="datetime">${d.watched_at}</span>` +
                 '</div>' +
@@ -512,7 +512,7 @@ const Items = {
                 '</div>' +
                 '<div class="titles">' +
                     '<div class="title">' +
-                        `<span>${d.title}</span>` +
+                        `<span title="${d.title}">${d.title}</span>` +
                     '</div>' +
                     `<span class="datetime">${d.watched_at}</span>` +
                 '</div>' +
@@ -548,7 +548,7 @@ const Items = {
       id: data[type].ids.slug,
       title: data[type].title,
       data: JSON.stringify(data),
-      rating: data.rating,
+      rating: Misc.percentage(data[type].rating),
       size: DB.sync.get('small_items') ? Settings.grid.historySmall : Settings.grid.historyNormal,
       rated_at: (function () {
         const d = new Date(data.rated_at)
@@ -560,19 +560,20 @@ const Items = {
     const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg} ${d.id}" id="${d.ratedId}">` +
                 `<span class="data">${d.data}</span>` +
                 '<div class="fanart">' +
+                    '<div class="corner-rating"><span></span></div>' +
                     '<img class="base" src="images/posterholder.png">' +
                 '</div>' +
                 '<div class="quick-icons">' +
                     '<div class="metadata">' +
-                        `<div class="percentage tooltipped i18n">` +
+                        `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.ratedId}')">` +
                         '<div class="fa fa-heart"></div>' +
-                            `${d.rating}` +
+                            `${d.rating}&nbsp;%` +
                         '</div>' +
                     '</div>' +
                 '</div>' +
                 '<div class="titles">' +
                     '<div class="title">' +
-                        `<span>${d.title}</span>` +
+                        `<span title="${d.title}">${d.title}</span>` +
                     '</div>' +
                     `<span class="datetime">${d.rated_at}</span>` +
                 '</div>' +
