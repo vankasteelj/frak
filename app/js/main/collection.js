@@ -114,7 +114,7 @@ const Collection = {
         Collection.show.shows(shows)
         DB.sync.get('use_customs') && Misc.sleep(500).then(() => Collection.show.customs(customs))
 
-        DB.trakt.get('traktratings').then(Items.applyRatings)
+        Misc.sleep(500).then(() => DB.trakt.get('traktratings').then(Items.applyRatings))
 
         if (update) return
 
