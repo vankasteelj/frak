@@ -2803,5 +2803,6 @@ select.dropdown {
 
 #ratings select.dropdown {
   background-color: var(--dropdown-bg);
+  color: var(--dropdown-text);
   height: 30px;
 }
