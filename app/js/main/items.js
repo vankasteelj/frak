@@ -834,7 +834,6 @@ const Items = {
   },
 
   applyRatings: (ratings = []) => {
-    console.log('APPLY RATINGS')
     if (!ratings) return
 
     $('.corner-rating span').text('')
