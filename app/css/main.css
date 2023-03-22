@@ -1819,7 +1819,7 @@ a {
 
 #navbar .separator {
   border-bottom: 1px solid var(--separator);
-  margin: 20px 0;
+  margin: 7px 0;
 }
 
 #navbar .customs {
@@ -2799,4 +2799,9 @@ select.dropdown {
   padding-left: 10px;
   padding-right: 10px;
   width: 150px;
+}
+
+#ratings select.dropdown {
+  background-color: var(--dropdown-bg);
+  height: 30px;
 }
