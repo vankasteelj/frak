@@ -114,6 +114,8 @@ const Collection = {
         Collection.show.shows(shows)
         DB.sync.get('use_customs') && Misc.sleep(500).then(() => Collection.show.customs(customs))
 
+        DB.trakt.get('traktratings').then(Items.applyRatings)
+
         if (update) return
 
         if (!Player.mpv && !(process.platform === 'win32' && fs.existsSync('./mpv/mpv.exe'))) {
@@ -184,6 +186,9 @@ const Collection = {
         return Collection.format.trakthistory(results)
       }).then((collection) => {
         return Collection.show.history(collection)
+      }).then((r) => {
+        DB.trakt.get('traktratings').then(Items.applyRatings) 
+        return r
       }).catch(console.error)
     },
     historyMore: () => {
@@ -199,6 +204,9 @@ const Collection = {
         return Collection.format.trakthistory(results)
       }).then(collection => {
         return Collection.show.history(collection, true)
+      }).then((r) => {
+        DB.trakt.get('traktratings').then(Items.applyRatings) 
+        return r
       }).catch(console.error)
     },
     traktwatched: () => {
@@ -414,7 +422,6 @@ const Collection = {
           items.push(Items.constructShow(show))
         }
         $('#collection #shows').html('').append(items)
-        DB.trakt.get('traktratings').then(Items.applyRatings)
 
         Misc.sleep(800).then(() => {
           Misc.events.emit('loadNext')
@@ -443,7 +450,6 @@ const Collection = {
           items.push(Items.constructMovie(movie))
         }
         $('#collection #movies').html('').append(items)
-        DB.trakt.get('traktratings').then(Items.applyRatings)
 
         if (!$('#collection #movies .grid-item').length) {
           return $('#collection #movies').append(Items.constructMessage('No movie to display, add one to your watchlist and check back here.'))
@@ -474,7 +480,6 @@ const Collection = {
           }
         }
         $('#collection #customs').html('').append(items)
-        DB.trakt.get('traktratings').then(Items.applyRatings)
 
         if (!$('#collection #customs .grid-item').length) {
           return $('#collection #customs').append(Items.constructMessage('Nothing to display, the Custom List seems empty.'))
@@ -539,7 +544,6 @@ const Collection = {
       }
 
       $('#trakt #history').append(items)
-      DB.trakt.get('traktratings').then(Items.applyRatings)
     },
     ratings: (collection = [], update = false, filter = false) => {
       if (update) {
@@ -560,7 +564,6 @@ const Collection = {
       }
       
       $('#trakt #ratings .row').append(items)
-      DB.trakt.get('traktratings').then(Items.applyRatings)
     }
   },
 
