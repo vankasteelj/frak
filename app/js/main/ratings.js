@@ -46,6 +46,7 @@ const Ratings = {
     })
   },
   show: () => {
+    $('#ratings-spinner').show()
     // reset
     Ratings.cache = null
 
@@ -53,6 +54,9 @@ const Ratings = {
       Ratings.cache = ratings
       console.log('SHOW ALL RATINGS:', Ratings.cache)
       return Ratings.applyFilters()
+    }).then((results) => {
+      $('#ratings-spinner').hide()
+      return results
     })
   },
   applyFilters: () => {
