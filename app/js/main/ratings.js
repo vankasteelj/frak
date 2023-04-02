@@ -52,7 +52,6 @@ const Ratings = {
 
     return DB.trakt.get('traktratings').then(ratings => {
       Ratings.cache = ratings
-      console.log('SHOW ALL RATINGS:', Ratings.cache)
       return Ratings.applyFilters()
     }).then((results) => {
       $('#ratings-spinner').hide()
