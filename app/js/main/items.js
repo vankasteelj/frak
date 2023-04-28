@@ -240,6 +240,7 @@ const Items = {
       labels['Play now'] = () => $(`#${d.id} .play`).trigger('click')
       movie.movie.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).trigger('click'))
       labels.separator = true
+      labels['Remove from custom list'] = () => $(`#${d.id} .remove`).trigger('click')
       labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`)
       labels['Redownload image'] = () => Items.redownloadImage(d.id, image, movie.movie.ids, 'movie', 'fanart')
 
@@ -312,6 +313,7 @@ const Items = {
       labels['Play now'] = () => $(`#${d.id} .play`).trigger('click')
       show.show.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).trigger('click'))
       labels.separator = true
+      labels['Remove from custom list'] = () => $(`#${d.id} .remove`).trigger('click')
       labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}/seasons/${show.next_episode.season}/episodes/${show.next_episode.number}`)
       labels['Redownload image'] = () => Items.redownloadImage(d.id, image, show.show.ids, 'show', 'fanart')
 
