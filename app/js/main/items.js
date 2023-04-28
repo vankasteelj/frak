@@ -218,7 +218,7 @@ const Items = {
                     '<div class="actions">' +
                         `<div class="remove fa fa-times-circle tooltipped i18n" title="${i18n.__('Remove from custom list')}" onClick="Items.removeFromCustom(this)"></div>` +
                         (movie.movie.trailer ? `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>` : '') +
-                        `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.movie(this)"></div>` +
+                        `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.movie(this, 'custom')"></div>` +
                     '</div>' +
                     '<div class="metadata">' +
                         `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
@@ -291,7 +291,7 @@ const Items = {
                     '<div class="actions">' +
                         `<div class="remove fa fa-times-circle tooltipped i18n" title="${i18n.__('Remove from custom list')}" onClick="Items.removeFromCustom(this)"></div>` +
                         (show.show.trailer ? `<div class="trailer fa fa-youtube-play tooltipped i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${show.show.trailer}')"></div>` : '') +
-                        `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.episode(this)"></div>` +
+                        `<div class="play trakt-icon-play2-thick tooltipped i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.episode(this, 'custom')"></div>` +
                     '</div>' +
                     '<div class="metadata">' +
                         `<div class="percentage tooltipped i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +

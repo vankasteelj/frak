@@ -34,7 +34,7 @@ const Details = {
     Details.from = from
     Details.fromScroll = window.scrollY
 
-    if (d.id === Details.previous.id && Player.mpv.isRunning()) {
+    if ((d.id === Details.previous.id || 'custom-' + d.id === Details.previous.id) && Player.mpv.isRunning()) {
       console.info('Returning to previous details window')
       $('#details').html(Details.previous.html).show()
       $(`#${Details.from}`).hide()
@@ -151,7 +151,7 @@ const Details = {
 
   closeDetails: () => {
     if (Player.mpv.isRunning() && Details.previous.id === undefined) {
-      Details.previous.id = $('#details .id').text()
+      Details.previous.id = Details.from === 'custom' ? 'custom-' + $('#details .id').text() : $('#details .id').text()
       Details.previous.html = $('#details').html()
     }
 
@@ -508,7 +508,11 @@ const Details = {
             const t = $('#' + $(this).attr('for'))
             const score = t.val()
 
-            const item = Details.from === 'locals' ? Details.model.metadata : JSON.parse($(`#${slug}`).find('.data').text())
+            const item = Details.from === 'locals' ? 
+              Details.model.metadata 
+              : Details.from === 'custom' ? 
+                JSON.parse($(`#custom-${slug}`).find('.data').text())
+                : JSON.parse($(`#${slug}`).find('.data').text())
 
             if (isRated === score) {
               Trakt.rate('remove', item)
