@@ -18,6 +18,7 @@ const Z7 = require('node-7z-forall')
 const temp = require('os').tmpdir()
 const ModClean = require('modclean').ModClean
 const standard = require('standard')
+require('dns').setDefaultResultOrder('ipv4first') // workaround for yt-dl on node > 0.17.x
 
 /** ******
  * setup *
