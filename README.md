@@ -20,7 +20,7 @@
 - Localization support
 - Theming support
 - Automatic update notification
-- Developed for Windows (7, 8, 10 and 11). OSX and Linux (even ARM, see [#115](https://github.com/vankasteelj/frak/issues/115)) might work if you know what you're doing.
+- Developed for Windows. OSX and Linux (even ARM, see [#115](https://github.com/vankasteelj/frak/issues/115)) might work if you know what you're doing.
 - Hackable (written in NodeJS/HTML5/CSS3, open source, shipped with devtools)
 
 [Download the latest Frak release!](https://github.com/vankasteelj/frak/releases)
@@ -43,7 +43,7 @@
 ## Distribute a compiled package
 - Build packages and installers:
 
-        gulp dist --platforms=all
+        gulp dist
         
         
 ## License
