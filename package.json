@@ -73,7 +73,7 @@
     "flavor": "sdk"
   },
   "mpv": {
-    "url": "https://sourceforge.net/projects/mpv-player-windows/files/release/mpv-0.34.0-x86_64.7z/download",
+    "url": "https://sourceforge.net/projects/mpv-player-windows/files/release/mpv-0.35.1-x86_64.7z/download",
     "youtube-dl": "https://yt-dl.org/latest/youtube-dl.exe"
   }
 }
