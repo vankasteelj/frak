@@ -276,6 +276,8 @@ const Discover = {
         }
       }
 
+      Discover.reset()
+
       DB.trakt.get('traktshows' + key).then(shows => {
         $('#discover #disc-spinner').hide()
         for (const show of shows) {
@@ -295,6 +297,8 @@ const Discover = {
           key = 'trending'
         }
       }
+
+      Discover.reset()
 
       DB.trakt.get('traktmovies' + key).then(movies => {
         $('#discover #disc-spinner').hide()
