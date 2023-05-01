@@ -75,6 +75,7 @@ const Discover = {
 
       $('#discover .type div').removeClass('active')
       $('#discover .type .trending').addClass('active')
+      Discover.reset()
 
       return DB.trakt.get('lasttrendingsync').then(lasttrendingsync => {
         // cache for 180min
@@ -103,6 +104,7 @@ const Discover = {
 
       $('#discover .type div').removeClass('active')
       $('#discover .type .popular').addClass('active')
+      Discover.reset()
 
       return DB.trakt.get('lastpopularsync').then(lastpopularsync => {
         // cache for 180min
@@ -131,6 +133,7 @@ const Discover = {
 
       $('#discover .type div').removeClass('active')
       $('#discover .type .watched').addClass('active')
+      Discover.reset()
 
       return DB.trakt.get('lastwatchedsync').then(lastwatchedsync => {
         // cache for 180min
@@ -159,6 +162,7 @@ const Discover = {
 
       $('#discover .type div').removeClass('active')
       $('#discover .type .anticipated').addClass('active')
+      Discover.reset()
 
       return DB.trakt.get('lastanticipatedsync').then(lastanticipatedsync => {
         // cache for 180min
@@ -187,6 +191,7 @@ const Discover = {
 
       $('#discover .type div').removeClass('active')
       $('#discover .type .recommended').addClass('active')
+      Discover.reset()
 
       return DB.trakt.get('lastrecommendedsync').then(lastrecommendedsync => {
         // cache for 180min
@@ -217,6 +222,7 @@ const Discover = {
 
       $('#discover .type div').removeClass('active')
       $('#discover .type .top50').addClass('active')
+      Discover.reset()
 
       return DB.trakt.get('lasttop50sync').then(lasttop50sync => {
         // cache for 1 day
@@ -270,8 +276,6 @@ const Discover = {
         }
       }
 
-      Discover.reset()
-
       DB.trakt.get('traktshows' + key).then(shows => {
         $('#discover #disc-spinner').hide()
         for (const show of shows) {
@@ -291,8 +295,6 @@ const Discover = {
           key = 'trending'
         }
       }
-
-      Discover.reset()
 
       DB.trakt.get('traktmovies' + key).then(movies => {
         $('#discover #disc-spinner').hide()
