@@ -1,5 +1,3 @@
-'use strict'
-
 const got = require('got')
 const cheerio = require('cheerio')
 const defaultURL = atob('aHR0cDovLzEzMzd4LnRv')
@@ -18,13 +16,13 @@ const get = (keywords, cfg = {}) => {
 
   return got(reqUrl, { timeout: 3500 }).then(data => {
     const $page = cheerio.load(data.body)
-    const $list = cheerio.load($page('.table-list tbody').html())
+    const $list = $page('.table-list tbody tr')
 
     const tmp = []
     const list = []
 
-    $list('tr').each(function (index, el) {
-      const $chunk = cheerio.load($list(this).html())
+    $list.each(function (index, el) {
+      const $chunk = cheerio.load(el)
 
       const torrent = {
         name: $chunk('a').eq(1).text(),
