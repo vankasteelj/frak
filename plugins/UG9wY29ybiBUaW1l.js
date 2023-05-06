@@ -39,7 +39,7 @@ const getMovies = (query) => {
 
     return results
   }).catch((err) => {
-    console.error(err)
+    console.log(err)
     return []
   })
 }

@@ -53,7 +53,7 @@ const get = (keywords, cfg = {}) => {
 
     return torrents
   }).catch((err) => {
-    console.error(err)
+    console.log(err)
     return []
   })
 }

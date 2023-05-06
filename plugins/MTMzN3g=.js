@@ -61,7 +61,7 @@ const get = (keywords, cfg = {}) => {
       return list
     })
   }).catch((err) => {
-    console.error(err)
+    console.log(err)
     return []
   })
 }
