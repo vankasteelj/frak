@@ -49,7 +49,7 @@
     "node-mpv": "2.0.0-beta.2",
     "opensubtitles-api": "5.1.2",
     "readdirp": "3.6.0",
-    "trakt.tv": "8.1.1",
+    "trakt.tv": "8.2.0",
     "trakt.tv-matcher": "8.0.2",
     "trakt.tv-ondeck": "8.0.1",
     "webtorrent": "1.9.7",
