@@ -10,8 +10,8 @@ const Streamer = {
       Streamer.client = new (require('webtorrent'))({
         maxConns: parseInt(_soptions.maxConns) | Settings.streamer.maxConns,
         webSeeds: false, // activating BEP19 makes nwjs 'hang' and stop working
-        downloadLimit: parseInt(_soptions.downloadLimit) * 1000 | Settings.streamer.downloadLimit | Number.MAX_VALUE,
-        uploadLimit: parseInt(_soptions.uploadLimit) * 1000 | Settings.streamer.uploadLimit | Number.MAX_VALUE,
+        downloadLimit: parseInt(_soptions.downloadLimit) * 1000 | Settings.streamer.downloadLimit | -1,
+        uploadLimit: parseInt(_soptions.uploadLimit) * 1000 | Settings.streamer.uploadLimit | -1,
         tracker: {
           wrtc: false,
           announce: _soptions.announce || []
