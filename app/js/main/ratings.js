@@ -9,6 +9,7 @@ const Ratings = {
     $('#r-sort').append('<option value="recentlyRated">' + i18n.__('Recently rated') + '</option>')
     $('#r-sort').append('<option value="highestRated">' + i18n.__('Highest rated') + '</option>')
     $('#r-sort').append('<option value="lowestRated">' + i18n.__('Lowest rated') + '</option>')
+    $('#r-sort').append('<option value="yearRated">' + i18n.__('Year') + '</option>')
     $('#r-sort').val('recentlyRated')
     $('#r-sort').on('change', (e) => {
       Ratings.applyFilters()
@@ -76,6 +77,7 @@ const Ratings = {
     typesMovies: (r) => r.filter(a => a.type.indexOf('movie') !== -1),
     typesShows: (r) => r.filter(a => a.type.indexOf('show') !== -1),
     recentlyRated: (r) => r.sort((a,b) => a.rated_at > b.rated_at ? -1 : 1),
+    yearRated: (r) => r.sort((a,b) => a[a.type].year > b[b.type].year ? -1 : 1),
     highestRated: (r) => r.sort((a,b) => a.rating > b.rating ? -1 : 1),
     lowestRated: (r) => r.sort((a,b) => a.rating > b.rating ? 1 : -1),
     ratings: (r, val) => {
