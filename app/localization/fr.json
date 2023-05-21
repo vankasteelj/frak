@@ -354,8 +354,8 @@
 	"Download speed limit": "Limiter la vitesse de download",
 	"Upload speed limit": "Limiter la vitesse d'upload",
 	"Default: -1": "Par défaut : -1",
-	"Maximum download speed in kb/s (0 by default)": "Vitesse de download maximale en ko/s (-1 par défaut)",
-	"Maximum upload speed in kb/s (0 by default)": "Vitesse d'upload maximale en ko/s (-1 par défaut)",
+	"Maximum download speed in kb/s (0 by default)": "Vitesse de download maximale en ko/s (0 par défaut)",
+	"Maximum upload speed in kb/s (0 by default)": "Vitesse d'upload maximale en ko/s (0 par défaut)",
 	"Donghua": "Donghua",
 	"Show last watched episode": "Montrer le dernier épisode visionné",
 	"Last watched episode was %s on %s": "Dernier épisode visionné: %s le %s",
@@ -403,6 +403,10 @@
 	"No ratings history found, rate something before checking back here.": "Aucune note retrouvée dans l'historique, notez quelque chose avant de revenir voir ici",
 	"All genres": "Tous les genres",
 	"All ratings": "Toutes les notes",
-	"Maximum download speed in kb/s (-1 by default)": "Maximum download speed in kb/s (-1 by default)",
-	"Maximum upload speed in kb/s (-1 by default)": "Maximum upload speed in kb/s (-1 by default)"
+	"Maximum download speed in kb/s (-1 by default)": "Vitesse de download maximale en ko/s (-1 par défaut)",
+	"Maximum upload speed in kb/s (-1 by default)": "Vitesse d'upload maximale en ko/s (-1 par défaut)",
+	"Rate what you just watched": "Notez ce qui a été visionné",
+	"Send": "Envoyer",
+	"No thanks": "Non merci",
+	"Write a comment...": "Écrire un commentaire..."
 }

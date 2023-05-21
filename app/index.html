@@ -1191,6 +1191,20 @@
           <div class="list"></div>
         </div>
       </div>
+      <div id="autoRate">
+        <div class="backgroundPopup" onClick="Ratings.closeAutoRate()"></div>
+        <div class="ratedPopup">
+          <div class="title"><i18n>Rate what you just watched</i18n></div>
+          <div class="rate"></div>
+          <div class="review">
+            <textarea id="autoRateReview" class="i18n" type="text" placeholder="Write a comment..."></textarea>
+          </div>
+          <div class="buttons">
+            <button onClick="Ratings.autoRateSend()"><i18n>Send</i18n></button>
+            <button class="remove" onClick="Ratings.closeAutoRate()"><i18n>No thanks</i18n></button>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section id="about">

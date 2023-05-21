@@ -112,5 +112,61 @@ const Ratings = {
     DB.trakt.get('traktratings').then(Items.applyRatings) 
 
     return results
+  },
+  autoRate: () => {
+    // construct
+    const ratings = ['Weak Sauce :(', 'Terrible', 'Bad', 'Poor', 'Meh', 'Fair', 'Good', 'Great', 'Superb', 'Totally Ninja!']
+    for (let i = 0; i < ratings.length; i++) {
+      const label = ratings[i]
+      const rating = i+1
+      const html = `<div class="rating" data="${rating}" onClick="Ratings.autoRateSet(${rating})" onmouseover="Ratings.autoRateHover(${rating})" onmouseleave="Ratings.autoRateReset()">` +
+        `<div class="fa fa-heart-o s${rating}">` +
+          `<div class="rateLabel">${rating} - ${i18n.__(label)}</div>` +
+        `</div>` +
+      `</div>`
+      $('#autoRate .rate').append(html)
+    }
+
+    $('#details #autoRate').show()
+  },
+  autoRateSet: (num) => {
+    console.debug('Chosen rating', num)
+    if ($('#autoRate .rating .s'+num).parent().hasClass('fixed')) {
+      $('#autoRate .rating').removeClass('fixed')
+      Ratings.autoRateReset()
+    } else {
+      $('#autoRate .rating').removeClass('fixed')
+      Ratings.autoRateHover(num)
+      $('#autoRate .rating .s'+num).parent().addClass('fixed')
+    }
+  },
+  autoRateHover: (num) => {
+    if ($('#autoRate .rating').hasClass('fixed')) return
+    Ratings.autoRateReset()
+    $('#autoRate .rating .s'+num+' .rateLabel').css('opacity', '100')
+    for (let i = num; i > 0; i--) {
+      $('#autoRate .rating .s'+i).addClass('fa-heart').removeClass('fa-heart-o')
+    }
+  },
+  autoRateReset: () => {
+    if ($('#autoRate .rating').hasClass('fixed')) return
+    $('#autoRate .rating .rateLabel').css('opacity', '0')
+    for (let i = 1; i < 11; i++) {
+      $('#autoRate .rating .s'+i).addClass('fa-heart-o').removeClass('fa-heart')
+    }
+  },
+  autoRateSend: () => {
+    const comment = $('#autoRate textarea').val()
+    const rating = $('#autoRate .fixed').attr('data')
+
+    console.debug('Rating %s/10 with commentary: %s', rating, comment)
+    // check if rating is done & has comment
+    // send to trakt
+    // wait for response then close, or just close?
+  },
+  closeAutoRate: () => {
+    $('#details #autoRate').hide()
+    $('#autoRate .rate').html('')
+    $('#autoRate textarea').val('')
   }
 }

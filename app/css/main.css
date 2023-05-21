@@ -309,6 +309,7 @@
 }
 
 #details #fileSelector .selector,
+#details #autoRate .ratedPopup,
 #details #keepWatching .selector,
 #details #keepWatching .casting {
   background-color: var(--app-color-main);
@@ -469,7 +470,8 @@
 }
 
 #details #keepWatching,
-#details #fileSelector {
+#details #fileSelector,
+#details #autoRate {
   display: none;
   height: 100%;
   position: absolute;
@@ -478,7 +480,8 @@
 }
 
 #details #keepWatching .backgroundPopup,
-#details #fileSelector .backgroundPopup {
+#details #fileSelector .backgroundPopup,
+#details #autoRate .backgroundPopup {
   background: black;
   height: 100%;
   opacity: .4;
@@ -607,7 +610,8 @@
   text-align: center;
 }
 
-#details #fileSelector .selector .title {
+#details #fileSelector .selector .title,
+#details #autoRate .title {
   font-family: 'Proxima Nova Semibold';
   font-size: 1.8em;
   height: 14vh;
@@ -627,7 +631,8 @@
   width: 400px;
 }
 
-#details #fileSelector .selector {
+#details #fileSelector .selector,
+#details #autoRate .ratedPopup {
   border-radius: 3px;
   box-shadow: 0 0 10px 0 #222;
   height: 70vh;
@@ -1935,13 +1940,15 @@ a {
 }
 
 #settings .action button,
-#details-next .content button {
+#details-next .content button,
+#autoRate button {
   background-color: var(--button-bg);
   color: var(--button-text);
 }
 
 #settings .action button,
-#details-next .content button {
+#details-next .content button,
+#autoRate button {
   border: 0;
   border-radius: 5px;
   height: 40px;
@@ -1951,7 +1958,8 @@ a {
 }
 
 #settings .action button.disconnect:hover,
-#settings .action button.remove:hover {
+#settings .action button.remove:hover,
+#autoRate button.remove:hover {
   background-color: var(--button-warn);
 }
 
@@ -1959,7 +1967,8 @@ a {
 #details-next .content button:hover,
 #traktinit button:hover,
 #requirempv button:hover,
-.actions .trailer:hover {
+.actions .trailer:hover,
+#autoRate button:hover {
   background-color: var(--button-bg-hover);
   color: var(--button-text-hover);
 }
@@ -2009,6 +2018,7 @@ a {
 #settings .localsharing input,
 #settings .streamer input,
 #settings .streamer textarea,
+#autoRate textarea,
 #settings .custom input {
   background-color: var(--input-bg);
 }
@@ -2033,6 +2043,7 @@ a {
 #settings .localsharing input,
 #settings .streamer input,
 #settings .streamer textarea,
+#autoRate textarea,
 #settings .custom input {
   cursor: pointer;
   font-family: monospace;
@@ -2072,7 +2083,8 @@ a {
   line-height: 0;
 }
 
-#settings .streamer textarea {
+#settings .streamer textarea,
+#autoRate textarea {
   height: 100px;
   line-height: 18px;
   overflow: scroll;
@@ -2334,6 +2346,7 @@ a {
 #settings .localsharing input,
 #settings .streamer input,
 #settings .streamer textarea,
+#autoRate textarea,
 #settings .custom input {
   color: var(--input-text);
 }
@@ -2805,4 +2818,61 @@ select.dropdown {
   background-color: var(--dropdown-bg);
   color: var(--dropdown-text);
   height: 30px;
+}
+
+#autoRate .review {
+  height: 33vh;
+}
+
+#autoRate .review textarea {
+  height: 80%;
+  width: 60%;
+  margin: 2.5% auto;
+  display: block;
+  white-space: normal;
+  text-align: left;
+}
+
+#autoRate .buttons {
+  display: flex;
+  justify-content: center;
+}
+#autoRate .buttons button {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+#autoRate .rate {
+  display: flex;
+  width: 70%;
+  height: 30px;
+  align-content: center;
+  margin: 0 auto;
+  overflow: hidden;
+  margin-bottom: 50px;
+}
+
+#autoRate .rate .rating {
+  float: left;
+  width: 10%;
+  text-align: center;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+#autoRate .rate .rating .fa-heart {
+  color: #863c3c;
+}
+
+#autoRate .rate .rating .rateLabel {
+  position: absolute;
+  width: 300px;
+  right: calc(50% - 150px);
+  text-align: center;
+  margin-top: 16px;
+  opacity: 0%;
+  font-size: 16px;
+  font-family: var(--font);
+  color: var(--app-font-color);
+  transition: all .2s;
 }
