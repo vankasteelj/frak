@@ -1192,7 +1192,7 @@
         </div>
       </div>
       <div id="autoRate">
-        <div class="backgroundPopup" onClick="Ratings.closeAutoRate()"></div>
+        <div class="backgroundPopup" onClick="Details.closeAutoRate()"></div>
         <div class="ratedPopup">
           <div class="title"><i18n>Rate what you just watched</i18n></div>
           <div class="rate"></div>
@@ -1202,14 +1202,14 @@
               <input type="checkbox" id="reviewSpoiler">
             </div>
             <div id="autoRateReviewCount"></div>
-            <textarea id="autoRateReview" class="i18n" type="text" placeholder="Write a comment (English only)..." oninput="Ratings.autoRateReviewCount()"></textarea>
+            <textarea id="autoRateReview" class="i18n" type="text" placeholder="Write a comment (English only)..." oninput="Details.autoRateReviewCount()"></textarea>
             <div class="autoRateReviewRules">
               :emoji: **<b>bold</b>** <i>_italics_</i> ~~strike~~ ==highlight== >quote <code>`code`</code> [spoiler]text[/spoiler]
             </div>
           </div>
           <div class="buttons">
-            <button onClick="Ratings.autoRateSend()"><i18n>Send</i18n></button>
-            <button class="remove" onClick="Ratings.closeAutoRate()"><i18n>No thanks</i18n></button>
+            <button onClick="Details.autoRateSend()"><i18n>Send</i18n></button>
+            <button class="remove" onClick="Details.closeAutoRate()"><i18n>No thanks</i18n></button>
           </div>
         </div>
       </div>
