@@ -1197,7 +1197,15 @@
           <div class="title"><i18n>Rate what you just watched</i18n></div>
           <div class="rate"></div>
           <div class="review">
-            <textarea id="autoRateReview" class="i18n" type="text" placeholder="Write a comment..."></textarea>
+            <div class="autoRateSpoiler">
+              <label for="reviewSpoiler"><i18n>Spoiler?</i18n></label>
+              <input type="checkbox" id="reviewSpoiler">
+            </div>
+            <div id="autoRateReviewCount"></div>
+            <textarea id="autoRateReview" class="i18n" type="text" placeholder="Write a comment (English only)..." oninput="Ratings.autoRateReviewCount()"></textarea>
+            <div class="autoRateReviewRules">
+              :emoji: **<b>bold</b>** <i>_italics_</i> ~~strike~~ ==highlight== >quote <code>`code`</code> [spoiler]text[/spoiler]
+            </div>
           </div>
           <div class="buttons">
             <button onClick="Ratings.autoRateSend()"><i18n>Send</i18n></button>

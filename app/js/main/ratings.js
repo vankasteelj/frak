@@ -130,7 +130,6 @@ const Ratings = {
     $('#details #autoRate').show()
   },
   autoRateSet: (num) => {
-    console.debug('Chosen rating', num)
     if ($('#autoRate .rating .s'+num).parent().hasClass('fixed')) {
       $('#autoRate .rating').removeClass('fixed')
       Ratings.autoRateReset()
@@ -157,16 +156,75 @@ const Ratings = {
   },
   autoRateSend: () => {
     const comment = $('#autoRate textarea').val()
+    const wordCount = comment.trim().split(' ')
     const rating = $('#autoRate .fixed').attr('data')
 
-    console.debug('Rating %s/10 with commentary: %s', rating, comment)
-    // check if rating is done & has comment
-    // send to trakt
-    // wait for response then close, or just close?
+    // COMMENT
+    let model, type
+    if (Details.model.metadata) {
+      // local
+      if (Details.model.metadata.movie) {
+        // local movie
+        model = Details.model.metadata.movie
+        type = 'movie'
+      } else {
+        // local episode
+        model = Details.model.metadata.show
+        type = 'show'
+      }
+    } else {
+      // collection
+      if (Details.model.movie) {
+        // collection movie
+        model = Details.model.movie
+        type = 'movie'
+      } else {
+        // collection episode
+        model = Details.model.show
+        type = 'show'
+      }
+    }
+
+    const slug = model.ids.slug
+
+    const item = Details.from === 'locals' ? 
+    Details.model.metadata 
+    : Details.from === 'custom' ? 
+      JSON.parse($(`#custom-${slug}`).find('.data').text())
+      : JSON.parse($(`#${slug}`).find('.data').text())
+
+    // Do the things
+    if (comment && wordCount >= 5) {
+      const body = {
+        comment: comment,
+        spoiler: $('#reviewSpoiler').is(':checked')
+      }
+      body[type] = {ids: model.ids}
+      console.debug('Comment %s - "%s"', slug, comment, body)
+      Trakt.client.comments.comment.add(body).then(console.log).catch(console.error)
+    }
+    if (rating) {
+      console.debug('Rating %s - %s/10', slug, rating)
+      Trakt.rate('add', item, rating)
+    }
+
+    // close popup
+    Ratings.closeAutoRate()
+  },
+  autoRateReviewCount: () => {
+    const comment = $('#autoRate textarea').val()
+    const wordCount = comment.trim().split(' ')
+    if (wordCount.length < 5) {
+      $('#autoRateReviewCount').text(i18n.__('%s more word(s) to go', 5 - wordCount.length)).show()
+    } else {
+      $('#autoRateReviewCount').text('').hide()
+    }
   },
   closeAutoRate: () => {
     $('#details #autoRate').hide()
     $('#autoRate .rate').html('')
     $('#autoRate textarea').val('')
+    $('#reviewSpoiler').prop('checked', false)
+    $('#autoRateReviewCount').text('').hide()
   }
 }

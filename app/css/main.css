@@ -2826,7 +2826,7 @@ select.dropdown {
 
 #autoRate .review textarea {
   height: 80%;
-  width: 60%;
+  width: 65%;
   margin: 2.5% auto;
   display: block;
   white-space: normal;
@@ -2875,4 +2875,33 @@ select.dropdown {
   font-family: var(--font);
   color: var(--app-font-color);
   transition: all .2s;
+}
+
+#autoRate .autoRateReviewRules {
+  width: 65%;
+  text-align: center;
+  margin: -10px auto;
+  font-size: 9px;
+}
+
+#autoRate .autoRateSpoiler {
+  position: absolute;
+  right: 17.5%;
+  margin-top: -25px;
+}
+
+#autoRate .autoRateSpoiler label,
+#autoRate .autoRateSpoiler input {
+  font-family: var(--font);
+  font-weight: 400;
+  cursor: pointer;
+}
+
+#autoRate #autoRateReviewCount {
+  display: none;
+  position: absolute;
+  left: 17.5%;
+  margin-top: -17px;
+  font-size: 11px;
+  color: var(--app-font-color-dimmed);
 }
