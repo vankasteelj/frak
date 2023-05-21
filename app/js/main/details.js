@@ -553,6 +553,7 @@ const Details = {
 
     console.info('Mark as watched:', base.movie ? model.ids.slug : `${base.show.ids.slug} ${model.season}x${model.number}`)
     Details.buttonAsWatched()
+    Details.autoRate()
 
     return new Promise((resolve) => {
       if (model.ids) {
@@ -605,7 +606,7 @@ const Details = {
 
   buttonAsWatched: () => {
     $('#details .md-buttons .watched').addClass('selected').attr('title', i18n.__('Use the History tab to mark as unwatched')).removeAttr('onclick')
-    $('#details .md-buttons .watched i18n').text(i18n.__('Marked as seen'))
+    $('#details .md-buttons .watched i18n').text(i18n.__('Marked as seen'))    
   },
 
   openTraktPage: () => {
@@ -712,7 +713,17 @@ const Details = {
     Streamer.stop()
   },
   autoRate: () => {
+    // dont start if disabled or already rated
+    if (DB.sync.get('auto-rate-feature') === false) return
+    if ($('#details .corner-rating span').text() !== '') return
+    
+    // don't start if it's a show and under episode 4
+    const episode = Details.model.next_episode || Details.model.metadata && Details.model.metadata.episode
+    if (episode && episode.number < 4) return
+
     // construct
+    $('#autoRate .title').text(i18n.__('Rate this ' + (episode ? 'show' : 'movie')))
+
     const ratings = ['Weak Sauce :(', 'Terrible', 'Bad', 'Poor', 'Meh', 'Fair', 'Good', 'Great', 'Superb', 'Totally Ninja!']
     for (let i = 0; i < ratings.length; i++) {
       const label = ratings[i]
@@ -822,6 +833,7 @@ const Details = {
     $('#details #autoRate').hide()
     $('#autoRate .rate').html('')
     $('#autoRate textarea').val('')
+    $('#autoRate .title').text('')
     $('#reviewSpoiler').prop('checked', false)
     $('#autoRateReviewCount').text('').hide()
   }

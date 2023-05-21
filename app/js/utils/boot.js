@@ -181,6 +181,12 @@ const Boot = {
       document.querySelector('#lookForUpdates').checked = true
     }
 
+    // auto-rate feature
+    if (DB.sync.get('auto-rate-feature') !== false) {
+      DB.sync.store(true, 'auto-rate-feature')
+      document.querySelector('#auto-rate-feature').checked = true
+    }
+
     // is mpv shipped?
     if (process.platform === 'win32' && fs.existsSync('./mpv/mpv.exe')) {
       $('#mpvexec').hide()
@@ -303,6 +309,10 @@ const Boot = {
     document.querySelector('#lookForUpdates').addEventListener('click', (evt) => {
       DB.sync.store(evt.target.checked, 'lookForUpdates')
       Update.check()
+    })
+
+    document.querySelector('#auto-rate-feature').addEventListener('click', (evt) => {
+      DB.sync.store(evt.target.checked, 'auto-rate-feature')
     })
 
     document.querySelector('#hidden-input-local').addEventListener('change', (evt) => {

@@ -405,10 +405,13 @@
 	"All ratings": "Toutes les notes",
 	"Maximum download speed in kb/s (-1 by default)": "Vitesse de download maximale en ko/s (-1 par défaut)",
 	"Maximum upload speed in kb/s (-1 by default)": "Vitesse d'upload maximale en ko/s (-1 par défaut)",
-	"Rate what you just watched": "Notez ce qui a été visionné",
+	"Rate this show": "Donner une note à cette série",
+	"Rate this movie": "Donner une note à ce film",
 	"Send": "Envoyer",
 	"No thanks": "Non merci",
-	"Write a comment (English only)...": "Écrire un commentaire (anglais uniquement)...",
+	"Write a comment (optional - English only)...": "Écrire un commentaire (facultatif - en anglais uniquement)...",
 	"Spoiler?": "Spoiler ?",
-	"%s more word(s) to go": "Il faut %s mot(s) de plus"
+	"%s more word(s) to go": "Il faut %s mot(s) de plus",
+	"Auto-rate": "Noter automatiquement",
+	"Activate the feature and display a 'Rate and review' popup after watching a movie or a show": "Activer la fonctionnalité pour afficher une fenêtre 'Notez et commentez' après avoir regardé un film ou une série"
 }

@@ -530,6 +530,19 @@
             </button>
           </div>
         </div>
+        <div class="option">
+          <div class="text i18n" title="Activate the feature and display a 'Rate and review' popup after watching a movie or a show">
+            <i18n>Auto-rate</i18n>
+          </div>
+          <div class="action">
+            <i18n>no</i18n>&nbsp;
+            <label class="switch">
+              <input id="auto-rate-feature" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+            &nbsp;<i18n>yes</i18n>
+          </div>
+        </div>
       </div>
       <div class="setting custom">
         <div class="title">
@@ -1194,7 +1207,7 @@
       <div id="autoRate">
         <div class="backgroundPopup" onClick="Details.closeAutoRate()"></div>
         <div class="ratedPopup">
-          <div class="title"><i18n>Rate what you just watched</i18n></div>
+          <div class="title"></div>
           <div class="rate"></div>
           <div class="review">
             <div class="autoRateSpoiler">
@@ -1202,7 +1215,7 @@
               <input type="checkbox" id="reviewSpoiler">
             </div>
             <div id="autoRateReviewCount"></div>
-            <textarea id="autoRateReview" class="i18n" type="text" placeholder="Write a comment (English only)..." oninput="Details.autoRateReviewCount()"></textarea>
+            <textarea id="autoRateReview" class="i18n" type="text" placeholder="Write a comment (optional - English only)..." oninput="Details.autoRateReviewCount()"></textarea>
             <div class="autoRateReviewRules">
               :emoji: **<b>bold</b>** <i>_italics_</i> ~~strike~~ ==highlight== >quote <code>`code`</code> [spoiler]text[/spoiler]
             </div>

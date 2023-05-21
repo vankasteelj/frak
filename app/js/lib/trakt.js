@@ -336,7 +336,7 @@ const Trakt = {
 
       if (progress > 80 && action === 'stop') {
         Details.buttonAsWatched()
-        Ratings.autoRate()
+        Details.autoRate()
 
         if (Player.config.model.metadata) {
           // local item
