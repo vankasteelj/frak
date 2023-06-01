@@ -35,7 +35,7 @@
     "url": "https://github.com/vankasteelj/frak"
   },
   "dependencies": {
-    "auto-launch": "5.0.5",
+    "auto-launch": "5.0.6",
     "cheerio": "1.0.0-rc.12",
     "fs-extra": "11.1.0",
     "got": "11.8.6",
