@@ -724,6 +724,37 @@ const Details = {
     // construct
     $('#autoRate .title').text(i18n.__('Rate this ' + (episode ? 'show' : 'movie')))
 
+    let model, type
+    if (Details.model.metadata) {
+      // local
+      if (Details.model.metadata.movie) {
+        // local movie
+        model = Details.model.metadata.movie
+        type = 'movie'
+      } else {
+        // local episode
+        model = Details.model.metadata.show
+        type = 'show'
+      }
+    } else {
+      // collection
+      if (Details.model.movie) {
+        // collection movie
+        model = Details.model.movie
+        type = 'movie'
+      } else {
+        // collection episode
+        model = Details.model.show
+        type = 'show'
+      }
+    }
+
+    const item = Details.from === 'locals' ? 
+    Details.model.metadata 
+    : Details.from === 'custom' ? 
+      JSON.parse($(`#custom-${model.ids.slug}`).find('.data').text())
+      : JSON.parse($(`#${model.ids.slug}`).find('.data').text())
+
     const ratings = ['Weak Sauce :(', 'Terrible', 'Bad', 'Poor', 'Meh', 'Fair', 'Good', 'Great', 'Superb', 'Totally Ninja!']
     for (let i = 0; i < ratings.length; i++) {
       const label = ratings[i]
@@ -736,6 +767,11 @@ const Details = {
       $('#autoRate .rate').append(html)
     }
 
+    Details.autoRateCache = {
+      model: model,
+      type: type,
+      item: item
+    }
     $('#details #autoRate').show()
   },
   autoRateSet: (num) => {
@@ -768,52 +804,24 @@ const Details = {
     const wordCount = comment.trim().split(' ')
     const rating = $('#autoRate .fixed').attr('data')
 
-    // COMMENT
-    let model, type
-    if (Details.model.metadata) {
-      // local
-      if (Details.model.metadata.movie) {
-        // local movie
-        model = Details.model.metadata.movie
-        type = 'movie'
-      } else {
-        // local episode
-        model = Details.model.metadata.show
-        type = 'show'
-      }
-    } else {
-      // collection
-      if (Details.model.movie) {
-        // collection movie
-        model = Details.model.movie
-        type = 'movie'
-      } else {
-        // collection episode
-        model = Details.model.show
-        type = 'show'
-      }
-    }
-
-    const slug = model.ids.slug
-
-    const item = Details.from === 'locals' ? 
-    Details.model.metadata 
-    : Details.from === 'custom' ? 
-      JSON.parse($(`#custom-${slug}`).find('.data').text())
-      : JSON.parse($(`#${slug}`).find('.data').text())
+    const model = Details.autoRateCache.model
+    const type = Details.autoRateCache.type
+    const item = Details.autoRateCache.item
 
     // Do the things
-    if (comment && wordCount >= 5) {
+    if (comment && (wordCount.length >= 5)) {
       const body = {
         comment: comment,
         spoiler: $('#reviewSpoiler').is(':checked')
       }
       body[type] = {ids: model.ids}
-      console.debug('Comment %s - "%s"', slug, comment, body)
-      Trakt.client.comments.comment.add(body).then(console.log).catch(console.error)
+      console.debug('Comment %s - "%s"', model.ids.slug, comment, body)
+      Trakt.client.comments.comment.add(body).then((res) => {
+        console.log('Comment was uploaded:', res)
+      }).catch(console.error)
     }
     if (rating) {
-      console.debug('Rating %s - %s/10', slug, rating)
+      console.debug('Rating %s - %s/10', model.ids.slug, rating)
       Trakt.rate('add', item, rating)
     }
 
@@ -836,5 +844,6 @@ const Details = {
     $('#autoRate .title').text('')
     $('#reviewSpoiler').prop('checked', false)
     $('#autoRateReviewCount').text('').hide()
+    Details.autoRateCache = null
   }
 }

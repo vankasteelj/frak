@@ -359,7 +359,7 @@ const Trakt = {
               return Trakt.reload(true, type, Details.model.show.ids.slug)
             }).then(() => {
               Misc.events.on('loadNext', () => {
-                Details.loadNext()
+                Details.loadNext(true)
                 Misc.events.removeAllListeners()
               })
             })
