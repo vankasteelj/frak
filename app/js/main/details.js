@@ -809,6 +809,11 @@ const Details = {
     const item = Details.autoRateCache.item
 
     // Do the things
+    if (rating) {
+      console.debug('Rating %s - %s/10', model.ids.slug, rating)
+      Trakt.rate('add', item, rating)
+    }
+    
     if (comment && (wordCount.length >= 5)) {
       const body = {
         comment: comment,
@@ -816,13 +821,11 @@ const Details = {
       }
       body[type] = {ids: model.ids}
       console.debug('Comment %s - "%s"', model.ids.slug, comment, body)
-      Trakt.client.comments.comment.add(body).then((res) => {
+      Misc.sleep(1500).then(() => {
+        return Trakt.client.comments.comment.add(body)
+      }).then((res) => {
         console.log('Comment was uploaded:', res)
       }).catch(console.error)
-    }
-    if (rating) {
-      console.debug('Rating %s - %s/10', model.ids.slug, rating)
-      Trakt.rate('add', item, rating)
     }
 
     // close popup
