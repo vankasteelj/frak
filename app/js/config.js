@@ -52,9 +52,9 @@ const Settings = {
   })(),
   streamer: {
     magnetTimeout: 10000,
-    maxConns: 55,
-    downloadLimit: -1,
-    uploadLimit: -1,
+    maxConns: 30,
+    downloadLimit: 0,
+    uploadLimit: 0,
     announce: [
       'udp://tracker.coppersurfer.tk:6969/announce',
       'udp://exodus.desync.com:6969/announce',
