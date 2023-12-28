@@ -354,7 +354,7 @@
       <div class="row" id="discover">
         <div class="disc-search">
           <input type="text" class="i18n" placeholder="Search for a movie or a TV Show" />
-          <div class="search fa fa-search i18n tooltipped" title="Search" onClick="Discover.search()"></div>
+          <div class="search fa fa-search i18n" title="Search" onClick="Discover.search()"></div>
         </div>
 
         <div class="disc-results">
@@ -419,7 +419,7 @@
     </section>
 
     <section id="settings">
-      <div class="about fa fa-info-circle i18n tooltipped" title="About" onClick="Interface.showAbout()"></div>
+      <div class="about fa fa-info-circle i18n" title="About" onClick="Interface.showAbout()"></div>
 
       <div class="setting interface">
         <div class="title">
@@ -1038,7 +1038,7 @@
       <div class="background"></div>
       <div class="container">
         <div class="data"></div>
-        <div id="details-back" onClick="Details.closeDetails()" class="fa fa-arrow-left i18n tooltipped" title="Go back"></div>
+        <div id="details-back" onClick="Details.closeDetails()" class="fa fa-arrow-left i18n" title="Go back"></div>
 
         <div id="details-metadata">
           <div class="ids">
@@ -1066,16 +1066,16 @@
               <span class="fi"></span>
               <span class="network"></span>
               <span class="genres"></span>
-              <span class="rating tooltipped i18n" title="Rate this"></span>
+              <span class="rating i18n" title="Rate this"></span>
             </div>
             <div class="synopsis"></div>
             <div class="md-buttons">
               <div class="trailer">
-                <div class="fa fa-youtube-play tooltipped i18n"></div>
+                <div class="fa fa-youtube-play i18n"></div>
                 <i18n>Watch trailer</i18n>
               </div>
               <div class="watched" onclick="Details.markAsWatched()">
-                <div class="trakt-icon-check-thick tooltipped i18n"></div>
+                <div class="trakt-icon-check-thick i18n"></div>
                 <i18n>Mark as watched</i18n>
               </div>
             </div>
@@ -1085,7 +1085,7 @@
         <div id="details-sources">
           <div class="query">
             <input id="query" class="i18n" type="text" placeholder="Search" />
-            <div class="search fa fa-search i18n tooltipped" title="Search" onClick="Search.query()"></div>
+            <div class="search fa fa-search i18n" title="Search" onClick="Search.query()"></div>
           </div>
           <div class="sources row">
             <span class="noresult"><i18n>These aren't the droids you're looking for</i18n></span>
@@ -1136,24 +1136,24 @@
             </div>
             <div class="player">
               <div class="control">
-                <div class="fa fa-fast-backward i18n tooltipped" title="Seek backward" onClick="Player.mpv.seek(-10)"></div>
-                <div class="fa fa-stop i18n tooltipped" title="Stop" onClick="Player.quit()"></div>
-                <div class="play fa fa-pause i18n tooltipped" title="Play/Pause" onClick="Player.mpv.togglePause()"></div>
-                <div class="fa fa-fast-forward i18n tooltipped" title="Seek forward" onClick="Player.mpv.seek(10)"></div>
+                <div class="fa fa-fast-backward i18n" title="Seek backward" onClick="Player.mpv.seek(-10)"></div>
+                <div class="fa fa-stop i18n" title="Stop" onClick="Player.quit()"></div>
+                <div class="play fa fa-pause i18n" title="Play/Pause" onClick="Player.mpv.togglePause()"></div>
+                <div class="fa fa-fast-forward i18n" title="Seek forward" onClick="Player.mpv.seek(10)"></div>
 
                 <span class="separator"></span>
 
-                <div class="fa fa-font fa-font-small i18n tooltipped" title="Smaller font" onClick="Player.subFontSize(-5)"></div>
-                <div class="fa fa-font i18n tooltipped" title="Bigger font" onClick="Player.subFontSize(+5)"></div>
+                <div class="fa fa-font fa-font-small i18n" title="Smaller font" onClick="Player.subFontSize(-5)"></div>
+                <div class="fa fa-font i18n" title="Bigger font" onClick="Player.subFontSize(+5)"></div>
 
                 <span class="separator"></span>
 
-                <div class="fa fa-outdent i18n tooltipped" title="Subtitle delay -0.1s" onMouseDown="Player.subDelay(-0.1)" onMouseUp="Player.stopDelay()"></div>
-                <div class="fa fa-indent i18n tooltipped" title="Subtitle delay +0.1s" onMouseDown="Player.subDelay(+0.1)" onMouseUp="Player.stopDelay()"></div>
+                <div class="fa fa-outdent i18n" title="Subtitle delay -0.1s" onMouseDown="Player.subDelay(-0.1)" onMouseUp="Player.stopDelay()"></div>
+                <div class="fa fa-indent i18n" title="Subtitle delay +0.1s" onMouseDown="Player.subDelay(+0.1)" onMouseUp="Player.stopDelay()"></div>
                 
                 <span class="separator"></span>
                 
-                <div class="fa fa-expand i18n tooltipped" title="Fullscreen" onMouseDown="Player.mpv.fullscreen() && Player.onTop()"></div>
+                <div class="fa fa-expand i18n" title="Fullscreen" onMouseDown="Player.mpv.fullscreen() && Player.onTop()"></div>
               </div>
             </div>
           </div>
@@ -1232,7 +1232,7 @@
       <div class="background" onClick="Interface.closeAbout()"></div>
 
       <div class="content">
-        <div class="fa fa-github repolink i18n tooltipped" title="Get the source code"></div>
+        <div class="fa fa-github repolink i18n" title="Get the source code"></div>
         <h3>Frak <span class="version"></span></h3>
         <h4>
           <i18n>A frakingly good multimedia center</i18n>
@@ -1243,14 +1243,14 @@
             <i18n>Built with:</i18n>
           </h5>
           <div class="icons">
-            <img src="images/about/nodejs.png" class="tooltipped" title="NodeJS" onClick="Misc.openExternal('http://nodejs.org/')" />
-            <img src="images/about/html.png" class="tooltipped" title="HTML5" onClick="Misc.openExternal('https://www.w3.org/standards/')" />
+            <img src="images/about/nodejs.png" title="NodeJS" onClick="Misc.openExternal('http://nodejs.org/')" />
+            <img src="images/about/html.png" title="HTML5" onClick="Misc.openExternal('https://www.w3.org/standards/')" />
           </div>
           <div class="icons icons-2">
-            <img src="images/about/nwjs.png" class="tooltipped" title="NW.js" onClick="Misc.openExternal('http://nwjs.io/')" />
-            <img src="images/about/mpv.png" class="tooltipped" title="mpv" onClick="Misc.openExternal('https://mpv.io/')" />
-            <img src="images/about/bootstrap.png" class="tooltipped" title="Bootstrap" onClick="Misc.openExternal('http://getbootstrap.com/')" />
-            <img src="images/about/jquery.png" class="tooltipped" title="jQuery" onClick="Misc.openExternal('https://jquery.com/')" />
+            <img src="images/about/nwjs.png" title="NW.js" onClick="Misc.openExternal('http://nwjs.io/')" />
+            <img src="images/about/mpv.png" title="mpv" onClick="Misc.openExternal('https://mpv.io/')" />
+            <img src="images/about/bootstrap.png" title="Bootstrap" onClick="Misc.openExternal('http://getbootstrap.com/')" />
+            <img src="images/about/jquery.png" title="jQuery" onClick="Misc.openExternal('https://jquery.com/')" />
           </div>
         </div>
         <div class="services">
@@ -1258,11 +1258,11 @@
             <i18n>Thanks to:</i18n>
           </h5>
           <div class="icons">
-            <img src="images/about/trakt.png" class="tooltipped" title="Trakt" onClick="Misc.openExternal('https://trakt.tv/')" />
-            <img src="images/about/tmdb.png" class="tooltipped" title="TheMovieDB" onClick="Misc.openExternal('https://www.themoviedb.org/')" />
-            <img src="images/about/tvdb.png" class="tooltipped" title="Information provided by TheTVDB.com. Please consider supporting them." onClick="Misc.openExternal('https://www.thetvdb.com/subscribe')" />
-            <img src="images/about/fanart.png" class="tooltipped" title="Fanart.tv" onClick="Misc.openExternal('http://fanart.tv/')" />
-            <img src="images/about/opensubtitles.png" class="tooltipped" title="OpenSubtitles" onClick="Misc.openExternal('http://opensubtitles.org/')" />
+            <img src="images/about/trakt.png" title="Trakt" onClick="Misc.openExternal('https://trakt.tv/')" />
+            <img src="images/about/tmdb.png" title="TheMovieDB" onClick="Misc.openExternal('https://www.themoviedb.org/')" />
+            <img src="images/about/tvdb.png" title="Information provided by TheTVDB.com. Please consider supporting them." onClick="Misc.openExternal('https://www.thetvdb.com/subscribe')" />
+            <img src="images/about/fanart.png" title="Fanart.tv" onClick="Misc.openExternal('http://fanart.tv/')" />
+            <img src="images/about/opensubtitles.png" title="OpenSubtitles" onClick="Misc.openExternal('http://opensubtitles.org/')" />
           </div>
         </div>
       </div>

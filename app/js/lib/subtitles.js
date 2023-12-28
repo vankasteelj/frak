@@ -19,7 +19,7 @@ const Subtitles = {
   },
 
   addSubtitles: (subs, lang) => {
-    const language = `<div class="sublanguage tooltipped i18n" title="${i18n.__('Select this language')}">` +
+    const language = `<div class="sublanguage i18n" title="${i18n.__('Select this language')}">` +
                 `<div class="sublang" onClick="Subtitles.expand('${lang}')">${Localization.nativeNames[lang] || subs[0].lang}</div>` +
                 `<div class="sublangmenu" id="sub-${lang}"></div>` +
             '</div>'
@@ -30,7 +30,7 @@ const Subtitles = {
       const id = subs[n].id
       if ($(`#${id}`)[0]) continue
 
-      const subtitle = `<div class="sub tooltipped i18n" title="${i18n.__('Load this subtitle')}" id="${id}" onClick="Subtitles.select(this)">` +
+      const subtitle = `<div class="sub i18n" title="${i18n.__('Load this subtitle')}" id="${id}" onClick="Subtitles.select(this)">` +
                     `<div class="data">${JSON.stringify(subs[n])}</div>` +
                     `<div class="subname">${subs[n].filename}</div>` +
                 '</div>'

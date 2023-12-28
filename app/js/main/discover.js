@@ -395,7 +395,7 @@ const Discover = {
 
     Trakt.client.sync.watchlist.add(post).then((res) => {
       console.info('Added to Watchlist:', data[type])
-      $(`#${id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick tooltipped i18n selected"></div>'
+      $(`#${id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick i18n selected"></div>'
       $(`#${id} .item-spinner`).remove()
 
       Trakt.reload(false, type)
