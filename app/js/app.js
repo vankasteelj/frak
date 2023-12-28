@@ -33,6 +33,8 @@ try {
 
 // if app is already running, inject file if used 'open with'
 gui.App.on('open', (cmd) => {
+  if (!cmd) return
+
   let file
   if (process.platform.match('win32')) {
     file = cmd.split('"')
