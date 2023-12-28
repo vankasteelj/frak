@@ -224,11 +224,6 @@ const Boot = {
       document.querySelector('#tray').checked = true
     }
 
-    // use mpv for trailers
-    if (DB.sync.get('trailers_use_mpv')) {
-      document.querySelector('#trailers_use_mpv').checked = true
-    }
-
     // allow local network sharing
     if (DB.sync.get('localsharing')) {
       document.querySelector('#allow_localsharing').checked = true
@@ -323,10 +318,6 @@ const Boot = {
     document.querySelector('#mpvpath').addEventListener('change', (evt) => {
       const p = $('#mpvpath').val()
       Player.setMPV(p)
-    })
-
-    document.querySelector('#trailers_use_mpv').addEventListener('click', (evt) => {
-      DB.sync.store(evt.target.checked, 'trailers_use_mpv')
     })
 
     document.querySelector('#allow_localsharing').addEventListener('click', (evt) => {

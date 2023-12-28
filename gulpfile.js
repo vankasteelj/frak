@@ -78,7 +78,7 @@ gulp.task('nwjs', () => {
 
   // windows-only (or wine): replace icon & VersionInfo1.res
   if (currentPlatform().indexOf('win') !== -1) {
-    nwOptions.winIco = pkJson.icon
+    //nwOptions.winIco = pkJson.icon //no longer working in Windows 11 as of 2023-12-28
     nwOptions.winVersionString = {
       Comments: pkJson.description,
       CompanyName: pkJson.homepage,
@@ -335,13 +335,6 @@ gulp.task('mpv', () => {
       return Z7.extractFull(path.join(temp, 'mpv.7z'), 'mpv')
     }).then(() => {
       console.log('mpv extracted')
-      console.log('downloading youtube-dl...')
-      return new Promise((resolve, reject) => {
-        const stream = got.stream(pkJson.mpv['youtube-dl']).pipe(fs.createWriteStream('mpv/youtube-dl.exe'))
-        stream.on('finish', resolve)
-      })
-    }).then(() => {
-      console.log('all done.')
     })
   }))
 })
@@ -350,7 +343,7 @@ gulp.task('mpv', () => {
 gulp.task('build:nwjsclean', () => {
   return Promise.all(parsePlatforms().map((platform) => {
     if (platform.match(/osx|linux/) !== null) {
-      console.log('No `mpv` task for', platform)
+      console.log('No `build:nwjsclean` task for', platform)
       return null
     }
     const dirname = path.posix.join(releasesDir, pkJson.releaseName, platform)

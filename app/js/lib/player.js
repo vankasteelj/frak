@@ -98,7 +98,6 @@ const Player = {
       if (!Player.config.states.pause) Trakt.scrobble('start')
     })
     Player.mpv.on('stopped', () => {
-      // bypass https://github.com/00SteinsGate00/Node-MPV/issues/49
       if (!Player.config.model) return
 
       console.info('MPV stopped')
@@ -120,7 +119,7 @@ const Player = {
     const binary = p || DB.sync.get('mpv')
     const options = Player.getOptions()
 
-    Player.mpv = new (require('node-mpv'))({
+    Player.mpv = new (require('node-mpv-2'))({
       binary: binary,
       auto_restart: false,
       time_update: 1,

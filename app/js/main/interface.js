@@ -339,11 +339,6 @@ const Interface = {
   playTrailer: (url) => {
     const ytc = url.split('=')[1]
 
-    if (DB.sync.get('trailers_use_mpv')) {
-      Player.play(url)
-      return
-    }
-
     const iframe = $('<iframe>')
       .attr('src', `http://www.youtube.com/embed/${ytc}?autoplay=1&VQ=HD720`)
       .attr('frameborder', '0')
