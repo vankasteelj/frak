@@ -187,7 +187,7 @@ const Collection = {
       }).then((collection) => {
         return Collection.show.history(collection)
       }).then((r) => {
-        DB.trakt.get('traktratings').then(Items.applyRatings) 
+        DB.trakt.get('traktratings').then(Items.applyRatings)
         return r
       }).catch(console.error)
     },
@@ -205,7 +205,7 @@ const Collection = {
       }).then(collection => {
         return Collection.show.history(collection, true)
       }).then((r) => {
-        DB.trakt.get('traktratings').then(Items.applyRatings) 
+        DB.trakt.get('traktratings').then(Items.applyRatings)
         return r
       }).catch(console.error)
     },
@@ -551,7 +551,7 @@ const Collection = {
       } else {
         $('#trakt #ratings .row').html('')
       }
-      
+
       const items = []
       for (const i of collection) {
         items.push(Items.constructRatingsItem(i))
@@ -562,7 +562,7 @@ const Collection = {
       } else {
         items.push(Items.constructRatingsMore(filter))
       }
-      
+
       $('#trakt #ratings .row').append(items)
     }
   },

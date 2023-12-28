@@ -96,17 +96,17 @@ const Localization = {
       win.reload()
     })
   },
-  
+
   overview: (type, id) => {
     return DB.app.get('translations').then((translations) => {
       if (!translations) translations = {}
-      let locale = DB.sync.get('locale')
-      let cached = translations[id]
+      const locale = DB.sync.get('locale')
+      const cached = translations[id]
       if (!cached || (cached && !cached[locale]) || (cached && cached[locale] && (cached[locale].ttl || 0) < Date.now())) {
-        return Trakt.client[type + 's'].translations({id: id, language: locale}).then((r) => {
+        return Trakt.client[type + 's'].translations({ id: id, language: locale }).then((r) => {
           translations[id] = {}
           translations[id][locale] = r[0]
-          translations[id][locale].ttl = Date.now() + (30*24*60*60*1000) // cache for 30 days
+          translations[id][locale].ttl = Date.now() + (30 * 24 * 60 * 60 * 1000) // cache for 30 days
           DB.app.store(translations, 'translations')
           return r[0]
         })

@@ -545,7 +545,7 @@ const Items = {
     return item
   },
   constructRatingsItem: (data) => {
-    const type = data.movie ? 'movie':'show';
+    const type = data.movie ? 'movie' : 'show'
     const d = {
       id: data[type].ids.slug,
       title: data[type].title,
@@ -556,7 +556,7 @@ const Items = {
         const d = new Date(data.rated_at)
         return d.toLocaleDateString() + ' ' + Misc.pad(d.getHours()) + ':' + Misc.pad(d.getMinutes())
       })(),
-      ratedId: data[type].ids.slug+'-rating'
+      ratedId: data[type].ids.slug + '-rating'
     }
 
     const item = `<div class="grid-item col-sm-${d.size.sm} col-md-${d.size.md} col-lg-${d.size.lg} ${d.id}" id="${d.ratedId}">` +
@@ -851,7 +851,7 @@ const Items = {
 
       const el = document.querySelector(`[id='${item[item.type].ids.slug}']`)
       let elc = false
-      try { elc = document.querySelector(`.${item[item.type].ids.slug}`) } catch(e) { elc = $(`.${item[item.type].ids.slug}`)}
+      try { elc = document.querySelector(`.${item[item.type].ids.slug}`) } catch (e) { elc = $(`.${item[item.type].ids.slug}`) }
       if (el || elc) {
         $(`#${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show()
         $(`.${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show()

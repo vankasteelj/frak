@@ -14,7 +14,7 @@ const Ratings = {
     $('#r-sort').on('change', (e) => {
       Ratings.applyFilters()
     })
-    
+
     $('#r-types').append('<option value="typesAll">' + i18n.__('All types') + '</option>')
     $('#r-types').append('<option value="typesMovies">' + i18n.__('Movies') + '</option>')
     $('#r-types').append('<option value="typesShows">' + i18n.__('Shows') + '</option>')
@@ -26,7 +26,7 @@ const Ratings = {
     const ratings = ['Weak Sauce :(', 'Terrible', 'Bad', 'Poor', 'Meh', 'Fair', 'Good', 'Great', 'Superb', 'Totally Ninja!']
     $('#r-ratings').append('<option value="all">' + i18n.__('All ratings') + '</option>')
     for (let i = 10; i > 0; i--) {
-      $('#r-ratings').append('<option value="'+ i + '">' + i + '&nbsp;-&nbsp;' + i18n.__(ratings[i-1]) + '</option>')
+      $('#r-ratings').append('<option value="' + i + '">' + i + '&nbsp;-&nbsp;' + i18n.__(ratings[i - 1]) + '</option>')
     }
     $('#r-ratings').val('all')
     $('#r-ratings').on('change', (e) => {
@@ -36,7 +36,7 @@ const Ratings = {
     const allGenres = DB.sync.get('traktgenres')
     if (allGenres) {
       $('#r-genres').append('<option value="all">' + i18n.__('All genres') + '</option>')
-      for (let i in allGenres.shows) {
+      for (const i in allGenres.shows) {
         const g = allGenres.shows[i]
         if (allGenres.movies.filter(a => a.slug === g.slug).length) {
           $('#r-genres').append('<option value="' + g.slug + '">' + i18n.__(g.name) + '</option>')
@@ -45,7 +45,7 @@ const Ratings = {
       $('#r-genres').val('all')
       $('#r-genres').on('change', (e) => {
         Ratings.applyFilters()
-      })      
+      })
     }
   },
   show: () => {
@@ -76,10 +76,10 @@ const Ratings = {
     typesAll: (r) => r,
     typesMovies: (r) => r.filter(a => a.type.indexOf('movie') !== -1),
     typesShows: (r) => r.filter(a => a.type.indexOf('show') !== -1),
-    recentlyRated: (r) => r.sort((a,b) => a.rated_at > b.rated_at ? -1 : 1),
-    yearRated: (r) => r.sort((a,b) => a[a.type].year > b[b.type].year ? -1 : 1),
-    highestRated: (r) => r.sort((a,b) => a.rating > b.rating ? -1 : 1),
-    lowestRated: (r) => r.sort((a,b) => a.rating > b.rating ? 1 : -1),
+    recentlyRated: (r) => r.sort((a, b) => a.rated_at > b.rated_at ? -1 : 1),
+    yearRated: (r) => r.sort((a, b) => a[a.type].year > b[b.type].year ? -1 : 1),
+    highestRated: (r) => r.sort((a, b) => a.rating > b.rating ? -1 : 1),
+    lowestRated: (r) => r.sort((a, b) => a.rating > b.rating ? 1 : -1),
     ratings: (r, val) => {
       if (val === 'all') {
         return r
@@ -109,7 +109,7 @@ const Ratings = {
     console.debug('Ratings indexes [%d => %d]:', begin, end, results)
 
     Collection.show.ratings(results, update)
-    DB.trakt.get('traktratings').then(Items.applyRatings) 
+    DB.trakt.get('traktratings').then(Items.applyRatings)
 
     return results
   }

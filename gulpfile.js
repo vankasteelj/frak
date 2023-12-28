@@ -474,6 +474,7 @@ const sd = (fix) => {
         'Settings',
         'Cache',
         'Stats',
+        'Ratings',
 
         // Global variables
         'PKJSON',

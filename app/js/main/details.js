@@ -508,10 +508,10 @@ const Details = {
             const t = $('#' + $(this).attr('for'))
             const score = t.val()
 
-            const item = Details.from === 'locals' ? 
-              Details.model.metadata 
-              : Details.from === 'custom' ? 
-                JSON.parse($(`#custom-${slug}`).find('.data').text())
+            const item = Details.from === 'locals'
+              ? Details.model.metadata
+              : Details.from === 'custom'
+                ? JSON.parse($(`#custom-${slug}`).find('.data').text())
                 : JSON.parse($(`#${slug}`).find('.data').text())
 
             if (isRated === score) {
@@ -606,7 +606,7 @@ const Details = {
 
   buttonAsWatched: () => {
     $('#details .md-buttons .watched').addClass('selected').attr('title', i18n.__('Use the History tab to mark as unwatched')).removeAttr('onclick')
-    $('#details .md-buttons .watched i18n').text(i18n.__('Marked as seen'))    
+    $('#details .md-buttons .watched i18n').text(i18n.__('Marked as seen'))
   },
 
   openTraktPage: () => {
@@ -716,9 +716,9 @@ const Details = {
     // dont start if disabled or already rated
     if (DB.sync.get('auto-rate-feature') === false) return
     if ($('#details .corner-rating span').text() !== '') return
-    
+
     // don't start if it's a show and under episode 4
-    const episode = Details.model.next_episode || Details.model.metadata && Details.model.metadata.episode
+    const episode = Details.model.next_episode || (Details.model.metadata && Details.model.metadata.episode)
     if (episode && episode.number < 4) return
 
     // construct
@@ -749,21 +749,21 @@ const Details = {
       }
     }
 
-    const item = Details.from === 'locals' ? 
-    Details.model.metadata 
-    : Details.from === 'custom' ? 
-      JSON.parse($(`#custom-${model.ids.slug}`).find('.data').text())
-      : JSON.parse($(`#${model.ids.slug}`).find('.data').text())
+    const item = Details.from === 'locals'
+      ? Details.model.metadata
+      : Details.from === 'custom'
+        ? JSON.parse($(`#custom-${model.ids.slug}`).find('.data').text())
+        : JSON.parse($(`#${model.ids.slug}`).find('.data').text())
 
     const ratings = ['Weak Sauce :(', 'Terrible', 'Bad', 'Poor', 'Meh', 'Fair', 'Good', 'Great', 'Superb', 'Totally Ninja!']
     for (let i = 0; i < ratings.length; i++) {
       const label = ratings[i]
-      const rating = i+1
+      const rating = i + 1
       const html = `<div class="rating" data="${rating}" onClick="Details.autoRateSet(${rating})" onmouseover="Details.autoRateHover(${rating})" onmouseleave="Details.autoRateReset()">` +
         `<div class="fa fa-heart-o s${rating}">` +
           `<div class="rateLabel">${rating} - ${i18n.__(label)}</div>` +
-        `</div>` +
-      `</div>`
+        '</div>' +
+      '</div>'
       $('#autoRate .rate').append(html)
     }
 
@@ -775,28 +775,28 @@ const Details = {
     $('#details #autoRate').show()
   },
   autoRateSet: (num) => {
-    if ($('#autoRate .rating .s'+num).parent().hasClass('fixed')) {
+    if ($('#autoRate .rating .s' + num).parent().hasClass('fixed')) {
       $('#autoRate .rating').removeClass('fixed')
       Details.autoRateReset()
     } else {
       $('#autoRate .rating').removeClass('fixed')
       Details.autoRateHover(num)
-      $('#autoRate .rating .s'+num).parent().addClass('fixed')
+      $('#autoRate .rating .s' + num).parent().addClass('fixed')
     }
   },
   autoRateHover: (num) => {
     if ($('#autoRate .rating').hasClass('fixed')) return
     Details.autoRateReset()
-    $('#autoRate .rating .s'+num+' .rateLabel').css('opacity', '100')
+    $('#autoRate .rating .s' + num + ' .rateLabel').css('opacity', '100')
     for (let i = num; i > 0; i--) {
-      $('#autoRate .rating .s'+i).addClass('fa-heart').removeClass('fa-heart-o')
+      $('#autoRate .rating .s' + i).addClass('fa-heart').removeClass('fa-heart-o')
     }
   },
   autoRateReset: () => {
     if ($('#autoRate .rating').hasClass('fixed')) return
     $('#autoRate .rating .rateLabel').css('opacity', '0')
     for (let i = 1; i < 11; i++) {
-      $('#autoRate .rating .s'+i).addClass('fa-heart-o').removeClass('fa-heart')
+      $('#autoRate .rating .s' + i).addClass('fa-heart-o').removeClass('fa-heart')
     }
   },
   autoRateSend: () => {
@@ -813,13 +813,13 @@ const Details = {
       console.debug('Rating %s - %s/10', model.ids.slug, rating)
       Trakt.rate('add', item, rating)
     }
-    
+
     if (comment && (wordCount.length >= 5)) {
       const body = {
         comment: comment,
         spoiler: $('#reviewSpoiler').is(':checked')
       }
-      body[type] = {ids: model.ids}
+      body[type] = { ids: model.ids }
       console.debug('Comment %s - "%s"', model.ids.slug, comment, body)
       Misc.sleep(1500).then(() => {
         return Trakt.client.comments.comment.add(body)
