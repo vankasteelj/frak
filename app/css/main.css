@@ -832,6 +832,9 @@
   font-weight: 400;
   height: 40px;
   overflow: hidden;
+  margin-top: -3px;
+  left: -17px;
+  position: relative;
   padding-bottom: 10px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -853,6 +856,16 @@
 #details-metadata .md-line .fi {
   width: 65px;
   margin-right: -25px;
+}
+
+#details-metadata .md-line .genres {
+  max-inline-size: 45%;
+  position: relative;
+  display: inline-block;
+  top: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 #details-metadata .poster {

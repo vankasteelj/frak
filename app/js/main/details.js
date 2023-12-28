@@ -90,7 +90,8 @@ const Details = {
       for (const g of d.genres) {
         genre.push(i18n.__(Misc.capitalize(g)))
       }
-      $('#details-metadata .genres').show().text(genre.join(' / '))
+      const genres = genre.join(' / ')
+      $('#details-metadata .genres').show().text(genres).attr('title', genres)
     } else {
       $('#details-metadata .genres').hide()
     }
