@@ -1924,7 +1924,7 @@ a {
 }
 
 #settings .about:hover,
-#trakt #history #showMore .showMore_button:hover;
+#trakt #history #showMore .showMore_button:hover,
 #trakt #ratings #showMore .showMore_button:hover {
   opacity: .9;
 }
