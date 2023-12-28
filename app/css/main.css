@@ -345,8 +345,8 @@
 #trakt #discover .row,
 #trakt #ratings.row {
   position: absolute;
-  right: 10px;
-  width: calc(100% - 55px);
+  right: 14px;
+  width: calc(100% - 59px);
 }
 
 #trakt #ratings .row {
