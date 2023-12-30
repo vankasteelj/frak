@@ -83,25 +83,28 @@ const Items = {
 
       // right click menu
       const labels = {}
-      labels['Play now'] = () => $(`#${d.id} .play`).trigger('click')
-      movie.movie.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).trigger('click'))
-      labels['Mark as watched'] = () => $(`#${d.id} .watched`).trigger('click')
-      DB.sync.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${d.id}`)))
+      const id = d.id
+      labels['Play now'] = () => $(`#${id} .play`).trigger('click')
+      movie.movie.trailer && (labels['Watch trailer'] = () => $(`#${id} .trailer`).trigger('click'))
+      labels['Mark as watched'] = () => $(`#${id} .watched`).trigger('click')
+      DB.sync.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${id}`)))
       labels.separator = true
       labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`)
-      labels['Redownload image'] = () => Items.redownloadImage(d.id, image, movie.movie.ids, 'movie', 'fanart')
+      labels['Redownload image'] = () => Items.redownloadImage(id, image, movie.movie.ids, 'movie', 'fanart')
       labels['Remove from watchlist'] = () => Trakt.client.sync.watchlist.remove({
         movies: [movie.movie]
-      }).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(movie.movie.ids.slug)).catch(console.error)
+      }).then(() => $(`#${id}`).remove()).then(() => Collection.hiddenItems.add(movie.movie.ids.slug)).catch(console.error)
       labels.submenu = {
         title: 'Hide for...',
         labels: {
-          '7 days': () => Collection.hiddenMovies.add(movie.movie.ids.slug, (Date.now() + (7 * 24 * 60 * 60 * 1000))) && $(`#${d.id}`).remove(),
-          '30 days': () => Collection.hiddenMovies.add(movie.movie.ids.slug, (Date.now() + (30 * 24 * 60 * 60 * 1000))) && $(`#${d.id}`).remove()
+          '7 days': () => Collection.hiddenMovies.add(movie.movie.ids.slug, (Date.now() + (7 * 24 * 60 * 60 * 1000))) && $(`#${id}`).remove(),
+          '30 days': () => Collection.hiddenMovies.add(movie.movie.ids.slug, (Date.now() + (30 * 24 * 60 * 60 * 1000))) && $(`#${id}`).remove()
         }
       }
-      const menu = Misc.customContextMenu(labels)
-      $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
+      $(`#${id} .fanart`).off('contextmenu').on('contextmenu', (e) => {
+        const menu = Misc.customContextMenu(labels)
+        menu.popup(parseInt(e.clientX), parseInt(e.clientY))
+      })
     })
 
     return item
@@ -161,27 +164,31 @@ const Items = {
 
       // right click menu
       const labels = {}
-      labels['Play now'] = () => $(`#${d.id} .play`).trigger('click')
-      show.show.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).trigger('click'))
-      labels['Mark as watched'] = () => $(`#${d.id} .watched`).trigger('click')
-      DB.sync.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${d.id}`)))
+      const id = d.id
+      labels['Play now'] = () => $(`#${id} .play`).trigger('click')
+      show.show.trailer && (labels['Watch trailer'] = () => $(`#${id} .trailer`).trigger('click'))
+      labels['Mark as watched'] = () => $(`#${id} .watched`).trigger('click')
+      DB.sync.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${id}`)))
       labels.separator = true
       if (show.next_episode.number === 1 && show.next_episode.season === 1) {
         labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`)
-        labels['Redownload image'] = () => Items.redownloadImage(d.id, image, show.show.ids, 'show', 'fanart')
+        labels['Redownload image'] = () => Items.redownloadImage(id, image, show.show.ids, 'show', 'fanart')
         labels['Remove from watchlist'] = () => Trakt.client.sync.watchlist.remove({
           shows: [show.show]
-        }).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(show.show.ids.slug)).catch(console.error)
+        }).then(() => $(`#${id}`).remove()).then(() => Collection.hiddenItems.add(show.show.ids.slug)).catch(console.error)
       } else {
         labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}/seasons/${show.next_episode.season}/episodes/${show.next_episode.number}`)
-        labels['Redownload image'] = () => Items.redownloadImage(d.id, image, show.show.ids, 'show', 'fanart')
+        labels['Redownload image'] = () => Items.redownloadImage(id, image, show.show.ids, 'show', 'fanart')
         labels['Hide this show'] = () => Trakt.client.users.hidden.add({
           section: 'progress_watched',
           shows: [show.show]
-        }).then(() => $(`#${d.id}`).remove()).then(() => Collection.hiddenItems.add(show.show.ids.slug)).catch(console.error)
+        }).then(() => $(`#${id}`).remove()).then(() => Collection.hiddenItems.add(show.show.ids.slug)).catch(console.error)
       }
-      const menu = Misc.customContextMenu(labels)
-      $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
+
+      $(`#${id} .fanart`).off('contextmenu').on('contextmenu', (e) => {
+        const menu = Misc.customContextMenu(labels)
+        menu.popup(parseInt(e.clientX), parseInt(e.clientY))
+      })
     })
 
     return item
@@ -237,15 +244,18 @@ const Items = {
 
       // right click menu
       const labels = {}
-      labels['Play now'] = () => $(`#${d.id} .play`).trigger('click')
-      movie.movie.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).trigger('click'))
+      const id = d.id
+      labels['Play now'] = () => $(`#${id} .play`).trigger('click')
+      movie.movie.trailer && (labels['Watch trailer'] = () => $(`#${id} .trailer`).trigger('click'))
       labels.separator = true
-      labels['Remove from custom list'] = () => $(`#${d.id} .remove`).trigger('click')
+      labels['Remove from custom list'] = () => $(`#${id} .remove`).trigger('click')
       labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`)
-      labels['Redownload image'] = () => Items.redownloadImage(d.id, image, movie.movie.ids, 'movie', 'fanart')
+      labels['Redownload image'] = () => Items.redownloadImage(id, image, movie.movie.ids, 'movie', 'fanart')
 
-      const menu = Misc.customContextMenu(labels)
-      $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
+      $(`#${id} .fanart`).off('contextmenu').on('contextmenu', (e) => {
+        const menu = Misc.customContextMenu(labels)
+        menu.popup(parseInt(e.clientX), parseInt(e.clientY))
+      })
     })
 
     return item
@@ -310,15 +320,18 @@ const Items = {
 
       // right click menu
       const labels = {}
-      labels['Play now'] = () => $(`#${d.id} .play`).trigger('click')
-      show.show.trailer && (labels['Watch trailer'] = () => $(`#${d.id} .trailer`).trigger('click'))
+      const id = d.id
+      labels['Play now'] = () => $(`#${id} .play`).trigger('click')
+      show.show.trailer && (labels['Watch trailer'] = () => $(`#${id} .trailer`).trigger('click'))
       labels.separator = true
-      labels['Remove from custom list'] = () => $(`#${d.id} .remove`).trigger('click')
+      labels['Remove from custom list'] = () => $(`#${id} .remove`).trigger('click')
       labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}/seasons/${show.next_episode.season}/episodes/${show.next_episode.number}`)
-      labels['Redownload image'] = () => Items.redownloadImage(d.id, image, show.show.ids, 'show', 'fanart')
+      labels['Redownload image'] = () => Items.redownloadImage(id, image, show.show.ids, 'show', 'fanart')
 
-      const menu = Misc.customContextMenu(labels)
-      $(`#${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
+      $(`#${id} .fanart`).off('contextmenu').on('contextmenu', (e) => {
+        const menu = Misc.customContextMenu(labels)
+        menu.popup(parseInt(e.clientX), parseInt(e.clientY))
+      })
     })
 
     return item
@@ -351,16 +364,19 @@ const Items = {
 
     // right click menu
     const labels = {}
-    labels['Play now'] = () => $(`#${d.id}`).trigger('click')
+    const id = d.id
+    labels['Play now'] = () => $(`#${id}`).trigger('click')
     labels['Show in file explorer'] = () => {
       console.info('[File explorer opened] Showing', file.path)
       gui.Shell.showItemInFolder(path.normalize(file.path))
       Notify.snack(i18n.__('Opening the file location'))
     }
 
-    const menu = Misc.customContextMenu(labels)
     Misc.sleep(100).then(() => {
-      $(`#${d.id}`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
+      $(`#${id}`).off('contextmenu').on('contextmenu', (e) => {
+        const menu = Misc.customContextMenu(labels)
+        menu.popup(parseInt(e.clientX), parseInt(e.clientY))
+      })
     })
 
     return item
@@ -772,17 +788,21 @@ const Items = {
 
         // right click menu
         const labels = {}
-        labels['Play now'] = () => $(`#discover #${d.id} .play`).trigger('click')
-        movie.movie.trailer && (labels['Watch trailer'] = () => $(`#discover #${d.id} .trailer`).trigger('click'))
-        DB.sync.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${d.id}`)))
-        labels['Add to watchlist'] = () => $(`#discover #${d.id} .watchlist`).trigger('click')
+        const id = d.id
+        labels['Play now'] = () => $(`#discover #${id} .play`).trigger('click')
+        movie.movie.trailer && (labels['Watch trailer'] = () => $(`#discover #${id} .trailer`).trigger('click'))
+        DB.sync.get('use_customs') && (labels['Add to custom list'] = () => Items.addToCustom($(`#${id}`)))
+        labels['Add to watchlist'] = () => $(`#discover #${id} .watchlist`).trigger('click')
         labels.separator = true
         movie.movie.source === 'recommendations' && (labels["Don't recommend this again"] = () => Trakt.client.recommendations.movies.hide({
           id: movie.movie.ids.slug
-        }).then(() => DB.trakt.store(0, 'lastrecommendedsync')).then(() => $(`#discover #${d.id}`).remove()))
+        }).then(() => DB.trakt.store(0, 'lastrecommendedsync')).then(() => $(`#discover #${id}`).remove()))
         labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`)
-        const menu = Misc.customContextMenu(labels)
-        $(`#discover #${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
+        
+        $(`#discover #${id} .fanart`).off('contextmenu').on('contextmenu', (e) => {
+          const menu = Misc.customContextMenu(labels)
+          menu.popup(parseInt(e.clientX), parseInt(e.clientY))
+        })
       })
 
       return item
