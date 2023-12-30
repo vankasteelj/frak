@@ -295,6 +295,7 @@ const Collection = {
       $('#collection #locals .categories .unmatched').hide()
 
       const movies = Misc.sortAlphabetical(collection.movies)
+      DB.app.store(movies, 'local_movies')
       Collection.show.locals.movies(movies)
 
       const shows = Misc.sortAlphabetical(collection.shows)
