@@ -272,8 +272,13 @@ const Details = {
         Details.loadImage((i.fanart || i.poster), 'fanart')
         Details.loadImage((i.poster || i.fanart), 'poster')
 
-        return Search.offline(item)
-      }).then(offline => {
+        return Search.pinned(item)
+      }).then(pinned => {
+        if (pinned) {
+          console.info('Found pinned items', pinned)
+          Search.addPinned(pinned)
+        }
+      }).then(() => Search.offline(item)).then(offline => {
         if (offline) {
           console.info('Found match in local library', offline)
           Search.addLocal(offline)
@@ -303,8 +308,13 @@ const Details = {
         Details.loadImage((i.fanart || i.poster), 'fanart')
         Details.loadImage((i.poster || i.fanart), 'poster')
 
-        return Search.offline(item)
-      }).then(offline => {
+        return Search.pinned(item)
+      }).then(pinned => {
+        if (pinned) {
+          console.info('Found pinned items', pinned)
+          Search.addPinned(pinned)
+        }
+      }).then(() => Search.offline(item)).then(offline => {
         if (offline) {
           console.info('Found match in local library', offline)
           Search.addLocal(offline)
@@ -849,5 +859,26 @@ const Details = {
     $('#reviewSpoiler').prop('checked', false)
     $('#autoRateReviewCount').text('').hide()
     Details.autoRateCache = null
+  },
+  pin: {
+    toggle: (item) => {
+      if ($(`#${item.btih}`).hasClass('pinned')) {
+        $(`#${item.btih}`).removeClass('pinned')
+        console.log('Removed pin for %s', item.btih)
+        return DB.app.get('pinned_magnets').then(library => {
+          library.splice(library.findIndex(i => i.btih === item.btih), 1)
+          return DB.app.store(library, 'pinned_magnets')
+        })
+      } else {
+        $(`#${item.btih}`).addClass('pinned')
+        console.log('Add pin for %s', item.btih)
+        return DB.app.get('pinned_magnets').then((library) => {
+          if (!library) library = []
+          item.added_at = Date.now()
+          library.push(item)
+          return DB.app.store(library, 'pinned_magnets')
+        })
+      }
+    }
   }
 }

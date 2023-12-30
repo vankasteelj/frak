@@ -135,6 +135,20 @@ const Search = {
       }
     })
   },
+  pinned: (data) => {
+    return DB.app.get('pinned_magnets').then(library => {
+      const type = Details.model.type ? Details.model.type : 'show'
+      const id = Details.model[type].ids.slug
+
+      if (!id || !library) return
+
+      let found = []
+      library.map((elm, idx) => {
+        if (elm.id === id) found.push(library[idx])
+      })
+      return found.length ? found : null
+    })
+  },
 
   sortOnline: (input) => {
     const collection = []
@@ -179,7 +193,7 @@ const Search = {
           resolve()
         }
       })
-    })).then(() => {
+    })).then(() => DB.app.get('pinned_magnets')).then(pinned => {
       // prepare for duplicates
       for (const i of collection) {
         const name = Misc.slugify(i.name)
@@ -211,6 +225,9 @@ const Search = {
 
         const matched = i.magnet.match(/btih:(.*?)($|&)/i)
         if (!matched) continue
+        
+        // remove already pinned magnets
+        if (pinned && pinned.findIndex(a => a.btih === matched[1]) !== -1) continue
 
         const btih = matched[1].toLowerCase()
         const size = parseInt(i.size / 1024 / (1024 / 100))
@@ -271,7 +288,8 @@ const Search = {
     })
   },
   addRemote: (results = []) => {
-    $('#details-sources .sources .item.remote').remove()
+    $('#details-sources .sources .item.remote').not('.pinned').remove()
+
     for (const data of results) {
       try {
         const id = data.magnet.match(/\b([A-F\d]+)\b/i)[0]
@@ -280,6 +298,7 @@ const Search = {
                       `<div class="fa fa-magnet" title="${i18n.__('Open the magnet link')}"></div>` +
                       `<div class="title">${data.name}</div>` +
                       `<div class="size">${Misc.fileSize(data.size) || i18n.__('Unknown')}</div>` +
+                	  `<div class="fa fa-thumb-tack pin" title="${i18n.__('Pin this')}"></div>` +
                       `<div class="fa fa-bolt ${Search.matchScore(data.score)}" title="${i18n.__('Seeds: %s', data.seeds)}, ${i18n.__('Peers: %s', data.peers)}"></div>` +
                   '</div>'
 
@@ -292,8 +311,57 @@ const Search = {
           clipboard.set(data.magnet, 'text')
           Notify.snack(i18n.__('Magnet link was copied to the clipboard'))
         })
+        $(`#${id} .pin`).off('click').on('click', (e) => {
+          e && e.stopPropagation()
+          const type = Details.model.type ? Details.model.type : 'show'
+          const model = Details.model[type].ids.slug
+          Details.pin.toggle({
+            btih: id,
+            id: model,
+            data: data
+          })
+        })
       } catch (e) {
+        console.error('Error while parsing search results:', e)
         continue
+      }
+    }
+  },
+  addPinned: (results) => {
+    for (const item of results) {
+      const data = item.data
+      try {
+        const id = data.magnet.match(/\b([A-F\d]+)\b/i)[0]
+        const item = `<div class="item remote pinned" onClick="Details.loadRemote('${data.magnet}')" id="${id}">` +
+                      `<div class="data">${JSON.stringify(data)}</div>` +
+                      `<div class="fa fa-magnet" title="${i18n.__('Open the magnet link')}"></div>` +
+                      `<div class="title">${data.name}</div>` +
+                      `<div class="size">${Misc.fileSize(data.size) || i18n.__('Unknown')}</div>` +
+                      `<div class="fa fa-thumb-tack pin" title="${i18n.__('Pin this')}"></div>` +
+                      `<div class="fa fa-bolt ${Search.matchScore(data.score)}" title="${i18n.__('Seeds: %s', data.seeds)}, ${i18n.__('Peers: %s', data.peers)}"></div>` +
+                  '</div>'
+
+        $('#details-sources .sources').append(item)
+        $(`#${id} .fa-magnet`).on('click', (e) => {
+          e && e.stopPropagation()
+          Misc.openExternal(data.magnet)
+        }).off('contextmenu').on('contextmenu', (e) => {
+          const clipboard = nw.Clipboard.get()
+          clipboard.set(data.magnet, 'text')
+          Notify.snack(i18n.__('Magnet link was copied to the clipboard'))
+        })
+        $(`#${id} .pin`).off('click').on('click', (e) => {
+          e && e.stopPropagation()
+          const type = Details.model.type ? Details.model.type : 'show'
+          const model = Details.model[type].ids.slug
+          Details.pin.toggle({
+            btih: id,
+            id: model,
+            data: data
+          })
+        })
+      } catch (e) {
+        console.error('Error while adding pinned items', e)
       }
     }
   },

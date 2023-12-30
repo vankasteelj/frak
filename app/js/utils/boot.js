@@ -24,6 +24,7 @@ const Boot = {
     Ratings.setupDropdown() // ratings init
     Interface.buildSwitch() // switch trakt account screen
     // Gamepad.init(); // gamepad support
+    Boot.cleanup() // periodically cleanup
     Boot.idle() // periodically update
 
     // events
@@ -51,6 +52,24 @@ const Boot = {
         setTimeout(() => {
             Boot.online()
         }, 5000); */
+  },
+  
+  cleanup: () => {
+    // clean the pinned magnets' library every 30 days
+    let count = 0
+    DB.app.get('pinned_magnets').then(library => {
+      const maxAge = 60*60*24*30
+      const now = Date.now()
+      for (const i in library) {
+        if (library[i].added_at + maxAge < now) {
+          count++
+          library.splice(i, 1)
+        }
+      }
+      return DB.app.store(library, 'pinned_magnets')
+    }).then(() => {
+      (count) && console.log('Boot.cleanup: %d pinned magnets were removed from the cache', count)
+    })
   },
 
   setupScreens: () => {

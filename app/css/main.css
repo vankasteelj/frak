@@ -973,6 +973,20 @@
   float: right;
 }
 
+#details-sources .item.remote .pin {
+  width: 32px;
+  display: none;
+  opacity: .5;
+  transition: all .5s;
+}
+#details-sources .item.remote:hover .pin {
+  display: block;
+}
+#details-sources .item.remote.pinned .pin {
+  display: block;
+  opacity: 1;
+}
+
 #details-sources .item .good {
   color: yellowgreen;
 }
@@ -1011,7 +1025,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: calc(100% - 150px);
+  width: calc(100% - 182px);
 }
 
 #details-sources .item .usable {
