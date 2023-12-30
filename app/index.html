@@ -193,7 +193,7 @@
 
     <section id="collection">
       <div id="coll-search">
-        <input type="text" class="i18n" placeholder="Search">
+        <input type="text" class="i18n" placeholder="Search" id="coll-search-input"/>
       </div>
 
       <div class="row" id="shows"></div>
@@ -353,7 +353,7 @@
 
       <div class="row" id="discover">
         <div class="disc-search">
-          <input type="text" class="i18n" placeholder="Search for a movie or a TV Show" />
+          <input type="text" class="i18n" placeholder="Search for a movie or a TV Show" id="disc-search-input"/>
           <div class="search fa fa-search i18n" title="Search" onClick="Discover.search()"></div>
         </div>
 
@@ -620,7 +620,7 @@
             <i18n>IP address</i18n>
           </div>
           <div class="action">
-            <input type="text" readonly placeholder="127.0.0.1"/>
+            <input type="text" id="localip-input" readonly placeholder="127.0.0.1"/>
           </div>
         </div>
         <div class="option">
