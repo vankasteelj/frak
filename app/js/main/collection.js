@@ -486,6 +486,9 @@ const Collection = {
         }
 
         untrack.length && console.info('Some movies/tv shows are hidden or not released yet, not showing:', untrack.join(', '))
+      }).catch(err => {
+        console.error(err)
+        Collection.get.traktcustoms().then(Collection.get.traktcached)
       })
     },
     locals: {
