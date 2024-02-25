@@ -5,7 +5,7 @@ const name = atob('VG9ycmVudEdhbGF4eQ==')
 
 const get = (query, cat) => {
   const torrents = []
-  const url = defaultURL + '?parent_cat=' + cat + '&search=' + query + '&sort=seeders&order=desc&page=0'
+  const url = defaultURL + '?' + cat + '&search=' + query + '&lang=0&nox=2&sort=seeders&order=desc'
   return got(url).then((html) => {
     const $ = cheerio.load(html.body)
 
@@ -44,10 +44,10 @@ module.exports = {
     // categories is broken
     switch (opts.type) {
       case 'show':
-        req.cat = 'TV'
+        req.cat = 'c41=1&c5=1&c11=1&c6=1'
         break
       case 'movie':
-        req.cat = 'movies'
+        req.cat = 'c3=1&c45=1&c42=1&c4=1&c1=1'
         break
     }
 
