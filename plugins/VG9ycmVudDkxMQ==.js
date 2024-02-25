@@ -28,26 +28,28 @@ const get = (keywords) => {
     const torrentsTemp = []
 
     $('table tbody tr').each((index, el) => {
-      let magnet = $(el).find('a').eq(0).attr('onclick')
-      const torrent = {
-        name: $(el).find('a').eq(0).text(),
-        seeds: parseInt($(el).find('td').eq(2).text()),
-        peers: parseInt($(el).find('td').eq(3).text()),
-        magnet: magnet.split('=')[1].replaceAll('\'',''),
-        source: name
-      }
+      try {
+        let magnet = $(el).find('a').eq(0).attr('onclick')
+        const torrent = {
+          name: $(el).find('a').eq(0).text(),
+          seeds: parseInt($(el).find('td').eq(2).text()),
+          peers: parseInt($(el).find('td').eq(3).text()),
+          magnet: magnet.split('=')[1].replaceAll('\'',''),
+          source: name
+        }
 
-      const str = $(el).find('td').eq(1).text()
-      let size
-      if (str) {
-        const s = parseFloat(str).toString()
-        if (str.match(/g/i)) size = s * 1024 * 1024 * 1024
-        if (str.match(/m/i)) size = s * 1024 * 1024
-        if (str.match(/k/i)) size = s * 1024
-      }
-      torrent.size = size
+        const str = $(el).find('td').eq(1).text()
+        let size
+        if (str) {
+          const s = parseFloat(str).toString()
+          if (str.match(/g/i)) size = s * 1024 * 1024 * 1024
+          if (str.match(/m/i)) size = s * 1024 * 1024
+          if (str.match(/k/i)) size = s * 1024
+        }
+        torrent.size = size
 
-      torrent.name && magnet && torrentsTemp.push(torrent)
+        torrent.name && magnet && torrentsTemp.push(torrent)
+      } catch (e) {}
     })
 
     return torrentsTemp
