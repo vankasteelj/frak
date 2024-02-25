@@ -99,22 +99,25 @@ const Loading = {
     let subopts = {}
 
     if (file) {
-      subopts = file
+      subopts.query = file.filename
     }
 
-    subopts.limit = 'all'
+    subopts.type = (type === 'movie') ? 'movie' : 'episode'
 
     if (type) {
-      (data[type].ids && Loading.subfails <= tries - 1) && (subopts.imdbid = data[type].ids.imdb)
+      if (data[type].ids && Loading.subfails <= tries - 1) {
+        subopts[(type === 'movie') ? 'imdb_id' : 'parent_imdb_id'] = data[type].ids.imdb
+      }
 
       if (type === 'show') {
-        subopts.episode = data.next_episode ? data.next_episode.number : data.episode.number
-        subopts.season = data.next_episode ? data.next_episode.season : data.episode.season
+        subopts.episode_number = data.next_episode ? data.next_episode.number : data.episode.number
+        subopts.season_number = data.next_episode ? data.next_episode.season : data.episode.season
       }
     }
 
     Subtitles.search(subopts).then(subs => {
       console.info('Found subtitles', subs)
+
       const locale = DB.sync.get('locale')
 
       if (Object.keys(subs).length) $('#subtitles').css('visibility', 'visible')
@@ -140,7 +143,7 @@ const Loading = {
         console.info('Subtitles.search() - retry (n°%d)', Loading.subfails + 1)
         Loading.lookForSubtitles(file)
       }, retry)
-    })
+    }) 
   },
 
   close: () => {

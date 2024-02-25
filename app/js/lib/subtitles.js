@@ -1,8 +1,9 @@
 'use strict'
 
 const Subtitles = {
-  client: new (require('opensubtitles-api'))({
-    useragent: `${Settings.apikeys.opensubtitles} v${PKJSON.version}`
+  client: new (require('opensubtitles.com'))({
+    apikey: Settings.apikeys.opensubtitles,
+    useragent: PKJSON.releaseName + ' v'+ PKJSON.version
   }),
 
   getData: (elm) => {
@@ -15,7 +16,23 @@ const Subtitles = {
 
   search: (opts) => {
     console.info('Looking for subtitles', opts)
-    return Subtitles.client.search(opts)
+    return Subtitles.client.subtitles(opts).then(subs => {
+      let ordered = {}
+      const langs = require('langs')
+      for (let sub of subs.data) {
+        //find lang
+        let langcode = sub.attributes.language
+        let lang = langs.where('1', langcode)
+        if (!ordered[langcode]) ordered[langcode] = []
+        ordered[langcode].push({
+          id: sub.attributes.files[0].file_id,
+          lang: lang ? lang.name : langcode,
+          langcode: langcode,
+          filename: sub.attributes.files[0].file_name
+        })
+      }
+      return ordered
+    })
   },
 
   addSubtitles: (subs, lang) => {
@@ -51,7 +68,7 @@ const Subtitles = {
     const sub = Subtitles.getData(elm)
     const id = sub.id
 
-    const subtitle = path.join(Cache.dir, sub.filename)
+    const subtitle = path.join(Cache.dir, sub.filename+id)
 
     const selectSubtitle = () => {
       Player.mpv.addSubtitles(subtitle, 'cached', sub.filename, sub.langcode)
@@ -64,7 +81,13 @@ const Subtitles = {
     if (fs.existsSync(subtitle)) {
       selectSubtitle()
     } else {
-      got.stream(sub.url).pipe(fs.createWriteStream(subtitle)).on('finish', selectSubtitle)
+      Subtitles.client.download({
+        file_id: parseInt(id), 
+        sub_format: 'srt', 
+        file_name: sub.filename+id
+      }).then(response => {
+        got.stream(response.link).pipe(fs.createWriteStream(subtitle)).on('finish', selectSubtitle)
+      })
     }
   },
   defaultLanguage: () => {
@@ -100,41 +123,37 @@ const Subtitles = {
   },
   opensubLogin: (username, password) => {
     if (!username) username = $('#opensub_login').val()
-    if (!password) password = crypt.createHash('MD5').update($('#opensub_password').val()).digest('hex')
+    if (!password) password = $('#opensub_password').val()
 
-    if (!username || password === 'd41d8cd98f00b204e9800998ecf8427e') {
-      console.error('You need a username & password to log in to Opensubtitles.org')
-      Notify.snack('You need a username & password to log in to Opensubtitles.org')
+    if (!username || !password) {
+      console.error('You need a username & password to log in to Opensubtitles.com')
+      Notify.snack('You need a username & password to log in to Opensubtitles.com')
       return
     }
 
-    Subtitles.client = new (require('opensubtitles-api'))({
-      useragent: `${Settings.apikeys.opensubtitles} v${PKJSON.version}`,
+    Subtitles.client.login({
       username: username,
       password: password
-    })
-
-    Subtitles.client.login().then((res) => {
+    }).then((res) => {
       DB.sync.store(username, 'os_username')
       DB.sync.store(password, 'os_password')
-      Subtitles.opensubLogged(res)
+      Subtitles.opensubLogged(username, res)
     }).catch((err) => {
-      console.error('Opensubtitles.org login error', err)
+      console.error('Opensubtitles.com login error', err)
       Notify.snack((err.message === '401 Unauthorized') ? i18n.__('Wrong username or password') : (err.message || err))
     })
   },
-  opensubLogged: (res) => {
+  opensubLogged: (username, res) => {
     $('#oslogin').hide()
     $('#oslogout').show()
-    $('#oslogout .username').text(res.userinfo.UserNickName)
-    console.info('Logged in Opensubtitles.org')
+    $('#oslogout .username').text(username + ' (ID: ' + res.user.user_id + ')')
+    console.info('Logged in Opensubtitles.com')
   },
   opensubLogout: () => {
     DB.sync.remove('os_username')
     DB.sync.remove('os_password')
-    Subtitles.client = new (require('opensubtitles-api'))({
-      useragent: `${Settings.apikeys.opensubtitles} v${PKJSON.version}`
-    })
+    Subtitles.client.logout()
+    Subtitles.client._authentication = {}
 
     $('#oslogout .username').text('')
     $('#opensub_login').val('')
@@ -142,7 +161,7 @@ const Subtitles = {
 
     $('#oslogout').hide()
     $('#oslogin').show()
-    console.info('Logged out of Opensubtitles.org')
+    console.info('Logged out of Opensubtitles.com')
   },
   opensubReLogin: () => {
     const username = DB.sync.get('os_username')

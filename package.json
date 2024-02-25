@@ -47,7 +47,7 @@
     "localforage": "1.10.0",
     "mdata": "2.1.0",
     "node-mpv-2": "2.0.0-beta.3",
-    "opensubtitles-api": "5.1.2",
+    "opensubtitles.com": "1.1.0",
     "readdirp": "3.6.0",
     "trakt.tv": "8.2.0",
     "trakt.tv-matcher": "8.0.2",
