@@ -1,6 +1,6 @@
 const got = require('got')
 const cheerio = require('cheerio')
-const defaultURL = atob('aHR0cDovLzEzMzd4LnRv')
+const defaultURL = atob('aHR0cHM6Ly93d3cuMTMzN3h4LnRv') //xx => xto is an alternative
 const name = atob('MTMzN3g=')
 
 const get = (keywords, cfg = {}) => {
