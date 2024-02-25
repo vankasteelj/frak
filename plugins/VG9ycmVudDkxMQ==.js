@@ -52,13 +52,11 @@ const get = (keywords) => {
 
     return torrentsTemp
   }).then((torrentsTemp) => {
-    console.log(torrentsTemp)
     return Promise.all(torrentsTemp.map(torrent => {
       let details = defaultURL + torrent.magnet
-      console.log(details)
       return got(details, { timeout: 3500 }).then(response => {
         const $ = cheerio.load(response.body)
-        torrent.magnet = $('#info_hash').val()
+        torrent.magnet = 'magnet:?xt=urn:btih:' + $('#info_hash').val()
         torrents.push(torrent)
       })
     }))
