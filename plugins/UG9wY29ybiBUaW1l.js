@@ -1,9 +1,9 @@
 const got = require('got')
-const defaultURL = atob('c2hvd3MuY2Y') // .website, .am, .sh
+const defaultURL = atob('aHR0cDovL2Z1c21lLmxpbms=') 
 const name = atob('UG9wY29ybiBUaW1l')
 
 const getMovies = (query) => {
-  const url = 'https://' + defaultURL
+  const url = defaultURL
 
   return got(url + '/movies/1?keywords=' + escape(query), {
     timeout: 3500
@@ -45,7 +45,7 @@ const getMovies = (query) => {
 }
 
 const getShows = (query) => {
-  const url = 'https://' + defaultURL
+  const url = defaultURL
   let season = 0
   let episode = 0
 
