@@ -28,11 +28,12 @@ const get = (keywords) => {
     const torrentsTemp = []
 
     $('table tbody tr').each((index, el) => {
+      let magnet = $(el).find('a').eq(0).attr('onclick')
       const torrent = {
         name: $(el).find('a').eq(0).text(),
         seeds: parseInt($(el).find('td').eq(2).text()),
         peers: parseInt($(el).find('td').eq(3).text()),
-        magnet: $(el).find('a').eq(0).attr('href'),
+        magnet: magnet.split('=')[1].replaceAll('\'',''),
         source: name
       }
 
@@ -51,10 +52,13 @@ const get = (keywords) => {
 
     return torrentsTemp
   }).then((torrentsTemp) => {
+    console.log(torrentsTemp)
     return Promise.all(torrentsTemp.map(torrent => {
-      return got(defaultURL + torrent.magnet, { timeout: 3500 }).then(response => {
+      let details = defaultURL + torrent.magnet
+      console.log(details)
+      return got(details, { timeout: 3500 }).then(response => {
         const $ = cheerio.load(response.body)
-        torrent.magnet = $('.btn-magnet a')[0].attribs.href
+        torrent.magnet = $('#info_hash').val()
         torrents.push(torrent)
       })
     }))
