@@ -47,7 +47,7 @@ const get = (keywords) => {
       }
       torrent.size = size
 
-      torrent.name && torrentsTemp.push(torrent)
+      torrent.name && magnet && torrentsTemp.push(torrent)
     })
 
     return torrentsTemp
