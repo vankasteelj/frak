@@ -36,6 +36,8 @@ const Subtitles = {
   },
 
   addSubtitles: (subs, lang) => {
+    if (lang === 'null') return //Opensubtitles sometimes sends back "null" as a language
+
     const language = `<div class="sublanguage i18n" title="${i18n.__('Select this language')}">` +
                 `<div class="sublang" onClick="Subtitles.expand('${lang}')">${Localization.nativeNames[lang] || subs[0].lang}</div>` +
                 `<div class="sublangmenu" id="sub-${lang}"></div>` +

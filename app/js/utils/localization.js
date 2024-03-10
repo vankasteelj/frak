@@ -6,7 +6,11 @@ const Localization = {
   availableLocales: ['en', 'fr'],
   nativeNames: {
     en: 'English',
-    fr: 'Français'
+    fr: 'Français',
+    ea: 'Español de América',
+    'pt-BR': 'Português (Brasil)',
+    'pt-PT': 'Português',
+    'zh-CN': 'Chinese (simplified)'
   },
   detectedLocale: false,
 
