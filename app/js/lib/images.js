@@ -5,7 +5,7 @@ const Images = {
     fanart: null,
     poster: null
   },
-  client: new (require('mdata'))({
+  client: new (mdata)({
     fanart: Settings.apikeys.fanart,
     tmdb: Settings.apikeys.tmdb,
     tvdb: Settings.apikeys.tvdb,

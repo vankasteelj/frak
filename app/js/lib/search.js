@@ -407,10 +407,9 @@ const Search = {
 
   recalcSeeds: (data) => {
     return new Promise(resolve => {
-      const wheath = require('webtorrent-health')
       const _soptions = DB.sync.get('streamer_options')
 
-      wheath(data.magnet, { trackers: _soptions.announce || [] }).then((i) => {
+      whealth(data.magnet, { trackers: _soptions.announce || [] }).then((i) => {
         data.seeds = i.seeds
         data.peers = i.peers
         resolve(data)
@@ -422,7 +421,7 @@ const Search = {
 
   recalcSize: (data) => {
     return new Promise(resolve => {
-      const wtorrent = new (require('webtorrent'))()
+      const wtorrent = new (webtorrent)()
       let done
 
       setTimeout(() => {

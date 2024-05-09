@@ -2,7 +2,7 @@
 
 const IB = {
   dir: path.join(process.env.LOCALAPPDATA || (process.platform === 'darwin' ? process.env.HOME + 'Library/Preferences' : process.env.HOME + '/.cache'), PKJSON.name, 'ImagesBank'),
-  downloader: require('image-downloader'),
+  downloader: imagedownloader,
   cache: null,
   create: () => {
     try {

@@ -7,7 +7,7 @@ const Streamer = {
   getInstance: () => {
     if (Streamer.client === null) {
       const _soptions = DB.sync.get('streamer_options')
-      Streamer.client = new (require('webtorrent'))({
+      Streamer.client = new (webtorrent)({
         maxConns: parseInt(_soptions.maxConns) | Settings.streamer.maxConns,
         webSeeds: false, // activating BEP19 makes nwjs 'hang' and stop working
         downloadLimit: parseInt(_soptions.downloadLimit) * 1000 | Settings.streamer.downloadLimit | Number.MAX_VALUE,

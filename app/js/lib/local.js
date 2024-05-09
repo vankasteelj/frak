@@ -2,7 +2,7 @@
 
 const Local = {
   scans: 0,
-  client: new (require('local-video-library'))(Settings.apikeys.trakt_id, [process.env.HOME || path.join(process.env.HOMEDRIVE, process.env.HOMEPATH)]),
+  client: new (localvideolibrary)(Settings.apikeys.trakt_id, [process.env.HOME || path.join(process.env.HOMEDRIVE, process.env.HOMEPATH)]),
 
   scan: () => {
     console.info('Scanning local drive')

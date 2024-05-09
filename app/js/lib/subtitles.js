@@ -1,7 +1,7 @@
 'use strict'
 
 const Subtitles = {
-  client: new (require('opensubtitles.com'))({
+  client: new (opensubtitles)({
     apikey: Settings.apikeys.opensubtitles,
     useragent: PKJSON.releaseName + ' v'+ PKJSON.version
   }),
@@ -18,7 +18,6 @@ const Subtitles = {
     console.info('Looking for subtitles', opts)
     return Subtitles.client.subtitles(opts).then(subs => {
       let ordered = {}
-      const langs = require('langs')
       for (let sub of subs.data) {
         //find lang
         let langcode = sub.attributes.language
@@ -93,7 +92,6 @@ const Subtitles = {
     }
   },
   defaultLanguage: () => {
-    const langs = require('langs')
     const available = langs.all()
     const defaultsublocale = DB.sync.get('defaultsublocale')
 
