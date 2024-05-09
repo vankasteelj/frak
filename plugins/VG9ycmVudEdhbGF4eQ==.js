@@ -1,12 +1,12 @@
 const cheerio = require('cheerio')
 const got = require('got')
-const defaultURL = atob('aHR0cHM6Ly90b3JyZW50Z2FsYXh5LnRvL3RvcnJlbnRzLnBocA==')
+const defaultURL = atob('aHR0cHM6Ly90Z3gucnMvdG9ycmVudHMucGhw') // atob('aHR0cHM6Ly90b3JyZW50Z2FsYXh5LnRvL3RvcnJlbnRzLnBocA==')
 const name = atob('VG9ycmVudEdhbGF4eQ==')
 
 const get = (query, cat) => {
   const torrents = []
-  const url = defaultURL + '?' + cat + '&search=' + query + '&lang=0&nox=2&sort=seeders&order=desc'
-  return got(url).then((html) => {
+  const url = defaultURL + '?' + cat + '&search=' + query
+  return got({url: url, timeout: 10000}).then((html) => {
     const $ = cheerio.load(html.body)
 
     $('div.tgxtablerow.txlight').each((i, element) => {
@@ -30,7 +30,7 @@ const get = (query, cat) => {
     })
     return torrents
   }).catch((err) => {
-    console.log(err)
+    console.log(name, err)
     return []
   })
 }
@@ -44,10 +44,10 @@ module.exports = {
     // categories is broken
     switch (opts.type) {
       case 'show':
-        req.cat = 'c41=1&c5=1&c11=1&c6=1'
+        req.cat = 'parent_cat=TV'
         break
       case 'movie':
-        req.cat = 'c3=1&c45=1&c42=1&c4=1&c1=1'
+        req.cat = 'parent_cat=Movies'
         break
     }
 
