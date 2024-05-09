@@ -69,10 +69,10 @@
     "yargs": "17.7.2"
   },
   "nwjs": {
-    "version": "0.83.0",
+    "version": "0.87.0",
     "flavor": "sdk"
   },
   "mpv": {
-    "url": "https://sourceforge.net/projects/mpv-player-windows/files/release/mpv-0.36.0-x86_64.7z/download"
+    "url": "https://sourceforge.net/projects/mpv-player-windows/files/release/mpv-0.38.0-x86_64.7z/download"
   }
 }
