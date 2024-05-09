@@ -77,7 +77,8 @@ const Search = {
 
     console.info('Testing online search - shows...')
     return getAll({
-      keywords: 's01e01',
+      keywords: atob('Z2FtZSBvZiB0aHJvbmVzIHMwOGUwNg=='),
+      imdid: atob('dDA5NDQ5NDc='),
       type: 'show'
     }).then(shows => {
       results.shows = shows
@@ -85,7 +86,7 @@ const Search = {
     }).then(() => {
       console.info('Testing online search - movies...')
       return getAll({
-        keywords: 'the',
+        keywords: atob('c3BpZGVybWFu'),
         type: 'movie'
       })
     }).then(movies => {
