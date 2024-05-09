@@ -98,20 +98,31 @@ const Search = {
   online: (keywords, imdbid, type) => {
     console.info('Searching for \'%s\' [%s]', keywords, type)
 
+    const timings = {}
+    const start = Date.now()
+
     return Promise.all(Object.keys(Plugins.loaded).map(plugin => {
       try {
         return Plugins.loaded[plugin].search({
           keywords: keywords,
           imdbid: imdbid,
           type: type
+        }).then(r => {
+          let time = Date.now()
+          timings[plugin] = time - start
+          return r
         }).catch(err => {
+          timings[plugin] = null
           console.error('%s search error', plugin, err)
           return Promise.resolve([])
         })
       } catch (e) {
+        timings[plugin] = null
         return Promise.resolve([])
       }
     })).then(r => {
+      let time = Date.now()
+      console.debug('Search.online took %sms', time - start, timings)
       const results = [].concat.apply([], r) // flatten array
 
       return Search.sortOnline(results)
@@ -154,6 +165,7 @@ const Search = {
 
   sortOnline: (input) => {
     const collection = []
+    const start = Date.now()
     let out = []
 
     const outDupNames = {}
@@ -271,6 +283,7 @@ const Search = {
         return 0
       })
 
+      console.debug('Search.sortOnline took %sms', Date.now() - start)
       return out
     })
   },
