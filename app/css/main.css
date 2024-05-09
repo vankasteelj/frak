@@ -956,15 +956,15 @@
 
 #details-sources .item {
   cursor: pointer;
-  height: 40px;
-  line-height: 40px;
+  height: 42px;
+  line-height: 42px;
   transition: all .5s;
 }
 
 #details-sources .item .fa {
   display: inline-block;
   float: left;
-  line-height: 40px;
+  line-height: 42px;
   padding: 0 10px;
   width: 32px;
 }
