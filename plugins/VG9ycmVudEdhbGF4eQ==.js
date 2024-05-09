@@ -6,7 +6,7 @@ const name = atob('VG9ycmVudEdhbGF4eQ==')
 const get = (query, cat) => {
   const torrents = []
   const url = defaultURL + '?' + cat + '&search=' + query
-  return got({url: url, timeout: 15000}).then((html) => {
+  return got({ url: url, timeout: 15000 }).then((html) => {
     const $ = cheerio.load(html.body)
 
     $('div.tgxtablerow.txlight').each((i, element) => {

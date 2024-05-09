@@ -119,7 +119,7 @@ const Player = {
     const binary = p || DB.sync.get('mpv')
     const options = Player.getOptions()
 
-    Player.mpv = new (nodempv2)({
+    Player.mpv = new (Nodempv2)({
       binary: binary,
       auto_restart: false,
       time_update: 1,

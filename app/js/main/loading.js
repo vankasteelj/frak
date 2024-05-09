@@ -96,7 +96,7 @@ const Loading = {
     if (data.metadata) data = data.metadata
     const type = (data.show && 'show') || (data.movie && 'movie')
 
-    let subopts = {}
+    const subopts = {}
 
     if (file) {
       subopts.query = file.filename
@@ -143,7 +143,7 @@ const Loading = {
         console.info('Subtitles.search() - retry (n°%d)', Loading.subfails + 1)
         Loading.lookForSubtitles(file)
       }, retry)
-    }) 
+    })
   },
 
   close: () => {

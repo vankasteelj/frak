@@ -109,8 +109,7 @@ const Search = {
           imdbid: imdbid,
           type: type
         }).then(r => {
-          let time = Date.now()
-          timings[plugin] = time - start
+          timings[plugin] = Date.now() - start
           return r
         }).catch(err => {
           timings[plugin] = null
@@ -122,8 +121,7 @@ const Search = {
         return Promise.resolve([])
       }
     })).then(r => {
-      let time = Date.now()
-      console.debug('Search.online took %sms', time - start, timings)
+      console.debug('Search.online took %sms', Date.now() - start, timings)
       const results = [].concat.apply([], r) // flatten array
 
       return Search.sortOnline(results)
@@ -156,10 +154,10 @@ const Search = {
 
       if (!id || !library) return
 
-      let found = []
-      library.map((elm, idx) => {
-        if (elm.id === id) found.push(library[idx])
-      })
+      const found = []
+      for (let i = 0; i < library.length; i++) {
+        if (library[i].id === id) found.push(library[i])
+      }
       return found.length ? found : null
     })
   },
@@ -240,7 +238,7 @@ const Search = {
 
         const matched = i.magnet.match(/btih:(.*?)($|&)/i)
         if (!matched) continue
-        
+
         // remove already pinned magnets
         if (pinned && pinned.findIndex(a => a.btih === matched[1]) !== -1) continue
 
@@ -310,12 +308,12 @@ const Search = {
       try {
         const id = data.magnet.match(/\b([A-F\d]+)\b/i)[0]
         const item = `<div class="item remote" onClick="Details.loadRemote('${data.magnet}')" id="${id}">` +
-                      `<div class="data">${JSON.stringify(data)}</div>` +
-                      `<div class="fa fa-magnet" title="${i18n.__('Open the magnet link')}"></div>` +
-                      `<div class="title">${data.name}</div>` +
-                      `<div class="size">${Misc.fileSize(data.size) || i18n.__('Unknown')}</div>` +
-                	  `<div class="fa fa-thumb-tack pin" title="${i18n.__('Pin this')}"></div>` +
-                      `<div class="fa fa-bolt ${Search.matchScore(data.score)}" title="${i18n.__('Seeds: %s', data.seeds)}, ${i18n.__('Peers: %s', data.peers)}"></div>` +
+                    `<div class="data">${JSON.stringify(data)}</div>` +
+                    `<div class="fa fa-magnet" title="${i18n.__('Open the magnet link')}"></div>` +
+                    `<div class="title">${data.name}</div>` +
+                    `<div class="size">${Misc.fileSize(data.size) || i18n.__('Unknown')}</div>` +
+                    `<div class="fa fa-thumb-tack pin" title="${i18n.__('Pin this')}"></div>` +
+                    `<div class="fa fa-bolt ${Search.matchScore(data.score)}" title="${i18n.__('Seeds: %s', data.seeds)}, ${i18n.__('Peers: %s', data.peers)}"></div>` +
                   '</div>'
 
         $('#details-sources .sources').append(item)
@@ -421,7 +419,7 @@ const Search = {
 
   recalcSize: (data) => {
     return new Promise(resolve => {
-      const wtorrent = new (webtorrent)()
+      const wtorrent = new (Webtorrent)()
       let done
 
       setTimeout(() => {

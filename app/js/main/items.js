@@ -798,7 +798,7 @@ const Items = {
           id: movie.movie.ids.slug
         }).then(() => DB.trakt.store(0, 'lastrecommendedsync')).then(() => $(`#discover #${id}`).remove()))
         labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`)
-        
+
         $(`#discover #${id} .fanart`).off('contextmenu').on('contextmenu', (e) => {
           const menu = Misc.customContextMenu(labels)
           menu.popup(parseInt(e.clientX), parseInt(e.clientY))

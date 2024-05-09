@@ -29,24 +29,22 @@ const get = (keywords) => {
 
     $('.banner-title').each((index, el) => {
       try {
-        let magnet = $(el).find('a').eq(0).attr('href')
         const torrent = {
           name: $(el).find('a').eq(0).attr('title'),
           seeds: 0,
           peers: 0,
-          magnet: magnet,
+          magnet: $(el).find('a').eq(0).attr('href'),
           source: name
         }
 
-        torrent.name && magnet && torrentsTemp.push(torrent)
+        torrent.name && torrent.magnet && torrentsTemp.push(torrent)
       } catch (e) {}
     })
 
     return torrentsTemp
   }).then((torrentsTemp) => {
     return Promise.all(torrentsTemp.map(torrent => {
-      let details = defaultURL + torrent.magnet
-      return got(details, { timeout: 3500 }).then(response => {
+      return got(defaultURL + torrent.magnet, { timeout: 3500 }).then(response => {
         const $ = cheerio.load(response.body)
         torrent.magnet = $('.downmagnet').parent().attr('href')
 

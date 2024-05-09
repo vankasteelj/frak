@@ -1,5 +1,5 @@
 const got = require('got')
-const defaultURL = atob('aHR0cDovL2Z1c21lLmxpbms=') 
+const defaultURL = atob('aHR0cDovL2Z1c21lLmxpbms=')
 const name = atob('UG9wY29ybiBUaW1l')
 
 const getMovies = (query) => {

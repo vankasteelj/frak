@@ -83,7 +83,7 @@
 	"%s%% of %s": "%s%% de %s",
 	"%s minute(s) remaining": "%s minute(s) restante(s)",
 	"%s second(s) remaining": "%s seconde(s) restante(s)",
-	"Unknown time remaining": "Temps restant indéterminé",
+	"Unknown time remaining": "indéterminé",
 	"Mark as unwatched": "Marquer comme non-vu",
 	"Enter the code below in your browser": "Ce code doit être entré dans le navigateur",
 	"Unrate this": "Retirer l'évaluation",

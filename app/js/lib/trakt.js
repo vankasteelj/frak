@@ -1,7 +1,7 @@
 'use strict'
 
 const Trakt = {
-  client: new (trakttv)({
+  client: new (Trakttv)({
     client_id: Settings.apikeys.trakt_id,
     client_secret: Settings.apikeys.trakt_secret,
     plugins: {

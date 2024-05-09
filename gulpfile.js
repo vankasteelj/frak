@@ -78,7 +78,7 @@ gulp.task('nwjs', () => {
 
   // windows-only (or wine): replace icon & VersionInfo1.res
   if (currentPlatform().indexOf('win') !== -1) {
-    //nwOptions.winIco = pkJson.icon //no longer working in Windows 11 as of 2023-12-28
+    // nwOptions.winIco = pkJson.icon // no longer working in Windows 11 as of 2023-12-28
     nwOptions.winVersionString = {
       Comments: pkJson.description,
       CompanyName: pkJson.homepage,
@@ -435,6 +435,18 @@ const sd = (fix) => {
         'i18n',
         'got',
         'url',
+        'Mdata',
+        'Localvideolibrary',
+        'Nodempv2',
+        'whealth',
+        'readdirp',
+        'Webtorrent',
+        'Opensubtitles',
+        'langs',
+        'Trakttv',
+        'ip',
+        'imagedownloader',
+        'Autolaunch',
 
         // JS files
         'Boot',

@@ -12,7 +12,7 @@ const get = (cfg) => {
   const matcher = cfg.keywords.match(/s\d+e\d+/)[0].match(/\d+/g)
   const episode = {
     season: matcher[0],
-    episode: matcher[1],
+    episode: matcher[1]
   }
 
   return got(reqUrl, { timeout: 3500 }).then(data => {
@@ -21,7 +21,7 @@ const get = (cfg) => {
 
     if (!results.torrents) return list
 
-    for (let r of results.torrents) {
+    for (const r of results.torrents) {
       if (r.seeds && parseInt(r.season) === parseInt(episode.season) && parseInt(r.episode) === parseInt(episode.episode)) {
         list.push({
           name: r.title,

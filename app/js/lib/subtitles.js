@@ -1,9 +1,9 @@
 'use strict'
 
 const Subtitles = {
-  client: new (opensubtitles)({
+  client: new (Opensubtitles)({
     apikey: Settings.apikeys.opensubtitles,
-    useragent: PKJSON.releaseName + ' v'+ PKJSON.version
+    useragent: PKJSON.releaseName + ' v' + PKJSON.version
   }),
 
   getData: (elm) => {
@@ -17,11 +17,11 @@ const Subtitles = {
   search: (opts) => {
     console.info('Looking for subtitles', opts)
     return Subtitles.client.subtitles(opts).then(subs => {
-      let ordered = {}
-      for (let sub of subs.data) {
-        //find lang
-        let langcode = sub.attributes.language
-        let lang = langs.where('1', langcode)
+      const ordered = {}
+      for (const sub of subs.data) {
+        // find lang
+        const langcode = sub.attributes.language
+        const lang = langs.where('1', langcode)
         if (!ordered[langcode]) ordered[langcode] = []
         ordered[langcode].push({
           id: sub.attributes.files[0].file_id,
@@ -35,7 +35,7 @@ const Subtitles = {
   },
 
   addSubtitles: (subs, lang) => {
-    if (lang === 'null') return //Opensubtitles sometimes sends back "null" as a language
+    if (lang === 'null') return // Opensubtitles sometimes sends back "null" as a language
 
     const language = `<div class="sublanguage i18n" title="${i18n.__('Select this language')}">` +
                 `<div class="sublang" onClick="Subtitles.expand('${lang}')">${Localization.nativeNames[lang] || subs[0].lang}</div>` +
@@ -69,7 +69,7 @@ const Subtitles = {
     const sub = Subtitles.getData(elm)
     const id = sub.id
 
-    const subtitle = path.join(Cache.dir, sub.filename+id)
+    const subtitle = path.join(Cache.dir, sub.filename + id)
 
     const selectSubtitle = () => {
       Player.mpv.addSubtitles(subtitle, 'cached', sub.filename, sub.langcode)
@@ -83,9 +83,9 @@ const Subtitles = {
       selectSubtitle()
     } else {
       Subtitles.client.download({
-        file_id: parseInt(id), 
-        sub_format: 'srt', 
-        file_name: sub.filename+id
+        file_id: parseInt(id),
+        sub_format: 'srt',
+        file_name: sub.filename + id
       }).then(response => {
         got.stream(response.link).pipe(fs.createWriteStream(subtitle)).on('finish', selectSubtitle)
       })
@@ -131,6 +131,7 @@ const Subtitles = {
       return
     }
 
+    dns.setDefaultResultOrder('ipv4first') // force ipv4 use for nodejs (see: https://forum.opensubtitles.org/viewtopic.php?f=8&t=17963)
     Subtitles.client.login({
       username: username,
       password: password
