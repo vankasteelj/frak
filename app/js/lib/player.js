@@ -160,7 +160,7 @@ const Player = {
       return
     }
 
-    // is it a portable win32?
+    // is it shipped with mpv (win32)?
     if (process.platform === 'win32' && fs.existsSync('./mpv/mpv.exe')) {
       DB.sync.store('./mpv/mpv.exe', 'mpv')
       Player.setMPV('./mpv/mpv.exe')
