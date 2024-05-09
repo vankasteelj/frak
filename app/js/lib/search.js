@@ -8,10 +8,11 @@ const Search = {
 
     const data = JSON.parse($('#details > .container > .data').text())
     const type = (data.show && 'show') || (data.movie && 'movie')
+    const imdbid = data[type].ids.imdb
 
     $('#details-sources .query .search').addClass('fa-spin fa-circle-o-notch').removeClass('fa-search')
 
-    Search.online(query, type).then(results => {
+    Search.online(query, imdbid, type).then(results => {
       if (!results) results = []
       console.info('Found %s results', results.length, results)
 
@@ -94,13 +95,14 @@ const Search = {
     })
   },
 
-  online: (keywords, type) => {
+  online: (keywords, imdbid, type) => {
     console.info('Searching for \'%s\' [%s]', keywords, type)
 
     return Promise.all(Object.keys(Plugins.loaded).map(plugin => {
       try {
         return Plugins.loaded[plugin].search({
           keywords: keywords,
+          imdbid: imdbid,
           type: type
         }).catch(err => {
           console.error('%s search error', plugin, err)
