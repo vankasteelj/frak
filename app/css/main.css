@@ -1764,7 +1764,7 @@ a {
   height: 100%;
   overflow: hidden;
   position: fixed;
-  transition: all .5s;
+  transition: all .4s;
   width: 60px;
   z-index: 2;
 }
@@ -2762,7 +2762,7 @@ a {
 
 ::-webkit-scrollbar {
   height: 5px;
-  width: 5px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
