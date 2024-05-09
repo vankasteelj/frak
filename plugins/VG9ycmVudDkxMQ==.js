@@ -1,6 +1,6 @@
 const got = require('got')
 const cheerio = require('cheerio')
-const defaultURL = atob('aHR0cHM6Ly93d3cudG9ycmVudDkxMS5jYw==')
+const defaultURL = atob('aHR0cHM6Ly93d3cudG9ycmVudDkxMS53Zg==')
 const name = atob('VG9ycmVudDkxMQ==')
 
 const get = (keywords) => {
@@ -27,26 +27,16 @@ const get = (keywords) => {
 
     const torrentsTemp = []
 
-    $('table tbody tr').each((index, el) => {
+    $('.banner-title').each((index, el) => {
       try {
-        let magnet = $(el).find('a').eq(0).attr('onclick')
+        let magnet = $(el).find('a').eq(0).attr('href')
         const torrent = {
-          name: $(el).find('a').eq(0).text(),
-          seeds: parseInt($(el).find('td').eq(2).text()),
-          peers: parseInt($(el).find('td').eq(3).text()),
-          magnet: magnet.split('=')[1].replaceAll('\'',''),
+          name: $(el).find('a').eq(0).attr('title'),
+          seeds: 0,
+          peers: 0,
+          magnet: magnet,
           source: name
         }
-
-        const str = $(el).find('td').eq(1).text()
-        let size
-        if (str) {
-          const s = parseFloat(str).toString()
-          if (str.match(/g/i)) size = s * 1024 * 1024 * 1024
-          if (str.match(/m/i)) size = s * 1024 * 1024
-          if (str.match(/k/i)) size = s * 1024
-        }
-        torrent.size = size
 
         torrent.name && magnet && torrentsTemp.push(torrent)
       } catch (e) {}
@@ -58,7 +48,21 @@ const get = (keywords) => {
       let details = defaultURL + torrent.magnet
       return got(details, { timeout: 3500 }).then(response => {
         const $ = cheerio.load(response.body)
-        torrent.magnet = 'magnet:?xt=urn:btih:' + $('#info_hash').val()
+        torrent.magnet = $('.downmagnet').parent().attr('href')
+
+        torrent.seeds = parseInt($('td:contains("Seeders:")').last().siblings().text())
+        torrent.peers = parseInt($('td:contains("Leechers:")').last().siblings().text())
+
+        const str = $('td:contains("Poids du fichier:")').last().siblings().text()
+        let size
+        if (str) {
+          const s = parseFloat(str).toString()
+          if (str.match(/g/i)) size = s * 1024 * 1024 * 1024
+          if (str.match(/m/i)) size = s * 1024 * 1024
+          if (str.match(/k/i)) size = s * 1024
+        }
+        torrent.size = size
+
         torrents.push(torrent)
       })
     }))
