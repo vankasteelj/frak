@@ -2188,10 +2188,10 @@ a {
 }
 
 #trailer .video {
-  height: 60%;
-  margin: 8% 17%;
+  height: 80%;
+  margin: 5% 8%;
   position: absolute;
-  width: 65%;
+  width: 80%;
 }
 
 #trakt #history #showMore .fa,
