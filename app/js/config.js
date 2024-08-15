@@ -60,8 +60,8 @@ const Settings = {
     )
   })(),
   streamer: {
-    magnetTimeout: 10000,
-    maxConns: 30,
+    magnetTimeout: 15000,
+    maxConns: 40,
     downloadLimit: 0,
     uploadLimit: 0,
     announce: [
@@ -81,7 +81,11 @@ const Settings = {
       'udp://open.demonii.com:1337/announce',
       'udp://www.torrent.eu.org:451/announce',
       'https://tracker2.ctix.cn:443/announce',
-      'https://tracker1.520.jp:443/announce'
+      'https://tracker1.520.jp:443/announce',
+      'udp://epider.me:6969/announce',
+      'udp://open.u-p.pw:6969/announce',
+      'udp://tamas3.ynh.fr:6969/announce',
+      'udp://tracker.theoks.net:6969/announce'
     ]
   },
   supportedVideoFiles: ['.mkv', '.avi', '.mp4', '.m4v', '.mts', '.m2ts', '.ts'],
