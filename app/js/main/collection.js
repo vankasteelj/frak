@@ -218,7 +218,7 @@ const Collection = {
   },
 
   format: {
-    traktmovies: (movies) => {
+    traktmovies: (movies = []) => {
       let collection = []
       const bank = []
 
@@ -240,7 +240,7 @@ const Collection = {
         return collection
       }).catch(console.error)
     },
-    traktshows: (shows) => {
+    traktshows: (shows = []) => {
       let collection = []
       const bank = []
 
@@ -262,7 +262,7 @@ const Collection = {
         return collection
       }).catch(console.error)
     },
-    traktcustoms: (items) => {
+    traktcustoms: (items = []) => {
       let collection = []
       const bank = []
 
@@ -285,7 +285,7 @@ const Collection = {
       }).catch(console.error)
     },
 
-    locals: (items, rearrange) => {
+    locals: (items = []) => {
       const collection = Local.buildVideoLibrary(items)
 
       $('#collection #locals .waitforlibrary').show()
@@ -312,7 +312,7 @@ const Collection = {
       }
     },
 
-    trakthistory: (items) => {
+    trakthistory: (items = []) => {
       let collection = []
       const dupes = []
 
@@ -767,6 +767,17 @@ const Collection = {
       },
       genre: (genre, movies) => {
         return movies.filter(a => a.movie.genres.indexOf(genre) !== -1)
+      },
+      runtime: (items) => {
+        return items.sort(function (a, b) {
+          if (a.movie.runtime < b.movie.runtime) {
+            return -1
+          }
+          if (a.movie.runtime > b.movie.runtime) {
+            return 1
+          }
+          return 0
+        })
       }
     }
   }

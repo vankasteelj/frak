@@ -269,7 +269,8 @@ const Interface = {
         'Listed at': () => DB.trakt.get('traktmoviescollection').then(coll => Collection.show.movies(Collection.sort.movies.listed(coll))),
         Year: () => DB.trakt.get('traktmoviescollection').then(coll => Collection.show.movies(Collection.sort.movies.released(coll))),
         Title: () => DB.trakt.get('traktmoviescollection').then(coll => Collection.show.movies(Collection.sort.movies.title(coll))),
-        Rating: () => DB.trakt.get('traktmoviescollection').then(coll => Collection.show.movies(Collection.sort.movies.rating(coll)))
+        Rating: () => DB.trakt.get('traktmoviescollection').then(coll => Collection.show.movies(Collection.sort.movies.rating(coll))),
+        Runtime: () => DB.trakt.get('traktmoviescollection').then(coll => Collection.show.movies(Collection.sort.movies.runtime(coll)))
       }
     }
 
