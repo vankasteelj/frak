@@ -54,7 +54,8 @@ const onOpenApp = () => {
     if (file) {
       console.info('Opened from file', file)
       // maybe do stuff here
-    }*/
+    }
+    */
 
     onOpenApp() // listen for the event again
   })

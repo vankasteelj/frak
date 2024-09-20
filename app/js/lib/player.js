@@ -193,10 +193,7 @@ const Player = {
 
       console.info('Looking for mpv in', folderName)
 
-      const fileStream = readdirp({
-        root: path.resolve(folderName),
-        depth: 3
-      })
+      const fileStream = readdirp(path.resolve(folderName), { depth: 3 })
 
       fileStream.on('data', (d) => {
         const app = d.name.replace('.app', '').replace('.exe', '').toLowerCase()
