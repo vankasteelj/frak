@@ -31,24 +31,35 @@ try {
   win.showDevTools()
 }
 
-// if app is already running, inject file if used 'open with'
-gui.App.on('open', (cmd) => {
-  if (!cmd) return
+// if app is already running
+const onOpenApp = () => {
+  nw.App.on('open', (command) => {
+    win.restore()
+    console.debug('App already running but another instance tried to launch', command)
+    if (!command) { return }
 
-  let file
-  if (process.platform.match('win32')) {
-    file = cmd.split('"')
-    file = file[file.length - 2]
-  } else {
-    file = cmd.split(' /')
-    file = file[file.length - 1]
-    file = '/' + file
-  }
+    /* inject file if used 'open with' - not used atm
 
-  if (file) {
-    console.info('Opened from file', file)
-  }
-})
+    let file
+    let cmd = command[0]
+    if (process.platform.match('win32')) {
+      file = cmd.split('"')
+      file = file[file.length - 2]
+    } else {
+      file = cmd.split(' /')
+      file = file[file.length - 1]
+      file = '/' + file
+    }
+
+    if (file) {
+      console.info('Opened from file', file)
+      // maybe do stuff here
+    }*/
+
+    onOpenApp() // listen for the event again
+  })
+}
+onOpenApp()
 
 win.on('close', () => {
   Cache.delete()
