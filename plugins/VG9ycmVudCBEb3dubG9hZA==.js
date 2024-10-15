@@ -8,7 +8,6 @@ const get = (query, cat) => {
   const url = defaultURL + 'search?q=' + query
   return got(url).then((html) => {
     const $ = cheerio.load(html.body)
-    console.log('got response from', name)
 
     $('.table2 tr').each((index,elm) => {
       const $elm = cheerio.load(elm)
