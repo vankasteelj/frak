@@ -82,11 +82,11 @@ const Search = {
       type: 'show'
     }).then(shows => {
       results.shows = shows
-      return Misc.sleep(15000) // required for some apis
+      return Misc.sleep(10000) // required for some apis
     }).then(() => {
       console.info('Testing online search - movies...')
       return getAll({
-        keywords: atob('c3BpZGVybWFu'),
+        keywords: atob('c3BpZGVyLW1hbg=='),
         type: 'movie'
       })
     }).then(movies => {
