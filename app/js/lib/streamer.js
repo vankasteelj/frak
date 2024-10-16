@@ -52,7 +52,8 @@ const Streamer = {
     return new Promise((resolve, reject) => {
       const client = Streamer.getInstance()
       const torrent = client.add(magnet, {
-        path: Cache.dir
+        path: Cache.dir,
+        announce: Settings.streamer.announce
       })
 
       const timeout = setTimeout(() => {

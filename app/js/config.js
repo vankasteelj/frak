@@ -80,12 +80,12 @@ const Settings = {
       'udp://tracker.ccp.ovh:6969/announce',
       'udp://open.demonii.com:1337/announce',
       'udp://www.torrent.eu.org:451/announce',
-      'https://tracker2.ctix.cn:443/announce',
-      'https://tracker1.520.jp:443/announce',
       'udp://epider.me:6969/announce',
       'udp://open.u-p.pw:6969/announce',
       'udp://tamas3.ynh.fr:6969/announce',
-      'udp://tracker.theoks.net:6969/announce'
+      'udp://tracker.theoks.net:6969/announce',
+      'https://tracker2.ctix.cn:443/announce',
+      'https://tracker1.520.jp:443/announce'
     ]
   },
   supportedVideoFiles: ['.mkv', '.avi', '.mp4', '.m4v', '.mts', '.m2ts', '.ts'],
