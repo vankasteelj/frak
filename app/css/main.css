@@ -1328,9 +1328,8 @@ a {
 #stats #suserinfo img {
   width: 50px;
   height: 50px;
-  border-radius: 25px;
+  border-radius: 5px;
   margin-bottom: 10px;
-  border: 2px solid var(--tab-text);
 }
 
 #stats #susername {
@@ -1804,13 +1803,12 @@ a {
 
 #navbar .nav .avatar {
   background-image: url(../images/trakt-logo.png);
-  border-radius: 50px;
+  border-radius: 5px;
   height: 22px;
   margin-top: -19px;
   position: absolute;
   width: 22px;
   background-size: cover;
-  border: 1px solid var(--tab-text);
 }
 
 #navbar .nav.stats .fa-circle:before {
@@ -2342,10 +2340,9 @@ a {
 #traktinit img,
 #requirempv img,
 #welcomeprofile img {
-  border-radius: 40px;
+  border-radius: 25px;
   height: 80px;
   width: 80px;
-  border: 2px solid var(--tab-text);
 }
 
 #traktinit input,
