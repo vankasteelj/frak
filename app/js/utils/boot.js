@@ -400,7 +400,7 @@ const Boot = {
       $('#navbar .customs')[evt.target.checked ? 'show' : 'hide']()
     })
     document.querySelector('#customs-name').addEventListener('change', (evt) => {
-      const name = document.querySelector('#customs-name').value
+      const name = document.querySelector('#customs-name').value || i18n.__('Custom')
       console.log('Custom List name changed to %s', name)
       DB.sync.store(name, 'customs_name')
       $('#navbar .customs .text').text(name)
