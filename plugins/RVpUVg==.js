@@ -28,6 +28,7 @@ const get = (cfg) => {
           magnet: r.magnet_url,
           seeds: r.seeds,
           peers: r.peers,
+          size: r.size_bytes,
           source: name
         })
       }
