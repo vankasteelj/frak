@@ -1388,7 +1388,7 @@ a {
   float: left;
   display: inline-flex;
   border-radius: 4px;
-  background: rgba(0,0,0,.5);
+  background: var(--stats-box);
 }
 #stats #stotalwatched .category.show {
   margin-left: calc(30% - 140px);
@@ -1470,7 +1470,7 @@ a {
   width: 800px;
   height: 300px;
   margin: 15px auto;
-  background: rgba(0,0,0,.5);
+  background: var(--stats-box);
   padding: 20px;
   border-radius: 4px;
 }
@@ -1535,7 +1535,7 @@ a {
 #stats #sfunfacts .sfuncard {
   width: 240px;
   height: 150px;
-  background: rgba(0,0,0,.5);
+  background: var(--stats-box);
   float: left;
   margin: 5px;
   margin-bottom: 40px;

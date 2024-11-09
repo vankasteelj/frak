@@ -95,7 +95,10 @@
   --input-bg: #3c4043;
 
   /* about */
-  --icons-hover-bg: rgba(240, 240, 240, .2)
+  --icons-hover-bg: rgba(240, 240, 240, .2);
+
+  /* stats */
+  --stats-box: rgba(0, 0, 0, .5);
 }
 
 /* CUSTOM */

@@ -95,5 +95,8 @@
   --input-bg: rgba(255, 255, 255, .1);
 
   /* about */
-  --icons-hover-bg: rgba(240, 240, 240, .2)
+  --icons-hover-bg: rgba(240, 240, 240, .2);
+
+  /* stats */
+  --stats-box: rgba(0, 0, 0, .5);
 }

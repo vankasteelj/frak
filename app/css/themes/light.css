@@ -42,7 +42,7 @@
   --notification-text-hover: #fff;
 
   /* item list */
-  --item-border: rgba(60,60,60,.3);
+  --item-border: #2d2d2d;
   --item-bg: #fafafa;
   --item-text: #1d1d1d;
 
@@ -96,4 +96,12 @@
 
   /* about */
   --icons-hover-bg: rgba(138,207,194, .2);
+
+  /* stats */
+  --stats-box: #8acfc2;
+}
+
+/* CUSTOM */
+#stats #sbackground {
+  background: none;
 }
