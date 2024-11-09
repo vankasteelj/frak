@@ -35,7 +35,7 @@ const Trakt = {
 
   disconnect: () => {
     Profiles.disconnect(DB.sync.get('trakt_active_profile'))
-    win.reload()
+    Misc.restartApp()
   },
 
   connected: () => {
