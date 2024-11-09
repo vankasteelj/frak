@@ -62,6 +62,11 @@ const Details = {
 
     $('#details').find('.id').text(d.id)
     $('#details').find('.data').text(JSON.stringify(d.data))
+    
+    try {
+      const img = $(`#${d.id} .fanart`).css('background-image')
+      $('#details .background').css('background-image', img).css('opacity', 0.7)
+    } catch(e) { }
 
     if (d.ids) {
       d.ids.imdb && $('#details-metadata .ids .imdb').text(d.ids.imdb)
