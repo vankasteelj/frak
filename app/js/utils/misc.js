@@ -8,7 +8,7 @@ const Misc = {
   // USERINTERACTION: restart app (used by Keyboard.setupShortcuts)
   restartApp: () => {
     win.tray.remove()
-    chrome.runtime.reload()
+    window.location.reload()
   },
 
   // AUTO: build the right click menu(s) on demand
