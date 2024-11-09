@@ -97,7 +97,7 @@ const Localization = {
       // store new lang
       DB.sync.store(e.target.value, 'locale')
       // reload to use new lang
-      win.reload()
+      Misc.restartApp()
     })
   },
 

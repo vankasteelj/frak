@@ -6,7 +6,7 @@ const DB = {
     localforage.clear()
     IB.reset()
     Cache.delete()
-    win.reload()
+    Misc.restartApp()
   },
   sync: { // localStorage
     store: (data, key) => {

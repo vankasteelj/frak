@@ -523,7 +523,7 @@ const Interface = {
   },
   addTraktAccount: () => {
     DB.sync.remove('trakt_active_profile')
-    win.reload()
+    Misc.restartApp()
   },
   selectTraktAccount: (username) => {
     if (DB.sync.get('trakt_active_profile') === username) {
@@ -531,6 +531,6 @@ const Interface = {
       return
     }
     DB.sync.store(username, 'trakt_active_profile')
-    win.reload()
+    Misc.restartApp()
   }
 }
