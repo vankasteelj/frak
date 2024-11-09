@@ -26,6 +26,7 @@ const Boot = {
     // Gamepad.init(); // gamepad support
     Boot.cleanup() // periodically cleanup
     Boot.idle() // periodically update
+    Boot.console() // intercept errors to notify
 
     // events
     Misc.events = new (require('node:events'))() // set up events
@@ -90,6 +91,17 @@ const Boot = {
       sessionStorage.screens = Object.keys(nw.Screen.screens).length
       Player.setMPV(DB.sync.get('mpv'))
     })
+  },
+
+  // STARTUP: intercept error messages to notify
+  console: () => {
+    {
+      const log = console.error.bind(console)
+      console.error = (...args) => {
+        Notify.snack(...args)
+        log(...args)
+      }
+    }
   },
 
   // STARTUP: builds right click menu
