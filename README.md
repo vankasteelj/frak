@@ -1,7 +1,7 @@
 # Frak
 
 **A frakingly good media center**
-![frak](https://user-images.githubusercontent.com/12599850/100279290-89ccc480-2f66-11eb-9281-ca575cfbfab9.png)
+![frak](https://github.com/user-attachments/assets/55880b7c-a32a-4cdb-b514-8a228b7a0d74)
 
 ## Prerequisites
 - A [trakt](https://trakt.tv/) account (you'll be prompted to create one or login)
