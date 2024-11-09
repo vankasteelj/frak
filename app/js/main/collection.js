@@ -121,7 +121,7 @@ const Collection = {
         if (!Player.mpv && !(process.platform === 'win32' && fs.existsSync('./mpv/mpv.exe'))) {
           Interface.requireMPV()
         } else {
-          setTimeout(Interface.showMain, 1000)
+          setTimeout(Interface.showMain, 500)
         }
       })
     },
