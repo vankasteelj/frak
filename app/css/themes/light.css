@@ -102,6 +102,6 @@
 }
 
 /* CUSTOM */
-#stats #sbackground {
+.light #stats #sbackground {
   background: none;
 }
