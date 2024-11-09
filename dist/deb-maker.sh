@@ -20,7 +20,7 @@ package_name=${name}_${version}-${revision}_${real_arch}
 ### RESET
 rm -rf $cwd
 
-build_pt () {
+build () {
 
 ### SOURCE TREE
 #create package dir
@@ -67,7 +67,7 @@ Section: web
 Priority: optional
 Architecture: $real_arch
 Installed-Size: $size
-Depends: mpv, youtube-dl
+Depends: mpv
 Maintainer: vankasteelj <vankasteelj@gmail.com>
 Description: $releaseName
  A Frakingly Good Media Center
@@ -80,7 +80,7 @@ Upstream-Contact: vankasteelj <vankasteelj@gmail.com>
 Source: https://github.com/vankasteelj/frak
 
 Files: *
-Copyright: (c) 2015, vankasteelj <vankasteelj@gmail.com>
+Copyright: (c) since 2017, vankasteelj <vankasteelj@gmail.com>
 License: GPL-3
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -157,7 +157,7 @@ set -e
 rm -rf /opt/$projectName
 
 #remove icon
-rm -rf /usr/share/icons/butter.png
+rm -rf /usr/share/icons/frak.png
 
 #remove desktop
 rm -rf /usr/share/applications/$name.desktop
@@ -193,5 +193,5 @@ if [ -e /usr/bin/fakeroot ] && [ "$6" != "--fakeroot" ]; then
 	echo "'fakeroot' was found on the machine"
 	fakeroot bash $0 $1 $2 "$3" $4 $5 --fakeroot
 else
-	build_pt
+	build
 fi
