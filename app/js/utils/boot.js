@@ -249,6 +249,12 @@ const Boot = {
       $('#settings .resumeplayback').show()
     }
 
+    // allow DLNA search
+    if (DB.sync.get('dlnacasting')) {
+      document.querySelector('#allow_dlnacasting').checked = true
+      Cast.scan()
+    }
+
     // allow direct playback feature on local network
     if (DB.sync.get('localplayback')) {
       document.querySelector('#allow_resumeplayback').checked = true
@@ -347,6 +353,13 @@ const Boot = {
       } else {
         Network.disconnect()
         $('#settings .resumeplayback').hide()
+      }
+    })
+
+    document.querySelector('#allow_dlnacasting').addEventListener('click', (evt) => {
+      DB.sync.store(evt.target.checked, 'dlnacasting')
+      if (evt.target.checked) {
+        Cast.scan()
       }
     })
 

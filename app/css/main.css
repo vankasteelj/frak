@@ -750,13 +750,15 @@
   overflow-y: scroll;
 }
 
-#details-loading .player {
+#details-loading .player,
+#details-loading .dlnaplayer {
   font-size: 20px;
   height: 20%;
   user-select: none;
 }
 
-#details-loading .player .control .fa {
+#details-loading .player .control .fa,
+#details-loading .dlnaplayer .control .fa {
   background-color: transparent;
   color: #2b678f;
   cursor: pointer;
@@ -764,16 +766,19 @@
   transition: all .5s;
 }
 
-#details-loading .player .control .fa:hover {
+#details-loading .player .control .fa:hover,
+#details-loading .dlnaplayer .control .fa:hover {
   background-color: #2b678f;
   color: #fafafa;
 }
 
-#details-loading .player .control .fa-font-small:before {
+#details-loading .player .control .fa-font-small:before,
+#details-loading .dlnaplayer .control .fa-font-small:before {
   font-size: 12px;
 }
 
-#details-loading .player .control .separator {
+#details-loading .player .control .separator,
+#details-loading .dlnaplayer .control .separator {
   padding: 0 30px;
 }
 

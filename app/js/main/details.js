@@ -174,6 +174,7 @@ const Details = {
     $(`#${Details.from}`).show()
     window.scrollTo(0, (Details.fromScroll || 0))
     $('#details').hide()
+    Cast.stop()
   },
 
   local: {
@@ -674,6 +675,26 @@ const Details = {
     })
   },
 
+  keepWatchingDlna: (player) => {
+    if (Details.from === 'locals') {
+      $('#keepWatching .message').text(i18n.__('DLNA casting is not allowed on local files')).css('color', '#933')
+      $('#keepWatching .casting .logo').removeClass('fa-feed').addClass('fa-warning')
+      $('#keepWatching .casting').show()
+      $('#keepWatching .selector').hide()
+      return
+    }
+
+    $('#keepWatching .message').text(i18n.__('Currently casting to %s', player.name))
+    $('#keepWatching .ip').text(player.ip)
+    $('#keepWatching .casting').show()
+    $('#keepWatching .selector').hide()
+
+    const title = $('#details-metadata .titles').text().replace(/\W+/g, ' ')
+    const url = Streamer.streaminfo.url.replace('127.0.0.1', DB.sync.get('localip'))
+    const subtitle = undefined // todo
+    Cast.cast(player.name, title, url, subtitle)
+  },
+
   keepWatchingPopup: () => {
     Player.mpv.pause()
 
@@ -683,12 +704,22 @@ const Details = {
     $('#keepWatching .casting').hide()
     $('#keepWatching .selector').show()
 
+    // add peers
     for (const i in Network.peers) {
       const item = `<div class="peer" onClick="Details.keepWatchingOn(Network.peers[${i}])">` +
                 `<span class="name">${Network.peers[i].name}</span>` +
                 `<span class="ip">${Network.peers[i].ip}</span>` +
                 `${Network.peers[i].cast_allowed ? '' : '<span class="castingdisallowed">(' + i18n.__('casting disabled') + ')</span>'}` +
             '</div>'
+      $('#keepWatching .selector .list').append(item)
+    }
+
+    // add dlna
+    for (const i in Cast.players) {
+      const item = `<div class="peer" onClick="Details.keepWatchingDlna(Cast.players[${i}])">` +
+                `<span class="name">${Cast.players[i].name}</span>` +
+                `<span class="ip">${Cast.players[i].url}</span>` +
+              `</div>`
       $('#keepWatching .selector .list').append(item)
     }
     $('#keepWatching').show()
@@ -701,6 +732,11 @@ const Details = {
   handleCast: () => {
     // peer casting
     if (DB.sync.get('localsharing') && DB.sync.get('localplayback') && Network.peers.length) {
+      $('#cast .peers').show()
+    }
+
+    // dlna casting
+    if (DB.sync.get('dlnacasting') && Cast.players.length) {
       $('#cast .peers').show()
     }
   },

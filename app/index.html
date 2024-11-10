@@ -622,6 +622,19 @@
           <div class="action">
             <input type="text" id="localip-input" readonly placeholder="127.0.0.1"/>
           </div>
+        </div>        
+        <div class="option">
+          <div class="text i18n" title="Cast to DLNA devices on your local network">
+            <i18n>DLNA casting</i18n>
+          </div>
+          <div class="action">
+            <i18n>no</i18n>&nbsp;
+            <label class="switch">
+              <input id="allow_dlnacasting" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+            &nbsp;<i18n>yes</i18n>
+          </div>
         </div>
         <div class="option">
           <div class="text i18n" title="Other devices on your local network using this application will be able to see, search and play your local Movies and Shows collection">
@@ -1329,6 +1342,7 @@
 <script src="js/lib/network.js" type="application/javascript"></script>
 <script src="js/lib/images.js" type="application/javascript"></script>
 <script src="js/lib/player.js" type="application/javascript"></script>
+<script src="js/lib/cast.js" type="application/javascript"></script>
 <script src="js/lib/search.js" type="application/javascript"></script>
 <script src="js/lib/plugins.js" type="application/javascript"></script>
 <script src="js/lib/streamer.js" type="application/javascript"></script>
