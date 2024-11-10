@@ -9,7 +9,7 @@ const get = (query, cat) => {
   return got(url).then((html) => {
     const $ = cheerio.load(html.body)
 
-    $('.table2 tr').each((index,elm) => {
+    $('.table2 tr').each((index, elm) => {
       const $elm = cheerio.load(elm)
 
       try {
@@ -20,7 +20,7 @@ const get = (query, cat) => {
         const g = $elm('.tdnormal').eq(1).text()
 
         if (!t.match(new RegExp(cat, 'i'))) {
-          throw 'none'
+          throw new Error('none')
         }
 
         const data = {
@@ -29,7 +29,7 @@ const get = (query, cat) => {
           peers: parseInt(p.text()) || 0,
           seeds: parseInt(s.text()) || 0,
           size: (() => {
-            let _s = 0;
+            let _s = 0
             const s = parseFloat(g).toString()
             if (g.match(/g/i)) _s = s * 1024 * 1024 * 1024
             if (g.match(/m/i)) _s = s * 1024 * 1024
