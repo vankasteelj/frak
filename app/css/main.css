@@ -894,8 +894,7 @@
 }
 
 #details-metadata .poster .openTrakt > div {
-  color: rgba(255, 0, 0, .8);
-  font-size: 25px;
+  font-size: 20px;
   position: relative;
   top: -1px;
 }
