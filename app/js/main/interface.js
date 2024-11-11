@@ -251,11 +251,11 @@ const Interface = {
     customlabels.submenu1 = {
       title: 'Sort by...',
       labels: {
-        'Listed at': () => DB.app.get('traktcustomscollection').then(coll => Collection.show.customs(Collection.sort.customs.listed(coll))),
-        Year: () => DB.app.get('traktcustomscollection').then(coll => Collection.show.customs(Collection.sort.customs.released(coll))),
-        Title: () => DB.app.get('traktcustomscollection').then(coll => Collection.show.customs(Collection.sort.customs.title(coll))),
-        Rating: () => DB.app.get('traktcustomscollection').then(coll => Collection.show.customs(Collection.sort.customs.rating(coll))),
-        Rank: () => DB.app.get('traktcustomscollection').then(coll => Collection.show.customs(Collection.sort.customs.rank(coll)))
+        'Listed at': () => DB.app.get('traktcustomscollection').then(coll => { Collection.show.customs(Collection.sort.customs.listed(coll)); Trakt.getRatings() }),
+        Year: () => DB.app.get('traktcustomscollection').then(coll => { Collection.show.customs(Collection.sort.customs.released(coll)); Trakt.getRatings() }),
+        Title: () => DB.app.get('traktcustomscollection').then(coll => { Collection.show.customs(Collection.sort.customs.title(coll)); Trakt.getRatings() }),
+        Rating: () => DB.app.get('traktcustomscollection').then(coll => { Collection.show.customs(Collection.sort.customs.rating(coll)); Trakt.getRatings() }),
+        Rank: () => DB.app.get('traktcustomscollection').then(coll => { Collection.show.customs(Collection.sort.customs.rank(coll)); Trakt.getRatings() })
       }
     }
 
@@ -266,11 +266,11 @@ const Interface = {
     movielabels.submenu1 = {
       title: 'Sort by...',
       labels: {
-        'Listed at': () => DB.trakt.get('traktmoviescollection').then(coll => Collection.show.movies(Collection.sort.movies.listed(coll))),
-        Year: () => DB.trakt.get('traktmoviescollection').then(coll => Collection.show.movies(Collection.sort.movies.released(coll))),
-        Title: () => DB.trakt.get('traktmoviescollection').then(coll => Collection.show.movies(Collection.sort.movies.title(coll))),
-        Rating: () => DB.trakt.get('traktmoviescollection').then(coll => Collection.show.movies(Collection.sort.movies.rating(coll))),
-        Runtime: () => DB.trakt.get('traktmoviescollection').then(coll => Collection.show.movies(Collection.sort.movies.runtime(coll)))
+        'Listed at': () => DB.trakt.get('traktmoviescollection').then(coll => { Collection.show.movies(Collection.sort.movies.listed(coll)); Trakt.getRatings() }),
+        Year: () => DB.trakt.get('traktmoviescollection').then(coll => { Collection.show.movies(Collection.sort.movies.released(coll)); Trakt.getRatings() }),
+        Title: () => DB.trakt.get('traktmoviescollection').then(coll => { Collection.show.movies(Collection.sort.movies.title(coll)); Trakt.getRatings() }),
+        Rating: () => DB.trakt.get('traktmoviescollection').then(coll => { Collection.show.movies(Collection.sort.movies.rating(coll)); Trakt.getRatings() }),
+        Runtime: () => DB.trakt.get('traktmoviescollection').then(coll => { Collection.show.movies(Collection.sort.movies.runtime(coll)); Trakt.getRatings() })
       }
     }
 
@@ -281,11 +281,11 @@ const Interface = {
     showlabels.submenu1 = {
       title: 'Sort by...',
       labels: {
-        'Most recent': () => DB.trakt.get('traktshowscollection').then(coll => Collection.show.shows(Collection.sort.shows.nextEpisode(coll))),
-        Year: () => DB.trakt.get('traktshowscollection').then(coll => Collection.show.shows(Collection.sort.shows.firstAired(coll))),
-        Title: () => DB.trakt.get('traktshowscollection').then(coll => Collection.show.shows(Collection.sort.shows.title(coll))),
-        Rating: () => DB.trakt.get('traktshowscollection').then(coll => Collection.show.shows(Collection.sort.shows.rating(coll))),
-        Runtime: () => DB.trakt.get('traktshowscollection').then(coll => Collection.show.shows(Collection.sort.shows.runtime(coll)))
+        'Most recent': () => DB.trakt.get('traktshowscollection').then(coll => { Collection.show.shows(Collection.sort.shows.nextEpisode(coll)); Trakt.getRatings() }),
+        Year: () => DB.trakt.get('traktshowscollection').then(coll => { Collection.show.shows(Collection.sort.shows.firstAired(coll)); Trakt.getRatings() }),
+        Title: () => DB.trakt.get('traktshowscollection').then(coll => { Collection.show.shows(Collection.sort.shows.title(coll)); Trakt.getRatings() }),
+        Rating: () => DB.trakt.get('traktshowscollection').then(coll => { Collection.show.shows(Collection.sort.shows.rating(coll)); Trakt.getRatings() }),
+        Runtime: () => DB.trakt.get('traktshowscollection').then(coll => { Collection.show.shows(Collection.sort.shows.runtime(coll)); Trakt.getRatings() })
       }
     }
 
@@ -295,11 +295,11 @@ const Interface = {
       movielabels.submenu2 = {
         title: 'Genres...',
         labels: {
-          All: () => DB.trakt.get('traktmoviescollection').then(coll => Collection.show.movies(Collection.sort.movies.listed(coll)))
+          All: () => DB.trakt.get('traktmoviescollection').then(coll => { Collection.show.movies(Collection.sort.movies.listed(coll)); Trakt.getRatings() })
         }
       }
       for (const i in moviegenres) {
-        movielabels.submenu2.labels[moviegenres[i].name] = () => DB.trakt.get('traktmoviescollection').then(coll => Collection.show.movies(Collection.sort.movies.genre(moviegenres[i].slug, coll)))
+        movielabels.submenu2.labels[moviegenres[i].name] = () => DB.trakt.get('traktmoviescollection').then(coll => { Collection.show.movies(Collection.sort.movies.genre(moviegenres[i].slug, coll)); Trakt.getRatings() })
       }
 
       // show genres
@@ -307,11 +307,11 @@ const Interface = {
       showlabels.submenu2 = {
         title: 'Genres...',
         labels: {
-          All: () => DB.trakt.get('traktshowscollection').then(coll => Collection.show.shows(Collection.sort.shows.nextEpisode(coll)))
+          All: () => DB.trakt.get('traktshowscollection').then(coll => { Collection.show.shows(Collection.sort.shows.nextEpisode(coll)); Trakt.getRatings() })
         }
       }
       for (const i in showgenres) {
-        showlabels.submenu2.labels[showgenres[i].name] = () => DB.trakt.get('traktshowscollection').then(coll => Collection.show.shows(Collection.sort.shows.genre(showgenres[i].slug, coll)))
+        showlabels.submenu2.labels[showgenres[i].name] = () => DB.trakt.get('traktshowscollection').then(coll => { Collection.show.shows(Collection.sort.shows.genre(showgenres[i].slug, coll)); Trakt.getRatings() })
       }
     }).finally(() => {
       // menu popup
