@@ -33,6 +33,51 @@ const Stats = {
       $('#stats #stotaltimemovies').text(Misc.secsToYDHM(stats.movies.minutes * 60))
       $('#stats #stotalmovies').text(Number(stats.movies.watched).toLocaleString())
 
+      //chart
+      const distribution = []
+      const average = (() => {
+        let total = 0
+        let numtotal = 0
+        for (const i in stats.ratings.distribution) {
+          total += stats.ratings.distribution[i]*i
+          numtotal += stats.ratings.distribution[i]
+          distribution.push(stats.ratings.distribution[i])
+        }
+        return (total/numtotal).toFixed(1)
+      })()
+      $('#sratings h4').text(i18n.__('%s ratings with an average of %s hearts.', stats.ratings.total, average))
+      
+      const ctx = $('#schartratings')
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+          datasets: [{
+            label: i18n.__('# of ratings'),
+            data: distribution,
+            borderWidth: 0,
+            backgroundColor: '#999',
+            hoverBackgroundColor: '#9f42c6',
+            barPercentage: 0.9,
+            categoryPercentage: 1.0
+          }]
+        },
+        options: {
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              display: false
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            }
+          }
+        }
+      })
+
       return Stats.getRatings()
     }).then(collection => {
       for (let i = 0; i < 10; i++) {

@@ -1511,6 +1511,23 @@ a {
   font-family: var(--font);
 }
 
+#stats #sratings {
+  width: 800px;
+  margin: 15px auto;
+  padding: 20px;
+}
+#stats #sratings h4 {
+  font-family: var(--font);
+  font-size: 12px;
+  color: var(--app-font-color-dimmed);
+}
+#stats #sratings #schartratingsdiv {
+  height: 200px;
+  background-color: var(--stats-box);
+  padding: 10px;
+  border-radius: 4px;
+}
+
 #stats #sfunfacts {
   clear: both;
   width: 800px;
