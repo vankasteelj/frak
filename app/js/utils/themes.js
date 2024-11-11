@@ -4,7 +4,7 @@ const Themes = {
   setup: () => {
     // apply style at startup
     Themes.apply(DB.sync.get('theme'))
-    
+
     // build settings dropdown & import stylesheets
     fs.readdir('./app/css/themes', (err, files = []) => {
       if (err) console.error(err)

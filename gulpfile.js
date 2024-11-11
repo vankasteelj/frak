@@ -396,7 +396,7 @@ const sd = (fix) => {
   return new Promise((resolve, reject) => {
     standard.lintFiles('**/*.js', {
       fix: fix,
-      ignore: ['dist', 'app/vendor', 'build', 'cache'],
+      ignore: ['dist', 'app/js/vendor', 'build', 'cache'],
       globals: [
         // App
         'crypt',
@@ -474,7 +474,8 @@ const sd = (fix) => {
         'event',
         'Image',
         'screen',
-        'countryList'
+        'countryList',
+        'Chart'
       ]
     }, (error, res) => {
       if (error) return reject(error)

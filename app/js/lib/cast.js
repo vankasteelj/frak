@@ -10,14 +10,14 @@ const Cast = {
     // DLNA
     Cast.clients.dlna = Dlnacasts()
     Cast.clients.dlna.on('update', player => {
-      //console.info('Found DLNA Device: %s at %s', player.name, player.host)
+      // console.info('Found DLNA Device: %s at %s', player.name, player.host)
       let exists = false
       for (const i in Cast.players) {
         if (Cast.players[i].name === player.name) {
           exists = true
           console.info('Updating the available players list with %s (%s)', player.name, player.host)
           Cast.players[i] = {
-            name: player.name, 
+            name: player.name,
             url: player.host,
             player: player
           }
@@ -43,11 +43,11 @@ const Cast = {
     for (const i in Cast.players) {
       if (Cast.players[i].name === name) {
         const player = Cast.players[i].player
-        let media = {
+        const media = {
           title: title,
           dlnaFeatures: 'DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01100000000000000000000000000000'
         }
-        if (subtitle) media.subtitte = [subtitle]
+        if (subtitle) media.subtitle = [subtitle]
         player.play(url, media, (err, status) => {
           if (err) {
             Cast.activePlayer = undefined

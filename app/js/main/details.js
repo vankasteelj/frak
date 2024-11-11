@@ -719,7 +719,7 @@ const Details = {
       const item = `<div class="peer" onClick="Details.keepWatchingDlna(Cast.players[${i}])">` +
                 `<span class="name">${Cast.players[i].name}</span>` +
                 `<span class="ip">${Cast.players[i].url}</span>` +
-              `</div>`
+              '</div>'
       $('#keepWatching .selector .list').append(item)
     }
     $('#keepWatching').show()
