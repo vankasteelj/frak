@@ -2,6 +2,9 @@
 
 const Themes = {
   setup: () => {
+    // apply style at startup
+    Themes.apply(DB.sync.get('theme'))
+    
     // build settings dropdown & import stylesheets
     fs.readdir('./app/css/themes', (err, files = []) => {
       if (err) console.error(err)
@@ -16,15 +19,12 @@ const Themes = {
     $('#theme').on('change', (e) => {
       Themes.apply(e.target.value)
     })
-
-    // apply style at startup
-    Themes.apply(DB.sync.get('theme'))
   },
 
   apply: (theme = 'dark') => {
-    console.info('Theme applied:', theme)
-    DB.sync.store(theme, 'theme')
     document.documentElement.className = theme
+    DB.sync.store(theme, 'theme')
+    console.info('Theme applied:', theme)
     setTimeout(() => $('#theme').val(theme), 0)
   }
 }

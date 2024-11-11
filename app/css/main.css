@@ -2821,6 +2821,13 @@ body {
   text-rendering: optimizeSpeed;
   -webkit-font-smoothing: antialiased;
 }
+#background {
+  width: 100vw;
+  height: 100vh;
+  background: var(--app-color-main);
+  position: fixed;
+  z-index: -1000;
+}
 
 img,
 a {

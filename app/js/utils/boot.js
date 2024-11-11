@@ -4,8 +4,11 @@ const Boot = {
 
   // STARTUP: load app: ui,settings,features
   load: () => {
-    Themes.setup() // set up theme
+    // events
+    Misc.events = new (require('node:events'))() // set up events
+
     Boot.checkVisible() // main window
+    Themes.setup() // set up theme
     Localization.setupLocalization() // localize
     Boot.tray() // setup the tray
     Cache.create() // create tmp dir
@@ -26,9 +29,6 @@ const Boot = {
     // Gamepad.init(); // gamepad support
     Boot.cleanup() // periodically cleanup
     Boot.idle() // periodically update
-
-    // events
-    Misc.events = new (require('node:events'))() // set up events
 
     // right clicks
     document.addEventListener('contextmenu', (e) => e.preventDefault())
