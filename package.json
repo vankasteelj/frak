@@ -27,7 +27,7 @@
   "icons": {
     "256": "app/images/frak-logo.png"
   },
-  "chromium-args": "--disable-raf-throttling --future --in-process-gpu",
+  "chromium-args": "--disable-raf-throttling --future --in-process-gpu --use-angle=gl",
   "node-remote": "*://*",
   "repository": {
     "type": "git",
