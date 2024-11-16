@@ -121,7 +121,7 @@ const Collection = {
         if (!Player.mpv && !(process.platform === 'win32' && fs.existsSync('./mpv/mpv.exe'))) {
           Interface.requireMPV()
         } else {
-          setTimeout(Interface.showMain, 500)
+          requestIdleCallback(Interface.showMain, {timeout: 1000})
         }
       })
     },
@@ -387,7 +387,7 @@ const Collection = {
       } else {
         lastSearch = split
         // The actual search starts here
-        console.debug('Recherche', input.val())
+        console.debug('Search for', input.val())
         displayElements(input.val())
         clearSearch()
       }

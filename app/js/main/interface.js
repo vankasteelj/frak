@@ -149,7 +149,7 @@ const Interface = {
   showHistory: () => {
     Collection.get.history().then(() => {
       window.scrollTo(0, 0)
-      setTimeout(() => {
+      requestIdleCallback(() => {
         $('#navbar .nav').removeClass('active')
         $('#navbar .history').addClass('active')
         $('#collection #shows').hide()
@@ -161,7 +161,7 @@ const Interface = {
         $('#trakt #stats').hide()
         $('#trakt #ratings').hide()
         $('#trakt #history').show()
-      }, 0)
+      })
     })
     $('#navbar .nav').removeClass('active')
     $('#navbar .history').addClass('active')

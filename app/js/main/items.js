@@ -890,7 +890,7 @@ const Items = {
     $('.popover').remove()
 
     if (!$this.attr('initialized')) {
-      const isRated = $(`#${slug} .corner-rating span`).text()
+      const isRated = $(`#${slug} .corner-rating span`).eq(0).text()
 
       let content = ''
 
@@ -908,7 +908,7 @@ const Items = {
         trigger: 'focus',
         html: true
       }).on('shown.bs.popover', () => {
-        setTimeout(() => {
+        requestIdleCallback(() => {
           document.getElementsByClassName('popover-content')[0].innerHTML = '<div class="rating-hearts">' + content + '</div>'
 
           $('.popover').find('label').off('mouseover').on('mouseover', function () {
@@ -933,7 +933,7 @@ const Items = {
             $this.removeAttr('initialized')
             $this.popover('destroy')
           })
-        }, 0)
+        })
       })
 
       $this.attr('initialized', 1)

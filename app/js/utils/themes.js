@@ -25,6 +25,6 @@ const Themes = {
     document.documentElement.className = theme
     DB.sync.store(theme, 'theme')
     console.info('Theme applied:', theme)
-    setTimeout(() => $('#theme').val(theme), 0)
+    requestIdleCallback(() => $('#theme').val(theme))
   }
 }

@@ -409,11 +409,11 @@ const Details = {
 
     if (!$nextEpisode.length) {
       if (fromDetails) {
-        setTimeout(() => {
+        requestIdleCallback(() => {
           $('#details-sources').show()
           $('#details-loading').hide()
           $('#details-spinner').hide()
-        }, 50)
+        })
       } else {
         Details.closeDetails()
       }
@@ -457,11 +457,11 @@ const Details = {
 
         if (!$nextEpisode.length) {
           if (fromDetails) {
-            setTimeout(() => {
+            requestIdleCallback(() => {
               $('#details-sources').show()
               $('#details-loading').hide()
               $('#details-spinner').hide()
-            }, 50)
+            })
           } else {
             Details.closeDetails()
           }
@@ -472,12 +472,12 @@ const Details = {
         console.info('Next episode is ready', data)
 
         $('#details-next .content .next-title span').text(`S${Misc.pad(data.metadata.episode.season)}E${Misc.pad(data.metadata.episode.number)}` + (data.metadata.episode.title ? ` - ${data.metadata.episode.title}` : ''))
-        setTimeout(() => {
+        requestIdleCallback(() => {
           $('#details-sources').hide()
           $('#details-loading').hide()
           $('#details-spinner').hide()
           $('#details-next').show()
-        }, 50)
+        })
 
         $('#playnext').on('click', () => {
           Details.closeDetails()
@@ -492,7 +492,7 @@ const Details = {
     $('.popover').remove()
 
     if (!$this.attr('initialized')) {
-      const isRated = $('#details .corner-rating span').text()
+      const isRated = $('#details .corner-rating span').eq(0).text()
 
       let content = ''
 
@@ -510,7 +510,7 @@ const Details = {
         trigger: 'focus',
         html: true
       }).on('shown.bs.popover', () => {
-        setTimeout(() => {
+        requestIdleCallback(() => {
           document.getElementsByClassName('popover-content')[0].innerHTML = '<div class="rating-hearts">' + content + '</div>'
 
           $('.popover').find('label').off('mouseover').on('mouseover', function () {
@@ -540,7 +540,7 @@ const Details = {
             $this.removeAttr('initialized')
             $this.popover('destroy')
           })
-        }, 0)
+        })
       })
 
       $this.attr('initialized', 1)
@@ -587,11 +587,11 @@ const Details = {
       return Trakt.client.sync.history.add(post)
     }).finally(() => {
       if (type === 'episodes') {
-        setTimeout(() => {
+        requestIdleCallback(() => {
           $('#details-sources').hide()
           $('#details-loading').hide()
           $('#details-spinner').show()
-        }, 50)
+        })
 
         // display spinner on list
         model.show && $(`#collection #${model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>')

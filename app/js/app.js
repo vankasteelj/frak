@@ -20,7 +20,7 @@ try {
   }
 
   if (gui.App.argv.indexOf('--hidden') === -1) {
-    setTimeout(() => win.show(true), 0)
+    requestIdleCallback(() => win.show(true))
     Interface.focus(true)
   }
 

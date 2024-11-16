@@ -349,11 +349,11 @@ const Trakt = {
         } else {
           // trakt list
           if (type === 'episode') {
-            setTimeout(() => {
+            requestIdleCallback(() => {
               $('#details-sources').hide()
               $('#details-loading').hide()
               $('#details-spinner').show()
-            }, 50)
+            })
 
             // display spinner on list
             Player.config.model.show && $(`#collection #${Player.config.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>')
