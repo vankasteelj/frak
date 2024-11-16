@@ -112,16 +112,15 @@ const Collection = {
 
         Collection.show.movies(movies)
         Collection.show.shows(shows)
-        DB.sync.get('use_customs') && Misc.sleep(500).then(() => Collection.show.customs(customs))
-
-        Misc.sleep(500).then(() => DB.trakt.get('traktratings').then(Items.applyRatings))
+        DB.sync.get('use_customs') && Collection.show.customs(customs)
+        DB.trakt.get('traktratings').then(Items.applyRatings)
 
         if (update) return
 
         if (!Player.mpv && !(process.platform === 'win32' && fs.existsSync('./mpv/mpv.exe'))) {
           Interface.requireMPV()
         } else {
-          requestIdleCallback(Interface.showMain, {timeout: 1000})
+          Interface.showMain()
         }
       })
     },
