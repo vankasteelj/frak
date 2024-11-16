@@ -44,7 +44,7 @@ const Network = {
         }
       }
 
-      setTimeout(() => Network.checkPeer(server), 5000)
+      setTimeout(() => Network.checkPeer(server), 30000)
     }).catch(() => {
       for (const existing in Network.peers) {
         if (Network.peers[existing].ip === server.ip) {
@@ -116,9 +116,10 @@ const Network = {
 
       if (req.method === 'GET') { // on GET, register the client and send back the json api
         res.writeHead(200, {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Content-Encoding': 'deflate'
         })
-        res.write(JSON.stringify(Network.jsonApi))
+        res.write(zlib.deflateSync(Buffer.from(JSON.stringify(Network.jsonApi))))
         res.end()
 
         Network.addPeers([client])
