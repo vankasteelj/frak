@@ -1,4 +1,5 @@
 'use strict'
+require('v8-compile-cache')
 
 // important variables used in the app
 const gui = require('nw.gui')

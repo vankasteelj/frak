@@ -52,6 +52,7 @@
     "trakt.tv": "8.2.0",
     "trakt.tv-matcher": "8.0.2",
     "trakt.tv-ondeck": "8.0.1",
+    "v8-compile-cache": "2.4.0",
     "webtorrent": "https://github.com/vankasteelj/webtorrent",
     "webtorrent-health": "1.2.0"
   },
