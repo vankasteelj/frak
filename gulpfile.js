@@ -6,7 +6,6 @@
 const gulp = require('gulp')
 const glp = require('gulp-load-plugins')()
 const del = require('del')
-const currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js')
 const yargs = require('yargs')
 const fs = require('fs')
 const path = require('path')
@@ -18,6 +17,7 @@ const Z7 = require('node-7z-forall')
 const temp = require('os').tmpdir()
 const ModClean = require('modclean').ModClean
 const standard = require('standard')
+const { detectCurrentPlatform } = require('nw-builder/dist/index.cjs')
 require('dns').setDefaultResultOrder('ipv4first') // workaround for yt-dl on node > 0.17.x
 
 /** ******
@@ -33,7 +33,7 @@ const releasesDir = 'build'
  ***********/
 // returns an array of platforms that should be built
 const parsePlatforms = () => {
-  const requestedPlatforms = (yargs.argv.platforms || currentPlatform()).split(',')
+  const requestedPlatforms = (yargs.argv.platforms || detectCurrentPlatform(process)).split(',')
   const validPlatforms = []
 
   for (const i in requestedPlatforms) {
@@ -73,7 +73,7 @@ gulp.task('nwjs', () => {
   }
 
   // windows-only (or wine): replace icon & VersionInfo1.res
-  if (currentPlatform().indexOf('win') !== -1) {
+  if (detectCurrentPlatform(process).indexOf('win') !== -1) {
     nwOptions.winVersionString = {
       Comments: pkJson.description,
       CompanyName: pkJson.homepage,
@@ -204,7 +204,7 @@ gulp.task('build:deb', () => {
       console.log('No `deb` task for:', platform)
       return null
     }
-    if (currentPlatform().indexOf('linux') === -1) {
+    if (detectCurrentPlatform(process).indexOf('linux') === -1) {
       console.log('Packaging deb is only possible on linux')
       return null
     }
@@ -263,7 +263,7 @@ gulp.task('build:compress', () => {
 
       const sources = path.join(releasesDir, pkJson.releaseName, platform)
 
-      if (currentPlatform().indexOf('win') !== -1) {
+      if (detectCurrentPlatform(process).indexOf('win') !== -1) {
         return gulp.src(sources + '/**')
           .pipe(glp.tar(`${pkJson.name}-${pkJson.version}_${platform}.tar`))
           .pipe(glp.gzip())
