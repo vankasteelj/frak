@@ -7,6 +7,7 @@ const Stats = {
     lastMonth: undefined,
     showsStats: undefined
   },
+  chart: undefined,
 
   load: () => {
     console.log('Loading trakt stats')
@@ -17,6 +18,7 @@ const Stats = {
     $('#stats #suserjoined span').text(new Date(suserinfo.joined_at).toLocaleDateString())
 
     // reset
+    if (Stats.chart) Stats.chart.destroy()
     $('#stats #stopratedshows').html('')
     $('#stats #stopratedmovies').html('')
     $('#stats #sfunfacts #sfavgenres').html('')
@@ -48,7 +50,7 @@ const Stats = {
       $('#sratings h4').text(i18n.__('%s ratings with an average of %s hearts.', stats.ratings.total, average))
 
       const ctx = $('#schartratings')
-      const chart = new Chart(ctx, {
+      Stats.chart = new Chart(ctx, {
         type: 'bar',
         data: {
           labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
