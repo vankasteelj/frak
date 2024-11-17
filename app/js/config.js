@@ -29,7 +29,7 @@ const Nodempv2 = require('node-mpv-2')
 const Trakttv = require('trakt.tv')
 const Opensubtitles = require('opensubtitles.com')
 const Webtorrent = require('webtorrent')
-const Dlnacasts = require('dlnacasts2')
+const Dlnacasts = require('dlnacasts3')
 
 const PKJSON = require('../package.json')
 const countryList = require('../app/js/vendor/ISO3166-1.alpha2.json')
