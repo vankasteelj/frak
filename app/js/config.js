@@ -20,7 +20,6 @@ const os = require('os')
 const whealth = require('webtorrent-health')
 const { readdirp } = require('readdirp')
 const langs = require('langs')
-const ip = require('ip')
 const imagedownloader = require('image-downloader')
 
 const Autolaunch = require('auto-launch')

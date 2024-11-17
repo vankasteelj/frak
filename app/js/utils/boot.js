@@ -38,7 +38,10 @@ const Boot = {
 
   // STARTUP: setup network connexion
   online: () => {
-    const localip = ip.address() || '127.0.0.1'
+    const ifaces = os.networkInterfaces()
+    const values = [].concat.apply([], Object.keys(ifaces).map(n => ifaces[n])).filter(v => v.family == 'IPv4' && v.internal == false)
+    const localip = values.length ? values[0].address : '127.0.0.1'
+
     DB.sync.store(localip, 'localip')
     $('#localip input').val(localip)
 

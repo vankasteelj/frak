@@ -428,7 +428,6 @@ const sd = (fix) => {
         'Opensubtitles',
         'langs',
         'Trakttv',
-        'ip',
         'imagedownloader',
         'Autolaunch',
 
