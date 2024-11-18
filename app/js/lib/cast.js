@@ -31,7 +31,7 @@ const Cast = {
         })
       }
     })
-    Cast.dlna.update()
+    setInterval(Cast.dlna.update, 30000)
   },
   cast: (name, title, url, subtitle) => {
     if (Cast.activePlayer) Cast.activePlayer.stop()
