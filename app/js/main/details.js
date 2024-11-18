@@ -397,6 +397,10 @@ const Details = {
         Streamer.stop()
         timeout = 300
       }
+      if (Cast.activePlayer) {
+        Cast.stop()
+        timeout = 300
+      }
 
       setTimeout(() => {
         resolve()

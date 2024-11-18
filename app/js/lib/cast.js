@@ -1,15 +1,13 @@
 'use strict'
 
 const Cast = {
-  clients: {
-    dlna: Dlnacasts()
-  },
   activePlayer: undefined,
   players: [],
   scan: () => {
     // DLNA
-    Cast.clients.dlna = Dlnacasts()
-    Cast.clients.dlna.on('update', player => {
+    console.info('Scanning for DLNA devices...', Cast.players)
+    Cast.dlna = Dlnacasts()
+    Cast.dlna.on('update', player => {
       // console.info('Found DLNA Device: %s at %s', player.name, player.host)
       let exists = false
       for (const i in Cast.players) {
@@ -33,9 +31,7 @@ const Cast = {
         })
       }
     })
-
-    console.info('Scanning for DLNA devices...')
-    Cast.clients.dlna.update()
+    Cast.dlna.update()
   },
   cast: (name, title, url, subtitle) => {
     if (Cast.activePlayer) Cast.activePlayer.stop()
@@ -45,7 +41,9 @@ const Cast = {
         const player = Cast.players[i].player
         const media = {
           title: title,
-          dlnaFeatures: 'DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01100000000000000000000000000000'
+          dlnaFeatures: 'DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01100000000000000000000000000000',
+          seek: '0',
+          autoSubtitles: true
         }
         if (subtitle) media.subtitle = [subtitle]
         player.play(url, media, (err, status) => {
@@ -54,6 +52,11 @@ const Cast = {
           } else {
             Cast.activePlayer = player
           }
+        })
+
+        player.on('status', (state) => {
+          console.info('DLNA: status', state)
+          if (state.playerState === 'STOPPED') Cast.stop()
         })
       }
     }
@@ -72,9 +75,11 @@ const Cast = {
   },
   stop: () => {
     if (Cast.activePlayer) {
+      Cast.activePlayer.removeAllListeners('status')
       console.info('DLNA: stop (%s)', Cast.activePlayer.name)
       Cast.activePlayer.stop()
       Cast.activePlayer = undefined
+      Details.closeKeepWatchingPopup()
     }
   }
 }
