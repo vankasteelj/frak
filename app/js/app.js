@@ -22,9 +22,9 @@ try {
     if (gui.App.argv.indexOf('--hidden') === -1) {
       win.show(true)
       Interface.focus(true)
-      if (nw.global.splashScreen) nw.global.splashScreen.close(true)
     }
     console.timeEnd('Application ready')
+    if (nw.global.splashScreen) nw.global.splashScreen.close(true)
   })
 } catch (err) {
   // if things go south on startup, just display devtools and log error

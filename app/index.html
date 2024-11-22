@@ -15,7 +15,7 @@
         position: 'center',
         width: 128,
         height: 132,
-        always_on_top: true,
+        always_on_top: false,
         resizable: false,
         show: true,
         frame: false,
@@ -23,6 +23,7 @@
         transparent: true
       }, (newWin) => {
         nw.global.splashScreen = newWin
+        nw.global.splashScreen.focus(true)
         nw.global.splashScreen.on('close', () => {
           nw.global.splashScreen.close(true)
         })
