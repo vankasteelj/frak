@@ -2,7 +2,6 @@
 require('v8-compile-cache')
 
 // important variables used in the app
-const gui = require('nw.gui')
 const win = gui.Window.get()
 const path = require('path')
 const fs = require('fs-extra')

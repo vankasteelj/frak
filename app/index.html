@@ -5,6 +5,31 @@
 <head>
   <meta charset="UTF-8">
 
+  <!-- splash screen -->
+  <script>
+    console.time('Application ready')
+    const gui = require('nw.gui')
+    if (gui.App.argv.indexOf('--hidden') === -1 && gui.App.argv.indexOf('--development') === -1) {
+      gui.Window.open('app/splash.html', {
+        icon: 'app/images/frak-logo.png',
+        position: 'center',
+        width: 128,
+        height: 132,
+        always_on_top: true,
+        resizable: false,
+        show: true,
+        frame: false,
+        show_in_taskbar: false,
+        transparent: true
+      }, (newWin) => {
+        nw.global.splashScreen = newWin
+        nw.global.splashScreen.on('close', () => {
+          nw.global.splashScreen.close(true)
+        })
+      })
+    }
+    </script>
+
   <link rel="stylesheet" type="text/css" href="fonts/proxima.css" />
   <link rel="stylesheet" type="text/css" href="fonts/font-awesome.min.css" />
   <link rel="stylesheet" type="text/css" href="css/vendor/bootstrap.min.css" />
@@ -17,7 +42,6 @@
   <!-- set icon and title -->
   <link rel="icon" type="image/png" href="images/frak-logo.ico" />
   <title>Frak</title>
-
 </head>
 
 <body>

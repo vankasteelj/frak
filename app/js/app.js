@@ -1,6 +1,5 @@
 'use strict'
 
-console.time('Application ready')
 console.info('Opening app...')
 
 // setup window's content and start the app
@@ -19,12 +18,14 @@ try {
     Interface.bigPicture(true)
   }
 
-  if (gui.App.argv.indexOf('--hidden') === -1) {
-    requestIdleCallback(() => win.show(true))
-    Interface.focus(true)
-  }
-
-  console.timeEnd('Application ready')
+  requestIdleCallback(() => {
+    if (gui.App.argv.indexOf('--hidden') === -1) {
+      win.show(true)
+      Interface.focus(true)
+      if (nw.global.splashScreen) nw.global.splashScreen.close(true)
+    }
+    console.timeEnd('Application ready')
+  })
 } catch (err) {
   // if things go south on startup, just display devtools and log error
   console.error(err)
