@@ -14,13 +14,14 @@
         icon: 'app/images/frak-logo.png',
         position: 'center',
         width: 128,
-        height: 162,
+        height: 152,
         always_on_top: false,
         resizable: false,
         show: true,
         frame: false,
         show_in_taskbar: false,
-        transparent: true
+        transparent: true,
+        focus: true
       }, (newWin) => {
         nw.global.splashScreen = newWin
         nw.global.splashScreen.focus(true)
