@@ -25,7 +25,7 @@ try {
     }
     console.timeEnd('Application ready')
     if (nw.global.splashScreen) {
-      //nw.global.splashScreen.close(true)
+      nw.global.splashScreen.close(true)
     }
   })
 } catch (err) {
