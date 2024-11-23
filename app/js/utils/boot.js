@@ -4,7 +4,6 @@ const Boot = {
 
   // STARTUP: load app: ui,settings,features
   load: () => {
-    // events
     Misc.events = new (require('node:events'))() // set up events
 
     Boot.checkVisible() // main window

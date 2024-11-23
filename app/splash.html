@@ -4,10 +4,49 @@
 <head>
   <link rel="icon" type="image/png" href="images/frak-logo.ico" />
   <title>Frak</title>
+  <style>
+    body {
+      overflow: hidden;
+    }
+    img {
+      width: 100%;
+    }
+    #progress {
+      width: 100%;
+      background-color: grey;
+      margin-top: 5px;
+    }
+    #bar {
+      width: 1%;
+      height: 5px;
+      background-color: darkgray;
+      display: none;
+    }
+  </style>
 </head>
 
-<body style="overflow: hidden;">
-  <img style="width: 100%;" src="images/frak-logo.png"/>
+<body>
+  <img src="images/frak-logo.png"/>
+  <div id="progress">
+    <div id="bar" style="width: 0%;"></div>
+  </div>
+
+  <script>
+    nw.global.splashScreen.move = (progress = 100) => {
+      let elem = document.getElementById('bar')
+      let width = parseInt(elem.style.width)
+      const frame = () => {
+        if (width >= progress) {
+          clearInterval(id)
+        } else {
+          width++
+          elem.style.width = width + "%"
+          elem.style.display = 'block'
+        }
+      }
+      let id = setInterval(frame, 20)
+    }
+  </script>
 </body>
 
 </html>
