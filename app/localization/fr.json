@@ -419,5 +419,6 @@
 	"Cast to DLNA devices on your local network": "Caster via DLNA sur vos périphériques connectés au réseau local",
 	"DLNA casting is not allowed on local files": "Caster via DLNA n'est pas autorisé avec des fichiers locaux",
 	"%s ratings with an average of %s hearts.": "%s notes, avec en moyenne %s cœurs.",
-	"# of ratings": "# de notes"
+	"# of ratings": "# de notes",
+	"flax": "flax"
 }
