@@ -10,14 +10,11 @@
     console.time('Application ready')
     const gui = require('nw.gui')
     if (gui.App.argv.indexOf('--hidden') === -1 && gui.App.argv.indexOf('--development') === -1) {
-      gui.Window.open('app/splash.html', {
-        icon: 'app/images/frak-logo.png',
+      gui.Window.open('app/html/splash.html', {
         position: 'center',
         width: 128,
         height: 152,
-        always_on_top: false,
         resizable: false,
-        show: true,
         frame: false,
         show_in_taskbar: false,
         transparent: true,
