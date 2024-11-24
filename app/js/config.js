@@ -12,7 +12,7 @@ const i18n = require('i18n')
 const got = require('got')
 const os = require('os')
 
-const PKJSON = require('../package.json')
+const PKJSON = require('package.json')
 
 // default settings
 const Settings = {

@@ -87,7 +87,7 @@ const Details = {
     d.year ? $('#details-metadata .year').text(d.year).show() : $('#details-metadata .year').hide()
     d.runtime ? $('#details-metadata .runtime').text(`${d.runtime} ${i18n.__('min')}`).show() : $('#details-metadata .runtime').hide()
     d.network ? $('#details-metadata .network').text(`${d.network}`).show() : $('#details-metadata .network').hide()
-    d.country ? $('#details-metadata .fi').addClass(`fi-${d.country}`).attr('title', `${require('../app/js/vendor/ISO3166-1.alpha2.json')[d.country.toUpperCase()]}`).show() : $('#details-metadata .country').hide()
+    d.country ? $('#details-metadata .fi').addClass(`fi-${d.country}`).attr('title', `${require('app/js/vendor/ISO3166-1.alpha2.json')[d.country.toUpperCase()]}`).show() : $('#details-metadata .country').hide()
     $('#details-metadata .rating').text(`${d.rating || 0} / 10`).show()
 
     if (d.genres) {
