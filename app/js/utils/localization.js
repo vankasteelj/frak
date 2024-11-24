@@ -65,17 +65,20 @@ const Localization = {
         t[i].innerText = i18n.__(t[i].innerText)
       }
     }
-    for (let j = 0; j < c.length; j++) {
-      if (c[j].title) {
-        c[j].title = i18n.__(c[j].title)
+
+    scheduler.postTask(() => {
+      for (let j = 0; j < c.length; j++) {
+        if (c[j].title) {
+          c[j].title = i18n.__(c[j].title)
+        }
+        if (c[j].placeholder) {
+          c[j].placeholder = i18n.__(c[j].placeholder)
+        }
+        if (c[j].innerText && c[j].localName === 'option') {
+          c[j].innerText = i18n.__(c[j].innerText)
+        }
       }
-      if (c[j].placeholder) {
-        c[j].placeholder = i18n.__(c[j].placeholder)
-      }
-      if (c[j].innerText && c[j].localName === 'option') {
-        c[j].innerText = i18n.__(c[j].innerText)
-      }
-    }
+    }, {priority: 'background'})
   },
 
   // STARTUP: build dropdown menu for changing app localization

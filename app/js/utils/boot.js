@@ -30,11 +30,9 @@ const Boot = {
     scheduler.postTask(Boot.idle, {priority: 'background'}) // periodically update
 
     // right clicks
-    scheduler.postTask(() => {
-      document.addEventListener('contextmenu', (e) => e.preventDefault())
-      Interface.rightClickNav()
-      Boot.setupRightClicks('input[type=text], textarea')
-    }, {priority: 'background'})
+    document.addEventListener('contextmenu', (e) => e.preventDefault())
+    scheduler.postTask(Interface.rightClickNav, {priority: 'background'})
+    scheduler.postTask(() => Boot.setupRightClicks('input[type=text], textarea'), {priority: 'background'})
   },
 
   // STARTUP: setup network connexion
