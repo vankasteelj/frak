@@ -505,7 +505,7 @@ const Details = {
       for (let i = 10; i > 0; i--) {
         const id = 'rating-' + i + '-' + Date.now()
 
-        content += `<input id="${id}" type="radio" class="rating-${i}" name="rating" value="${i}" ${isRated === i.toString() ? 'checked=1' : ''}/>` +
+        content += `<input id="${id}" type="radio" class="rating-${i}" name="rating" value="${i}" ${isRated === i.toString() ? 'checked=1' : ''}>` +
                     `<label for="${id}" title="" class="rating-${i}">${i}</label>`
       }
 

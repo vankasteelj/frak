@@ -1,14 +1,13 @@
 <!doctype html>
-<script>chrome.extension.getBackgroundPage().console.log = console.debug;</script>
 <html style="background: #1d1d1d; color: #ccc;">
 
 <head>
   <meta charset="UTF-8">
 
-  <!-- splash screen -->
   <script>
     console.time('Application ready')
     require('v8-compile-cache')
+    chrome.extension.getBackgroundPage().console.log = console.debug
     const gui = require('nw.gui')
     if (gui.App.argv.indexOf('--hidden') === -1 && gui.App.argv.indexOf('--development') === -1) {
       gui.Window.open('app/html/splash.html', {
@@ -30,17 +29,17 @@
     }
     </script>
 
-  <link rel="stylesheet" type="text/css" href="fonts/proxima.css" />
-  <link rel="stylesheet" type="text/css" href="fonts/font-awesome.min.css" />
-  <link rel="stylesheet" type="text/css" href="css/vendor/bootstrap.min.css" />
-  <link rel="stylesheet" type="text/css" href="css/vendor/flag-icons/css/flag-icons.css" />
-  <link rel="stylesheet" type="text/css" href="fonts/trakt.css" />
+  <link rel="stylesheet" type="text/css" href="fonts/proxima.css">
+  <link rel="stylesheet" type="text/css" href="fonts/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="css/vendor/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/vendor/flag-icons/css/flag-icons.css">
+  <link rel="stylesheet" type="text/css" href="fonts/trakt.css">
 
-  <link rel="stylesheet" type="text/css" href="css/main.css" />
-  <link rel="stylesheet" type="text/css" href="css/animations.css" />
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link rel="stylesheet" type="text/css" href="css/animations.css">
 
   <!-- set icon and title -->
-  <link rel="icon" type="image/png" href="images/frak-logo.ico" />
+  <link rel="icon" type="image/png" href="images/frak-logo.ico">
   <title>Frak</title>
 </head>
 
@@ -49,7 +48,7 @@
     <div id="background"></div>
     <section id="init">
       <div id="traktinit">
-        <img src="images/trakt-logo.png" />
+        <img src="images/trakt-logo.png">
         <p>
           <i18n>You need a Trakt.tv account</i18n>
         </p>
@@ -57,7 +56,7 @@
         <button id="traktAuth" onClick="Trakt.login()">
           <i18n>Connect</i18n>
         </button>
-        <input id="traktCode" type="text" value="" />
+        <input id="traktCode" type="text" value="">
         <button id="traktBrowser">
           <i18n>Open browser</i18n>
         </button>
@@ -71,7 +70,7 @@
       </div>
       <div id="traktwelcome">
         <div id="welcomeprofile">
-          <img class="avatar" src="images/trakt-logo.png" />
+          <img class="avatar" src="images/trakt-logo.png">
           <p><span class="welcomemessage"></span> <span class="username"></span></p>
         </div>
 
@@ -87,7 +86,7 @@
         </div>
       </div>
       <div id="requirempv">
-        <img src="images/mpv-logo.png" />
+        <img src="images/mpv-logo.png">
         <p>
           <i18n>MPV player needs to be installed</i18n>
         </p>
@@ -218,7 +217,7 @@
 
     <section id="collection">
       <div id="coll-search">
-        <input type="text" class="i18n" placeholder="Search" id="coll-search-input"/>
+        <input type="text" class="i18n" placeholder="Search" id="coll-search-input">
       </div>
 
       <div class="row" id="shows"></div>
@@ -287,10 +286,10 @@
       <div id="stats">
         <div id="sbackground"></div>
         <div id="suserinfo">
-          <img id="suserimage" src="images/trakt-logo.png"/>
+          <img id="suserimage" src="images/trakt-logo.png">
           <p id="susername"></p>
           <p id="suserjoined"><i18n>Trakt member since</i18n> <span></span></p>
-          <p id="suservip"><img src="images/trakt-vip.png"/></p>
+          <p id="suservip"><img src="images/trakt-vip.png"></p>
         </div>
         <div id="saccounts" onClick="Interface.switchTraktAccount()">
           <div class="fa fa-retweet">
@@ -386,7 +385,7 @@
 
       <div class="row" id="discover">
         <div class="disc-search">
-          <input type="text" class="i18n" placeholder="Search for a movie or a TV Show" id="disc-search-input"/>
+          <input type="text" class="i18n" placeholder="Search for a movie or a TV Show" id="disc-search-input">
           <div class="search fa fa-search i18n" title="Search" onClick="Discover.search()"></div>
         </div>
 
@@ -599,7 +598,7 @@
             <i18n>Customize the 'Custom List' name</i18n>
           </div>
           <div class="action">
-            <input id="customs-name" class="i18n" type="text" placeholder="Default: Custom" />
+            <input id="customs-name" class="i18n" type="text" placeholder="Default: Custom">
           </div>
         </div>
         <div class="option"> 
@@ -607,7 +606,7 @@
             <i18n>Custom List URL</i18n>
           </div>
           <div class="action">
-            <input id="customs-url" class="i18n" type="text" placeholder="None" />
+            <input id="customs-url" class="i18n" type="text" placeholder="None">
           </div>
         </div>
 
@@ -623,7 +622,7 @@
           <div class="action">
             <div class="pathbox">
               <div class="paths"></div>
-              <input id="hidden-input-local" type="file" nwdirectory />
+              <input id="hidden-input-local" type="file" nwdirectory>
               <button onClick="Interface.addLocalPath()">
                 <i18n>Add</i18n>
               </button>
@@ -653,7 +652,7 @@
             <i18n>IP address</i18n>
           </div>
           <div class="action">
-            <input type="text" id="localip-input" readonly placeholder="127.0.0.1"/>
+            <input type="text" id="localip-input" readonly placeholder="127.0.0.1">
           </div>
         </div>        
         <div class="option">
@@ -710,8 +709,8 @@
             <i18n>Path to MPV</i18n>
           </div>
           <div class="action">
-            <input id="mpvpath" type="file" />
-            <input id="fakempvpath" class="i18n" placeholder="Select an executable" type="text" readonly onClick="Interface.setMPVPath()" />
+            <input id="mpvpath" type="file">
+            <input id="fakempvpath" class="i18n" placeholder="Select an executable" type="text" readonly onClick="Interface.setMPVPath()">
           </div>
         </div>
         <div class="option">
@@ -757,7 +756,7 @@
             <i18n>OSC scale factor</i18n>
           </div>
           <div class="action">
-            <input id="scale" class="i18n" type="text" placeholder="Default: 1.0" />
+            <input id="scale" class="i18n" type="text" placeholder="Default: 1.0">
           </div>
         </div>
         <div class="option">
@@ -804,7 +803,7 @@
             ⤷&nbsp;<i18n>Which one?</i18n>
           </div>
           <div class="action">
-            <input id="monitor" class="i18n" type="text" placeholder="1 to 32" />
+            <input id="monitor" class="i18n" type="text" placeholder="1 to 32">
           </div>
         </div>
         <div class="option">
@@ -812,7 +811,7 @@
             <i18n>Contrast</i18n>
           </div>
           <div class="action">
-            <input id="contrast" class="i18n" type="text" placeholder="-100 to 100" />
+            <input id="contrast" class="i18n" type="text" placeholder="-100 to 100">
           </div>
         </div>
         <div class="option">
@@ -820,7 +819,7 @@
             <i18n>Saturation</i18n>
           </div>
           <div class="action">
-            <input id="saturation" class="i18n" type="text" placeholder="-100 to 100" />
+            <input id="saturation" class="i18n" type="text" placeholder="-100 to 100">
           </div>
         </div>
       </div>
@@ -854,7 +853,7 @@
             <i18n>Subtitles size</i18n>
           </div>
           <div class="action">
-            <input id="sub_size" class="i18n" type="text" placeholder="Default: 40" />
+            <input id="sub_size" class="i18n" type="text" placeholder="Default: 40">
           </div>
         </div>
         <div class="option">
@@ -862,7 +861,7 @@
             <i18n>Subtitles color</i18n>
           </div>
           <div class="action">
-            <input id="sub_color" class="i18n" type="color" list="subs_colors" />
+            <input id="sub_color" class="i18n" type="color" list="subs_colors">
             <datalist id="subs_colors">
               <option>#ffffff</option>
               <option>#ffff00</option>
@@ -884,12 +883,12 @@
               <i18n>Log-in (optional)</i18n>
             </div>
             <div class="action">
-              <input id="opensub_login" class="i18n" type="text" placeholder="Username" />
+              <input id="opensub_login" class="i18n" type="text" placeholder="Username">
             </div>
           </div>
           <div class="option opensub-login">
             <div class="action">
-              <input id="opensub_password" class="i18n" type="password" placeholder="Password" />
+              <input id="opensub_password" class="i18n" type="password" placeholder="Password">
             </div>
           </div>
           <div class="option">
@@ -922,7 +921,7 @@
             <i18n>Download speed limit</i18n>
           </div>
           <div class="action">
-            <input id="downloadLimit" class="i18n" type="text" placeholder="Default: 0" />
+            <input id="downloadLimit" class="i18n" type="text" placeholder="Default: 0">
           </div>
         </div>
         <div class="option">
@@ -930,7 +929,7 @@
             <i18n>Upload speed limit</i18n>
           </div>
           <div class="action">
-            <input id="uploadLimit" class="i18n" type="text" placeholder="Default: 0" />
+            <input id="uploadLimit" class="i18n" type="text" placeholder="Default: 0">
           </div>
         </div>
         <div class="option">
@@ -938,7 +937,7 @@
             <i18n>Max connections</i18n>
           </div>
           <div class="action">
-            <input id="maxConns" class="i18n" type="text" placeholder="Default: 30" />
+            <input id="maxConns" class="i18n" type="text" placeholder="Default: 30">
           </div>
         </div>
         <div class="option">
@@ -946,7 +945,7 @@
             <i18n>Magnet timeout (milliseconds)</i18n>
           </div>
           <div class="action">
-            <input id="magnetTimeout" class="i18n" type="text" placeholder="Default: 10000" />
+            <input id="magnetTimeout" class="i18n" type="text" placeholder="Default: 10000">
           </div>
         </div>
         <div id="announceopt" class="option">
@@ -1117,7 +1116,7 @@
 
         <div id="details-sources">
           <div class="query">
-            <input id="query" class="i18n" type="text" placeholder="Search" />
+            <input id="query" class="i18n" type="text" placeholder="Search">
             <div class="search fa fa-search i18n" title="Search" onClick="Search.query()"></div>
           </div>
           <div class="sources row">
@@ -1276,14 +1275,14 @@
             <i18n>Built with:</i18n>
           </h5>
           <div class="icons">
-            <img src="images/about/nodejs.png" title="NodeJS" onClick="Misc.openExternal('http://nodejs.org/')" />
-            <img src="images/about/html.png" title="HTML5" onClick="Misc.openExternal('https://www.w3.org/standards/')" />
+            <img src="images/about/nodejs.png" title="NodeJS" onClick="Misc.openExternal('http://nodejs.org/')">
+            <img src="images/about/html.png" title="HTML5" onClick="Misc.openExternal('https://www.w3.org/standards/')">
           </div>
           <div class="icons icons-2">
-            <img src="images/about/nwjs.png" title="NW.js" onClick="Misc.openExternal('http://nwjs.io/')" />
-            <img src="images/about/mpv.png" title="mpv" onClick="Misc.openExternal('https://mpv.io/')" />
-            <img src="images/about/bootstrap.png" title="Bootstrap" onClick="Misc.openExternal('http://getbootstrap.com/')" />
-            <img src="images/about/jquery.png" title="jQuery" onClick="Misc.openExternal('https://jquery.com/')" />
+            <img src="images/about/nwjs.png" title="NW.js" onClick="Misc.openExternal('http://nwjs.io/')">
+            <img src="images/about/mpv.png" title="mpv" onClick="Misc.openExternal('https://mpv.io/')">
+            <img src="images/about/bootstrap.png" title="Bootstrap" onClick="Misc.openExternal('http://getbootstrap.com/')">
+            <img src="images/about/jquery.png" title="jQuery" onClick="Misc.openExternal('https://jquery.com/')">
           </div>
         </div>
         <div class="services">
@@ -1291,11 +1290,11 @@
             <i18n>Thanks to:</i18n>
           </h5>
           <div class="icons">
-            <img src="images/about/trakt.png" title="Trakt" onClick="Misc.openExternal('https://trakt.tv/')" />
-            <img src="images/about/tmdb.png" title="TheMovieDB" onClick="Misc.openExternal('https://www.themoviedb.org/')" />
-            <img src="images/about/tvdb.png" title="TheTVDB" onClick="Misc.openExternal('https://www.thetvdb.com/subscribe')" />
-            <img src="images/about/fanart.png" title="Fanart.tv" onClick="Misc.openExternal('http://fanart.tv/')" />
-            <img src="images/about/opensubtitles.png" title="OpenSubtitles" onClick="Misc.openExternal('http://opensubtitles.com/')" />
+            <img src="images/about/trakt.png" title="Trakt" onClick="Misc.openExternal('https://trakt.tv/')">
+            <img src="images/about/tmdb.png" title="TheMovieDB" onClick="Misc.openExternal('https://www.themoviedb.org/')">
+            <img src="images/about/tvdb.png" title="TheTVDB" onClick="Misc.openExternal('https://www.thetvdb.com/subscribe')">
+            <img src="images/about/fanart.png" title="Fanart.tv" onClick="Misc.openExternal('http://fanart.tv/')">
+            <img src="images/about/opensubtitles.png" title="OpenSubtitles" onClick="Misc.openExternal('http://opensubtitles.com/')">
           </div>
         </div>
       </div>
@@ -1338,49 +1337,48 @@
     <div id="notification-snack" onClick="$(this).hide()"></div>
   </div>
 
+  <script src="js/vendor/jquery.min.js" type="application/javascript"></script>
+  <script src="js/vendor/jquery-ui.min.js" type="application/javascript"></script>
+  <script src="js/vendor/bootstrap.min.js" type="application/javascript"></script>
+  <script src="js/vendor/chart.js" type="application/javascript"></script>
+
+  <script src="js/config.js" type="application/javascript"></script>
+    
+  <script src="js/utils/cache.js" type="application/javascript"></script>
+  <script src="js/utils/boot.js" type="application/javascript"></script>
+  <script src="js/utils/db.js" type="application/javascript"></script>
+  <script src="js/utils/imgbank.js" type="application/javascript"></script>
+  <script src="js/utils/watchedbank.js" type="application/javascript"></script>
+  <script src="js/utils/keyboard.js" type="application/javascript"></script>
+  <script src="js/utils/localization.js" type="application/javascript"></script>
+  <script src="js/utils/themes.js" type="application/javascript"></script>
+  <script src="js/utils/misc.js" type="application/javascript"></script>
+  <script src="js/utils/notify.js" type="application/javascript"></script>
+  <!-- script src="js/utils/gamepad.js" type="application/javascript"></script-->
+  <script src="js/utils/update.js" type="application/javascript"></script>
+  <script src="js/utils/dragdrop.js" type="application/javascript"></script>
+
+  <script src="js/main/interface.js" type="application/javascript"></script>
+  <script src="js/main/collection.js" type="application/javascript"></script>
+  <script src="js/main/items.js" type="application/javascript"></script>
+  <script src="js/main/details.js" type="application/javascript"></script>
+  <script src="js/main/loading.js" type="application/javascript"></script>
+  <script src="js/main/discover.js" type="application/javascript"></script>
+  <script src="js/main/stats.js" type="application/javascript"></script>
+  <script src="js/main/ratings.js" type="application/javascript"></script>
+
+  <script src="js/lib/trakt.js" type="application/javascript"></script>
+  <script src="js/lib/profiles.js" type="application/javascript"></script>
+  <script src="js/lib/local.js" type="application/javascript"></script>
+  <script src="js/lib/network.js" type="application/javascript"></script>
+  <script src="js/lib/images.js" type="application/javascript"></script>
+  <script src="js/lib/player.js" type="application/javascript"></script>
+  <script src="js/lib/cast.js" type="application/javascript"></script>
+  <script src="js/lib/search.js" type="application/javascript"></script>
+  <script src="js/lib/plugins.js" type="application/javascript"></script>
+  <script src="js/lib/streamer.js" type="application/javascript"></script>
+  <script src="js/lib/subtitles.js" type="application/javascript"></script>
+
+  <script src="js/app.js" type="application/javascript"></script>
 </body>
-
-<script src="js/vendor/jquery.min.js" type="application/javascript"></script>
-<script src="js/vendor/jquery-ui.min.js" type="application/javascript"></script>
-<script src="js/vendor/bootstrap.min.js" type="application/javascript"></script>
-<script src="js/vendor/chart.js" type="application/javascript"></script>
-
-<script src="js/config.js" type="application/javascript"></script>
-  
-<script src="js/utils/cache.js" type="application/javascript"></script>
-<script src="js/utils/boot.js" type="application/javascript"></script>
-<script src="js/utils/db.js" type="application/javascript"></script>
-<script src="js/utils/imgbank.js" type="application/javascript"></script>
-<script src="js/utils/watchedbank.js" type="application/javascript"></script>
-<script src="js/utils/keyboard.js" type="application/javascript"></script>
-<script src="js/utils/localization.js" type="application/javascript"></script>
-<script src="js/utils/themes.js" type="application/javascript"></script>
-<script src="js/utils/misc.js" type="application/javascript"></script>
-<script src="js/utils/notify.js" type="application/javascript"></script>
-<!-- script src="js/utils/gamepad.js" type="application/javascript"></script-->
-<script src="js/utils/update.js" type="application/javascript"></script>
-<script src="js/utils/dragdrop.js" type="application/javascript"></script>
-
-<script src="js/main/interface.js" type="application/javascript"></script>
-<script src="js/main/collection.js" type="application/javascript"></script>
-<script src="js/main/items.js" type="application/javascript"></script>
-<script src="js/main/details.js" type="application/javascript"></script>
-<script src="js/main/loading.js" type="application/javascript"></script>
-<script src="js/main/discover.js" type="application/javascript"></script>
-<script src="js/main/stats.js" type="application/javascript"></script>
-<script src="js/main/ratings.js" type="application/javascript"></script>
-
-<script src="js/lib/trakt.js" type="application/javascript"></script>
-<script src="js/lib/profiles.js" type="application/javascript"></script>
-<script src="js/lib/local.js" type="application/javascript"></script>
-<script src="js/lib/network.js" type="application/javascript"></script>
-<script src="js/lib/images.js" type="application/javascript"></script>
-<script src="js/lib/player.js" type="application/javascript"></script>
-<script src="js/lib/cast.js" type="application/javascript"></script>
-<script src="js/lib/search.js" type="application/javascript"></script>
-<script src="js/lib/plugins.js" type="application/javascript"></script>
-<script src="js/lib/streamer.js" type="application/javascript"></script>
-<script src="js/lib/subtitles.js" type="application/javascript"></script>
-
-<script src="js/app.js" type="application/javascript"></script>
 </html>

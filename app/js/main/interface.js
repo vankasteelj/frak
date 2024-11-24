@@ -517,7 +517,7 @@ const Interface = {
     $('#switchaccount .accounts').html('')
     const profiles = Profiles.list()
     for (const i of profiles) {
-      $('#switchaccount .accounts').append(`<div class="account" onClick="Interface.selectTraktAccount('${i.profile.username}')"><img src="${i.profile.images.avatar.full}"/><div class="accountname">${i.profile.name.split(' ')[0] || i.profile.username}</div></div>`)
+      $('#switchaccount .accounts').append(`<div class="account" onClick="Interface.selectTraktAccount('${i.profile.username}')"><img src="${i.profile.images.avatar.full}"><div class="accountname">${i.profile.name.split(' ')[0] || i.profile.username}</div></div>`)
     }
   },
   addTraktAccount: () => {
