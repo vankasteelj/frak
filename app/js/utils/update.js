@@ -20,7 +20,7 @@ const Update = {
 
     // fetch remote package.json
     const url = PKJSON.updateEndpoint
-    url && https.get(url, (res) => {
+    url && require('https').get(url, (res) => {
       let body = ''
 
       res.on('data', (chunk) => {

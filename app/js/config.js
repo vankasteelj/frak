@@ -6,31 +6,13 @@ const path = require('path')
 const fs = require('fs-extra')
 const zlib = require('zlib')
 const spawn = require('child_process').spawn
-const https = require('https')
 const http = require('http')
 const localforage = require('localforage')
-const url = require('url')
-const dns = require('dns')
-const crypt = require('crypto')
 const i18n = require('i18n')
 const got = require('got')
 const os = require('os')
-const whealth = require('webtorrent-health')
-const { readdirp } = require('readdirp')
-const langs = require('langs')
-const imagedownloader = require('image-downloader')
-
-const Autolaunch = require('auto-launch')
-const Mdata = require('mdata')
-const Localvideolibrary = require('local-video-library')
-const Nodempv2 = require('node-mpv-2')
-const Trakttv = require('trakt.tv')
-const Opensubtitles = require('opensubtitles.com')
-const Webtorrent = require('webtorrent')
-const Dlnacasts = require('dlnacasts3')
 
 const PKJSON = require('../package.json')
-const countryList = require('../app/js/vendor/ISO3166-1.alpha2.json')
 
 // default settings
 const Settings = {

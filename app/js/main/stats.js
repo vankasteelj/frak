@@ -118,7 +118,7 @@ const Stats = {
         }
 
         if (showsStats.countries[i]) {
-          const favcountry = `<li>${countryList[showsStats.countries[i].item.toUpperCase()]} (${Number((showsStats.countries[i].frequency / totcountries) * 100).toFixed()}%)</li>`
+          const favcountry = `<li>${require('../app/js/vendor/ISO3166-1.alpha2.json')[showsStats.countries[i].item.toUpperCase()]} (${Number((showsStats.countries[i].frequency / totcountries) * 100).toFixed()}%)</li>`
           $('#stats #sfunfacts #sfavcountries').append(favcountry)
         }
 

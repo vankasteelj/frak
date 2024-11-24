@@ -1,7 +1,7 @@
 'use strict'
 
 const Subtitles = {
-  client: new (Opensubtitles)({
+  client: new (require('opensubtitles.com'))({
     apikey: Settings.apikeys.opensubtitles,
     useragent: PKJSON.releaseName + ' v' + PKJSON.version
   }),
@@ -21,7 +21,7 @@ const Subtitles = {
       for (const sub of subs.data) {
         // find lang
         const langcode = sub.attributes.language
-        const lang = langs.where('1', langcode)
+        const lang = require('langs').where('1', langcode)
         if (!ordered[langcode]) ordered[langcode] = []
         ordered[langcode].push({
           id: sub.attributes.files[0].file_id,
@@ -92,6 +92,7 @@ const Subtitles = {
     }
   },
   defaultLanguage: () => {
+    const langs = require('langs')
     const available = langs.all()
     const defaultsublocale = DB.sync.get('defaultsublocale')
 
@@ -131,7 +132,7 @@ const Subtitles = {
       return
     }
 
-    dns.setDefaultResultOrder('ipv4first') // force ipv4 use for nodejs (see: https://forum.opensubtitles.org/viewtopic.php?f=8&t=17963)
+    require('dns').setDefaultResultOrder('ipv4first') // force ipv4 use for nodejs (see: https://forum.opensubtitles.org/viewtopic.php?f=8&t=17963)
     Subtitles.client.login({
       username: username,
       password: password

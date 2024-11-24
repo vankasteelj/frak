@@ -407,7 +407,7 @@ const Search = {
     return new Promise(resolve => {
       const _soptions = DB.sync.get('streamer_options')
 
-      whealth(data.magnet, { trackers: _soptions.announce || [] }).then((i) => {
+      require('webtorrent-health')(data.magnet, { trackers: _soptions.announce || [] }).then((i) => {
         data.seeds = i.seeds
         data.peers = i.peers
         resolve(data)
@@ -419,7 +419,7 @@ const Search = {
 
   recalcSize: (data) => {
     return new Promise(resolve => {
-      const wtorrent = new (Webtorrent)()
+      const wtorrent = new (require('webtorrent'))()
       let done
 
       setTimeout(() => {

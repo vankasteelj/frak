@@ -6,7 +6,7 @@ const Cast = {
   scan: () => {
     // DLNA
     console.info('Scanning for DLNA devices...', Cast.players)
-    Cast.dlna = Dlnacasts()
+    Cast.dlna = require('dlnacasts3')()
     Cast.dlna.on('update', player => {
       // console.info('Found DLNA Device: %s at %s', player.name, player.host)
       let exists = false

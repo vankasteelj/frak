@@ -119,7 +119,7 @@ const Player = {
     const binary = p || DB.sync.get('mpv')
     const options = Player.getOptions()
 
-    Player.mpv = new (Nodempv2)({
+    Player.mpv = new (require('node-mpv-2'))({
       binary: binary,
       auto_restart: false,
       time_update: 1,
@@ -177,6 +177,7 @@ const Player = {
     }
 
     // lets go for a search then
+    const { readdirp } = require('readdirp')
     const searchPaths = []
     const addPath = (path) => {
       if (fs.existsSync(path)) {
