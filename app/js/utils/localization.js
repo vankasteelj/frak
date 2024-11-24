@@ -55,6 +55,7 @@ const Localization = {
   // AUTO: translate the HTML based on <i18n> tags and .i18n classes
   localizeApp: () => {
     console.info('Using locale:', i18n.getLocale())
+    document.documentElement.lang = i18n.getLocale()
 
     const t = document.getElementsByTagName('i18n')
     const c = document.getElementsByClassName('i18n')
