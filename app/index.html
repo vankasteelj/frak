@@ -8,6 +8,7 @@
   <!-- splash screen -->
   <script>
     console.time('Application ready')
+    require('v8-compile-cache')
     const gui = require('nw.gui')
     if (gui.App.argv.indexOf('--hidden') === -1 && gui.App.argv.indexOf('--development') === -1) {
       gui.Window.open('app/html/splash.html', {

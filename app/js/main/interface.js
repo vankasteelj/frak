@@ -36,7 +36,6 @@ const Interface = {
     $('#traktwelcome .spinner').show()
 
     setTimeout(() => $('#traktwelcome button').show(), 20000) // display reset if still here after 20sec
-    Interface.buildSwitch()
   },
 
   // AUTO: from welcome page

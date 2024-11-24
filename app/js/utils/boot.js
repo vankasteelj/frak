@@ -9,30 +9,32 @@ const Boot = {
     Boot.checkVisible() // main window
     Themes.setup() // set up theme
     Localization.setupLocalization() // localize
-    Boot.tray() // setup the tray
-    Cache.create() // create tmp dir
-    IB.create() // create ImagesBank folder
-    Plugins.load() // load search plugins
-    Boot.setupSettings() // setup settings popup
-    Boot.setupScreens() // nwjs screen listener
-    Boot.setupInputs() // browse button
-    Keyboard.setupShortcuts() // keyboard shortcuts
-    Player.findMpv() // player
-    Update.check() // update
-    Boot.setupVersion() // version number
-    Boot.online() // check if online
-    Dragdrop.setup() // allow drag&drop
-    Subtitles.opensubReLogin() // opensubtitles login if needed
-    Ratings.setupDropdown() // ratings init
-    Interface.buildSwitch() // switch trakt account screen
+    scheduler.postTask(Boot.tray, {priority: 'background'}) // setup the tray 
+    scheduler.postTask(Cache.create, {priority: 'background'}) // create tmp dir
+    scheduler.postTask(IB.create, {priority: 'background'}) // create ImagesBank folder
+    scheduler.postTask(Plugins.load, {priority: 'background'}) // load search plugins
+    scheduler.postTask(Boot.setupSettings, {priority: 'background'}) // setup settings popup
+    scheduler.postTask(Boot.setupScreens, {priority: 'background'}) // nwjs screen listener
+    scheduler.postTask(Boot.setupInputs, {priority: 'background'}) // browse button
+    scheduler.postTask(Keyboard.setupShortcuts, {priority: 'background'}) // keyboard shortcuts
+    scheduler.postTask(Player.findMpv, {priority: 'background'}) // player
+    scheduler.postTask(Update.check, {priority: 'background'}) // update
+    scheduler.postTask(Boot.setupVersion, {priority: 'background'}) // version number
+    scheduler.postTask(Boot.online, {priority: 'background'}) // check if online
+    scheduler.postTask(Dragdrop.setup, {priority: 'background'}) // allow drag&drop
+    scheduler.postTask(Subtitles.opensubReLogin, {priority: 'background'}) // opensubtitles login if needed
+    scheduler.postTask(Ratings.setupDropdown, {priority: 'background'}) // ratings init
+    scheduler.postTask(Interface.buildSwitch, {priority: 'background'}) // switch trakt account screen
     // Gamepad.init(); // gamepad support
-    Boot.cleanup() // periodically cleanup
-    Boot.idle() // periodically update
+    scheduler.postTask(Boot.cleanup, {priority: 'background'}) // periodically cleanup
+    scheduler.postTask(Boot.idle, {priority: 'background'}) // periodically update
 
     // right clicks
-    document.addEventListener('contextmenu', (e) => e.preventDefault())
-    Interface.rightClickNav()
-    Boot.setupRightClicks('input[type=text], textarea')
+    scheduler.postTask(() => {
+      document.addEventListener('contextmenu', (e) => e.preventDefault())
+      Interface.rightClickNav()
+      Boot.setupRightClicks('input[type=text], textarea')
+    }, {priority: 'background'})
   },
 
   // STARTUP: setup network connexion
@@ -254,7 +256,7 @@ const Boot = {
     // allow DLNA search
     if (DB.sync.get('dlnacasting')) {
       document.querySelector('#allow_dlnacasting').checked = true
-      Cast.scan()
+      scheduler.postTask(Cast.scan, {priority: 'background'})
     }
 
     // allow direct playback feature on local network
@@ -321,10 +323,14 @@ const Boot = {
     }
 
     // size of image cache
-    IB.calcSize().then(s => $('#imagecachesize').text(s)).catch(console.log)
+    scheduler.postTask(() => {
+      IB.calcSize().then(s => $('#imagecachesize').text(s)).catch(console.log)
+    }, {priority: 'background'})
 
     // size of video cache
-    Cache.calcSize().then(s => $('#videocachesize').text(s)).catch(console.log)
+    scheduler.postTask(() => {
+      Cache.calcSize().then(s => $('#videocachesize').text(s)).catch(console.log)
+    }, {priority: 'background'})
   },
 
   setupInputs: () => {

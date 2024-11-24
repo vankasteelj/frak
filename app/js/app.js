@@ -4,15 +4,15 @@ console.info('Opening app...')
 
 // setup window's content and start the app
 try {
-  // Set up everything
-  Boot.load()
-  Trakt.reconnect()
-
   // if started with gulp, open devtools
   if (gui.App.argv.indexOf('--development') !== -1) {
     console.debug('Running in development')
     win.showDevTools()
   }
+  
+  // Set up everything
+  Boot.load()
+  Trakt.reconnect()
 
   if (gui.App.argv.indexOf('--bp') !== -1) {
     Interface.bigPicture(true)
