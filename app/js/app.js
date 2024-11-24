@@ -19,11 +19,11 @@ try {
   }
 
   requestIdleCallback(() => {
+    console.timeEnd('Application ready')
     if (gui.App.argv.indexOf('--hidden') === -1) {
       win.show(true)
       Interface.focus(true)
     }
-    console.timeEnd('Application ready')
     if (nw.global.splashScreen) {
       nw.global.splashScreen.close(true)
     }
