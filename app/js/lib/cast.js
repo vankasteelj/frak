@@ -43,9 +43,31 @@ const Cast = {
           title: title,
           dlnaFeatures: 'DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01100000000000000000000000000000',
           seek: '0',
-          autoSubtitles: true
+          autoSubtitles: false
         }
-        if (subtitle) media.subtitle = [subtitle]
+
+        if (subtitle) {
+          const port = 8000
+          const subtitlesUrl = 'http://' + DB.sync.get('localip') + ':' + port + '/dlnacaptions.srt'
+          
+          //build srt server
+          Cast.subtitleServer = http.createServer((req, res) => {
+            res.writeHead(200, {
+              'Content-type': 'text/srt',
+              'Access-Control-Allow-Origin': '*',
+              'transferMode.dlna.org': 'Streaming',
+              'contentFeatures.dlna.org': 'DLNA.ORG_OP=01;DLNA.ORG_CI=0;DLNA.ORG_FLAGS=01700000000000000000000000000000',
+              'CaptionInfo.sec': subtitlesUrl
+            })
+            fs.createReadStream(subtitle).pipe(res)
+          })
+
+          //serve srt
+          Cast.subtitleServer.listen(port)
+          media.subtitle = [subtitlesUrl]
+        }
+
+        console.debug('Casting %s to %s (sub: %s)', media.title, player.name, (media.subtitle || 'none'))
         player.play(url, media, (err, status) => {
           if (err) {
             Cast.activePlayer = undefined
@@ -80,6 +102,10 @@ const Cast = {
       Cast.activePlayer.stop()
       Cast.activePlayer = undefined
       Details.closeKeepWatchingPopup()
+    }
+    if (Cast.subtitleServer) {
+      Cast.subtitleServer.close()
+      Cast.subtitleServer = null
     }
   }
 }
