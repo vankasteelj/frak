@@ -62,12 +62,12 @@ const Items = {
                 '</div>' +
                 '<div class="quick-icons">' +
                     '<div class="actions">' +
-                        `<div class="watched trakt-icon-check-thick i18n" title="${i18n.__('Mark as watched')}" onClick="Items.markAsWatched(this)"></div>` +
-                        (movie.movie.trailer ? `<div class="trailer fa fa-youtube-play i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>` : '') +
-                        `<div class="play trakt-icon-play2-thick i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.movie(this)"></div>` +
+                        `<div class="watched trakt-icon-check-thick" title="${i18n.__('Mark as watched')}" onClick="Items.markAsWatched(this)"></div>` +
+                        (movie.movie.trailer ? `<div class="trailer fa fa-youtube-play" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>` : '') +
+                        `<div class="play trakt-icon-play2-thick" title="${i18n.__('Play now')}" onClick="Details.trakt.movie(this)"></div>` +
                     '</div>' +
                     '<div class="metadata">' +
-                        `<div class="percentage i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
+                        `<div class="percentage" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
                         '<div class="fa fa-heart"></div>' +
                         `${d.rating}&nbsp%` +
                     '</div>' +
@@ -134,7 +134,7 @@ const Items = {
                     '<div class="titles">' +
                         '<h4>' +
                             `<span class="sxe">${d.sxe}</span>` +
-                            `<span class="unseen i18n" title="${i18n.__('This episode and %s other(s) left to watch', show.unseen - 1)}">+${show.unseen - 1}</span>` +
+                            `<span class="unseen" title="${i18n.__('This episode and %s other(s) left to watch', show.unseen - 1)}">+${show.unseen - 1}</span>` +
                             `<span class="ep-title">${show.next_episode.title || ''}</span>` +
                         '</h4><br>' +
                         `<h3>${show.show.title}<span class="year">${show.show.year || ''}</span></h3>` +
@@ -142,12 +142,12 @@ const Items = {
                 '</div>' +
                 '<div class="quick-icons">' +
                     '<div class="actions">' +
-                        `<div class="watched trakt-icon-check-thick i18n" title="${i18n.__('Mark as watched')}" onClick="Items.markAsWatched(this)"></div>` +
-                        (show.show.trailer ? `<div class="trailer fa fa-youtube-play i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${show.show.trailer}')"></div>` : '') +
-                        `<div class="play trakt-icon-play2-thick i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.episode(this)"></div>` +
+                        `<div class="watched trakt-icon-check-thick" title="${i18n.__('Mark as watched')}" onClick="Items.markAsWatched(this)"></div>` +
+                        (show.show.trailer ? `<div class="trailer fa fa-youtube-play" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${show.show.trailer}')"></div>` : '') +
+                        `<div class="play trakt-icon-play2-thick" title="${i18n.__('Play now')}" onClick="Details.trakt.episode(this)"></div>` +
                     '</div>' +
                     '<div class="metadata">' +
-                        `<div class="percentage i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
+                        `<div class="percentage" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
                         '<div class="fa fa-heart"></div>' +
                         `${d.rating}&nbsp;%` +
                     '</div>' +
@@ -223,12 +223,12 @@ const Items = {
                 '</div>' +
                 '<div class="quick-icons">' +
                     '<div class="actions">' +
-                        `<div class="remove fa fa-times-circle i18n" title="${i18n.__('Remove from custom list')}" onClick="Items.removeFromCustom(this)"></div>` +
-                        (movie.movie.trailer ? `<div class="trailer fa fa-youtube-play i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>` : '') +
-                        `<div class="play trakt-icon-play2-thick i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.movie(this, 'custom')"></div>` +
+                        `<div class="remove fa fa-times-circle" title="${i18n.__('Remove from custom list')}" onClick="Items.removeFromCustom(this)"></div>` +
+                        (movie.movie.trailer ? `<div class="trailer fa fa-youtube-play" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>` : '') +
+                        `<div class="play trakt-icon-play2-thick" title="${i18n.__('Play now')}" onClick="Details.trakt.movie(this, 'custom')"></div>` +
                     '</div>' +
                     '<div class="metadata">' +
-                        `<div class="percentage i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
+                        `<div class="percentage" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
                         '<div class="fa fa-heart"></div>' +
                         `${d.rating}&nbsp%` +
                     '</div>' +
@@ -299,12 +299,12 @@ const Items = {
                 '</div>' +
                 '<div class="quick-icons">' +
                     '<div class="actions">' +
-                        `<div class="remove fa fa-times-circle i18n" title="${i18n.__('Remove from custom list')}" onClick="Items.removeFromCustom(this)"></div>` +
-                        (show.show.trailer ? `<div class="trailer fa fa-youtube-play i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${show.show.trailer}')"></div>` : '') +
-                        `<div class="play trakt-icon-play2-thick i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.episode(this, 'custom')"></div>` +
+                        `<div class="remove fa fa-times-circle" title="${i18n.__('Remove from custom list')}" onClick="Items.removeFromCustom(this)"></div>` +
+                        (show.show.trailer ? `<div class="trailer fa fa-youtube-play" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${show.show.trailer}')"></div>` : '') +
+                        `<div class="play trakt-icon-play2-thick" title="${i18n.__('Play now')}" onClick="Details.trakt.episode(this, 'custom')"></div>` +
                     '</div>' +
                     '<div class="metadata">' +
-                        `<div class="percentage i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
+                        `<div class="percentage" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
                         '<div class="fa fa-heart"></div>' +
                         `${d.rating}&nbsp;%` +
                     '</div>' +
@@ -469,10 +469,10 @@ const Items = {
                 '</div>' +
                 '<div class="quick-icons">' +
                     '<div class="actions">' +
-                        `<div class="watched trakt-icon-check-thick i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched(this)"></div>` +
+                        `<div class="watched trakt-icon-check-thick selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched(this)"></div>` +
                     '</div>' +
                     '<div class="metadata">' +
-                        `<div class="percentage i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.watchedId}')">` +
+                        `<div class="percentage" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.watchedId}')">` +
                         '<div class="fa fa-heart"></div>' +
                             `${d.rating}&nbsp;%` +
                         '</div>' +
@@ -519,10 +519,10 @@ const Items = {
                 '</div>' +
                 '<div class="quick-icons">' +
                     '<div class="actions">' +
-                        `<div class="watched trakt-icon-check-thick i18n selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched(this)"></div>` +
+                        `<div class="watched trakt-icon-check-thick selected" title="${i18n.__('Mark as unwatched')}" onClick="Items.markAsUnWatched(this)"></div>` +
                     '</div>' +
                     '<div class="metadata">' +
-                        `<div class="percentage i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.watchedId}')">` +
+                        `<div class="percentage" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.watchedId}')">` +
                             '<div class="fa fa-heart"></div>' +
                             `${d.rating}&nbsp;%` +
                         '</div>' +
@@ -583,7 +583,7 @@ const Items = {
                 '</div>' +
                 '<div class="quick-icons">' +
                     '<div class="metadata">' +
-                        `<div class="percentage i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.ratedId}')">` +
+                        `<div class="percentage" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.ratedId}')">` +
                         '<div class="fa fa-heart"></div>' +
                             `${d.rating}&nbsp;%` +
                         '</div>' +
@@ -681,12 +681,12 @@ const Items = {
                   '</div>' +
                   '<div class="quick-icons">' +
                       '<div class="actions">' +
-                          `<div class="watchlist trakt-icon-list-thick i18n" title="${i18n.__('Add to watchlist')}" onClick="Discover.addToWatchlist(this)"></div>` +
-                          (show.show.trailer ? `<div class="trailer fa fa-youtube-play i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${show.show.trailer}')"></div>` : '') +
-                          `<div class="play trakt-icon-play2-thick i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.episode(this, 'discover')"></div>` +
+                          `<div class="watchlist trakt-icon-list-thick" title="${i18n.__('Add to watchlist')}" onClick="Discover.addToWatchlist(this)"></div>` +
+                          (show.show.trailer ? `<div class="trailer fa fa-youtube-play" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${show.show.trailer}')"></div>` : '') +
+                          `<div class="play trakt-icon-play2-thick" title="${i18n.__('Play now')}" onClick="Details.trakt.episode(this, 'discover')"></div>` +
                       '</div>' +
                       '<div class="metadata">' +
-                          `<div class="percentage i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
+                          `<div class="percentage" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
                           '<div class="fa fa-heart"></div>' +
                           `${d.rating}&nbsp;%` +
                       '</div>' +
@@ -700,7 +700,7 @@ const Items = {
       }).then(img => {
         img && $(`#discover #${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#discover  #${d.id} .fanart img`).css('opacity', '0')
         !d.key && $(`#discover #${d.id} .ep-title`).hide()
-        d.watchlisted && $(`#discover #${d.id} .watchlist`)[0] && ($(`#discover #${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick i18n selected"></div>')
+        d.watchlisted && $(`#discover #${d.id} .watchlist`)[0] && ($(`#discover #${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick selected"></div>')
         d.watched && $(`#discover #${d.id} .fanart`).addClass('watched')
 
         // right click menu
@@ -764,12 +764,12 @@ const Items = {
                   '</div>' +
                   '<div class="quick-icons">' +
                       '<div class="actions">' +
-                          `<div class="watchlist trakt-icon-list-thick i18n" title="${i18n.__('Add to watchlist')}" onClick="Discover.addToWatchlist(this)"></div>` +
-                          (movie.movie.trailer ? `<div class="trailer fa fa-youtube-play i18n" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>` : '') +
-                          `<div class="play trakt-icon-play2-thick i18n" title="${i18n.__('Play now')}" onClick="Details.trakt.movie(this, 'discover')"></div>` +
+                          `<div class="watchlist trakt-icon-list-thick" title="${i18n.__('Add to watchlist')}" onClick="Discover.addToWatchlist(this)"></div>` +
+                          (movie.movie.trailer ? `<div class="trailer fa fa-youtube-play" title="${i18n.__('Watch trailer')}" onClick="Interface.playTrailer('${movie.movie.trailer}')"></div>` : '') +
+                          `<div class="play trakt-icon-play2-thick" title="${i18n.__('Play now')}" onClick="Details.trakt.movie(this, 'discover')"></div>` +
                       '</div>' +
                       '<div class="metadata">' +
-                          `<div class="percentage i18n" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
+                          `<div class="percentage" title="${i18n.__('Rate this')}" onClick="Items.rate('${d.id}')">` +
                           '<div class="fa fa-heart"></div>' +
                           `${d.rating}&nbsp;%` +
                       '</div>' +
@@ -783,7 +783,7 @@ const Items = {
       }).then(img => {
         img && $(`#discover #${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#discover #${d.id} .fanart img`).css('opacity', '0')
         !d.key && $(`#discover #${d.id} .ep-title`).hide()
-        d.watchlisted && $(`#discover #${d.id} .watchlist`)[0] && ($(`#discover #${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick i18n selected"></div>')
+        d.watchlisted && $(`#discover #${d.id} .watchlist`)[0] && ($(`#discover #${d.id} .watchlist`)[0].outerHTML = '<div class="watchlist trakt-icon-list-thick selected"></div>')
         d.watched && $(`#discover #${d.id} .fanart`).addClass('watched')
 
         // right click menu
