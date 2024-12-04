@@ -4,35 +4,37 @@ const Boot = {
 
   // STARTUP: load app: ui,settings,features
   preload: () => {
-    Misc.events = new (require('node:events'))() // set up events
-
     Boot.checkVisible() // main window
     Themes.setup() // set up theme
     Localization.setupLocalization() // localize
+    Boot.online() // check if online
+    Boot.startScreen() // what view to load first
+    Misc.events = new (require('node:events'))() // set up events
     scheduler.postTask(Boot.tray, {priority: 'background'}) // setup the tray 
     scheduler.postTask(Cache.create, {priority: 'background'}) // create tmp dir
     scheduler.postTask(IB.create, {priority: 'background'}) // create ImagesBank folder
     scheduler.postTask(Player.findMpv, {priority: 'background'}) // player
-    scheduler.postTask(Boot.setupVersion, {priority: 'background'}) // version number
-    scheduler.postTask(Boot.online, {priority: 'background'}) // check if online
     scheduler.postTask(Interface.buildSwitch, {priority: 'background'}) // switch trakt account screen
-    // Gamepad.init(); // gamepad support
+    document.addEventListener('contextmenu', (e) => e.preventDefault()) // remove default right clicks
   },
   postload: () => {
-    scheduler.postTask(Boot.setupScreens, {priority: 'background'}) // nwjs screen listener
     scheduler.postTask(Plugins.load, {priority: 'background'}) // load search plugins
     scheduler.postTask(Boot.setupSettings, {priority: 'background'}) // setup settings popup
     scheduler.postTask(Boot.setupInputs, {priority: 'background'}) // browse button
     scheduler.postTask(Keyboard.setupShortcuts, {priority: 'background'}) // keyboard shortcuts
+    // Gamepad.init(); // gamepad support - needs work
+    scheduler.postTask(Boot.setupScreens, {priority: 'background'}) // nwjs screen listener
     scheduler.postTask(Update.check, {priority: 'background'}) // update
     scheduler.postTask(Dragdrop.setup, {priority: 'background'}) // allow drag&drop
     scheduler.postTask(Subtitles.opensubReLogin, {priority: 'background'}) // opensubtitles login if needed
     scheduler.postTask(Ratings.setupDropdown, {priority: 'background'}) // ratings init
+    scheduler.postTask(Boot.setupVersion, {priority: 'background'}) // version number
+
+    // periodical tasks
     scheduler.postTask(Boot.cleanup, {priority: 'background'}) // periodically cleanup
     scheduler.postTask(Boot.idle, {priority: 'background'}) // periodically update
-    
+
     // right clicks
-    document.addEventListener('contextmenu', (e) => e.preventDefault())
     scheduler.postTask(Interface.rightClickNav, {priority: 'background'})
     scheduler.postTask(() => Boot.setupRightClicks('input[type=text], textarea'), {priority: 'background'})
   },
@@ -191,9 +193,6 @@ const Boot = {
 
     // search paths for locals
     Local.setupPaths()
-
-    // what view to load first
-    Boot.startScreen()
 
     // prepare for default details page
     Details.default = $('#details').html()
