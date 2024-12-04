@@ -11,7 +11,7 @@ try {
   }
   
   // Set up everything
-  Boot.load()
+  Boot.preload()
   Trakt.reconnect()
 
   if (gui.App.argv.indexOf('--bp') !== -1) {
@@ -20,6 +20,7 @@ try {
 
   requestIdleCallback(() => {
     console.timeEnd('Application ready')
+    Boot.postload()
     if (gui.App.argv.indexOf('--hidden') === -1) {
       win.show(true)
       Interface.focus(true)

@@ -3,7 +3,7 @@
 const Boot = {
 
   // STARTUP: load app: ui,settings,features
-  load: () => {
+  preload: () => {
     Misc.events = new (require('node:events'))() // set up events
 
     Boot.checkVisible() // main window
@@ -12,23 +12,25 @@ const Boot = {
     scheduler.postTask(Boot.tray, {priority: 'background'}) // setup the tray 
     scheduler.postTask(Cache.create, {priority: 'background'}) // create tmp dir
     scheduler.postTask(IB.create, {priority: 'background'}) // create ImagesBank folder
-    scheduler.postTask(Plugins.load, {priority: 'background'}) // load search plugins
-    scheduler.postTask(Boot.setupSettings, {priority: 'background'}) // setup settings popup
-    scheduler.postTask(Boot.setupScreens, {priority: 'background'}) // nwjs screen listener
-    scheduler.postTask(Boot.setupInputs, {priority: 'background'}) // browse button
-    scheduler.postTask(Keyboard.setupShortcuts, {priority: 'background'}) // keyboard shortcuts
     scheduler.postTask(Player.findMpv, {priority: 'background'}) // player
-    scheduler.postTask(Update.check, {priority: 'background'}) // update
     scheduler.postTask(Boot.setupVersion, {priority: 'background'}) // version number
     scheduler.postTask(Boot.online, {priority: 'background'}) // check if online
+    scheduler.postTask(Interface.buildSwitch, {priority: 'background'}) // switch trakt account screen
+    // Gamepad.init(); // gamepad support
+  },
+  postload: () => {
+    scheduler.postTask(Boot.setupScreens, {priority: 'background'}) // nwjs screen listener
+    scheduler.postTask(Plugins.load, {priority: 'background'}) // load search plugins
+    scheduler.postTask(Boot.setupSettings, {priority: 'background'}) // setup settings popup
+    scheduler.postTask(Boot.setupInputs, {priority: 'background'}) // browse button
+    scheduler.postTask(Keyboard.setupShortcuts, {priority: 'background'}) // keyboard shortcuts
+    scheduler.postTask(Update.check, {priority: 'background'}) // update
     scheduler.postTask(Dragdrop.setup, {priority: 'background'}) // allow drag&drop
     scheduler.postTask(Subtitles.opensubReLogin, {priority: 'background'}) // opensubtitles login if needed
     scheduler.postTask(Ratings.setupDropdown, {priority: 'background'}) // ratings init
-    scheduler.postTask(Interface.buildSwitch, {priority: 'background'}) // switch trakt account screen
-    // Gamepad.init(); // gamepad support
     scheduler.postTask(Boot.cleanup, {priority: 'background'}) // periodically cleanup
     scheduler.postTask(Boot.idle, {priority: 'background'}) // periodically update
-
+    
     // right clicks
     document.addEventListener('contextmenu', (e) => e.preventDefault())
     scheduler.postTask(Interface.rightClickNav, {priority: 'background'})
