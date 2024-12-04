@@ -368,5 +368,8 @@
 	"Also present in watchlist": "Also present in watchlist",
 	"Show": "Show",
 	"Remove from custom list": "Remove from custom list",
-	"Movie": "Movie"
+	"Movie": "Movie",
+	"DLNA casting": "DLNA casting",
+	"flax": "flax",
+	"Cast to DLNA devices on your local network": "Cast to DLNA devices on your local network"
 }
