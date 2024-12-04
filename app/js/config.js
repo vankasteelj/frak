@@ -30,13 +30,13 @@ const Settings = {
     multimonitor: false,
     monitor: 1
   },
-  apikeys: JSON.parse(atob('eyJ0cmFrdF9pZCI6ImY3YjY1MjhhYzhiY2IzNjc0MjJhZWU1MWNlYjkwZDg2ZDdlMzcyYz' +
-    'MyNzljMDQ1NGIyYTk2ZTEzZGQzYTc1NDIiLCJ0cmFrdF9zZWNyZXQiOiI5MTY3NWM2M2Nj' +
-    'NzljOTRkYzE1NzliNTExMjVjMmQwYjA5NTQ5MDFjMmFjZTA0ODNlZDQzN2Q1NDBjMjg2OW' + 
-    'ZhIiwiZmFuYXJ0IjoiMjVkNjAwNzVjYjVmNTk4Mjg0ZjU1OGRjZmYzNThkNzQiLCJ0bWRi' +
-    'IjoiMjcwNzUyODJlMzllZWE3NmJkOTYyNmVlNWQzZTc2N2IiLCJvcGVuc3VidGl0bGVzIj' +
-    'oibkM0UTJjRHRoR3hpWTVWR0xkTE9Nbkk2RlJkNzlBOVUiLCJvbWRiIjoiYjI3Y2FlN2Mi' +
-    'LCJ0dmRiIjoiYTlkYWQ0ODItMjhmYi00ZTRjLTg1YTgtNGY2MjExZmM2YmMzIn0='
+  apikeys: JSON.parse(atob('eyJ0cmFrdF9pZCI6ImY3YjY1MjhhYzhiY2IzNjc0MjJhZWU1M' + 
+    'WNlYjkwZDg2ZDdlMzcyYzMyNzljMDQ1NGIyYTk2ZTEzZGQzYTc1NDIiLCJ0cmFrdF9zZWNyZ' + 
+    'XQiOiI5MTY3NWM2M2NjNzljOTRkYzE1NzliNTExMjVjMmQwYjA5NTQ5MDFjMmFjZTA0ODNlZ' + 
+    'DQzN2Q1NDBjMjg2OWZhIiwiZmFuYXJ0IjoiMjVkNjAwNzVjYjVmNTk4Mjg0ZjU1OGRjZmYzN' + 
+    'ThkNzQiLCJ0bWRiIjoiMjcwNzUyODJlMzllZWE3NmJkOTYyNmVlNWQzZTc2N2IiLCJvcGVuc' + 
+    '3VidGl0bGVzIjoibXFmSEJKeWtPU0w1VVBsSDA4MWtKeTJTdWlxcUNrU1QiLCJvbWRiIjoiY' + 
+    'jI3Y2FlN2MiLCJ0dmRiIjoiYTlkYWQ0ODItMjhmYi00ZTRjLTg1YTgtNGY2MjExZmM2YmMzIn0='
   )),
   streamer: {
     magnetTimeout: 15000,
