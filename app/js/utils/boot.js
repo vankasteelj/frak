@@ -178,7 +178,6 @@ const Boot = {
 
   // STARTUP: set up version number and repository link
   setupVersion: () => {
-    console.info('Running app version', PKJSON.version)
     $('#about .version').text(PKJSON.version)
     $('#about .repolink').on('click', () => {
       Misc.openExternal(PKJSON.homepage)
@@ -271,11 +270,9 @@ const Boot = {
     // use the "Custom" feature
     if (DB.sync.get('use_customs')) {
       document.querySelector('#customs-feature').checked = true
-      $('#navbar .customs').show()
     }
     if (DB.sync.get('customs_name')) {
       const name = DB.sync.get('customs_name')
-      $('#navbar .customs .text').text(name)
       document.querySelector('#customs-name').value = name
     }
     if (DB.sync.get('customs_url')) {
@@ -503,6 +500,13 @@ const Boot = {
       const selected = $setting.val()
       DB.sync.store(selected, 'startscreen')
     })
+
+    // custom list
+    if (DB.sync.get('use_customs')) {
+      $('#navbar .customs').show()
+      const name = DB.sync.get('customs_name')
+      name && $('#navbar .customs .text').text(name)
+    }
   },
 
   tray: () => {

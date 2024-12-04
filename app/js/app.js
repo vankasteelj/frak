@@ -1,6 +1,6 @@
 'use strict'
 
-console.info('Opening app...')
+console.info('Running app version', PKJSON.version)
 
 // setup window's content and start the app
 try {
