@@ -67,6 +67,7 @@ const onOpenApp = () => {
 onOpenApp()
 
 win.on('close', () => {
+  try {Subtitles.client.logout()} catch(e) {}
   Cache.delete()
   win.tray.remove()
   nw.global.playerPopup && nw.global.playerPopup.close(true)

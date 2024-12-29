@@ -122,7 +122,7 @@ const Subtitles = {
       Player.setMPV()
     })
   },
-  opensubLogin: (username, password) => {
+  opensubLogin: (username, password, retry = false) => {
     if (!username) username = $('#opensub_login').val()
     if (!password) password = $('#opensub_password').val()
 
@@ -132,7 +132,6 @@ const Subtitles = {
       return
     }
 
-    require('dns').setDefaultResultOrder('ipv4first') // force ipv4 use for nodejs (see: https://forum.opensubtitles.org/viewtopic.php?f=8&t=17963)
     Subtitles.client.login({
       username: username,
       password: password
@@ -142,7 +141,22 @@ const Subtitles = {
       Subtitles.opensubLogged(username, res)
     }).catch((err) => {
       console.error('Opensubtitles.com login error', err)
-      Notify.snack((err.message === '401 Unauthorized') ? i18n.__('Wrong username or password') : (err.message || err))
+      if (err.message && err.message.match('429')) {
+        if (retry) {
+          DB.sync.store(username, 'os_username')
+          $('#opensub_login').val(username)
+          DB.sync.store(password, 'os_password')
+          $('#opensub_password').val(password)
+          Notify.snack(err.message || err)
+        } else {
+          console.log('Opensubtitles.com login... Retrying in 10 seconds')
+          setTimeout(() => {
+            Subtitles.opensubLogin(username, password, true)
+          }, 10000)
+        }
+      } else {
+        Notify.snack((err.message === '401 Unauthorized') ? i18n.__('Wrong username or password') : (err.message || err))
+      }
     })
   },
   opensubLogged: (username, res) => {
