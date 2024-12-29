@@ -484,7 +484,7 @@ const Boot = {
     }
 
     $('#discover .disc-search input').on('keypress', (e) => {
-      if (e.which === 13) $('#discover .disc-search .search').trigger('click')
+      if (e.which === 13) $('#discover .disc-search .search').click()
     })
   },
 

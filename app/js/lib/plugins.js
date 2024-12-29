@@ -91,7 +91,7 @@ const Plugins = {
     })
 
     if (plugin.default) {
-      $(`#${id}`).trigger('click')
+      $(`#${id}`).click()
     }
   },
   test: () => {

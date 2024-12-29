@@ -18,11 +18,11 @@ const Keyboard = {
     document.addEventListener('keydown', (key) => {
       if (key.key === 'Escape') { // escape
         if ($('#details').is(':visible')) {
-          $('#details-back').trigger('click')
+          $('#details-back').click()
         } else if ($('#locals').is(':visible')) {
-          $('.locals').trigger('click')
+          $('.locals').click()
         } else if ($('#settings').is(':visible')) {
-          $(`.${DB.sync.get('last_tab')}`).trigger('click')
+          $(`.${DB.sync.get('last_tab')}`).click()
         } else if ($('#trailer').is(':visible')) {
           Interface.closeTrailer()
         } else if ($('#about').is(':visible')) {
@@ -51,7 +51,7 @@ const Keyboard = {
           if (next > tabs.length - 1) next = 0
         }
 
-        $(`.${tabs[next]}`).trigger('click')
+        $(`.${tabs[next]}`).click()
       } else if (key.key === 'F5') {
         Trakt.reload()
       } else if (key.key === 'F10') {

@@ -145,9 +145,9 @@ const Details = {
 
       $('#query').val(keywords)
       $('#query').on('keypress', (e) => {
-        if (e.which === 13) $('#details-sources .query .search').trigger('click')
+        if (e.which === 13) $('#details-sources .query .search').click()
       })
-      $('#details-sources .query .search').trigger('click')
+      $('#details-sources .query .search').click()
       $('#details-sources .query').show()
     }
 
@@ -164,10 +164,10 @@ const Details = {
     if (Details.previous.id) {
       const nav = $('#navbar .nav.active').attr('class')
       $('#playing').show().off('click').on('click', () => {
-        if (Details.from !== 'discover') $(`#navbar .${nav.split(' ')[1]}`).trigger('click')
+        if (Details.from !== 'discover') $(`#navbar .${nav.split(' ')[1]}`).click()
 
-        $(`#${Details.previous.id}`).trigger('click')
-        $(`#${Details.previous.id} .play`).trigger('click')
+        $(`#${Details.previous.id}`).click()
+        $(`#${Details.previous.id} .play`).click()
       })
     }
 
@@ -436,7 +436,7 @@ const Details = {
 
     $('#playnext').on('click', () => {
       Details.closeDetails()
-      $nextEpisode.find('.play').trigger('click')
+      $nextEpisode.find('.play').click()
     })
   },
 
@@ -485,7 +485,7 @@ const Details = {
 
         $('#playnext').on('click', () => {
           Details.closeDetails()
-          $nextEpisode.trigger('click')
+          $nextEpisode.click()
         })
       }
     })
