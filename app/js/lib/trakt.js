@@ -406,7 +406,8 @@ const Trakt = {
       console.log('Custom List check:', res)
       return {
         username: username,
-        id: id
+        id: id,
+        name: res.name
       }
     })
   },

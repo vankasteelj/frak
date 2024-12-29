@@ -428,6 +428,9 @@ const Boot = {
       Trakt.checkCustomUrl(customUrl).then((obj) => {
         DB.sync.store(customUrl, 'customs_url')
         DB.sync.store(obj, 'customs_params')
+        console.log('Custom List name changed to %s', obj.name)
+        DB.sync.store(obj.name, 'customs_name')
+        $('#navbar .customs .text').text(obj.name)
         Notify.snack(i18n.__('It\'s done'), 5000)
         return Collection.get.traktcustoms(false)
       }).then(() => {
