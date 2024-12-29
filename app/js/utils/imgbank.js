@@ -131,13 +131,21 @@ const IB = {
       return IB._save(db)
     })
   },
-  download: (uri, filename) => {
+  download: (uri, filename, retry = false) => {
     require('image-downloader').image({
       url: uri,
       dest: filename,
       extractFilename: false
     }).then(() => {
       IB.calcSize().then(s => $('#imagecachesize').text(s)).catch(console.log)
-    }).catch((err) => console.error(err))
+    }).catch((err) => {
+      console.error('IB.download', uri, err)
+
+      // retry in 30s
+      if (retry) return
+      setTimeout(() => {
+        IB.download(uri, filename, true)
+      }, 30000)
+    })
   }
 }
