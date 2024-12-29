@@ -13,11 +13,11 @@ const Boot = {
     scheduler.postTask(Boot.tray, {priority: 'background'}) // setup the tray 
     scheduler.postTask(Cache.create, {priority: 'background'}) // create tmp dir
     scheduler.postTask(IB.create, {priority: 'background'}) // create ImagesBank folder
-    scheduler.postTask(Player.findMpv, {priority: 'background'}) // player
     scheduler.postTask(Interface.buildSwitch, {priority: 'background'}) // switch trakt account screen
     document.addEventListener('contextmenu', (e) => e.preventDefault()) // remove default right clicks
   },
   postload: () => {
+    scheduler.postTask(Player.findMpv, {priority: 'background'}) // player
     scheduler.postTask(Plugins.load, {priority: 'background'}) // load search plugins
     scheduler.postTask(Boot.setupSettings, {priority: 'background'}) // setup settings popup
     scheduler.postTask(Boot.setupInputs, {priority: 'background'}) // browse button
