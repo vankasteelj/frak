@@ -57,12 +57,14 @@ const Keyboard = {
       } else if (key.key === 'F10') {
         console.info('Opening cache folder', Cache.dir)
         Misc.openExternal(Cache.dir)
-      } else if (key.key.match(/[a-z]/i)) {
+      } else {
         // local list jump
-        if ($('#locals').is(':visible')) {
-          if ($('#locals > .movies').is(':visible')) Keyboard.findInLocals('movies', key.key)
-          if ($('#locals > .shows').is(':visible')) Keyboard.findInLocals('shows', key.key)
-          if ($('#locals > .unmatched').is(':visible')) Keyboard.findInLocals('unmatched', key.key)
+        if (key.key && key.key.match(/[a-z]/i)) {
+          if ($('#locals').is(':visible')) {
+            if ($('#locals > .movies').is(':visible')) Keyboard.findInLocals('movies', key.key)
+            if ($('#locals > .shows').is(':visible')) Keyboard.findInLocals('shows', key.key)
+            if ($('#locals > .unmatched').is(':visible')) Keyboard.findInLocals('unmatched', key.key)
+          }
         }
       }
     })
