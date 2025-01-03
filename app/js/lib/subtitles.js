@@ -149,10 +149,10 @@ const Subtitles = {
           $('#opensub_password').val(password)
           Notify.snack(err.message || err)
         } else {
-          console.log('Opensubtitles.com login... Retrying in 10 seconds')
+          console.log('Opensubtitles.com login... Retrying in 60 seconds')
           setTimeout(() => {
             Subtitles.opensubLogin(username, password, true)
-          }, 10000)
+          }, 60000)
         }
       } else {
         Notify.snack((err.message === '401 Unauthorized') ? i18n.__('Wrong username or password') : (err.message || err))
