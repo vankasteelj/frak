@@ -434,7 +434,7 @@ const Interface = {
 
   bigPictureScale: {
     1: {
-      zoomLevel: 4,
+      zoomLevel: 3.5,
       osc: 1.5
     },
     1.25: {
