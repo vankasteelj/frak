@@ -135,8 +135,6 @@ const Collection = {
           $('#collection #locals .waitforlibrary .notfound').hide()
           $('#collection #locals .waitforlibrary .scanning').show()
         } else {
-          Collection.format.locals(collection)
-          Network.init()
           $('#locals .refreshing').show()
         }
 
