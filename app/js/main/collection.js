@@ -126,18 +126,21 @@ const Collection = {
     },
     local: () => {
       return DB.app.get('local_library').then(collection => {
-        if (!collection) $('#navbar .locals .fa-spin').css('opacity', 1)
-
-        $('#collection #locals .waitforlibrary').show()
-        $('#collection #locals .waitforlibrary .spinner').css('visibility', 'visible')
-        $('#collection #locals .waitforlibrary .notfound').hide()
-        $('#collection #locals .waitforlibrary .scanning').show()
-
         const method = collection ? 'update' : 'scan'
-        method === 'update' && $('#locals .refreshing').show()
+
+        if (!collection) {
+          $('#navbar .locals .fa-spin').css('opacity', 1)
+          $('#collection #locals .waitforlibrary').show()
+          $('#collection #locals .waitforlibrary .spinner').css('visibility', 'visible')
+          $('#collection #locals .waitforlibrary .notfound').hide()
+          $('#collection #locals .waitforlibrary .scanning').show()
+        } else {
+          Collection.format.locals(collection)
+          Network.init()
+          $('#locals .refreshing').show()
+        }
 
         Local.scans++
-
         return Local[method](collection)
       }).then(results => {
         console.info('Local library collection recieved')
