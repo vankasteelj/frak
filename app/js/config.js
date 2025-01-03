@@ -4,12 +4,8 @@
 const win = gui.Window.get()
 const path = require('path')
 const fs = require('fs-extra')
-const zlib = require('zlib')
-const spawn = require('child_process').spawn
 const http = require('http')
-const localforage = require('localforage')
 const i18n = require('i18n')
-const got = require('got')
 const os = require('os')
 
 const PKJSON = require('package.json')

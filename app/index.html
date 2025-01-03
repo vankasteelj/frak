@@ -80,7 +80,7 @@
         </div>
 
         <div class="reset">
-          <button class="disconnect" onClick="localforage.clear()">
+          <button class="disconnect" onClick="DB.resetApp()">
             <i18n>Stuck? Click here to reset the app.</i18n>
           </button>
         </div>
@@ -1032,7 +1032,7 @@
             <i18n>Clean all data (keep the settings)</i18n>
           </div>
           <div class="action">
-            <button class="disconnect" onClick="localforage.clear()">
+            <button class="disconnect" onClick="DB.resetApp()">
               <i18n>Reset</i18n>
             </button>
           </div>

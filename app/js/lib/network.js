@@ -28,7 +28,7 @@ const Network = {
 
   // verify periodically if the peer is still connected
   checkPeer: (server) => {
-    got(`http://${server.ip}:${Network.port}`, { headers: Network.headers }).then(res => {
+    require('got')(`http://${server.ip}:${Network.port}`, { headers: Network.headers }).then(res => {
       for (const existing in Network.peers) {
         if (Network.peers[existing].ip === server.ip) {
           const body = JSON.parse(res.body)
@@ -65,7 +65,7 @@ const Network = {
 
     Promise.all(ips.map(ip => {
       return new Promise((resolve, reject) => {
-        got('http://' + ip + ':' + Network.port, {
+        require('got')('http://' + ip + ':' + Network.port, {
           timeout: 2000,
           headers: Network.headers
         }).then(res => {
@@ -119,7 +119,7 @@ const Network = {
           'Content-Type': 'application/json',
           'Content-Encoding': 'deflate'
         })
-        res.write(zlib.deflateSync(Buffer.from(JSON.stringify(Network.jsonApi))))
+        res.write(require('zlib').deflateSync(Buffer.from(JSON.stringify(Network.jsonApi))))
         res.end()
 
         Network.addPeers([client])
@@ -243,7 +243,7 @@ const Network = {
 
   // promise: sends back an url
   getFileFromPeer: (file) => {
-    return got(`http://${file.source}`, {
+    return require('got')(`http://${file.source}`, {
       method: 'POST',
       port: Network.port,
       body: JSON.stringify(file),
@@ -261,8 +261,8 @@ const Network = {
     const srtName = file.filename.replace(ext, 'srt')
     const srtPath = path.join(Cache.dir, srtName)
 
-    got(url + '/subtitles').then(res => { // prevent piping if no subs are available
-      got.stream(url + '/subtitles').pipe(fs.createWriteStream(srtPath)).on('finish', () => {
+    require('got')(url + '/subtitles').then(res => { // prevent piping if no subs are available
+      require('got').stream(url + '/subtitles').pipe(fs.createWriteStream(srtPath)).on('finish', () => {
         Player.mpv.addSubtitles(srtPath, 'cached', srtName)
       })
     }).catch(err => {
@@ -304,7 +304,7 @@ const Network = {
           console.info('Subtitle selected:', data.subtitle.langcode)
         }
 
-        got.stream(data.subtitle.url).pipe(fs.createWriteStream(subtitle)).on('finish', selectSubtitle)
+        require('got').stream(data.subtitle.url).pipe(fs.createWriteStream(subtitle)).on('finish', selectSubtitle)
       }
     }
 

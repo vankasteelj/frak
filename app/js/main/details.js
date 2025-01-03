@@ -670,7 +670,7 @@ const Details = {
       const $sub = $('.sub.active .data').text()
       if ($sub) data.subtitle = JSON.parse($sub)
 
-      got(`http://${peer.ip}`, {
+      require('got')(`http://${peer.ip}`, {
         method: 'POST',
         port: Network.port,
         body: JSON.stringify(data),

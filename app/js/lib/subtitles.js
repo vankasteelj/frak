@@ -87,7 +87,7 @@ const Subtitles = {
         sub_format: 'srt',
         file_name: sub.filename + id
       }).then(response => {
-        got.stream(response.link).pipe(fs.createWriteStream(subtitle)).on('finish', selectSubtitle)
+        require('got').stream(response.link).pipe(fs.createWriteStream(subtitle)).on('finish', selectSubtitle)
       })
     }
   },
