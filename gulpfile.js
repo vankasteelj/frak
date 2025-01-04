@@ -459,7 +459,9 @@ const sd = (fix) => {
         'Image',
         'screen',
         'countryList',
-        'Chart'
+        'Chart',
+        'requestIdleCallback',
+        'scheduler'
       ]
     }, (error, res) => {
       if (error) return reject(error)

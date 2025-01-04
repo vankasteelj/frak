@@ -695,14 +695,13 @@ const Details = {
 
     const title = $('#details-metadata .titles').text().replace(/\W+/g, ' ')
     const url = Streamer.streaminfo.url.replace('127.0.0.1', DB.sync.get('localip'))
-    let subtitle = undefined 
 
+    let subtitle
     Player.mpv.getProperty('current-tracks/sub').then(sub => {
-      if (sub && sub.external) {
-        subtitle = sub['external-filename']
-      }
-      return
-    }).catch(err => {}).finally(() => {
+      if (sub && sub.external) subtitle = sub['external-filename']
+    }).catch(err => {
+      console.error('Details.keepWatchingDlna - Could not get subtitle from MPV', err)
+    }).finally(() => {
       Cast.cast(player.name, title, url, subtitle)
     })
   },

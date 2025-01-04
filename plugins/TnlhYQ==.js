@@ -6,7 +6,7 @@ const name = atob('TnlhYQ==')
 const get = (query, cat) => {
   const torrents = []
   const url = defaultURL + '?f=0&c=0_0&q=' + query + '&s=seeders&o=desc'
-  return got(url, {timeout: 3500}).then((html) => {
+  return got(url, { timeout: 3500 }).then((html) => {
     const $ = cheerio.load(html.body)
 
     $('.comments').remove()

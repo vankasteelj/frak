@@ -49,8 +49,8 @@ const Cast = {
         if (subtitle) {
           const port = 8000
           const subtitlesUrl = 'http://' + DB.sync.get('localip') + ':' + port + '/dlnacaptions.srt'
-          
-          //build srt server
+
+          // build srt server
           Cast.subtitleServer = http.createServer((req, res) => {
             res.writeHead(200, {
               'Content-type': 'text/srt',
@@ -62,7 +62,7 @@ const Cast = {
             fs.createReadStream(subtitle).pipe(res)
           })
 
-          //serve srt
+          // serve srt
           Cast.subtitleServer.listen(port)
           media.subtitle = [subtitlesUrl]
         }

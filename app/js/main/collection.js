@@ -7,7 +7,7 @@ const Collection = {
   load: () => {
     console.info('Loading collection')
 
-    scheduler.postTask(Collection.hiddenMovies.verify, {priority: 'background'})
+    scheduler.postTask(Collection.hiddenMovies.verify, { priority: 'background' })
 
     // should trakt update?
     Promise.all([
@@ -35,7 +35,7 @@ const Collection = {
       }
     }).catch(console.error)
 
-    scheduler.postTask(Collection.get.local, {priority: 'background'})
+    scheduler.postTask(Collection.get.local, { priority: 'background' })
   },
 
   get: {

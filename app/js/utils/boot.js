@@ -10,39 +10,39 @@ const Boot = {
     Boot.online() // check if online
     Boot.startScreen() // what view to load first
     Misc.events = new (require('node:events'))() // set up events
-    scheduler.postTask(Boot.tray, {priority: 'background'}) // setup the tray 
-    scheduler.postTask(Cache.create, {priority: 'background'}) // create tmp dir
-    scheduler.postTask(IB.create, {priority: 'background'}) // create ImagesBank folder
-    scheduler.postTask(Boot.setupSettings, {priority: 'background'}) // setup settings popup
-    scheduler.postTask(Interface.buildSwitch, {priority: 'background'}) // switch trakt account screen
+    scheduler.postTask(Boot.tray, { priority: 'background' }) // setup the tray
+    scheduler.postTask(Cache.create, { priority: 'background' }) // create tmp dir
+    scheduler.postTask(IB.create, { priority: 'background' }) // create ImagesBank folder
+    scheduler.postTask(Boot.setupSettings, { priority: 'background' }) // setup settings popup
+    scheduler.postTask(Interface.buildSwitch, { priority: 'background' }) // switch trakt account screen
     document.addEventListener('contextmenu', (e) => e.preventDefault()) // remove default right clicks
   },
   postload: () => {
-    scheduler.postTask(Player.findMpv, {priority: 'background'}) // player
-    scheduler.postTask(Plugins.load, {priority: 'background'}) // load search plugins
-    scheduler.postTask(Boot.setupInputs, {priority: 'background'}) // browse button
-    scheduler.postTask(Keyboard.setupShortcuts, {priority: 'background'}) // keyboard shortcuts
+    scheduler.postTask(Player.findMpv, { priority: 'background' }) // player
+    scheduler.postTask(Plugins.load, { priority: 'background' }) // load search plugins
+    scheduler.postTask(Boot.setupInputs, { priority: 'background' }) // browse button
+    scheduler.postTask(Keyboard.setupShortcuts, { priority: 'background' }) // keyboard shortcuts
     // Gamepad.init(); // gamepad support - needs work
-    scheduler.postTask(Boot.setupScreens, {priority: 'background'}) // nwjs screen listener
-    scheduler.postTask(Update.check, {priority: 'background'}) // update
-    scheduler.postTask(Dragdrop.setup, {priority: 'background'}) // allow drag&drop
-    scheduler.postTask(Subtitles.opensubReLogin, {priority: 'background'}) // opensubtitles login if needed
-    scheduler.postTask(Ratings.setupDropdown, {priority: 'background'}) // ratings init
-    scheduler.postTask(Boot.setupVersion, {priority: 'background'}) // version number
+    scheduler.postTask(Boot.setupScreens, { priority: 'background' }) // nwjs screen listener
+    scheduler.postTask(Update.check, { priority: 'background' }) // update
+    scheduler.postTask(Dragdrop.setup, { priority: 'background' }) // allow drag&drop
+    scheduler.postTask(Subtitles.opensubReLogin, { priority: 'background' }) // opensubtitles login if needed
+    scheduler.postTask(Ratings.setupDropdown, { priority: 'background' }) // ratings init
+    scheduler.postTask(Boot.setupVersion, { priority: 'background' }) // version number
 
     // periodical tasks
-    scheduler.postTask(Boot.cleanup, {priority: 'background'}) // periodically cleanup
-    scheduler.postTask(Boot.idle, {priority: 'background'}) // periodically update
+    scheduler.postTask(Boot.cleanup, { priority: 'background' }) // periodically cleanup
+    scheduler.postTask(Boot.idle, { priority: 'background' }) // periodically update
 
     // right clicks
-    scheduler.postTask(Interface.rightClickNav, {priority: 'background'})
-    scheduler.postTask(() => Boot.setupRightClicks('input[type=text], textarea'), {priority: 'background'})
+    scheduler.postTask(Interface.rightClickNav, { priority: 'background' })
+    scheduler.postTask(() => Boot.setupRightClicks('input[type=text], textarea'), { priority: 'background' })
   },
 
   // STARTUP: setup network connexion
   online: () => {
     const ifaces = os.networkInterfaces()
-    const values = [].concat.apply([], Object.keys(ifaces).map(n => ifaces[n])).filter(v => v.family == 'IPv4' && v.internal == false)
+    const values = [].concat.apply([], Object.keys(ifaces).map(n => ifaces[n])).filter(v => v.family === 'IPv4' && v.internal === false)
     const localip = values.length ? values[0].address : '127.0.0.1'
 
     DB.sync.store(localip, 'localip')
@@ -254,7 +254,7 @@ const Boot = {
     // allow DLNA search
     if (DB.sync.get('dlnacasting')) {
       document.querySelector('#allow_dlnacasting').checked = true
-      scheduler.postTask(Cast.scan, {priority: 'background'})
+      scheduler.postTask(Cast.scan, { priority: 'background' })
     }
 
     // allow direct playback feature on local network
@@ -321,12 +321,12 @@ const Boot = {
     // size of image cache
     scheduler.postTask(() => {
       IB.calcSize().then(s => $('#imagecachesize').text(s)).catch(console.log)
-    }, {priority: 'background'})
+    }, { priority: 'background' })
 
     // size of video cache
     scheduler.postTask(() => {
       Cache.calcSize().then(s => $('#videocachesize').text(s)).catch(console.log)
-    }, {priority: 'background'})
+    }, { priority: 'background' })
   },
 
   setupInputs: () => {

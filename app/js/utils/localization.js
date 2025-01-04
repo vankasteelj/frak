@@ -78,7 +78,7 @@ const Localization = {
           c[j].innerText = i18n.__(c[j].innerText)
         }
       }
-    }, {priority: 'background'})
+    }, { priority: 'background' })
   },
 
   // STARTUP: build dropdown menu for changing app localization
