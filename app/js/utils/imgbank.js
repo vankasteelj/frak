@@ -30,7 +30,7 @@ const IB = {
   },
   clean: () => {
     IB._load().then(db => {
-      const ttl = 30 * 24 * 60 * 60 * 1000 // 15 days
+      const ttl = 30 * 24 * 60 * 60 * 1000 // 30 days
       const minsize = 10000 // according to my testings, below that it's a corrupted image
       let outdated = 0
       let toosmall = 0
@@ -98,7 +98,7 @@ const IB = {
 
       const id = ids.imdb
 
-      // invalidate cache every 15 days
+      // invalidate cache every 30 days
       if (db[id] && Date.now() - db[id].ttl > 30 * 24 * 60 * 60 * 1000) {
         IB.remove(ids)
         return {}
