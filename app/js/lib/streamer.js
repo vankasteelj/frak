@@ -125,7 +125,7 @@ const Streamer = {
       } catch (e) {
         setTimeout(() => {
           const rand = Math.floor(Math.random() * (65535 - 1024)) + 1024
-          return Streamer.createServer(rand).then(resolve)
+          return Streamer.createServer(torrent, rand).then(resolve)
         }, 100)
       }
     })
