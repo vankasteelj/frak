@@ -5,12 +5,12 @@ const Local = {
   client: new (require('local-video-library'))(Settings.apikeys.trakt_id, [process.env.HOME || path.join(process.env.HOMEDRIVE, process.env.HOMEPATH)]),
 
   scan: () => {
-    console.info('Scanning local drive')
+    console.info('Scanning local drive', Local.client.parser.options.paths)
     return Local.client.scan()
   },
 
   update: (library) => {
-    console.info('Scanning local drive (update)')
+    console.info('Scanning local drive (update)', Local.client.parser.options.paths)
     return Local.client.update(library)
   },
 
