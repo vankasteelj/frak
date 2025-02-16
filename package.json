@@ -14,7 +14,7 @@
     " email": "vankasteelj@gmail.com"
   },
   "main": "app/index.html",
-  "dom_storage_quota": 20,
+  "dom_storage_quota": 50,
   "window": {
     "width": 1024,
     "height": 650,
@@ -27,7 +27,7 @@
   "icons": {
     "256": "app/images/frak-logo.png"
   },
-  "chromium-args": "--disable-raf-throttling --future --in-process-gpu --use-angle=gl",
+  "chromium-args": "--disable-raf-throttling --in-process-gpu --no-sandbox",
   "node-remote": "*://*",
   "repository": {
     "type": "git",

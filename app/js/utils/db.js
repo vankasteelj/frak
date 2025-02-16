@@ -8,7 +8,10 @@ const DB = {
     Cache.delete()
     Misc.restartApp()
   },
-  resetApp: () => require('localforage').clear(),
+  resetApp: () => {
+    require('localforage').clear()
+    Misc.restartApp()
+  },
   sync: { // localStorage
     store: (data, key) => {
       if (typeof data !== 'string') data = JSON.stringify(data)

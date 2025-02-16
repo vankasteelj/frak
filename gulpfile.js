@@ -334,16 +334,9 @@ gulp.task('build:nwjsclean', () => {
       `${dirname}/nwjc.exe`,
       `${dirname}/notification_helper.exe`,
       `${dirname}/nacl_irt_x86_64.nexe`,
-      `${dirname}/swiftshader`,
-      `${dirname}/vk_swiftshader.dll`,
-      `${dirname}/vk_swiftshader_icd.json`,
       `${dirname}/payload.exe`,
       `${dirname}/pnacl`,
-      `${dirname}/d3dcompiler_47.dll`,
-      `${dirname}/debug.log`,
-      `${dirname}/locales/*`,
-      `!${dirname}/locales/fr.pak`,
-      `!${dirname}/locales/en-US.pak`
+      `${dirname}/debug.log`
     ]
     console.log('Removing unused %s nwjs files from %s...', platform, dirname)
     return del(removeArray).then(console.log).catch(console.error)
