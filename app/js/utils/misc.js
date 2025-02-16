@@ -8,7 +8,7 @@ const Misc = {
   // USERINTERACTION: restart app (used by Keyboard.setupShortcuts)
   restartApp: () => {
     win.tray.remove()
-    window.location.reload()
+    nw.Window.get().reload()
   },
 
   // AUTO: build the right click menu(s) on demand
