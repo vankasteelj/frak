@@ -257,7 +257,7 @@
 
 #collection .fanart,
 #trakt .fanart {
-  background-size: 101%;
+  background-size: 100%;
   overflow: hidden;
   position: relative;
   background-position: center;
@@ -266,7 +266,7 @@
 }
 
 .grid-item:hover>.fanart {
-  background-size: 102% !important;
+  background-size: 101% !important;
   filter: brightness(1.15) grayscale(0) opacity(1) !important;
   transition: all .5s;
 }

@@ -1,12 +1,11 @@
 <!doctype html>
-<html lang="en" style="background: #1d1d1d; color: #ccc;">
+<html style="background: #1d1d1d; color: #ccc;">
 
 <head>
   <meta charset="UTF-8">
 
   <script>
     console.time('Application ready')
-    require('v8-compile-cache')
     chrome.extension.getBackgroundPage().console.log = console.debug
     const gui = require('nw.gui')
     if (gui.App.argv.indexOf('--hidden') === -1 && gui.App.argv.indexOf('--development') === -1) {

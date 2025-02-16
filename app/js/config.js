@@ -7,7 +7,6 @@ const fs = require('fs-extra')
 const http = require('http')
 const i18n = require('i18n')
 const os = require('os')
-
 const PKJSON = require('package.json')
 
 // default settings
@@ -35,7 +34,7 @@ const Settings = {
     'jI3Y2FlN2MiLCJ0dmRiIjoiYTlkYWQ0ODItMjhmYi00ZTRjLTg1YTgtNGY2MjExZmM2YmMzIn0='
   )),
   streamer: {
-    magnetTimeout: 15000,
+    magnetTimeout: 10000,
     maxConns: 40,
     downloadLimit: 0,
     uploadLimit: 0,

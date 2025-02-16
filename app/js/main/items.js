@@ -54,7 +54,7 @@ const Items = {
                 '<div class="fanart">' +
                     `<div class="exists-elsewhere fa fa-tags ${existing !== -1 && DB.sync.get('use_customs') ? 'active' : ''}" title="${i18n.__('Also present in Custom list')}"></div>` +
                     '<div class="corner-rating"><span></span></div>' +
-                    '<img class="base" src="images/placeholder.png" loading="lazy">' +
+                    '<img class="base" src="images/placeholder.png">' +
                     '<div class="shadow"></div>' +
                     '<div class="titles">' +
                         `<h3>${movie.movie.title}<span class="year">${movie.movie.year || ''}</span></h3>` +
@@ -129,7 +129,7 @@ const Items = {
                 '<div class="fanart">' +
                     `<div class="exists-elsewhere fa fa-tags ${existing !== -1 && DB.sync.get('use_customs') ? 'active' : ''}" title="${i18n.__('Also present in Custom list')}"></div>` +
                     '<div class="corner-rating"><span></span></div>' +
-                    '<img class="base" src="images/placeholder.png" loading="lazy">' +
+                    '<img class="base" src="images/placeholder.png">' +
                     '<div class="shadow"></div>' +
                     '<div class="titles">' +
                         '<h4>' +
@@ -212,7 +212,7 @@ const Items = {
                 '<div class="fanart">' +
                     `<div class="exists-elsewhere fa fa-tags ${existing !== -1 ? 'active' : ''}" title="${i18n.__('Also present in watchlist')}"></div>` +
                     '<div class="corner-rating"><span></span></div>' +
-                    '<img class="base" src="images/placeholder.png" loading="lazy">' +
+                    '<img class="base" src="images/placeholder.png">' +
                     '<div class="shadow"></div>' +
                     '<div class="titles">' +
                       '<h4>' +
@@ -288,7 +288,7 @@ const Items = {
                 '<div class="fanart">' +
                     `<div class="exists-elsewhere fa fa-tags ${existing !== -1 ? 'active' : ''}" title="${i18n.__('Also present in watchlist')}"></div>` +
                     '<div class="corner-rating"><span></span></div>' +
-                    '<img class="base" src="images/placeholder.png" loading="lazy">' +
+                    '<img class="base" src="images/placeholder.png">' +
                     '<div class="shadow"></div>' +
                     '<div class="titles">' +
                         '<h4>' +
@@ -465,7 +465,7 @@ const Items = {
                 `<span class="data">${d.data}</span>` +
                 '<div class="fanart">' +
                     '<div class="corner-rating"><span></span></div>' +
-                    '<img class="base" src="images/posterholder.png" loading="lazy">' +
+                    '<img class="base" src="images/posterholder.png">' +
                 '</div>' +
                 '<div class="quick-icons">' +
                     '<div class="actions">' +
@@ -515,7 +515,7 @@ const Items = {
                 `<span class="data">${d.data}</span>` +
                 '<div class="fanart">' +
                     '<div class="corner-rating"><span></span></div>' +
-                    '<img class="base" src="images/posterholder.png" loading="lazy">' +
+                    '<img class="base" src="images/posterholder.png">' +
                 '</div>' +
                 '<div class="quick-icons">' +
                     '<div class="actions">' +

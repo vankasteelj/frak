@@ -51,7 +51,6 @@
     "trakt.tv": "8.2.0",
     "trakt.tv-matcher": "8.0.2",
     "trakt.tv-ondeck": "8.0.1",
-    "v8-compile-cache": "2.4.0",
     "webtorrent": "https://github.com/vankasteelj/webtorrent",
     "webtorrent-health": "1.2.0"
   },
@@ -65,11 +64,11 @@
     "modclean": "3.0.0-beta.1",
     "node-7z-forall": "2.1.5",
     "nw-builder": "3.7.4",
-    "standard": "16.0.3",
+    "standard": "16.0.4",
     "yargs": "17.7.2"
   },
   "nwjs": {
-    "version": "0.93.0",
+    "version": "0.95.0",
     "flavor": "sdk"
   },
   "mpv": {
