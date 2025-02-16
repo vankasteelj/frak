@@ -14,7 +14,7 @@ const Collection = {
       Trakt.last_activities('watch'),
       DB.trakt.get('traktsync')
     ]).then(([activities, traktsync]) => {
-      if ((activities > (traktsync || 0)) || (Date.now() - (traktsync || 0) > 60 * 60 * 1000)) { // 1 hour
+      if ((activities > (traktsync || 0)) || (Date.now() - (traktsync || 0) > 12 * 60 * 60 * 1000)) { // 12 hours
         console.info('Fetching from remote server...')
         Collection.get.traktcached() // display what we have while we update
         Collection.get.traktwatched().then(() => {
