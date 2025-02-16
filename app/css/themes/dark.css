@@ -7,7 +7,7 @@
   --font-bold: 'Proxima Nova Bold';
 
   /* color scheme */
-  --app-color-main: #1d1d1d;
+  --app-color-main: #202020;
   --app-color-alt: #2d2d2d;
   --app-font-color: #fafafa;
   --app-font-color-dimmed: #ccc;
@@ -43,7 +43,7 @@
 
   /* item list */
   --item-border: #2d2d2d;
-  --item-bg: #1d1d1d;
+  --item-bg: #202020;
   --item-text: #fafafa;
 
   --item-title-bg: rgba(0, 0, 0, .4);
@@ -66,7 +66,7 @@
   --category-border-hover: #888;
   --category-bg-hover: #333;
 
-  --localitem-main: #1d1d1d;
+  --localitem-main: #202020;
   --localitem-main-hover: #222;
   --localitem-season: #292929;
   --localitem-season-hover: #2f2f2f;
