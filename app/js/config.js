@@ -17,11 +17,8 @@ const Settings = {
     sub_size: 40,
     sub_color: '#ffffff',
     sub_auto: false,
-    scale: 0.8,
     contrast: 5,
     saturation: 2,
-    layout: 'box',
-    seekbar: 'knob',
     multimonitor: false,
     monitor: 1
   },

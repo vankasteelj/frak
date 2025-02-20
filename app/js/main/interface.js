@@ -434,28 +434,22 @@ const Interface = {
 
   bigPictureScale: {
     1: {
-      zoomLevel: 3.5,
-      osc: 1.5
+      zoomLevel: 3.5
     },
     1.25: {
-      zoomLevel: 3,
-      osc: 1.3
+      zoomLevel: 3
     },
     1.5: {
-      zoomLevel: 2,
-      osc: 1.1
+      zoomLevel: 2
     },
     1.75: {
-      zoomLevel: 1,
-      osc: 1.0
+      zoomLevel: 1
     },
     2: {
-      zoomLevel: 0,
-      osc: 1.2
+      zoomLevel: 0
     },
     2.25: {
-      zoomLevel: 0,
-      osc: 1.5
+      zoomLevel: 0
     }
   },
 
@@ -481,33 +475,6 @@ const Interface = {
     }
 
     Misc.sleep(400).then(() => Player.setMPV(DB.sync.get('mpv')))
-  },
-  playerPopup: () => {
-    nw.Window.open('app/html/playerPopup.html', {
-      width: 365,
-      height: 65,
-      always_on_top: true,
-      resizable: false,
-      show: false,
-      frame: false,
-      show_in_taskbar: false,
-      transparent: true
-    }, function (newWin) {
-      // newWin.showDevTools();
-      console.debug('Player popup spawned')
-
-      nw.global.playerAPI = Player
-
-      nw.global.playerPopup = newWin
-      nw.global.playerPopup.blur()
-      nw.global.playerPopup.x = screen.availWidth - 360
-      nw.global.playerPopup.y = 0
-      nw.global.playerPopup.on('closed', () => {
-        delete nw.global.playerAPI
-        delete nw.global.playerPopup
-        console.debug('Player popup closed')
-      })
-    })
   },
   switchTraktAccount: () => {
     $('#switchaccount').show()

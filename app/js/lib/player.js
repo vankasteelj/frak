@@ -3,7 +3,6 @@
 const Player = {
   config: {
     events: false,
-    popup: false,
     states: undefined,
     model: undefined
   },
@@ -16,9 +15,6 @@ const Player = {
     }
 
     Player.mpv.isRunning() ? Player.quit() : Player.handleEvents();
-
-    // player popup
-    (DB.sync.get('bigPicture') || DB.sync.get('playerPopup')) && Interface.playerPopup()
 
     Player.mpv.start().then(() => Player.mpv.load(file)).then(() => {
       console.info('Playing:', file)
@@ -46,11 +42,9 @@ const Player = {
 
     Player.mpv.quit()
     Loading.close()
-    nw.global.playerPopup && nw.global.playerPopup.close(true)
 
     Player.config.model = undefined
     Player.config.states = undefined
-    Player.config.popup = false
 
     Player.setMPV()
 
@@ -81,17 +75,6 @@ const Player = {
           $('#streaminfo .control .play').addClass('fa-pause').removeClass('fa-play')
         }
         return
-      }
-
-      if (!nw.global.playerPopup) return
-      if (Player.config.states.fullscreen && !Player.config.popup && sessionStorage.screens <= 1) {
-        console.log('Player popup shown')
-        nw.global.playerPopup.show()
-        Player.config.popup = true
-      } else if (!Player.config.states.fullscreen && Player.config.popup) {
-        console.log('Player popup hidden')
-        nw.global.playerPopup.hide()
-        Player.config.popup = false
       }
     })
     Player.mpv.on('seek', timepositions => {
@@ -133,9 +116,6 @@ const Player = {
   getOptions: () => {
     const options = DB.sync.get('player_options')
     let scale = options.scale
-    if (DB.sync.get('bigPicture')) {
-      scale = Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor] ? Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor].osc : 1.5
-    }
 
     return [
       options.multimonitor && (sessionStorage.screens >= options.monitor) ? '--screen=' + (options.monitor - 1) : '',
@@ -149,7 +129,10 @@ const Player = {
       '--sub-scale=' + options.scale,
       '--contrast=' + options.contrast,
       '--saturation=' + options.saturation,
-      `--script-opts=osc-layout=${options.layout},osc-seekbarstyle=${options.seekbar},osc-scalewindowed=${scale},osc-scalefullscreen=${scale * 1.2},osc-valign=0.9,osc-timetotal=yes,osc-boxalpha=160,osc-vidscale=no`
+      '--osc=no',
+      '--osd-level=0',
+      '--config-dir=' + path.resolve(process.cwd(), 'mpv-conf'),
+      `--script-opts=modernz-language=${i18n.getLocale()}`
     ].filter(n => n)
   },
 

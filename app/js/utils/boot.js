@@ -236,10 +236,6 @@ const Boot = {
       document.querySelector('#bpzoomdisable-button').checked = true
     }
 
-    if (DB.sync.get('playerPopup')) {
-      document.querySelector('#allowplayerpopup-button').checked = true
-    }
-
     // minimze to tray
     if (DB.sync.get('minimizeToTray')) {
       document.querySelector('#tray').checked = true
@@ -294,7 +290,8 @@ const Boot = {
     // setup player options
     for (const o in playerOptions) {
       const c = o.match('centered|fullscreen|sub_auto|multimonitor') ? 'checked' : 'value'
-      document.querySelector(`#${o}`)[c] = playerOptions[o]
+      const doc = document.querySelector(`#${o}`)
+      if (doc) doc[c] = playerOptions[o]
 
       if (o.match('multimonitor') && playerOptions[o]) {
         $('#mpvmonitoroption').show()
@@ -391,9 +388,6 @@ const Boot = {
     document.querySelector('#bpzoomdisable-button').addEventListener('click', (evt) => {
       DB.sync.store(evt.target.checked, 'bpzoomdisable')
     })
-    document.querySelector('#allowplayerpopup-button').addEventListener('click', (evt) => {
-      DB.sync.store(evt.target.checked, 'playerPopup')
-    })
 
     document.querySelector('#tray').addEventListener('click', (evt) => {
       DB.sync.store(evt.target.checked, 'minimizeToTray')
@@ -450,8 +444,8 @@ const Boot = {
     const playerOptions = DB.sync.get('player_options')
     for (const o in playerOptions) {
       const c = o.match('centered|fullscreen|sub_auto|multimonitor') ? 'checked' : 'value'
-
-      document.querySelector(`#${o}`).addEventListener('change', (evt) => {
+      const doc = document.querySelector(`#${o}`)
+      if (doc) doc.addEventListener('change', (evt) => {
         playerOptions[o] = document.querySelector(`#${o}`)[c]
         console.log('Player setting `%s` changed to:', o, playerOptions[o])
         DB.sync.store(playerOptions, 'player_options')
