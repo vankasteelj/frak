@@ -50,7 +50,7 @@ const NwjsApi = {
       win.focus(true)
       force && win.setAlwaysOnTop(false)
     },
-    isFullScreen: () => {
+    isFullscreen: () => {
       return win.isFullscreen
     },
     isMaximized: (bool) => {
