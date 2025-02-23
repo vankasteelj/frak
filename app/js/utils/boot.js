@@ -387,7 +387,8 @@ const Boot = {
     for (const o in playerOptions) {
       const c = o.match('centered|fullscreen|sub_auto|multimonitor') ? 'checked' : 'value'
       const doc = document.querySelector(`#${o}`)
-      if (doc) doc.addEventListener('change', (evt) => {
+      if (!doc) return
+      doc.addEventListener('change', (evt) => {
         playerOptions[o] = document.querySelector(`#${o}`)[c]
         console.log('Player setting `%s` changed to:', o, playerOptions[o])
         DB.sync.store(playerOptions, 'player_options')

@@ -14,7 +14,7 @@ const Player = {
       return
     }
 
-    Player.mpv.isRunning() ? Player.quit() : Player.handleEvents();
+    Player.mpv.isRunning() ? Player.quit() : Player.handleEvents()
 
     Player.mpv.start().then(() => Player.mpv.load(file)).then(() => {
       console.info('Playing:', file)
@@ -74,7 +74,6 @@ const Player = {
           Trakt.scrobble('start')
           $('#streaminfo .control .play').addClass('fa-pause').removeClass('fa-play')
         }
-        return
       }
     })
     Player.mpv.on('seek', timepositions => {
@@ -115,7 +114,7 @@ const Player = {
 
   getOptions: () => {
     const options = DB.sync.get('player_options')
-    let scale = options.scale
+    const scale = options.scale
 
     return [
       options.multimonitor && (sessionStorage.screens >= options.monitor) ? '--screen=' + (options.monitor - 1) : '',

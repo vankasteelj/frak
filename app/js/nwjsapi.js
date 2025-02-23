@@ -95,7 +95,7 @@ const NwjsApi = {
       if (!config.menu) return
       const menu = new nw.Menu()
       for (let i = 0; i < config.menu.length; i++) {
-        let item = config.menu[i]
+        const item = config.menu[i]
         menu.append(new nw.MenuItem({
           type: item.type,
           label: item.label,
@@ -182,33 +182,32 @@ const NwjsApi = {
         document.querySelector(id).click()
       })
     }
-  }, 
+  },
   menus: {
     buildRightClick: (input) => {
       const getSelection = (textbox) => {
         let selectedText = null
         const activeElement = document.activeElement
-    
+
         if (activeElement && (activeElement.tagName.toLowerCase() === 'textarea' || (activeElement.tagName.toLowerCase() === 'input' && activeElement.type.toLowerCase() === 'text')) && activeElement === textbox) {
           const startIndex = textbox.selectionStart
           const endIndex = textbox.selectionEnd
-    
           if (endIndex - startIndex > 0) {
             const text = textbox.value
             selectedText = text.substring(textbox.selectionStart, textbox.selectionEnd)
           }
         }
-    
+
         return selectedText
       }
       const contextMenu = (cutLabel, copyLabel, pasteLabel, field) => {
         const menu = new gui.Menu()
-  
+
         const cut = new gui.MenuItem({
           label: cutLabel,
           click: () => document.execCommand('cut')
         })
-  
+
         const copy = new gui.MenuItem({
           label: copyLabel,
           click: () => {
@@ -220,12 +219,12 @@ const NwjsApi = {
             }
           }
         })
-  
+
         const paste = new gui.MenuItem({
           label: pasteLabel,
           click: () => document.execCommand('paste')
         })
-  
+
         if (cutLabel) {
           menu.append(cut)
         }
@@ -235,7 +234,7 @@ const NwjsApi = {
         if (pasteLabel) {
           menu.append(paste)
         }
-  
+
         return menu
       }
 
@@ -264,11 +263,11 @@ const NwjsApi = {
     customContextMenu: (labels) => {
       // labels should be: {'my button label 1': () => action(), 'my button label 2': () => otherAction()};
       const menu = new gui.Menu()
-  
+
       for (const label in labels) {
         const action = labels[label]
         let button = false
-  
+
         if (label.indexOf('separator') !== -1) {
           button = new gui.MenuItem({ type: 'separator' })
         } else if (label.indexOf('submenu') !== -1) {
@@ -292,10 +291,10 @@ const NwjsApi = {
             click: () => action()
           })
         }
-  
+
         menu.append(button)
       }
-  
+
       return menu
     }
   }

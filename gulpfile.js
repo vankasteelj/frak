@@ -394,13 +394,10 @@ const sd = (fix) => {
         // App
         'crypt',
         'fs',
-        'gui',
         'http',
         'https',
         'dns',
         'path',
-        'win',
-        'nw',
         'os',
         'atob',
         'sessionStorage',
@@ -408,6 +405,18 @@ const sd = (fix) => {
         'i18n',
         'url',
         'langs',
+        'NwjsApi',
+        'onCloseApp',
+        'onMoveApp',
+        'onMaximizeApp',
+        'onMinimizeApp',
+        'onRestoreApp',
+        'onOpenApp',
+        'onDisplayAdded',
+        'onDisplayRemoved',
+
+        // nwjs specific
+        'nw',
 
         // JS files
         'Boot',

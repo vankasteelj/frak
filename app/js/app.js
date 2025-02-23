@@ -39,10 +39,10 @@ try {
 const onOpenApp = (command) => {
   NwjsApi.mainWindow.restore()
   console.debug('App already running but another instance tried to launch', command)
-  if (!command) { return }
 
   /* inject file if used 'open with' - not used atm
 
+  if (!command) { return }
   let file
   let cmd = command[0]
   if (process.platform.match('win32')) {

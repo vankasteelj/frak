@@ -7,7 +7,7 @@ const Loading = {
     $('#streaminfo .connection').hide()
 
     Player.play(file.path, {
-      'title': file.filename
+      title: file.filename
     }, Details.model)
 
     Loading.subfails = 0
@@ -21,7 +21,7 @@ const Loading = {
       $('#streaminfo .source span').text(url)
       $('#streaminfo .connection').hide()
       Player.play(url, {
-        'title': file.filename
+        title: file.filename
       }, Details.model)
       setTimeout(() => Network.getSubtitlesFromPeer(file, url), 1500)
     })
@@ -77,7 +77,7 @@ const Loading = {
       if (!Streamer.streaminfo.torrent.metadata) return setTimeout(startPlayer, 200)
 
       Player.play(url, {
-        'title': Streamer.streaminfo.file_name,
+        title: Streamer.streaminfo.file_name
       }, Details.model)
     }
 
