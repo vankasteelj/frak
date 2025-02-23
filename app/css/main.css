@@ -2207,10 +2207,14 @@ a {
 }
 
 #trailer .video {
-  height: 85%;
-  margin: 5% 8%;
+  height: 90vh;
+  margin: 5vh 8%;
   position: absolute;
   width: 85%;
+}
+
+#trailer .video iframe {
+  border-radius: 10px;
 }
 
 #trakt #history #showMore .fa,
