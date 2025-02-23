@@ -7,7 +7,7 @@ const Keyboard = {
     document.addEventListener('keypress', (key) => {
       if (key.ctrlKey && key.charCode === 4) { // ctrl+d
         console.info('Opening devtools')
-        win.showDevTools()
+        NwjsApi.showDevTools()
       } else if (key.ctrlKey && key.charCode === 18) { // ctrl+r
         Misc.restartApp()
       } else if (key.ctrlKey && key.charCode === 6) { // ctrl+f

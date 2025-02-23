@@ -20,14 +20,4 @@ const Notify = {
         .removeClass('slideNotification')
         .dequeue())
   }
-  // request attention when in bg
-  /** Not working as of nwjs >= 0.39
-  requestAttention: () => {
-    if (document.hasFocus()) {
-      return
-    }
-
-    win.requestAttention(true)
-    win.once('focus', () => win.requestAttention(false))
-  }**/
 }

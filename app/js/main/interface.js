@@ -14,7 +14,7 @@ const Interface = {
     $('#traktinit p').text(i18n.__('Enter the code below in your browser') + ` (${poll.verification_url})`)
     $('#traktCode').val(poll.user_code).show()
     $('#traktBrowser').show().attr('onClick', `Misc.openExternal("${poll.verification_url}")`)
-    gui.Clipboard.get().set(poll.user_code) // ctrl+v easy hack
+    NwjsApi.clipboard.set(poll.user_code) // ctrl+v easy hack
   },
 
   // AUTO: from lib/trakt or boot
@@ -45,9 +45,7 @@ const Interface = {
   },
 
   focus: (force) => {
-    force && win.setAlwaysOnTop(true)
-    win.focus(true)
-    force && win.setAlwaysOnTop(false)
+    NwjsApi.mainWindow.focus(force)
   },
 
   // AUTO: from welcome page
@@ -315,19 +313,19 @@ const Interface = {
     }).finally(() => {
       // menu popup
 
-      const custommenu = Misc.customContextMenu(customlabels)
+      const custommenu = NwjsApi.menus.customContextMenu(customlabels)
       $('.nav.customs').off('contextmenu').on('contextmenu', (e) => {
         Interface.showCustoms()
         custommenu.popup(parseInt(e.clientX), parseInt(e.clientY))
       })
 
-      const moviemenu = Misc.customContextMenu(movielabels)
+      const moviemenu = NwjsApi.menus.customContextMenu(movielabels)
       $('.nav.movies').off('contextmenu').on('contextmenu', (e) => {
         Interface.showMovies()
         moviemenu.popup(parseInt(e.clientX), parseInt(e.clientY))
       })
 
-      const showmenu = Misc.customContextMenu(showlabels)
+      const showmenu = NwjsApi.menus.customContextMenu(showlabels)
       $('.nav.shows').off('contextmenu').on('contextmenu', (e) => {
         Interface.showShows()
         showmenu.popup(parseInt(e.clientX), parseInt(e.clientY))
@@ -389,7 +387,10 @@ const Interface = {
   },
 
   addLocalPath: () => {
-    document.querySelector('#hidden-input-local').click()
+    NwjsApi.shell.nwdirectory('#hidden-input-local').then((directory) => {
+      console.log('Selected directory:', directory)
+      Local.addPath(directory)
+    })
   },
   removeLocalPath: () => {
     const selected = $('#settings .locals .option .paths li.selected')
@@ -455,9 +456,9 @@ const Interface = {
 
   bigPicture: (onStart) => {
     if (!DB.sync.get('bigPicture')) {
-      console.info('Entering Big Picture mode', Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor])
-      win.zoomLevel = Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor] && !DB.sync.get('bpzoomdisable') ? Interface.bigPictureScale[nw.Screen.screens[0].scaleFactor].zoomLevel : 0
-      win.enterFullscreen()
+      console.info('Entering Big Picture mode', Interface.bigPictureScale[NwjsApi.screens.scaleFactor])
+      NwjsApi.mainWindow.zoomLevel(Interface.bigPictureScale[NwjsApi.screens.scaleFactor] && !DB.sync.get('bpzoomdisable') ? Interface.bigPictureScale[NwjsApi.screens.scaleFactor].zoomLevel : 0)
+      NwjsApi.mainWindow.enterFullscreen()
       $('.nav.bigpicture > div').addClass('fa-compress').removeClass('fa-arrows-alt')
       DB.sync.store(true, 'bigPicture')
 
@@ -468,8 +469,8 @@ const Interface = {
       }
     } else {
       console.info('Exiting Big Picture mode')
-      win.zoomLevel = 0
-      win.leaveFullscreen()
+      NwjsApi.mainWindow.zoomLevel(0)
+      NwjsApi.mainWindow.leaveFullscreen()
       $('.nav.bigpicture > div').addClass('fa-arrows-alt').removeClass('fa-compress')
       DB.sync.store(false, 'bigPicture')
     }

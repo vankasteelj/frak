@@ -297,7 +297,7 @@ const Search = {
     $('#details-sources .sources').append(item)
 
     $('#local-file .fa-hdd-o').off('contextmenu').on('contextmenu', (e) => {
-      gui.Shell.showItemInFolder(path.normalize(data.path))
+      NwjsApi.shell.showItemInFolder(path.normalize(data.path))
       Notify.snack(i18n.__('Opening the file location'))
     })
   },
@@ -321,8 +321,7 @@ const Search = {
           e && e.stopPropagation()
           Misc.openExternal(data.magnet)
         }).off('contextmenu').on('contextmenu', (e) => {
-          const clipboard = nw.Clipboard.get()
-          clipboard.set(data.magnet, 'text')
+          NwjsApi.clipboard.set(data.magnet, 'text')
           Notify.snack(i18n.__('Magnet link was copied to the clipboard'))
         })
         $(`#${id} .pin`).off('click').on('click', (e) => {
@@ -360,8 +359,7 @@ const Search = {
           e && e.stopPropagation()
           Misc.openExternal(data.magnet)
         }).off('contextmenu').on('contextmenu', (e) => {
-          const clipboard = nw.Clipboard.get()
-          clipboard.set(data.magnet, 'text')
+          NwjsApi.clipboard.set(data.magnet, 'text')
           Notify.snack(i18n.__('Magnet link was copied to the clipboard'))
         })
         $(`#${id} .pin`).off('click').on('click', (e) => {

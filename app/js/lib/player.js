@@ -119,7 +119,7 @@ const Player = {
 
     return [
       options.multimonitor && (sessionStorage.screens >= options.monitor) ? '--screen=' + (options.monitor - 1) : '',
-      (options.fullscreen || win.isFullscreen) ? '--fs' : '',
+      (options.fullscreen || NwjsApi.mainWindow.isFullscreen()) ? '--fs' : '',
       options.fullscreen && options.multimonitor && (sessionStorage.screens >= options.monitor) ? '--fs-screen=' + (options.monitor - 1) : '',
       options.sub_auto ? DB.sync.get('defaultsublocale') ? `--slang=${DB.sync.get('defaultsublocale')}` : '' : '--sid=no',
       options.centered ? '--geometry=50%' : '',

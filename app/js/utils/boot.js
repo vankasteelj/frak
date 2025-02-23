@@ -79,54 +79,21 @@ const Boot = {
   },
 
   setupScreens: () => {
-    nw.Screen.Init()
-    sessionStorage.screens = Object.keys(nw.Screen.screens).length
-
-    if (sessionStorage.screens > 1) {
-      console.info('Multiple monitors (%s) detected', sessionStorage.screens)
+    NwjsApi.screens.setup()
+    if (NwjsApi.screens.connected > 1) {
+      console.info('Multiple monitors (%s) detected', NwjsApi.screens.connected)
     }
-
-    nw.Screen.on('displayAdded', () => {
-      sessionStorage.screens = Object.keys(nw.Screen.screens).length
-      console.info('Multiple monitors (%s) detected', sessionStorage.screens)
-      Player.setMPV(DB.sync.get('mpv'))
-    })
-    nw.Screen.on('displayRemoved', (screen) => {
-      console.info('A monitor was removed')
-      sessionStorage.screens = Object.keys(nw.Screen.screens).length
-      Player.setMPV(DB.sync.get('mpv'))
-    })
   },
 
   // STARTUP: builds right click menu
   setupRightClicks: (toFind) => {
     const inputs = $(toFind)
     inputs.each((i) => {
-      // right click event
-      inputs[i].addEventListener('contextmenu', (e) => {
-        // force stop default rightclick event
-        e.preventDefault()
-        let menu
-
-        if ($(inputs[i]).attr('readonly')) {
-          // copy only on readonly fields
-          if (e.target.value !== '') {
-            menu = Misc.contextMenu(null, i18n.__('Copy'), null, e.target.id)
-          } else {
-            return
-          }
-        } else {
-          // cut-copy-paste on other
-          menu = Misc.contextMenu(i18n.__('Cut'), i18n.__('Copy'), i18n.__('Paste'), e.target.id)
-        }
-        // show our custom menu
-        menu.popup(parseInt(e.x), parseInt(e.y))
-        return false
-      }, false)
+      NwjsApi.menus.buildRightClick(inputs[i])
     })
   },
 
-  // STARTUP: nwjs sometimes can be out of the screen
+  // STARTUP: app sometimes can be out of the screen
   checkVisible: (options) => {
     const screen = window.screen
     const defaultWidth = PKJSON.window.width
@@ -148,32 +115,12 @@ const Boot = {
       y = Math.round((screen.availHeight - height) / 2)
     }
 
-    // move nwjs in sight
-    win.moveTo(x, y)
+    // move app in sight
+    NwjsApi.mainWindow.moveTo(x, y)
     // set win size
-    win.width = width
-    win.height = height
-    DB.sync.get('wasMaximized') && win.maximize()
-
-    // remember positionning
-    win.on('move', (x, y) => {
-      if (DB && x && y) {
-        DB.sync.store(Math.round(x), 'posX')
-        DB.sync.store(Math.round(y), 'posY')
-      }
-    })
-
-    // remember if the app was maximized or not
-    win.on('maximize', () => {
-      DB.sync.store(true, 'wasMaximized')
-    })
-    win.on('restore', () => {
-      if (!win.isMaximized) DB.sync.store(false, 'wasMaximized')
-    })
-    win.on('minimize', () => {
-      win.isMaximized = DB.sync.get('wasMaximized')
-      if (DB.sync.get('minimizeToTray')) win.hide()
-    })
+    NwjsApi.mainWindow.resizeTo(width, height)
+    // restore maximized state
+    DB.sync.get('wasMaximized') && NwjsApi.mainWindow.maximize()
   },
 
   // STARTUP: set up version number and repository link
@@ -335,11 +282,6 @@ const Boot = {
     document.querySelector('#auto-rate-feature').addEventListener('click', (evt) => {
       DB.sync.store(evt.target.checked, 'auto-rate-feature')
     })
-
-    document.querySelector('#hidden-input-local').addEventListener('change', (evt) => {
-      const directory = $('#hidden-input-local').val()
-      Local.addPath(directory)
-    }, false)
 
     document.querySelector('#mpvpath').addEventListener('change', (evt) => {
       const p = $('#mpvpath').val()
@@ -507,61 +449,45 @@ const Boot = {
   },
 
   tray: () => {
-    win.tray = new nw.Tray({
+    NwjsApi.tray.create({
       title: PKJSON.releaseName,
-      icon: './app/images/frak-tray.png'
+      icon: './app/images/frak-tray.png',
+      tooltip: PKJSON.releaseName,
+      action: NwjsApi.mainWindow.show,
+      menu: [
+        {
+          type: 'normal',
+          label: i18n.__('Restore'),
+          action: NwjsApi.mainWindow.show
+        },
+        {
+          type: 'separator'
+        },
+        {
+          type: 'normal',
+          label: i18n.__('Refresh Trakt (F5)'),
+          action: Trakt.reload
+        },
+        {
+          type: 'normal',
+          label: i18n.__('Open cache (F10)'),
+          action: () => Misc.openExternal(Cache.dir)
+        },
+        {
+          type: 'normal',
+          label: i18n.__('DevTools (Ctrl+R)'),
+          action: NwjsApi.showDevTools
+        },
+        {
+          type: 'separator'
+        },
+        {
+          type: 'normal',
+          label: i18n.__('Close'),
+          action: NwjsApi.mainWindow.close
+        }
+      ]
     })
-
-    const openFromTray = () => {
-      win.show()
-    }
-    const closeFromTray = () => {
-      win.close()
-    }
-    const debugFromTray = () => {
-      win.showDevTools()
-    }
-
-    win.tray.tooltip = PKJSON.releaseName
-
-    const menu = new nw.Menu()
-    menu.append(new nw.MenuItem({
-      type: 'normal',
-      label: i18n.__('Restore'),
-      click: openFromTray
-    }))
-    menu.append(new nw.MenuItem({
-      type: 'separator'
-    }))
-    menu.append(new nw.MenuItem({
-      type: 'normal',
-      label: i18n.__('Refresh Trakt (F5)'),
-      click: Trakt.reload
-    }))
-    menu.append(new nw.MenuItem({
-      type: 'normal',
-      label: i18n.__('Open cache (F10)'),
-      click: () => Misc.openExternal(Cache.dir)
-    }))
-    menu.append(new nw.MenuItem({
-      type: 'normal',
-      label: i18n.__('DevTools (Ctrl+R)'),
-      click: debugFromTray
-    }))
-    menu.append(new nw.MenuItem({
-      type: 'separator'
-    }))
-    menu.append(new nw.MenuItem({
-      type: 'normal',
-      label: i18n.__('Close'),
-      click: closeFromTray
-    }))
-
-    win.tray.menu = menu
-
-    win.tray.on('click', openFromTray)
-    nw.App.on('open', openFromTray)
-
     console.debug('Created tray menu for the application')
   },
 

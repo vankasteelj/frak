@@ -1,7 +1,6 @@
 'use strict'
 
 // important variables used in the app
-const win = gui.Window.get()
 const path = require('path')
 const fs = require('fs-extra')
 const http = require('http')

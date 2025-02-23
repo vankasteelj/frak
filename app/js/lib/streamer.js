@@ -38,7 +38,7 @@ const Streamer = {
   },
   stop: () => {
     clearInterval(Streamer.streaminfo.updateInterval)
-    nw.Window.get().setProgressBar(0)
+    NwjsApi.mainWindow.setProgressBar(0)
     Streamer.streaminfo = {}
     Streamer.torrent = null
 

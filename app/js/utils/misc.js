@@ -3,108 +3,12 @@
 const Misc = {
 
   // AUTO or USERINTERACTION: open url in browser or file explorer
-  openExternal: (link) => gui.Shell.openExternal(link),
+  openExternal: (link) => NwjsApi.shell.openExternal(link),
 
   // USERINTERACTION: restart app (used by Keyboard.setupShortcuts)
   restartApp: () => {
-    win.tray.remove()
-    nw.Window.get().reload()
-  },
-
-  // AUTO: build the right click menu(s) on demand
-  contextMenu: (cutLabel, copyLabel, pasteLabel, field) => {
-    const menu = new gui.Menu()
-    const clipboard = gui.Clipboard.get()
-
-    const cut = new gui.MenuItem({
-      label: cutLabel,
-      click: () => document.execCommand('cut')
-    })
-
-    const copy = new gui.MenuItem({
-      label: copyLabel,
-      click: () => {
-        // on readonly fields, execCommand doesn't work
-        if ($('#' + field).attr('readonly') && Misc.getSelection($('#' + field)[0]) === null) {
-          clipboard.set($('#' + field).val())
-        } else {
-          document.execCommand('copy')
-        }
-      }
-    })
-
-    const paste = new gui.MenuItem({
-      label: pasteLabel,
-      click: () => document.execCommand('paste')
-    })
-
-    if (cutLabel) {
-      menu.append(cut)
-    }
-    if (copyLabel) {
-      menu.append(copy)
-    }
-    if (pasteLabel) {
-      menu.append(paste)
-    }
-
-    return menu
-  },
-
-  customContextMenu: (labels) => {
-    // labels should be: {'my button label 1': () => action(), 'my button label 2': () => otherAction()};
-    const menu = new gui.Menu()
-
-    for (const label in labels) {
-      const action = labels[label]
-      let button = false
-
-      if (label.indexOf('separator') !== -1) {
-        button = new gui.MenuItem({ type: 'separator' })
-      } else if (label.indexOf('submenu') !== -1) {
-        const submenu = new gui.Menu()
-        const title = labels[label].title
-        for (const sublabel in labels[label].labels) {
-          const subaction = labels[label].labels[sublabel]
-          const subbutton = new gui.MenuItem({
-            label: i18n.__(sublabel),
-            click: () => subaction()
-          })
-          submenu.append(subbutton)
-        }
-        button = new gui.MenuItem({
-          label: i18n.__(title),
-          submenu: submenu
-        })
-      } else {
-        button = new gui.MenuItem({
-          label: i18n.__(label),
-          click: () => action()
-        })
-      }
-
-      menu.append(button)
-    }
-
-    return menu
-  },
-
-  // AUTO: get active selection (used by Misc.contextMenu)
-  getSelection: (textbox) => {
-    let selectedText = null
-    const activeElement = document.activeElement
-
-    if (activeElement && (activeElement.tagName.toLowerCase() === 'textarea' || (activeElement.tagName.toLowerCase() === 'input' && activeElement.type.toLowerCase() === 'text')) && activeElement === textbox) {
-      const startIndex = textbox.selectionStart
-      const endIndex = textbox.selectionEnd
-
-      if (endIndex - startIndex > 0) {
-        const text = textbox.value
-        selectedText = text.substring(textbox.selectionStart, textbox.selectionEnd)
-      }
-    }
-
-    return selectedText
+    NwjsApi.tray.remove()
+    NwjsApi.mainWindow.reload()
   },
 
   // AUTO: function to always return 2 digits, adding leading 0 if needed

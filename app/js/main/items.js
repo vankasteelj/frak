@@ -102,7 +102,7 @@ const Items = {
         }
       }
       $(`#${id} .fanart`).off('contextmenu').on('contextmenu', (e) => {
-        const menu = Misc.customContextMenu(labels)
+        const menu = NwjsApi.menus.customContextMenu(labels)
         menu.popup(parseInt(e.clientX), parseInt(e.clientY))
       })
     })
@@ -186,7 +186,7 @@ const Items = {
       }
 
       $(`#${id} .fanart`).off('contextmenu').on('contextmenu', (e) => {
-        const menu = Misc.customContextMenu(labels)
+        const menu = NwjsApi.menus.customContextMenu(labels)
         menu.popup(parseInt(e.clientX), parseInt(e.clientY))
       })
     })
@@ -253,7 +253,7 @@ const Items = {
       labels['Redownload image'] = () => Items.redownloadImage(id, image, movie.movie.ids, 'movie', 'fanart')
 
       $(`#${id} .fanart`).off('contextmenu').on('contextmenu', (e) => {
-        const menu = Misc.customContextMenu(labels)
+        const menu = NwjsApi.menus.customContextMenu(labels)
         menu.popup(parseInt(e.clientX), parseInt(e.clientY))
       })
     })
@@ -329,7 +329,7 @@ const Items = {
       labels['Redownload image'] = () => Items.redownloadImage(id, image, show.show.ids, 'show', 'fanart')
 
       $(`#${id} .fanart`).off('contextmenu').on('contextmenu', (e) => {
-        const menu = Misc.customContextMenu(labels)
+        const menu = NwjsApi.menus.customContextMenu(labels)
         menu.popup(parseInt(e.clientX), parseInt(e.clientY))
       })
     })
@@ -368,13 +368,13 @@ const Items = {
     labels['Play now'] = () => $(`#${id}`).click()
     labels['Show in file explorer'] = () => {
       console.info('[File explorer opened] Showing', file.path)
-      gui.Shell.showItemInFolder(path.normalize(file.path))
+      NwjsApi.shell.showItemInFolder(path.normalize(file.path))
       Notify.snack(i18n.__('Opening the file location'))
     }
 
     Misc.sleep(100).then(() => {
       $(`#${id}`).off('contextmenu').on('contextmenu', (e) => {
-        const menu = Misc.customContextMenu(labels)
+        const menu = NwjsApi.menus.customContextMenu(labels)
         menu.popup(parseInt(e.clientX), parseInt(e.clientY))
       })
     })
@@ -607,7 +607,7 @@ const Items = {
       // right click menu
       const labels = {}
       labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/${type}s/${d.id}`)
-      const menu = Misc.customContextMenu(labels)
+      const menu = NwjsApi.menus.customContextMenu(labels)
       $(`#ratings #${d.ratedId} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
     })
 
@@ -714,7 +714,7 @@ const Items = {
           id: show.show.ids.slug
         }).then(() => DB.trakt.store(0, 'lastrecommendedsync')).then(() => $(`#discover #${d.id}`).remove()))
         labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`)
-        const menu = Misc.customContextMenu(labels)
+        const menu = NwjsApi.menus.customContextMenu(labels)
         $(`#discover #${d.id} .fanart`).off('contextmenu').on('contextmenu', (e) => menu.popup(parseInt(e.clientX), parseInt(e.clientY)))
       })
 
@@ -800,7 +800,7 @@ const Items = {
         labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`)
 
         $(`#discover #${id} .fanart`).off('contextmenu').on('contextmenu', (e) => {
-          const menu = Misc.customContextMenu(labels)
+          const menu = NwjsApi.menus.customContextMenu(labels)
           menu.popup(parseInt(e.clientX), parseInt(e.clientY))
         })
       })
