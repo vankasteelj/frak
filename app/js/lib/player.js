@@ -114,7 +114,6 @@ const Player = {
 
   getOptions: () => {
     const options = DB.sync.get('player_options')
-    const scale = options.scale
 
     return [
       options.multimonitor && (sessionStorage.screens >= options.monitor) ? '--screen=' + (options.monitor - 1) : '',
@@ -125,7 +124,6 @@ const Player = {
       '--sub-font-size=' + options.sub_size,
       '--sub-color=' + options.sub_color,
       '--sub-border-size=2',
-      '--sub-scale=' + options.scale,
       '--contrast=' + options.contrast,
       '--saturation=' + options.saturation,
       '--osc=no',
