@@ -307,13 +307,13 @@ gulp.task('mpv', () => {
       console.log('downloading mpv...')
       const stream = got.stream(pkJson.mpv.url, {
         ecdhCurve: 'auto'
-      }).pipe(fs.createWriteStream(path.join(temp, 'mpv.7z')))
+      }).pipe(fs.createWriteStream(path.join('cache', 'mpv.7z')))
       stream.on('downloadProgress', console.log)
       stream.on('error', console.log)
       stream.on('finish', resolve)
     }).then(() => {
       console.log('mpv downloaded, extracting...')
-      return Z7.extractFull(path.join(temp, 'mpv.7z'), 'mpv')
+      return Z7.extractFull(path.join('cache', 'mpv.7z'), 'mpv')
     }).then(() => {
       console.log('mpv extracted')
     })
