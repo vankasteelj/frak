@@ -43,8 +43,10 @@ const Player = {
     Player.mpv.quit()
     Loading.close()
 
-    Player.config.model = undefined
-    Player.config.states = undefined
+    setTimeout(() => {
+      Player.config.model = undefined
+      Player.config.states = undefined
+    }, 300)
 
     Player.setMPV()
 
