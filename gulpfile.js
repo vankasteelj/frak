@@ -302,18 +302,24 @@ gulp.task('mpv', () => {
       console.log('No `mpv` task for', platform)
       return null
     }
+    const location = path.join('cache', `mpv-${pkJson.mpv.version}.7z`)
 
     return new Promise((resolve) => {
-      console.log('downloading mpv...')
-      const stream = got.stream(pkJson.mpv.url, {
-        ecdhCurve: 'auto'
-      }).pipe(fs.createWriteStream(path.join('cache', 'mpv.7z')))
-      stream.on('downloadProgress', console.log)
-      stream.on('error', console.log)
-      stream.on('finish', resolve)
+      if (fs.existsSync(location)) {
+        console.log('mpv already present in cache...')
+        resolve()
+      } else {
+        console.log('downloading mpv...')
+        const stream = got.stream(pkJson.mpv.url, {
+          ecdhCurve: 'auto'
+        }).pipe(fs.createWriteStream(location))
+        stream.on('downloadProgress', console.log)
+        stream.on('error', console.log)
+        stream.on('finish', resolve)
+      }
     }).then(() => {
-      console.log('mpv downloaded, extracting...')
-      return Z7.extractFull(path.join('cache', 'mpv.7z'), 'mpv')
+      console.log('extracting mpv...')
+      return Z7.extractFull(location, 'mpv')
     }).then(() => {
       console.log('mpv extracted')
     })
