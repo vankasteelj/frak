@@ -2821,8 +2821,7 @@ body {
   cursor: default;
   overflow-x: hidden;
   overflow-y: overlay;
-  text-rendering: optimizeSpeed;
-  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 #background {
   width: 100vw;
