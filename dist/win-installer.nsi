@@ -4,6 +4,9 @@ Unicode True
 !include "MUI2.nsh"
 !include "FileFunc.nsh"
 
+; Installer is DPI-aware: not scaled by the DWM, no blurry text
+ManifestDPIAware true
+
 ; ------------------- ;
 ;  Parse package.json ;
 ; ------------------- ;
