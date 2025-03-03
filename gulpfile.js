@@ -61,7 +61,7 @@ const parsePlatforms = () => {
 // download and compile nwjs
 gulp.task('nwjs', () => {
   const nwOptions = {
-    files: ['./app/**', './package.json', './README.md', './plugins/**', './mpv/**', './node_modules/**'],
+    files: ['./app/**', './package.json', './README.md', './plugins/**', './mpv/**', './mpv-conf/**', './node_modules/**'],
     buildDir: releasesDir,
     appName: pkJson.releaseName,
     appVersion: pkJson.version,
