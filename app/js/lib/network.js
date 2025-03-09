@@ -50,6 +50,7 @@ const Network = {
         if (Network.peers[existing].ip === server.ip) {
           Network.peers.splice(existing, 1)
           console.log('Network: peer disconnected (%s @ %s)', server.ip, server.name)
+          Network.rearrangeLocals()
         }
       }
     })
@@ -288,6 +289,8 @@ const Network = {
       console.info('Network: found %d available file(s) on %d peer(s)', items, Network.peers.length)
       $('#settings .localsharing .localstatus .clients').text(i18n.__('- %s connected peer(s)', Network.peers.length))
       return Collection.format.locals(collection)
+    }).finally(() => {
+      Interface.showLocals()
     })
   },
 
