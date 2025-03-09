@@ -173,8 +173,7 @@ const Network = {
 
     // serve the file on assigned port
     Network.peers[clientId].playbackServer = http.createServer((req, res) => {
-      const pathname = new (require('url')).URL(req.url).pathname
-      switch (pathname) {
+      switch (req.url) {
         case '/subtitles': {
           // only working for a ".srt file" using the exact same name as the video file
           const ext = file.filename.split('.').pop()
