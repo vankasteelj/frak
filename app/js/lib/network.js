@@ -276,7 +276,7 @@ const Network = {
     return DB.app.get('local_library').then(collection => {
       let items = 0
 
-      // add each available item (and its source);
+      // add each available item (and its source)
       for (const i in Network.peers) {
         for (const j in Network.peers[i].available) {
           items++
@@ -290,7 +290,8 @@ const Network = {
       $('#settings .localsharing .localstatus .clients').text(i18n.__('- %s connected peer(s)', Network.peers.length))
       return Collection.format.locals(collection)
     }).finally(() => {
-      Interface.showLocals()
+      // update the view if we're in locals tab and also not in details
+      if (DB.sync.get('active_tab') === 'locals' && !$('#details').is(':visible')) Interface.showLocals()
     })
   },
 
