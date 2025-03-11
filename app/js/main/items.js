@@ -954,7 +954,7 @@ const Items = {
       const data = JSON.parse($(`#${id}`).find('.data').text())
       return data
     } catch (e) {
-      console.error('Coulnt parse JSON data (Items.getData) for $(#%s)', id)
+      console.error('Couldn\'t parse JSON data (Items.getData) for $(#%s)', id)
     }
   },
   removeFromCustom: (elm) => {
