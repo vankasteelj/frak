@@ -19,7 +19,6 @@ const Boot = {
   },
   postload: () => {
     scheduler.postTask(Player.findMpv, { priority: 'background' }) // player
-    scheduler.postTask(Plugins.load, { priority: 'background' }) // load search plugins
     scheduler.postTask(Boot.setupInputs, { priority: 'background' }) // browse button
     scheduler.postTask(Keyboard.setupShortcuts, { priority: 'background' }) // keyboard shortcuts
     // Gamepad.init(); // gamepad support - needs work
@@ -37,6 +36,9 @@ const Boot = {
     // right clicks
     scheduler.postTask(Interface.rightClickNav, { priority: 'background' })
     scheduler.postTask(() => Boot.setupRightClicks('input[type=text], textarea'), { priority: 'background' })
+
+    // plugins
+    scheduler.postTask(Plugins.load, { priority: 'background' }) // load search plugins
   },
 
   // STARTUP: setup network connexion
