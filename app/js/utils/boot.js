@@ -167,6 +167,11 @@ const Boot = {
       document.querySelector('#items-size').checked = true
     }
 
+    // items size
+    if (DB.sync.get('dyslexic')) {
+      document.querySelector('#dyslexic').checked = true
+    }
+
     // translate overview button
     if (DB.sync.get('translateOverviews')) {
       document.querySelector('#tro-button').checked = true
@@ -383,6 +388,12 @@ const Boot = {
       const isSmall = evt.target.checked
       DB.sync.store(isSmall, 'small_items')
       Interface.switchCollectionSize(isSmall)
+    }, false)
+
+    document.querySelector('#dyslexic').addEventListener('click', (evt) => {
+      const isActive = evt.target.checked
+      DB.sync.store(isActive, 'dyslexic')
+      Themes.dyslexic(isActive)
     }, false)
 
     const playerOptions = DB.sync.get('player_options')

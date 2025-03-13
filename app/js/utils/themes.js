@@ -25,6 +25,25 @@ const Themes = {
     document.documentElement.className = theme
     DB.sync.store(theme, 'theme')
     console.info('Theme applied:', theme)
+    Themes.dyslexic()
     requestIdleCallback(() => $('#theme').val(theme))
+  },
+  dyslexic: (activate) => {
+    if (activate === undefined) {
+      // default at start
+      if (DB.sync.get('dyslexic')) {
+        console.info('Dyslexic mode: active')
+        document.documentElement.className += ' dyslexic'
+      }
+    } else {
+      // triggered from settings
+      if (DB.sync.get('dyslexic')) {
+        console.info('Dyslexic mode: active')
+        document.documentElement.className += ' dyslexic'
+      } else {
+        console.info('Dyslexic mode: disabled')
+        document.documentElement.className = document.documentElement.className.replace('dyslexic', '')
+      }
+    }
   }
 }

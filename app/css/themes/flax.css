@@ -5,6 +5,8 @@
   --font: 'system-ui';
   --font-semibold: 'system-ui';
   --font-bold: 'system-ui';
+  --font-default: sans-serif;
+  --font-mono: monospace;
 
   /* color scheme */
   --app-color-main: #323a45;

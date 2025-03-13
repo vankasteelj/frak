@@ -1,0 +1,127 @@
+/* Theme file: dark */
+
+.high-contrast {
+  /* fonts */
+  --font: 'Proxima Nova';
+  --font-semibold: 'Proxima Nova Semibold';
+  --font-bold: 'Proxima Nova Bold';
+  --font-default: sans-serif;
+  --font-mono: monospace;
+
+  /* color scheme */
+  --app-color-main: #000;
+  --app-color-alt: #000;
+  --app-font-color: #FFF;
+  --app-font-color-dimmed: #CCC;
+  --app-font-color-dimmedstrong: #999;
+
+  /* navbar */
+  --separator: transparent;
+  
+  --spinner-color: #FFF;
+
+  --tab-text: #FFF;
+  --tab-bg: transparent;
+  --tab-text-hover: #000;
+  --tab-bg-hover: #FFF;
+  --tab-text-select: #000;
+  --tab-bg-select: #FFF;
+
+  /* buttons */
+  --button-bg: #444;
+  --button-text: #FFF;
+  --button-bg-hover: #FFF;
+  --button-text-hover: #000;
+
+  --button-donothing: #999;
+  --button-warn: #ff0000;
+
+  /* notification */
+  --notification-bg: #000;
+  --notification-border: #FFF;
+  --notification-text: #FFF;
+  --notification-bg-hover: #000;
+  --notification-text-hover: #FFF;
+
+  /* item list */
+  --item-border: transparent;
+  --item-bg: #000;
+  --item-text: #FFF;
+
+  --item-title-bg: #000;
+  --item-title-shadow: none;
+  --item-title: #FFF;
+  --item-year: #FFF;
+  --item-eptitle: #FFF;
+
+  /* lists */
+  --scrollbar-track: transparent;
+  --scrollbar: #FFF;
+  --scrollbar-hover: #FFF;
+  --waitbounce: #444;
+
+  /* local list */
+  --category-text: #FFF;
+  --category-border: transparent;
+  --category-bg: transparent;
+  --category-text-hover: #000;
+  --category-border-hover: transparent;
+  --category-bg-hover: #FFF;
+
+  --localitem-main: #000;
+  --localitem-main-hover: #444;
+  --localitem-season: #000;
+  --localitem-season-hover: #444;
+  --localitem-episode: #000;
+  --localitem-episode-hover: #444;
+
+  --localitem-border: transparent;
+  --localitem-text: #FFF;
+  --localitem-subtext: #FFF;
+
+  /* settings */
+  --settings-lines: #000;
+  --settings-text: #FFF;
+
+  --localpaths-bg-hover: #444;
+  --localpaths-bg-select: #444;
+  --localpaths-text-select: #FFF;
+
+  --yesno: #FFF;
+  --slider-bg: #444;
+  --slider-selector: #FFF;
+  --dropdown-bg: #000;
+  --dropdown-text: #FFF;
+  --input-placeholder: #FFF;
+  --input-text: #FFF;
+  --input-bg: transparent;
+
+  /* about */
+  --icons-hover-bg: transparent;
+
+  /* stats */
+  --stats-box: #000;
+}
+
+.high-contrast * {
+  text-shadow: none!important;
+  box-shadow: none!important;
+}
+
+.high-contrast #details .background {
+  background-image: none!important;
+}
+
+.high-contrast .quick-icons>div>div,
+.high-contrast .quick-icons>.metadata>div>div {
+  color: #FFF!important;
+}
+.high-contrast .quick-icons>div>div:hover,
+.high-contrast .quick-icons>.metadata>div>div:hover {
+  background-color: #FFF!important;
+  color: #000!important
+}
+
+.high-contrast input, textarea {
+  border-color: #FFF!important;
+}

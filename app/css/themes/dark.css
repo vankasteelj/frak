@@ -5,6 +5,8 @@
   --font: 'Proxima Nova';
   --font-semibold: 'Proxima Nova Semibold';
   --font-bold: 'Proxima Nova Bold';
+  --font-default: sans-serif;
+  --font-mono: monospace;
 
   /* color scheme */
   --app-color-main: #202020;

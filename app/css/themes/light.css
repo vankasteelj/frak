@@ -5,6 +5,8 @@
   --font: 'Proxima Nova';
   --font-semibold: 'Proxima Nova Semibold';
   --font-bold: 'Proxima Nova Bold';
+  --font-default: sans-serif;
+  --font-mono: monospace;
 
   /* color scheme */
   --app-color-main: #fafafa;
@@ -103,5 +105,10 @@
 
 /* CUSTOM */
 .light #stats #sbackground {
-  background: none;
+  background: none!important;
+}
+
+.light #details {
+  background-color: var(--app-font-color)!important;
+  color: var(--app-color-alt)!important;
 }

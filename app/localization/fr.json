@@ -416,5 +416,8 @@
 	"DLNA casting is not allowed on local files": "Caster via DLNA n'est pas autorisé avec des fichiers locaux",
 	"%s ratings with an average of %s hearts.": "%s notes, avec en moyenne %s cœurs.",
 	"# of ratings": "# de notes",
-	"flax": "flax"
+	"flax": "flax",
+	"Dyslexic font": "Mode dyslexique",
+	"Use the OpenDyslexic font specifically designed to help readability": "Utilise la police de caractère OpenDyslexic spécialement prévue pour améliorer la lisibilité",
+	"high-contrast": "contraste élevé"
 }
