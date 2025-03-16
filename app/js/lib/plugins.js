@@ -37,14 +37,14 @@ const Plugins = {
             default: active
           }
 
-          Plugins.addToSettings(Plugins.available[tmp.name])
+          scheduler.postTask(() => Plugins.addToSettings(Plugins.available[tmp.name]), { priority: 'background' })
           debugnames.push(tmp.name)
         } catch (e) {
           console.info('Plugins - %s cannot be loaded', file, e)
         }
       }
-      Plugins.addTest()
       console.info('Plugins - loading:', debugnames.join(', '))
+      scheduler.postTask(Plugins.addTest, { priority: 'background' })
     })
   },
   addTest: () => {
