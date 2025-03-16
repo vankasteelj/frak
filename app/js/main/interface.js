@@ -53,8 +53,8 @@ const Interface = {
     $('#traktwelcome').hide()
     $('#requirempv').hide()
     $('#init').hide()
-    $('#collection').show()
     $('#navbar').show()
+    $('#collection').show()
   },
 
   // USER INTERACTION: click navbar
