@@ -19,19 +19,13 @@ const Boot = {
   },
   postload: () => {
     scheduler.postTask(Player.findMpv, { priority: 'background' }) // player
-    scheduler.postTask(Boot.setupInputs, { priority: 'background' }) // browse button
     scheduler.postTask(Keyboard.setupShortcuts, { priority: 'background' }) // keyboard shortcuts
     // Gamepad.init(); // gamepad support - needs work
     scheduler.postTask(Boot.setupScreens, { priority: 'background' }) // nwjs screen listener
-    scheduler.postTask(Update.check, { priority: 'background' }) // update
     scheduler.postTask(Dragdrop.setup, { priority: 'background' }) // allow drag&drop
     scheduler.postTask(Subtitles.opensubReLogin, { priority: 'background' }) // opensubtitles login if needed
     scheduler.postTask(Ratings.setupDropdown, { priority: 'background' }) // ratings init
     scheduler.postTask(Boot.setupVersion, { priority: 'background' }) // version number
-
-    // periodical tasks
-    scheduler.postTask(Boot.cleanup, { priority: 'background' }) // periodically cleanup
-    scheduler.postTask(Boot.idle, { priority: 'background' }) // periodically update
 
     // right clicks
     scheduler.postTask(Interface.rightClickNav, { priority: 'background' })
@@ -39,6 +33,17 @@ const Boot = {
 
     // plugins
     scheduler.postTask(Plugins.load, { priority: 'background' }) // load search plugins
+
+    // network
+    scheduler.postTask(Collection.get.local, { priority: 'background' }) // local sharing
+
+    // non critical interface
+    scheduler.postTask(Boot.setupInputs, { priority: 'background' }) // browse button
+    scheduler.postTask(Update.check, { priority: 'background' }) // update
+
+    // periodical tasks
+    scheduler.postTask(Boot.cleanup, { priority: 'background' }) // periodically cleanup
+    scheduler.postTask(Boot.idle, { priority: 'background' }) // periodically update
   },
 
   // STARTUP: setup network connexion

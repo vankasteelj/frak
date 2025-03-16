@@ -34,8 +34,6 @@ const Collection = {
         Trakt.getRatings()
       }
     }).catch(console.error)
-
-    scheduler.postTask(Collection.get.local, { priority: 'background' })
   },
 
   get: {
