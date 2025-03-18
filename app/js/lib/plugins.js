@@ -9,42 +9,51 @@ const Plugins = {
     fs.existsSync(dir) && fs.readdir(dir, (err, plugins = []) => {
       if (err) return
 
-      const debugnames = []
+      let count = 0
+      let count2 = 0
+      const loadPlugin = (file) => {
+        const found = path.join(dir, file)
+        let plugin
+        if (fs.statSync(found).isFile()) {
+          // load index files
+          plugin = found
+        } else {
+          // load complete modules
+          plugin = path.join(found, 'index.js')
+        }
+
+        const tmp = require(plugin)
+
+        // add to db if missing
+        if (DB.sync.get(tmp.name) === undefined) {
+          DB.sync.store(false, tmp.name)
+        }
+
+        const active = DB.sync.get(tmp.name)
+        Plugins.available[tmp.name] = {
+          name: tmp.name,
+          path: plugin,
+          require: tmp,
+          default: active
+        }
+
+        scheduler.postTask(() => Plugins.addToSettings(Plugins.available[tmp.name]), { priority: 'background' })
+        count2++
+      }
+
       for (const file of plugins) {
         try {
-          const found = path.join(dir, file)
-          let plugin
-          if (fs.statSync(found).isFile()) {
-            // load index files
-            plugin = found
-          } else {
-            // load complete modules
-            plugin = path.join(found, 'index.js')
-          }
-
-          const tmp = require(plugin)
-
-          // add to db if missing
-          if (DB.sync.get(tmp.name) === undefined) {
-            DB.sync.store(false, tmp.name)
-          }
-
-          const active = DB.sync.get(tmp.name)
-          Plugins.available[tmp.name] = {
-            name: tmp.name,
-            path: plugin,
-            require: tmp,
-            default: active
-          }
-
-          scheduler.postTask(() => Plugins.addToSettings(Plugins.available[tmp.name]), { priority: 'background' })
-          debugnames.push(tmp.name)
+          Misc.sleep(count*500).then(() => {
+            loadPlugin(file)
+            if (count2 === plugins.length) {
+              scheduler.postTask(Plugins.addTest, { priority: 'background' })
+            }
+          })
         } catch (e) {
           console.info('Plugins - %s cannot be loaded', file, e)
         }
+        count++
       }
-      console.info('Plugins - loading:', debugnames.join(', '))
-      scheduler.postTask(Plugins.addTest, { priority: 'background' })
     })
   },
   addTest: () => {
