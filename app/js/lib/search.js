@@ -78,7 +78,7 @@ const Search = {
     console.info('Testing online search - shows...')
     return getAll({
       keywords: atob('Z2FtZSBvZiB0aHJvbmVzIHMwMWUwMQ=='),
-      imdid: atob('dHQwOTQ0OTQ3'),
+      imdbid: atob('dHQwOTQ0OTQ3'),
       type: 'show'
     }).then(shows => {
       results.shows = shows
