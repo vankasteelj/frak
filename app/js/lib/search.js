@@ -34,6 +34,7 @@ const Search = {
   testOnline: () => {
     const getAll = (t) => {
       return Promise.all(Object.keys(Plugins.loaded).map(plugin => {
+        const start = Date.now()
         try {
           return Plugins.loaded[plugin].search(t).then(r => {
             if (!r[0]) {
@@ -46,6 +47,7 @@ const Search = {
               return Promise.resolve({
                 tested: plugin,
                 working: true,
+                ms: Date.now() - start,
                 results: r
               })
             }
