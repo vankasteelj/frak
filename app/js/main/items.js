@@ -77,7 +77,7 @@ const Items = {
     let image
     IB.get(movie.movie.ids).then(cached => {
       image = cached.fanart || cached.poster
-      return Items.getImage(image, movie.movie.ids, 'movie', 'fanart')
+      return Misc.sleep(0).then(() => Items.getImage(image, movie.movie.ids, 'movie', 'fanart'))
     }).then((img) => {
       img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0')
 
