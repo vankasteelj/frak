@@ -310,6 +310,8 @@ const Interface = {
       for (const i in showgenres) {
         showlabels.submenu2.labels[showgenres[i].name] = () => DB.trakt.get('traktshowscollection').then(coll => { Collection.show.shows(Collection.sort.shows.genre(showgenres[i].slug, coll)); Trakt.getRatings() })
       }
+    }).then(() => {
+      return Misc.sleep(0)
     }).finally(() => {
       // menu popup
 

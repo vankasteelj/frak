@@ -34,13 +34,19 @@ const Ratings = {
     })
 
     const allGenres = DB.sync.get('traktgenres')
+
+    const appendValue = (g) => {
+      if (allGenres.movies.filter(a => a.slug === g.slug).length) {
+        $('#r-genres').append('<option value="' + g.slug + '">' + i18n.__(g.name) + '</option>')
+      }
+    }
+
     if (allGenres) {
       $('#r-genres').append('<option value="all">' + i18n.__('All genres') + '</option>')
       for (const i in allGenres.shows) {
-        const g = allGenres.shows[i]
-        if (allGenres.movies.filter(a => a.slug === g.slug).length) {
-          $('#r-genres').append('<option value="' + g.slug + '">' + i18n.__(g.name) + '</option>')
-        }
+        Misc.sleep(i*100).then(() => {
+          appendValue(allGenres.shows[i])
+        })
       }
       $('#r-genres').val('all')
       $('#r-genres').on('change', (e) => {
