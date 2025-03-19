@@ -167,18 +167,6 @@ const Search = {
   sortOnline: (input) => {
     const collection = []
     const start = Date.now()
-    let out = []
-
-    const outDupNames = {}
-    const outDupBtih = {}
-    const outDupSizes = {}
-
-    const foundNames = []
-    const dupNames = []
-    const foundBtih = []
-    const dupBtih = []
-    const foundSize = []
-    const dupSize = []
 
     // check if all info is there
     return Promise.all(input.map((i) => {
@@ -209,83 +197,62 @@ const Search = {
         }
       })
     })).then(() => DB.app.get('pinned_magnets')).then(pinned => {
-      // prepare for duplicates
-      for (const i of collection) {
-        const name = Misc.slugify(i.name)
-        foundNames.indexOf(name) === -1 ? foundNames.push(name) : dupNames.push(name)
+      const tmp = []
+      const found = []
+      const duplicates = []
+      const out = []
+      const toSort = {}
 
+      for (const i of collection) {
+        // remove empty magnet links
         const matched = i.magnet.match(/btih:(.*?)($|&)/i)
         if (!matched) continue
-
-        const btih = matched[1].toLowerCase()
-        foundBtih.indexOf(btih) === -1 ? foundBtih.push(btih) : dupBtih.push(btih)
-
-        const size = parseInt(i.size / 1024 / (1024 / 100)) // 1kb range
-        foundSize.indexOf(size) === -1 ? foundSize.push(size) : dupSize.push(size)
-      }
-
-      // add health
-      for (const i of collection) {
-        if (!i) continue // remove undefined
-        const ratio = i.peers ? i.seeds / i.peers : i.seeds // get ratio
-        const freeseeds = i.seeds - i.peers // get total of free seeds
-
-        const score = Search.calcScore(ratio, i.seeds, freeseeds)
-
-        i.score = score
-        i.ratio = ratio
-
-        // where to push?
-        const name = Misc.slugify(i.name)
-
-        const matched = i.magnet.match(/btih:(.*?)($|&)/i)
-        if (!matched) continue
+        i.btih = matched[1].toLowerCase()
 
         // remove already pinned magnets
-        if (pinned && pinned.findIndex(a => a.btih === matched[1]) !== -1) continue
+        if (pinned && pinned.findIndex(a => a.btih === i.btih) !== -1) continue
 
-        const btih = matched[1].toLowerCase()
-        const size = parseInt(i.size / 1024 / (1024 / 100))
+        // add health
+        const ratio = i.peers ? i.seeds / i.peers : i.seeds // get ratio
+        const freeseeds = i.seeds - i.peers // get total of free seeds
+        const score = Search.calcScore(ratio, i.seeds, freeseeds)
+        i.score = score
 
-        if (dupBtih.indexOf(btih) !== -1) {
-          if (!outDupBtih[btih]) outDupBtih[btih] = []
-          outDupBtih[btih].push(i)
-        } else if (dupNames.indexOf(name) !== -1) {
-          if (!outDupNames[name]) outDupNames[name] = []
-          outDupNames[name].push(i)
-        } else if (dupSize.indexOf(size) !== -1) {
-          if (!outDupSizes[size]) outDupSizes[size] = []
-          outDupSizes[size].push(i)
+        // find duplicates
+        if (found.indexOf(i.btih) === -1) { // did we encounter it already?
+          found.push(i.btih) // if not, push to found
+        } else {
+          duplicates.push(i.btih) // if yes, push to dup
+        }
+
+        // use tmp
+        tmp.push(i)
+      }
+
+      // sort duplicates by score, keep the best one
+      for (const i of tmp) {
+        if (duplicates.indexOf(i.btih) !== -1) {
+          if (!toSort[i.btih]) toSort[i.btih] = []
+          toSort[i.btih].push(i)
         } else {
           out.push(i)
         }
       }
-
-      // sort duplicates by score, keep the best one
-      const findMax = (a, b) => (a.score > b.score) ? a : b
-      for (const i in outDupNames) {
-        out.push(outDupNames[i].reduce(findMax))
-      }
-      for (const i in outDupBtih) {
-        out.push(outDupBtih[i].reduce(findMax))
-      }
-      for (const i in outDupSizes) {
-        out.push(outDupSizes[i].reduce(findMax))
+      for (const i in toSort) {
+        out.push(toSort[i].reduce((a, b) => (a.score > b.score) ? a : b))
       }
 
-      // sort by score (and then seeds, and then ratio)
-      out = out.sort((a, b) => {
+      // sort by score (and then seeds)
+      const response = out.sort((a, b) => {
         if (a.score > b.score) return -1
         if (a.score < b.score) return 1
         if (a.seeds > b.seeds) return -1
         if (a.seeds < b.seeds) return 1
-        if (a.ratio > b.ratio) return -1
-        if (a.ratio < b.ratio) return 1
         return 0
       })
 
       console.debug('Search.sortOnline took %sms', Date.now() - start)
-      return out
+      return response
     })
   },
 
