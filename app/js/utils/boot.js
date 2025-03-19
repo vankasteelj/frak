@@ -95,9 +95,9 @@ const Boot = {
   // STARTUP: builds right click menu
   setupRightClicks: (toFind) => {
     const inputs = $(toFind)
-    inputs.each((i) => {
+    for (let i = 0; i < inputs.length; i++) {
       NwjsApi.menus.buildRightClick(inputs[i])
-    })
+    }
   },
 
   // STARTUP: app sometimes can be out of the screen
