@@ -157,7 +157,7 @@ const Items = {
     let image
     IB.get(show.show.ids).then(cached => {
       image = cached.fanart || cached.poster
-      return Items.getImage(image, show.show.ids, 'show', 'fanart')
+      return Misc.sleep(0).then(() => Items.getImage(image, show.show.ids, 'show', 'fanart'))
     }).then(img => {
       img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0')
       if (show.unseen - 1 > 0) $(`#${d.id} .unseen`).show()
@@ -238,7 +238,7 @@ const Items = {
     let image
     IB.get(movie.movie.ids).then(cached => {
       image = cached.fanart || cached.poster
-      return Items.getImage(image, movie.movie.ids, 'movie', 'fanart')
+      return Misc.sleep(0).then(() => Items.getImage(image, movie.movie.ids, 'movie', 'fanart'))
     }).then((img) => {
       img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0')
 
@@ -314,7 +314,7 @@ const Items = {
     let image
     IB.get(show.show.ids).then(cached => {
       image = cached.fanart || cached.poster
-      return Items.getImage(image, show.show.ids, 'show', 'fanart')
+      return Misc.sleep(0).then(() => Items.getImage(image, show.show.ids, 'show', 'fanart'))
     }).then(img => {
       img && $(`#${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.id} .fanart img`).css('opacity', '0')
 
@@ -490,7 +490,7 @@ const Items = {
     let image
     IB.get(show.show.ids).then(cached => {
       image = cached.poster || cached.fanart
-      return Items.getImage(image, show.show.ids, 'show', 'poster')
+      return Misc.sleep(0).then(() => Items.getImage(image, show.show.ids, 'show', 'poster'))
     }).then(img => {
       img && $(`#${d.watchedId} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.watchedId} .fanart img`).css('opacity', '0')
     })
@@ -539,7 +539,7 @@ const Items = {
     let image
     IB.get(movie.movie.ids).then(cached => {
       image = cached.poster || cached.fanart
-      return Items.getImage(image, movie.movie.ids, 'movie', 'poster')
+      return Misc.sleep(0).then(() => Items.getImage(image, movie.movie.ids, 'movie', 'poster'))
     }).then(img => {
       img && $(`#${d.watchedId} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.watchedId} .fanart img`).css('opacity', '0')
     })
@@ -600,7 +600,7 @@ const Items = {
     let image
     IB.get(data[type].ids).then(cached => {
       image = cached.poster || cached.fanart
-      return Items.getImage(image, data[type].ids, type, 'poster')
+      return Misc.sleep(0).then(() => Items.getImage(image, data[type].ids, type, 'poster'))
     }).then(img => {
       img && $(`#${d.ratedId} .fanart`).css('background-image', `url('${img}')`) && $(`#${d.ratedId} .fanart img`).css('opacity', '0')
 
@@ -696,7 +696,7 @@ const Items = {
       let image
       IB.get(show.show.ids).then(cached => {
         image = cached.fanart || cached.poster
-        return Items.getImage(image, show.show.ids, 'show', 'fanart')
+        return Misc.sleep(0).then(() => Items.getImage(image, show.show.ids, 'show', 'fanart'))
       }).then(img => {
         img && $(`#discover #${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#discover  #${d.id} .fanart img`).css('opacity', '0')
         !d.key && $(`#discover #${d.id} .ep-title`).hide()
@@ -779,7 +779,7 @@ const Items = {
       let image
       IB.get(movie.movie.ids).then(cached => {
         image = cached.fanart || cached.poster
-        return Items.getImage(image, movie.movie.ids, 'movie', 'fanart')
+        return Misc.sleep(0).then(() => Items.getImage(image, movie.movie.ids, 'movie', 'fanart'))
       }).then(img => {
         img && $(`#discover #${d.id} .fanart`).css('background-image', `url('${img}')`) && $(`#discover #${d.id} .fanart img`).css('opacity', '0')
         !d.key && $(`#discover #${d.id} .ep-title`).hide()
@@ -949,7 +949,13 @@ const Items = {
     // extract json from data div
     const $elm = $(elm)[0]
     if (!$elm) return
-    const id = ($elm.offsetParent && (['shows', 'movies', 'customs'].indexOf($elm.offsetParent.id) === -1) && $elm.offsetParent.id) || $elm.id
+
+    let id = $elm.id
+    if (!id) {
+      const offsetParent = $elm.offsetParent
+      id = (offsetParent && (['shows', 'movies', 'customs'].indexOf(offsetParent.id) === -1) && offsetParent.id)
+    }
+
     try {
       const data = JSON.parse($(`#${id}`).find('.data').text())
       return data
