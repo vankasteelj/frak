@@ -35,7 +35,7 @@ const Interface = {
     $('#welcomeprofile').show()
     $('#traktwelcome .spinner').show()
 
-    setTimeout(() => $('#traktwelcome button').show(), 20000) // display reset if still here after 20sec
+    setTimeout(() => $('#traktwelcome button').show(), 60000) // display reset if still here after 60sec
   },
 
   // AUTO: from welcome page
