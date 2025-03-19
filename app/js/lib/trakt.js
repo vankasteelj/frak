@@ -99,13 +99,14 @@ const Trakt = {
         return Trakt.client.sync.ratings.get({ extended: 'full' }).then(ratings => {
           DB.trakt.store(ratings, 'traktratings')
           DB.trakt.store(Date.now(), 'traktsyncrating')
+          Items.applyRatings(ratings)
           return ratings
         })
       } else {
         console.info('Using cached ratings')
         return traktratings
       }
-    }).then(Items.applyRatings)
+    })
   },
 
   rate: (method, item, score) => {
@@ -235,8 +236,8 @@ const Trakt = {
           ]).then(() => {
             return Collection.get.traktshows(update, slug, cached.shows)
           }).then(collection => {
-            Collection.get.traktcached(update)
             Trakt.getRatings()
+            Collection.get.traktcached(update)
             return [collection]
           }).catch(handleError)
         case 'movie':
@@ -248,8 +249,8 @@ const Trakt = {
           ]).then(() => {
             return Collection.get.traktmovies(update)
           }).then(collection => {
-            Collection.get.traktcached(update)
             Trakt.getRatings()
+            Collection.get.traktcached(update)
             return [collection]
           }).catch(handleError)
         default:
@@ -270,8 +271,8 @@ const Trakt = {
           }).then((collections) => {
             if (Misc.isError(collections[0]) || Misc.isError(collections[1])) throw new Error('Trakt.reload failed')
 
-            Collection.get.traktcached(update)
             Trakt.getRatings()
+            Collection.get.traktcached(update)
 
             return collections
           }).catch(handleError)

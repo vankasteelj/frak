@@ -862,9 +862,8 @@ const Items = {
     $('.corner-rating span').text('')
     $('.corner-rating').hide()
 
-    for (const item of ratings) {
-      if (['show', 'movie'].indexOf(item.type) === -1) continue
-
+    let count = 0
+    let addRating = (item) => {
       if ($('#details .id').text() === item[item.type].ids.slug) {
         $('#details .corner-rating span').text(item.rating).parent().show()
       }
@@ -882,6 +881,12 @@ const Items = {
         $(`#custom-${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show()
         $(`.custom-${item[item.type].ids.slug} .corner-rating span`).text(item.rating).parent().show()
       }
+      count++
+    }
+
+    for (const item of ratings) {
+      if (['show', 'movie'].indexOf(item.type) === -1) continue
+      Misc.sleep(count*10).then(() => addRating(item))
     }
   },
 

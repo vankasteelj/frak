@@ -111,6 +111,7 @@ const Collection = {
         Collection.show.movies(movies)
         Collection.show.shows(shows)
         DB.sync.get('use_customs') && Collection.show.customs(customs)
+
         DB.trakt.get('traktratings').then(Items.applyRatings)
 
         if (update) return
