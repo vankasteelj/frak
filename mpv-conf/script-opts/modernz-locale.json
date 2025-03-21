@@ -25,7 +25,9 @@
         "download_in_progress": "Téléchargement en cours",
         "downloading": "Téléchargement",
         "downloaded": "Déjà téléchargé",
-        "speed": "Vitesse : "
+        "speed": "Vitesse : ",
+        "crop": "Recadrer",
+        "aspect_ratio": "Rapport hauteur/largeur",
     },
     "de": {
         "idle": "Dateien oder URLs hier ablegen, um sie abzuspielen",

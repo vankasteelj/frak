@@ -109,6 +109,9 @@ local user_opts = {
     speed_button_click = 1,                -- speed change amount per click
     speed_button_scroll = 0.25,            -- speed change amount on scroll
 
+    crop_button = true,                    -- show crop button (requires vlccrop.lua)
+    aspect_ratio_button = true,            -- show aspect ratio button (requires vlcaspectratio.lua)
+
     loop_in_pause = true,                  -- enable looping by right-clicking pause
 
     buttons_always_active = "none",        -- force buttons to always be active. can add: playlist_prev, playlist_next
@@ -276,7 +279,7 @@ local osc_param = {                  -- calculated by osc_init()
     },
 }
 
-local icons = {
+local icons = { -- these are unicode to utf-8 (decimal) conversions. e.g. E000 is \238\128\128 (see https://utf8-chartable.de/unicode-utf8-table.pl?start=57344&utf8=dec)
     window = {
         maximize = "\238\159\171",
         unmaximize = "\238\174\150",
@@ -320,6 +323,9 @@ local icons = {
 
     zoom_in = "\238\186\142",
     zoom_out = "\238\186\143",
+
+    crop = "\238\144\171",
+    aspect_ratio = "\239\163\142",
 }
 
 --- localization
@@ -340,6 +346,8 @@ local language = {
         loop_enable = "Loop",
         loop_disable = "Disable Loop",
         speed_control = "Speed Control",
+        crop = "Crop",
+        aspect_ratio = "Aspect Ratio",
         screenshot = "Screenshot",
         stats_info = "Information",
         cache = "Cache",
@@ -350,7 +358,7 @@ local language = {
         download_in_progress = "Download in progress",
         downloading = "Downloading",
         downloaded = "Already downloaded",
-        speed = "Speed: "
+        speed = "Speed: ",
     },
 }
 
@@ -1738,6 +1746,8 @@ layouts["modern"] = function ()
     local speed_button = user_opts.speed_button
     local download_button = user_opts.download_button and state.is_URL
     local playlist_button = user_opts.playlist_button and (not user_opts.hide_empty_playlist_button or mp.get_property_number("playlist-count", 0) > 1)
+    local crop_button = user_opts.crop_button
+    local aspect_ratio_button = user_opts.aspect_ratio_button
 
     local offset = jump_buttons and 60 or 0
     local outeroffset = (chapter_skip_buttons and 0 or 100) + (jump_buttons and 0 or 100)
@@ -1916,16 +1926,30 @@ layouts["modern"] = function ()
         lo.visible = (osc_param.playresx >= 600 - outeroffset)
     end
 
+    if crop_button then
+      lo = add_layout("tog_crop")
+      lo.geometry = {x = osc_geo.w - 307 + (speed_button and 0 or 45) + (loop_button and 0 or 45) + (screenshot_button and 0 or 45) + (ontop_button and 0 or 45) + (info_button and 0 or 45) + (fullscreen_button and 0 or 45), y = refY - 35, an = 5, w = 24, h = 24}
+      lo.style = osc_styles.control_3
+      lo.visible = (osc_param.playresx >= 600 - outeroffset)
+    end
+
+    if aspect_ratio_button then
+      lo = add_layout("tog_aspect_ratio")
+      lo.geometry = {x = osc_geo.w - 352 + (crop_button and 0 or 45) + (speed_button and 0 or 45) + (loop_button and 0 or 45) + (screenshot_button and 0 or 45) + (ontop_button and 0 or 45) + (info_button and 0 or 45) + (fullscreen_button and 0 or 45), y = refY - 35, an = 5, w = 24, h = 24}
+      lo.style = osc_styles.control_3
+      lo.visible = (osc_param.playresx >= 600 - outeroffset)
+    end
+
     if download_button then
         lo = add_layout("download")
-        lo.geometry = {x = osc_geo.w - 307 + (speed_button and 0 or 45) + (loop_button and 0 or 45) + (screenshot_button and 0 or 45) + (ontop_button and 0 or 45) + (info_button and 0 or 45) + (fullscreen_button and 0 or 45), y = refY - 35, an = 5, w = 24, h = 24}
+        lo.geometry = {x = osc_geo.w - 397 + (aspect_ratio_button and 0 or 45) + (crop_button and 0 or 45) + (speed_button and 0 or 45) + (loop_button and 0 or 45) + (screenshot_button and 0 or 45) + (ontop_button and 0 or 45) + (info_button and 0 or 45) + (fullscreen_button and 0 or 45), y = refY - 35, an = 5, w = 24, h = 24}
         lo.style = osc_styles.control_3
         lo.visible = (osc_param.playresx >= 400 - outeroffset)
     end
 
     -- cache info
     if user_opts.cache_info then
-        local cache_x_offset = (download_button and 0 or 45) + (speed_button and 0 or 45) + (loop_button and 0 or 45) + (screenshot_button and 0 or 45) + (ontop_button and 0 or 45) + (info_button and 0 or 45) + (fullscreen_button and 0 or 45)
+        local cache_x_offset = (aspect_ratio_button and 0 or 45) + (crop_button and 0 or 45) + (download_button and 0 or 45) + (speed_button and 0 or 45) + (loop_button and 0 or 45) + (screenshot_button and 0 or 45) + (ontop_button and 0 or 45) + (info_button and 0 or 45) + (fullscreen_button and 0 or 45)
 
         lo = add_layout("cache_info")
         lo.geometry = {x = osc_geo.w - 345 + cache_x_offset, y = refY - 35, an = 6, w = (user_opts.cache_info_speed and 70 or 45), h = 24}
@@ -2574,10 +2598,44 @@ local function osc_init()
         mp.commandv("osd-msg", "set", "speed", math.max(0.25, mp.get_property_number("speed") - user_opts.speed_button_scroll))
     end
 
+    --tog_crop
+    ne = new_element("tog_crop", "button")
+    ne.content = icons.crop
+    ne.visible = (osc_param.playresx >= 1250 - outeroffset - (user_opts.speed_button and 0 or 100) - (user_opts.loop_button and 0 or 100) - (user_opts.screenshot_button and 0 or 100) - (user_opts.ontop_button and 0 or 100) - (user_opts.info_button and 0 or 100) - (user_opts.fullscreen_button and 0 or 100))
+    ne.tooltip_style = osc_styles.tooltip
+    ne.tooltipF = user_opts.tooltip_hints and locale.crop or ""
+    ne.eventresponder["mbtn_left_up"] = function ()
+      --if vlccrop.available then
+        mp.commandv("script-message-to", "vlccrop", "crop")
+      --end
+    end
+    ne.eventresponder["mbtn_right_up"] = function () 
+      --if vlccrop.available then
+        mp.commandv("script-message-to", "vlccrop", "clear")
+      --end
+    end
+
+    --tog_aspect_ratio
+    ne = new_element("tog_aspect_ratio", "button")
+    ne.content = icons.aspect_ratio
+    ne.visible = (osc_param.playresx >= 1350 - outeroffset - (user_opts.crop_button and 0 or 100) - (user_opts.speed_button and 0 or 100) - (user_opts.loop_button and 0 or 100) - (user_opts.screenshot_button and 0 or 100) - (user_opts.ontop_button and 0 or 100) - (user_opts.info_button and 0 or 100) - (user_opts.fullscreen_button and 0 or 100))
+    ne.tooltip_style = osc_styles.tooltip
+    ne.tooltipF = user_opts.tooltip_hints and locale.aspect_ratio or ""
+    ne.eventresponder["mbtn_left_up"] = function ()
+      --if vlcaspectratio.available then
+        mp.commandv("script-message-to", "vlcaspectratio", "change")
+      --end
+    end
+    ne.eventresponder["mbtn_right_up"] = function () 
+      --if vlcaspectratio.available then
+        mp.commandv("script-message-to", "vlcaspectratio", "clear")
+      --end
+    end
+
     --download
     ne = new_element("download", "button")
     ne.content = function () return state.downloading and icons.downloading or icons.download end
-    ne.visible = (osc_param.playresx >= 1250 - outeroffset - (user_opts.speed_button and 0 or 100) - (user_opts.loop_button and 0 or 100) - (user_opts.screenshot_button and 0 or 100) - (user_opts.ontop_button and 0 or 100) - (user_opts.info_button and 0 or 100) - (user_opts.fullscreen_button and 0 or 100)) and state.is_URL
+    ne.visible = (osc_param.playresx >= 1450 - outeroffset - (user_opts.aspect_ratio_button and 0 or 100) - (user_opts.crop_button and 0 or 100) - (user_opts.speed_button and 0 or 100) - (user_opts.loop_button and 0 or 100) - (user_opts.screenshot_button and 0 or 100) - (user_opts.ontop_button and 0 or 100) - (user_opts.info_button and 0 or 100) - (user_opts.fullscreen_button and 0 or 100)) and state.is_URL
     ne.tooltip_style = osc_styles.tooltip
     ne.tooltipF = function () return state.downloading and locale.downloading .. "..." or locale.download .. " (" .. state.file_size_normalized .. ")" end
     ne.eventresponder["mbtn_left_up"] = function ()

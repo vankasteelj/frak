@@ -78,3 +78,5 @@ end
 
 mp.add_key_binding("a", "toggle_stretch", on_press)
 mp.register_event("file-loaded", cleanup)
+mp.register_script_message("change", on_press)
+mp.register_script_message("clear", cleanup)

@@ -142,3 +142,5 @@ end
 
 mp.add_key_binding("c", "toggle_crop", on_press)
 mp.register_event("file-loaded", on_start)
+mp.register_script_message("crop", on_press)
+mp.register_script_message("clear", on_start)
