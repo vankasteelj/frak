@@ -4,6 +4,7 @@
 
 require "mp.msg"
 require "mp.options"
+mp.utils = require "mp.utils"
 
 local crop_option = 0
 local cropstring = string.format("%s-crop", mp.get_script_name())
@@ -137,6 +138,8 @@ end
 
 function on_start()
     cleanup()
+    local json, err = mp.utils.format_json({available=true})
+    mp.command_native_async({"script-message", "vlccrop-info", json}, function() end)
     crop_option = 0 -- Reset crop option
 end
 

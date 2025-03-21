@@ -4,6 +4,7 @@
 
 require "mp.msg"
 require "mp.options"
+mp.utils = require "mp.utils"
 
 local ar_option = 0
 
@@ -73,6 +74,8 @@ function cleanup()
     mp.msg.verbose("Cleanup")
     ar_option = 0
     mp.set_property("video-aspect-override", -1)
+    local json, err = mp.utils.format_json({available=true})
+    mp.command_native_async({"script-message", "vlcaspectratio-info", json}, function() end)
     return true
 end
 

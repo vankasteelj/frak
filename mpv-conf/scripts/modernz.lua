@@ -109,8 +109,8 @@ local user_opts = {
     speed_button_click = 1,                -- speed change amount per click
     speed_button_scroll = 0.25,            -- speed change amount on scroll
 
-    crop_button = true,                    -- show crop button (requires vlccrop.lua)
-    aspect_ratio_button = true,            -- show aspect ratio button (requires vlcaspectratio.lua)
+    crop_button = false,                    -- show crop button (requires vlccrop.lua)
+    aspect_ratio_button = false,            -- show aspect ratio button (requires vlcaspectratio.lua)
 
     loop_in_pause = true,                  -- enable looping by right-clicking pause
 
@@ -439,6 +439,12 @@ local thumbfast = {
     height = 0,
     disabled = true,
     available = false
+}
+local vlccrop = {
+  available = false
+}
+local vlcaspectratio = {
+  available = false
 }
 
 local tick_delay = 1 / 60
@@ -1746,8 +1752,8 @@ layouts["modern"] = function ()
     local speed_button = user_opts.speed_button
     local download_button = user_opts.download_button and state.is_URL
     local playlist_button = user_opts.playlist_button and (not user_opts.hide_empty_playlist_button or mp.get_property_number("playlist-count", 0) > 1)
-    local crop_button = user_opts.crop_button
-    local aspect_ratio_button = user_opts.aspect_ratio_button
+    local crop_button = user_opts.crop_button and vlccrop.available
+    local aspect_ratio_button = user_opts.aspect_ratio_button and vlcaspectratio.available
 
     local offset = jump_buttons and 60 or 0
     local outeroffset = (chapter_skip_buttons and 0 or 100) + (jump_buttons and 0 or 100)
@@ -2601,35 +2607,27 @@ local function osc_init()
     --tog_crop
     ne = new_element("tog_crop", "button")
     ne.content = icons.crop
-    ne.visible = (osc_param.playresx >= 1250 - outeroffset - (user_opts.speed_button and 0 or 100) - (user_opts.loop_button and 0 or 100) - (user_opts.screenshot_button and 0 or 100) - (user_opts.ontop_button and 0 or 100) - (user_opts.info_button and 0 or 100) - (user_opts.fullscreen_button and 0 or 100))
+    ne.visible = (osc_param.playresx >= 1250 - outeroffset - (user_opts.speed_button and 0 or 100) - (user_opts.loop_button and 0 or 100) - (user_opts.screenshot_button and 0 or 100) - (user_opts.ontop_button and 0 or 100) - (user_opts.info_button and 0 or 100) - (user_opts.fullscreen_button and 0 or 100)) and vlccrop.available
     ne.tooltip_style = osc_styles.tooltip
     ne.tooltipF = user_opts.tooltip_hints and locale.crop or ""
     ne.eventresponder["mbtn_left_up"] = function ()
-      --if vlccrop.available then
-        mp.commandv("script-message-to", "vlccrop", "crop")
-      --end
+      mp.commandv("script-message-to", "vlccrop", "crop")
     end
     ne.eventresponder["mbtn_right_up"] = function () 
-      --if vlccrop.available then
-        mp.commandv("script-message-to", "vlccrop", "clear")
-      --end
+      mp.commandv("script-message-to", "vlccrop", "clear")
     end
 
     --tog_aspect_ratio
     ne = new_element("tog_aspect_ratio", "button")
     ne.content = icons.aspect_ratio
-    ne.visible = (osc_param.playresx >= 1350 - outeroffset - (user_opts.crop_button and 0 or 100) - (user_opts.speed_button and 0 or 100) - (user_opts.loop_button and 0 or 100) - (user_opts.screenshot_button and 0 or 100) - (user_opts.ontop_button and 0 or 100) - (user_opts.info_button and 0 or 100) - (user_opts.fullscreen_button and 0 or 100))
+    ne.visible = (osc_param.playresx >= 1350 - outeroffset - (user_opts.crop_button and 0 or 100) - (user_opts.speed_button and 0 or 100) - (user_opts.loop_button and 0 or 100) - (user_opts.screenshot_button and 0 or 100) - (user_opts.ontop_button and 0 or 100) - (user_opts.info_button and 0 or 100) - (user_opts.fullscreen_button and 0 or 100)) and vlcaspectratio.available
     ne.tooltip_style = osc_styles.tooltip
     ne.tooltipF = user_opts.tooltip_hints and locale.aspect_ratio or ""
     ne.eventresponder["mbtn_left_up"] = function ()
-      --if vlcaspectratio.available then
-        mp.commandv("script-message-to", "vlcaspectratio", "change")
-      --end
+      mp.commandv("script-message-to", "vlcaspectratio", "change")
     end
     ne.eventresponder["mbtn_right_up"] = function () 
-      --if vlcaspectratio.available then
-        mp.commandv("script-message-to", "vlcaspectratio", "clear")
-      --end
+      mp.commandv("script-message-to", "vlcaspectratio", "clear")
     end
 
     --download
@@ -3659,6 +3657,14 @@ mp.register_script_message("thumbfast-info", function(json)
     else
         thumbfast = data
     end
+end)
+mp.register_script_message("vlccrop-info", function(json)
+  local data = utils.parse_json(json)
+  vlccrop = data
+end)
+mp.register_script_message("vlcaspectratio-info", function(json)
+  local data = utils.parse_json(json)
+  vlcaspectratio = data
 end)
 
 -- validate string type user options
