@@ -131,6 +131,8 @@ const Player = {
       '--osc=no',
       '--osd-level=0',
       '--config-dir=' + path.resolve(process.cwd(), 'mpv-conf'),
+      '--osd-scale-by-window=no',
+      '--script-opts-append=console-font_size=15',
       `--script-opts=modernz-language=${i18n.getLocale()}`
     ].filter(n => n)
   },
