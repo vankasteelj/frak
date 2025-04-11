@@ -49,7 +49,7 @@ local user_opts = {
 
     -- Elements display
     show_title = true,                     -- show title in the OSC (above seekbar)
-    title = "${media-title}",              -- title above seekbar format: "${media-title}" or "${filename}"
+    title = "${title}",                    -- title above seekbar format: "${media-title}" or "${filename}"
     title_font_size = 24,                  -- title font size (above seekbar)
     chapter_title_font_size = 14,          -- chapter title font size
 
