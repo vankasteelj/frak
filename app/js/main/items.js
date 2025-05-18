@@ -179,8 +179,8 @@ const Items = {
       } else {
         labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}/seasons/${show.next_episode.season}/episodes/${show.next_episode.number}`)
         labels['Redownload image'] = () => Items.redownloadImage(id, image, show.show.ids, 'show', 'fanart')
-        labels['Hide this show'] = () => Trakt.client.users.hidden.add({
-          section: 'progress_watched',
+        labels['Drop this show'] = () => Trakt.client.users.hidden.add({
+          section: 'dropped',
           shows: [show.show]
         }).then(() => $(`#${id}`).remove()).then(() => Collection.hiddenItems.add(show.show.ids.slug)).catch(console.error)
       }
