@@ -1876,10 +1876,6 @@ a {
   margin: 7px 0;
 }
 
-#navbar .customs {
-  display: none;
-}
-
 #navbar:hover {
   width: 150px;
 }
@@ -2068,8 +2064,7 @@ a {
 #settings .localsharing input,
 #settings .streamer input,
 #settings .streamer textarea,
-#autoRate textarea,
-#settings .custom input {
+#autoRate textarea {
   background-color: var(--input-bg);
 }
 
@@ -2093,8 +2088,7 @@ a {
 #settings .localsharing input,
 #settings .streamer input,
 #settings .streamer textarea,
-#autoRate textarea,
-#settings .custom input {
+#autoRate textarea {
   cursor: pointer;
   font-family: monospace;
   font-size: 12px;
@@ -2152,6 +2146,7 @@ a {
   padding: 20px 0;
   cursor: help;
 }
+#settings .custom .text,
 #settings .plugins .text {
   cursor: default;
 }
@@ -2399,8 +2394,7 @@ a {
 #settings .localsharing input,
 #settings .streamer input,
 #settings .streamer textarea,
-#autoRate textarea,
-#settings .custom input {
+#autoRate textarea {
   color: var(--input-text);
   font-family: var(--font-mono);
 }

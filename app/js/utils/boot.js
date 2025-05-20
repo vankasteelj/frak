@@ -222,17 +222,8 @@ const Boot = {
       document.querySelector('#startminimized').checked = true
     }
 
-    // use the "Custom" feature
-    if (DB.sync.get('use_customs')) {
-      document.querySelector('#customs-feature').checked = true
-    }
-    if (DB.sync.get('customs_name')) {
-      const name = DB.sync.get('customs_name')
-      document.querySelector('#customs-name').value = name
-    }
-    if (DB.sync.get('customs_url')) {
-      document.querySelector('#customs-url').value = DB.sync.get('customs_url')
-    }
+    // "Custom" feature
+    scheduler.postTask(Trakt.setupCustomSettings, { priority: 'background' })
 
     // auto-launch on start up
     if (DB.sync.get('autolaunch')) {
@@ -359,36 +350,6 @@ const Boot = {
       Misc.autoLaunch(true)
     })
 
-    // custom list settings change
-    document.querySelector('#customs-feature').addEventListener('click', (evt) => {
-      DB.sync.store(evt.target.checked, 'use_customs')
-      $('#navbar .customs')[evt.target.checked ? 'show' : 'hide']()
-    })
-    document.querySelector('#customs-name').addEventListener('change', (evt) => {
-      const name = document.querySelector('#customs-name').value || i18n.__('Custom')
-      console.log('Custom List name changed to %s', name)
-      DB.sync.store(name, 'customs_name')
-      $('#navbar .customs .text').text(name)
-    })
-    document.querySelector('#customs-url').addEventListener('change', (evt) => {
-      const customUrl = document.querySelector('#customs-url').value
-      console.log('Custom URL changed to `%s`, checking it', customUrl)
-      Trakt.checkCustomUrl(customUrl).then((obj) => {
-        DB.sync.store(customUrl, 'customs_url')
-        DB.sync.store(obj, 'customs_params')
-        console.log('Custom List name changed to %s', obj.name)
-        DB.sync.store(obj.name, 'customs_name')
-        $('#navbar .customs .text').text(obj.name)
-        Notify.snack(i18n.__('It\'s done'), 5000)
-        return Collection.get.traktcustoms(false)
-      }).then(() => {
-        Collection.get.traktcached()
-        Trakt.getRatings()
-      }).catch((err) => {
-        Notify.snack(i18n.__('The Custom List URL is invalid') + '<br>' + err.message, 5000)
-      })
-    })
-
     document.querySelector('#items-size').addEventListener('click', (evt) => {
       const isSmall = evt.target.checked
       DB.sync.store(isSmall, 'small_items')
@@ -458,13 +419,6 @@ const Boot = {
       const selected = $setting.val()
       DB.sync.store(selected, 'startscreen')
     })
-
-    // custom list
-    if (DB.sync.get('use_customs')) {
-      $('#navbar .customs').show()
-      const name = DB.sync.get('customs_name')
-      name && $('#navbar .customs .text').text(name)
-    }
   },
 
   tray: () => {

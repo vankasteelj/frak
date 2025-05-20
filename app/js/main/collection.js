@@ -2,7 +2,6 @@
 
 const Collection = {
   moviesbank: [],
-  customsbank: [],
   showsbank: [],
   load: () => {
     console.info('Loading collection')
@@ -20,8 +19,7 @@ const Collection = {
         Collection.get.traktwatched().then(() => {
           Promise.all([
             Collection.get.traktshows(),
-            Collection.get.traktmovies(),
-            Collection.get.traktcustoms()
+            Collection.get.traktmovies()
           ]).then((collections) => {
             Collection.get.traktcached()
             Collection.hiddenItems.reset()
@@ -80,37 +78,20 @@ const Collection = {
         return e
       })
     },
-    traktcustoms: (update) => {
-      if (!DB.sync.get('customs_params') || !DB.sync.get('use_customs')) return Promise.resolve()
-
-      $('#navbar .customs .fa-spin').css('opacity', update ? 0 : 1)
-      return Trakt.client.users.list.items.get(Object.assign(DB.sync.get('customs_params'), { extended: 'full' })).then(results => {
-        console.info('Trakt.tv - "custom list" collection recieved')
-
-        return DB.app.store(results, 'traktcustoms').then(() => Collection.format.traktcustoms(results))
-      }).catch(e => {
-        $('#navbar .customs .fa-spin').css('opacity', 0)
-        return e
-      })
-    },
     traktcached: (update) => {
       Promise.all([
         DB.trakt.get('traktmoviescollection'),
         DB.trakt.get('traktshowscollection'),
-        DB.app.get('traktcustomscollection'),
         DB.trakt.get('moviesbank'),
-        DB.trakt.get('showsbank'),
-        DB.app.get('customsbank')
-      ]).then(([movies, shows, customs, moviesbank, showsbank, customsbank]) => {
+        DB.trakt.get('showsbank')
+      ]).then(([movies, shows, moviesbank, showsbank]) => {
         if (!shows && !movies) return
 
         Collection.moviesbank = moviesbank
         Collection.showsbank = showsbank
-        Collection.customsbank = customsbank
 
         Collection.show.movies(movies)
         Collection.show.shows(shows)
-        DB.sync.get('use_customs') && Collection.show.customs(customs)
 
         DB.trakt.get('traktratings').then(Items.applyRatings)
 
@@ -261,28 +242,6 @@ const Collection = {
         return collection
       }).catch(console.error)
     },
-    traktcustoms: (items = []) => {
-      let collection = []
-      const bank = []
-
-      return Promise.all(items.map((item) => {
-        if (['movie', 'show'].indexOf(item.type) === -1) return null
-        return Images.get[item.type](item[item.type].ids).then(images => {
-          collection.push(item)
-          bank.push(item[item.type].ids.slug)
-          return item
-        })
-      })).then(() => {
-        console.info('All images found for trakt custom list')
-
-        collection = Collection.sort.customs.rank(collection)
-
-        DB.app.store(collection, 'traktcustomscollection')
-        DB.app.store(bank, 'customsbank')
-        $('#navbar .customs .fa-spin').css('opacity', 0)
-        return collection
-      }).catch(console.error)
-    },
 
     locals: (items = []) => {
       const collection = Local.buildVideoLibrary(items)
@@ -349,7 +308,7 @@ const Collection = {
   },
 
   search: () => {
-    if (['movies', 'shows', 'customs'].indexOf(DB.sync.get('active_tab')) === -1) return
+    if (['movies', 'shows'].indexOf(DB.sync.get('active_tab')) === -1) return
 
     const container = $('#coll-search')
     const input = $('#coll-search input')
@@ -456,39 +415,6 @@ const Collection = {
         }
 
         untrack.length && console.info('Some movies are hidden or not released yet, not showing:', untrack.join(', '))
-      })
-    },
-    customs: (collection = []) => {
-      DB.app.get('customsbank').then(customsbank => {
-        Collection.customsbank = customsbank || []
-        const items = []
-        const untrack = []
-        for (const item of collection) {
-          if (item.type === 'movie') {
-            if (!item.movie.released || new Date(item.movie.released.split('-')).valueOf() > Date.now()) {
-              untrack.push(item.movie.title)
-              continue
-            }
-            items.push(Items.constructCustomMovie(item))
-          }
-          if (item.type === 'show') {
-            if (!item.show.first_aired) {
-              untrack.push(item.show.title)
-              continue
-            }
-            items.push(Items.constructCustomShow(item))
-          }
-        }
-        $('#collection #customs').html('').append(items)
-
-        if (!$('#collection #customs .grid-item').length) {
-          return $('#collection #customs').append(Items.constructMessage('Nothing to display, the Custom List seems empty.'))
-        }
-
-        untrack.length && console.info('Some movies/tv shows are hidden or not released yet, not showing:', untrack.join(', '))
-      }).catch(err => {
-        console.error(err)
-        Collection.get.traktcustoms().then(Collection.get.traktcached)
       })
     },
     locals: {
@@ -602,63 +528,6 @@ const Collection = {
   },
 
   sort: {
-    customs: {
-      rank: (items) => {
-        return items.sort(function (a, b) {
-          if (a.rank > b.rank) {
-            return 1
-          }
-          if (a.rank < b.rank) {
-            return -1
-          }
-          return 0
-        })
-      },
-      rating: (items) => {
-        return items.sort(function (a, b) {
-          if (((a.show && a.show.rating) || (a.movie && a.movie.rating)) > ((b.show && b.show.rating) || (b.movie && b.movie.rating))) {
-            return -1
-          }
-          if (((a.show && a.show.rating) || (a.movie && a.movie.rating)) < ((b.show && b.show.rating) || (b.movie && b.movie.rating))) {
-            return 1
-          }
-          return 0
-        })
-      },
-      title: (items) => {
-        return items.sort(function (a, b) {
-          if (((a.show && a.show.title) || (a.movie && a.movie.title)) < ((b.show && b.show.title) || (b.movie && b.movie.title))) {
-            return -1
-          }
-          if (((a.show && a.show.title) || (a.movie && a.movie.title)) > ((b.show && b.show.title) || (b.movie && b.movie.title))) {
-            return 1
-          }
-          return 0
-        })
-      },
-      released: (items) => {
-        return items.sort(function (a, b) {
-          if (((a.show && a.show.year) || (a.movie && a.movie.year)) > ((b.show && b.show.year) || (b.movie && b.movie.year))) {
-            return -1
-          }
-          if (((a.show && a.show.year) || (a.movie && a.movie.year)) < ((b.show && b.show.year) || (b.movie && b.movie.year))) {
-            return 1
-          }
-          return 0
-        })
-      },
-      listed: (items) => {
-        return items.sort(function (a, b) {
-          if (a.listed_at > b.listed_at) {
-            return -1
-          }
-          if (a.listed_at < b.listed_at) {
-            return 1
-          }
-          return 0
-        })
-      }
-    },
     shows: {
       nextEpisode: (shows) => {
         return shows.sort(function (a, b) {

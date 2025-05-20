@@ -62,7 +62,6 @@ const Interface = {
     $('#navbar .nav').removeClass('active')
     $('#collection #movies').show()
     $('#collection #shows').hide()
-    $('#collection #customs').hide()
     $('#collection #locals').hide()
     $('#trakt #history').hide()
     $('#trakt #discover').hide()
@@ -79,7 +78,6 @@ const Interface = {
     $('#navbar .nav').removeClass('active')
     $('#collection #shows').show()
     $('#collection #movies').hide()
-    $('#collection #customs').hide()
     $('#collection #locals').hide()
     $('#trakt #history').hide()
     $('#trakt #discover').hide()
@@ -92,29 +90,11 @@ const Interface = {
     window.scrollTo(0, 0)
   },
   // USER INTERACTION: click navbar
-  showCustoms: () => {
-    $('#navbar .nav').removeClass('active')
-    $('#collection #shows').hide()
-    $('#collection #customs').show()
-    $('#collection #movies').hide()
-    $('#collection #locals').hide()
-    $('#trakt #history').hide()
-    $('#trakt #discover').hide()
-    $('#trakt #stats').hide()
-    $('#trakt #ratings').hide()
-    $('#settings').hide()
-    $('#navbar .customs').addClass('active')
-    DB.sync.store('customs', 'last_tab')
-    DB.sync.store('customs', 'active_tab')
-    window.scrollTo(0, 0)
-  },
-  // USER INTERACTION: click navbar
   showLocals: () => {
     $('#navbar .nav').removeClass('active')
     $('#collection #locals').show()
     $('#collection #shows').hide()
     $('#collection #movies').hide()
-    $('#collection #customs').hide()
     $('#trakt #history').hide()
     $('#trakt #discover').hide()
     $('#trakt #stats').hide()
@@ -135,7 +115,6 @@ const Interface = {
     $('#collection #shows').hide()
     $('#collection #locals').hide()
     $('#collection #movies').hide()
-    $('#collection #customs').hide()
     $('#trakt #discover').hide()
     $('#trakt #stats').hide()
     $('#trakt #ratings').hide()
@@ -152,7 +131,6 @@ const Interface = {
         $('#collection #shows').hide()
         $('#collection #locals').hide()
         $('#collection #movies').hide()
-        $('#collection #customs').hide()
         $('#settings').hide()
         $('#trakt #discover').hide()
         $('#trakt #stats').hide()
@@ -164,7 +142,6 @@ const Interface = {
     $('#navbar .history').addClass('active')
     $('#collection #shows').hide()
     $('#collection #locals').hide()
-    $('#collection #customs').hide()
     $('#collection #movies').hide()
     $('#trakt #discover').hide()
     $('#trakt #stats').hide()
@@ -180,7 +157,6 @@ const Interface = {
     $('#collection #shows').hide()
     $('#collection #locals').hide()
     $('#collection #movies').hide()
-    $('#collection #customs').hide()
     $('#trakt #discover').hide()
     $('#trakt #history').hide()
     $('#trakt #ratings').hide()
@@ -204,7 +180,6 @@ const Interface = {
     $('#collection #shows').hide()
     $('#collection #locals').hide()
     $('#collection #movies').hide()
-    $('#collection #customs').hide()
     $('#settings').hide()
     $('#trakt #history').hide()
     $('#trakt #stats').hide()
@@ -222,7 +197,6 @@ const Interface = {
     $('#collection #shows').hide()
     $('#collection #locals').hide()
     $('#collection #movies').hide()
-    $('#collection #customs').hide()
     $('#settings').hide()
     $('#trakt #history').hide()
     $('#trakt #stats').hide()
@@ -232,29 +206,12 @@ const Interface = {
     DB.sync.store('ratings', 'active_tab')
   },
 
-  // AUTO: right click menu on movies & shows, custom list and account popup
+  // AUTO: right click menu on movies & shows and account popup
   rightClickNav: () => {
     // right click ACCOUNT
     $('#navbar .stats').off('contextmenu').on('contextmenu', (e) => {
       Interface.switchTraktAccount()
     })
-
-    // right click CUSTOM
-    const customlabels = {}
-
-    customlabels['Edit list on Trakt.tv'] = () => Misc.openExternal(DB.sync.get('customs_url'))
-    customlabels['Refresh list'] = () => Collection.get.traktcustoms().then(Collection.get.traktcached)
-
-    customlabels.submenu1 = {
-      title: 'Sort by...',
-      labels: {
-        'Listed at': () => DB.app.get('traktcustomscollection').then(coll => { Collection.show.customs(Collection.sort.customs.listed(coll)); Trakt.getRatings() }),
-        Year: () => DB.app.get('traktcustomscollection').then(coll => { Collection.show.customs(Collection.sort.customs.released(coll)); Trakt.getRatings() }),
-        Title: () => DB.app.get('traktcustomscollection').then(coll => { Collection.show.customs(Collection.sort.customs.title(coll)); Trakt.getRatings() }),
-        Rating: () => DB.app.get('traktcustomscollection').then(coll => { Collection.show.customs(Collection.sort.customs.rating(coll)); Trakt.getRatings() }),
-        Rank: () => DB.app.get('traktcustomscollection').then(coll => { Collection.show.customs(Collection.sort.customs.rank(coll)); Trakt.getRatings() })
-      }
-    }
 
     // right click MOVIES
     const movielabels = {}
@@ -314,13 +271,6 @@ const Interface = {
       return Misc.sleep(0)
     }).finally(() => {
       // menu popup
-
-      const custommenu = NwjsApi.menus.customContextMenu(customlabels)
-      $('.nav.customs').off('contextmenu').on('contextmenu', (e) => {
-        Interface.showCustoms()
-        custommenu.popup(parseInt(e.clientX), parseInt(e.clientY))
-      })
-
       const moviemenu = NwjsApi.menus.customContextMenu(movielabels)
       $('.nav.movies').off('contextmenu').on('contextmenu', (e) => {
         Interface.showMovies()

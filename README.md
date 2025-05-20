@@ -8,7 +8,7 @@
 
 ## Features
 - Fully synced with Trakt.tv (watchlist, up next to watch, currently watching, watched history) with multi-account support
-- Search across Trakt database, watch trailers in-app, manage your watchlist (and up to 1 custom list) & much more
+- Search across Trakt database, watch trailers in-app, manage your watchlist (and custom lists) & much more
 - Automatic subtitles search & 1-click-download
 - Multiple stream sources available: local video files, torrents, magnets and URLs
 - Your local video library is automatically parsed and sorted

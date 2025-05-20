@@ -190,17 +190,13 @@ const Trakt = {
       DB.trakt.get('traktshowscollection'),
       DB.trakt.get('traktshows'),
       DB.trakt.get('traktmoviescollection'),
-      DB.trakt.get('traktmovies'),
-      DB.app.get('traktcustomscollection'),
-      DB.app.get('traktcustoms')
-    ]).then(([traktsyncrating, traktratings, traktsync, traktshowscollection, traktshows, traktmoviescollection, traktmovies, traktcustomscollection, traktcustoms]) => {
+      DB.trakt.get('traktmovies')
+    ]).then(([traktsyncrating, traktratings, traktsync, traktshowscollection, traktshows, traktmoviescollection, traktmovies]) => {
       const cached = {
         movies: traktmovies,
         moviescollection: traktmoviescollection,
         shows: traktshows,
         showscollection: traktshowscollection,
-        customs: traktcustoms,
-        customscollection: traktcustomscollection,
         sync: traktsync,
         syncrating: traktsyncrating,
         ratings: traktratings
@@ -217,8 +213,6 @@ const Trakt = {
         DB.trakt.store(cached.moviescollection, 'traktmoviescollection')
         DB.trakt.store(cached.shows, 'traktshows')
         DB.trakt.store(cached.showscollection, 'traktshowscollection')
-        DB.app.store(cached.customs, 'traktcustoms')
-        DB.app.store(cached.customscollection, 'traktcustomscollection')
         DB.trakt.store(cached.sync, 'traktsync')
         DB.trakt.store(cached.syncrating, 'traktsyncrating')
         DB.trakt.store(cached.ratings, 'traktratings')
@@ -259,14 +253,11 @@ const Trakt = {
             DB.trakt.remove('traktmoviescollection'),
             DB.trakt.remove('traktshows'),
             DB.trakt.remove('traktshowscollection'),
-            DB.trakt.remove('traktsync'),
-            DB.app.remove('traktcustoms'),
-            DB.app.remove('traktcustomscollection')
+            DB.trakt.remove('traktsync')
           ]).then(() => {
             return Promise.all([
               Collection.get.traktshows(update),
-              Collection.get.traktmovies(update),
-              Collection.get.traktcustoms(update)
+              Collection.get.traktmovies(update)
             ])
           }).then((collections) => {
             if (Misc.isError(collections[0]) || Misc.isError(collections[1])) throw new Error('Trakt.reload failed')
@@ -315,7 +306,7 @@ const Trakt = {
     }
 
     new Promise(resolve => {
-      if (type === 'episode' && !model.ids) { // this is s01e01 from Discover or Custom list
+      if (type === 'episode' && !model.ids) { // this is s01e01 from Discover
         console.log('Trakt - scrobble needs episode.ids: fetching')
         return Trakt.client.episodes.summary({ id: Player.config.model.show.ids.slug, season: Player.config.model.next_episode.season, episode: Player.config.model.next_episode.number }).then(res => {
           Player.config.model.next_episode = res
@@ -394,52 +385,42 @@ const Trakt = {
       console.error('Unable to get genres from Trakt', err)
     })
   },
-  checkCustomUrl: (custom) => {
-    let username, id
-    try {
-      username = custom.split('/')[4]
-      id = custom.split('/')[6].split('?')[0]
-    } catch (e) {
-      return Promise.reject(new Error('Invalid format'))
-    }
+  setupCustomSettings: () => {
+    Trakt.client.users.lists.get({username: 'me'}).then(lists => {
+      for (const i in lists) {
+        const list = lists[i]
+        const id = list.name.toLowerCase().replace(/\W/g, '-')
+        const item = '<div class="option">' +
+          `<div class="text">${list.name}</div>` +
+          '<div class="action">' +
+              `${i18n.__('no')}&nbsp;` +
+              '<label class="switch">' +
+                  `<input id="${id}" type="checkbox">` +
+                  '<span class="slider round"></span>' +
+              '</label>' +
+              `&nbsp;${i18n.__('yes')}` +
+          '</div>' +
+        '</div>'
+      
+        $('#settings .custom').append(item)
 
-    return Trakt.client.users.list.get({ username: username, id: id }).then(res => {
-      console.log('Custom List check:', res)
-      return {
-        username: username,
-        id: id,
-        name: res.name
+        $(`#${id}`).off('click').on('click', (evt) => {
+          const isActive = evt.target.checked
+          DB.sync.store(isActive, list.name)
+    
+          if (isActive) {
+            console.info('Lists - using %s', list.name)
+            // ACTIVATE
+          } else {
+            console.info('Lists - disabling %s', list.name)
+            // DISABLE
+          }
+        })
+
+        if (DB.sync.get(list.name)) {
+          $(`#${id}`).click()
+        }
       }
     })
-  },
-  removeFromCustom: (data) => {
-    // remove({shows:[{ids}], movies:[{ids}]}
-    const list = DB.sync.get('customs_params')
-    const item = {}
-    if (data.show) {
-      item.shows = [data.show]
-    } else if (data.movie) {
-      item.movies = [data.movie]
-    }
-    const post = Object.assign(list, item)
-    return Trakt.client.users.list.items.remove(post).then(res => {
-      console.log('Item removed from custom list')
-      return res
-    }).catch(console.error)
-  },
-
-  addToCustom: (data) => {
-    const list = DB.sync.get('customs_params')
-    const item = {}
-    if (data.show) {
-      item.shows = [data.show]
-    } else if (data.movie) {
-      item.movies = [data.movie]
-    }
-    const post = Object.assign(list, item)
-    return Trakt.client.users.list.items.add(post).then(res => {
-      console.log('Item added to the custom list')
-      return res
-    }).catch(console.error)
   }
 }
