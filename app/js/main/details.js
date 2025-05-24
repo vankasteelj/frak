@@ -584,7 +584,15 @@ const Details = {
         })
       }
     }).then(() => {
-      return Trakt.client.sync.history.add(post)
+      // it's from a custom list and needs to be removed
+      if (base.origin && base.origin !== 'watchlist') {
+        let item = base
+        return Trakt.removeFromWatchlist(item)
+      } else {
+        return false
+      }
+    }).then(sleep => {
+      return Misc.sleep(sleep ? 0 : 1000).then(() => Trakt.client.sync.history.add(post))
     }).finally(() => {
       if (type === 'episodes') {
         requestIdleCallback(() => {

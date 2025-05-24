@@ -409,5 +409,5 @@
 	"Dyslexic font": "Mode dyslexique",
 	"Use the OpenDyslexic font specifically designed to help readability": "Utilise la police de caractère OpenDyslexic spécialement prévue pour améliorer la lisibilité",
 	"high-contrast": "contraste élevé",
-	"Nothing to display, the Custom List seems empty.": "Nothing to display, the Custom List seems empty."
+	"Use these custom lists as an 'extended Watchlist' of sorts. Currently only working with movies, and doesn't do well with duplicates.": "Utiliser ces listes comme extension de watchlist. Ne fonctionne pour l'instant qu'avec des films et gère mal les doublons."
 }

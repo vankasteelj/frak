@@ -38,6 +38,7 @@ const Collection = {
     traktshows: (update, slug, cached) => {
       $('#navbar .shows .fa-spin').css('opacity', update ? 0 : 1)
 
+      let ondeck
       return new Promise((resolve) => {
         if (slug && cached) {
           resolve(Trakt.client.ondeck.updateOne(cached, slug))
@@ -50,6 +51,25 @@ const Collection = {
         }
       }).then(results => {
         console.info('Trakt.tv - "show watchlist" collection recieved')
+        /*ondeck = results
+
+        return Promise.all(Object.keys(Trakt.customs.loaded).map((i) => {
+          const id = Trakt.customs.loaded[i].ids.trakt
+          return Trakt.client.users.list.items.get({
+            username: 'me', 
+            id: id,
+            type: 'shows',
+            extended: 'full'
+          }).then(results => {
+            results.forEach(i => i.origin = id)
+            return results
+          })
+        }))
+      }).then(customs => {
+        return customs.flat()
+      }).then(customs => {
+        //console.info('Trakt.tv - show\'s "custom list" collection recieved')
+        let results = ondeck //ondeck.concat(customs) TODO*/
 
         return Promise.all([
           DB.trakt.store(Date.now(), 'traktsync'),
@@ -63,12 +83,30 @@ const Collection = {
     traktmovies: (update) => {
       $('#navbar .movies .fa-spin').css('opacity', update ? 0 : 1)
 
+      let watchlist
       return Trakt.client.sync.watchlist.get({
         extended: 'full',
         type: 'movies'
       }).then(results => {
         console.info('Trakt.tv - "movie watchlist" collection recieved')
+        results.forEach(i => i.origin = 'watchlist')
+        watchlist = results
 
+        return Promise.all(Object.keys(Trakt.customs.loaded).map((i) => {
+          let id = Trakt.customs.loaded[i].ids.trakt
+          return Trakt.client.users.list.items.get({
+            username: 'me', 
+            id: id,
+            type: 'movies',
+            extended: 'full'
+          }).then(results => {
+            results.forEach(i => i.origin = id)
+            return results
+          })
+        }))
+      }).then(customs => {
+        console.info('Trakt.tv - movie\'s "custom list" collection recieved')
+        let results = watchlist.concat(customs.flat())
         return Promise.all([
           DB.trakt.store(Date.now(), 'traktsync'),
           DB.trakt.store(results, 'traktmovies')

@@ -260,7 +260,10 @@ const Trakt = {
               Collection.get.traktmovies(update)
             ])
           }).then((collections) => {
-            if (Misc.isError(collections[0]) || Misc.isError(collections[1])) throw new Error('Trakt.reload failed')
+            if (Misc.isError(collections[0]) || Misc.isError(collections[1])) {
+              console.info(collections)
+              throw new Error('Trakt.reload failed')
+            }
 
             Trakt.getRatings()
             Collection.get.traktcached(update)
@@ -279,10 +282,11 @@ const Trakt = {
     let progress = (Player.config.states && Player.config.states['percent-pos']) || 0
     progress = parseFloat(progress.toFixed(2))
 
-    let model, type
+    let model, type, local
 
     if (Player.config.model.metadata) {
       // local
+      local = true
       if (Player.config.model.metadata.movie) {
         // local movie
         model = Player.config.model.metadata.movie
@@ -328,12 +332,22 @@ const Trakt = {
 
       console.info('Trakt - scrobble %s (%s%)', action, progress)
       Trakt.client.scrobble[action](post).catch(console.error)
-
+   
+      // it's from a custom list and needs to be removed
       if (progress > 80 && action === 'stop') {
         Details.buttonAsWatched()
         Details.autoRate()
-
-        if (Player.config.model.metadata) {
+        if (Player.config.model.origin && Player.config.model.origin !== 'watchlist') {
+          let item = Player.config.model
+          return Misc.sleep(1000).then(() => {
+            Trakt.removeFromWatchlist(item)
+            return
+          })
+        }
+      }
+    }).then(() => {
+      if (progress > 80 && action === 'stop') {
+        if (local) {
           // local item
           if (type === 'episode') {
             Details.loadLocalNext()
@@ -348,7 +362,7 @@ const Trakt = {
             })
 
             // display spinner on list
-            Player.config.model.show && $(`#collection #${Player.config.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>')
+            $(`#collection #${Details.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>')
 
             Misc.sleep(800).then(() => {
               return Trakt.reload(true, type, Details.model.show.ids.slug)
@@ -359,7 +373,7 @@ const Trakt = {
               })
             })
           } else {
-            $(`#collection #${Player.config.model.movie.ids.slug}`).hide()
+            $(`#collection #${Details.model.movie.ids.slug}`).hide()
           }
         }
       }
@@ -385,42 +399,62 @@ const Trakt = {
       console.error('Unable to get genres from Trakt', err)
     })
   },
-  setupCustomSettings: () => {
-    Trakt.client.users.lists.get({username: 'me'}).then(lists => {
-      for (const i in lists) {
-        const list = lists[i]
-        const id = list.name.toLowerCase().replace(/\W/g, '-')
-        const item = '<div class="option">' +
-          `<div class="text">${list.name}</div>` +
-          '<div class="action">' +
-              `${i18n.__('no')}&nbsp;` +
-              '<label class="switch">' +
-                  `<input id="${id}" type="checkbox">` +
-                  '<span class="slider round"></span>' +
-              '</label>' +
-              `&nbsp;${i18n.__('yes')}` +
-          '</div>' +
-        '</div>'
+  customs: {
+    available: {},
+    loaded: {},
+    setup: () => {
+      Trakt.client.users.lists.get({username: 'me'}).then(lists => {
+        for (const i in lists) {
+          const list = lists[i]
+          const item = '<div class="option">' +
+            `<div class="text">${list.name}</div>` +
+            '<div class="action">' +
+                `${i18n.__('no')}&nbsp;` +
+                '<label class="switch">' +
+                    `<input id="${list.ids.slug}" type="checkbox">` +
+                    '<span class="slider round"></span>' +
+                '</label>' +
+                `&nbsp;${i18n.__('yes')}` +
+            '</div>' +
+          '</div>'
+        
+          $('#settings .custom').append(item)
+          Trakt.customs.available[list.ids.slug] = list
+
+          $(`#${list.ids.slug}`).off('click').on('click', (evt) => {
+            const isActive = evt.target.checked
+            DB.sync.store(isActive, list.ids.slug)
       
-        $('#settings .custom').append(item)
+            if (isActive) {
+              // ACTIVATE
+              console.info('Lists - using %s', list.name)
+              Trakt.customs.loaded[list.ids.slug] = list
+            } else {
+              // DISABLE
+              console.info('Lists - disabling %s', list.name)
+              delete Trakt.customs.loaded[list.ids.slug]
+            }
+          })
 
-        $(`#${id}`).off('click').on('click', (evt) => {
-          const isActive = evt.target.checked
-          DB.sync.store(isActive, list.name)
-    
-          if (isActive) {
-            console.info('Lists - using %s', list.name)
-            // ACTIVATE
-          } else {
-            console.info('Lists - disabling %s', list.name)
-            // DISABLE
+          if (DB.sync.get(list.ids.slug)) {
+            $(`#${list.ids.slug}`).click()
           }
-        })
-
-        if (DB.sync.get(list.name)) {
-          $(`#${id}`).click()
         }
-      }
-    })
+      })
+    },
+  },
+
+  removeFromWatchlist: (item) => {
+    const type = item.movie ? 'movie' : 'show'
+    let traktObj = {}
+    traktObj[type+'s'] = [item[type]]
+
+    if (item.origin === 'watchlist') {
+      return Trakt.client.sync.watchlist.remove(traktObj)
+    } else {
+      traktObj.username = 'me'
+      traktObj.id = item.origin
+      return Trakt.client.users.list.items.remove(traktObj)
+    }
   }
 }

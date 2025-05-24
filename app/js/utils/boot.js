@@ -223,7 +223,7 @@ const Boot = {
     }
 
     // "Custom" feature
-    scheduler.postTask(Trakt.setupCustomSettings, { priority: 'background' })
+    scheduler.postTask(Trakt.customs.setup, { priority: 'background' })
 
     // auto-launch on start up
     if (DB.sync.get('autolaunch')) {

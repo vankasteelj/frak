@@ -83,9 +83,7 @@ const Items = {
       labels.separator = true
       labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/movies/${movie.movie.ids.slug}`)
       labels['Redownload image'] = () => Items.redownloadImage(id, image, movie.movie.ids, 'movie', 'fanart')
-      labels['Remove from watchlist'] = () => Trakt.client.sync.watchlist.remove({
-        movies: [movie.movie]
-      }).then(() => $(`#${id}`).remove()).then(() => Collection.hiddenItems.add(movie.movie.ids.slug)).catch(console.error)
+      labels['Remove from watchlist'] = () => Trakt.removeFromWatchlist(movie).then(() => $(`#${id}`).remove()).then(() => Collection.hiddenItems.add(movie.movie.ids.slug)).catch(console.error)
       labels.submenu = {
         title: 'Hide for...',
         labels: {
@@ -157,9 +155,7 @@ const Items = {
       if (show.next_episode.number === 1 && show.next_episode.season === 1) {
         labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}`)
         labels['Redownload image'] = () => Items.redownloadImage(id, image, show.show.ids, 'show', 'fanart')
-        labels['Remove from watchlist'] = () => Trakt.client.sync.watchlist.remove({
-          shows: [show.show]
-        }).then(() => $(`#${id}`).remove()).then(() => Collection.hiddenItems.add(show.show.ids.slug)).catch(console.error)
+        labels['Remove from watchlist'] = () => Trakt.removeFromWatchlist(show).then(() => $(`#${id}`).remove()).then(() => Collection.hiddenItems.add(show.show.ids.slug)).catch(console.error)
       } else {
         labels['Open on Trakt.tv'] = () => Misc.openExternal(`https://trakt.tv/shows/${show.show.ids.slug}/seasons/${show.next_episode.season}/episodes/${show.next_episode.number}`)
         labels['Redownload image'] = () => Items.redownloadImage(id, image, show.show.ids, 'show', 'fanart')
@@ -674,10 +670,22 @@ const Items = {
 
     console.info('Mark as watched:', model.ids.slug || `${data.show.ids.slug} ${model.season}x${model.number}`)
 
-    Trakt.client.sync.history.add(post).finally(() => {
-      Trakt.reload(true, type, (data.show ? data.show.ids.slug : false))
-      WB.markAsWatched(data)
-    })
+    new Promise((resolve) => {
+      if (data.origin && data.origin !== 'watchlist') {
+        // it's from a custom list and needs to be removed
+        Trakt.removeFromWatchlist(data)
+        resolve(true)
+      } else {
+        resolve(false)
+      }
+    }).then(sleep => {
+      Misc.sleep(sleep ? 1000 : 0).then(() => {
+        Trakt.client.sync.history.add(post).finally(() => {
+          Trakt.reload(true, type, (data.show ? data.show.ids.slug : false))
+          WB.markAsWatched(data)
+        })
+      })
+    }).catch(console.error)
   },
 
   markAsUnWatched: (elm) => {
