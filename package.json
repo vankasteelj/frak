@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "auto-launch": "5.0.6",
-    "cheerio": "1.0.0",
+    "cheerio": "1.1.2",
     "dlnacasts3": "1.0.0",
     "fs-extra": "11.3.0",
     "got": "11.8.6",
