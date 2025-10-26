@@ -17,7 +17,7 @@ const Z7 = require('node-7z-forall')
 const temp = require('os').tmpdir()
 const ModClean = require('modclean').ModClean
 const standard = require('standard')
-const { detectCurrentPlatform } = require('nw-builder/dist/index.cjs')
+const nwbuild = require('nw-builder')
 require('dns').setDefaultResultOrder('ipv4first') // workaround for yt-dl on node > 0.17.x
 
 /** ******
@@ -25,34 +25,7 @@ require('dns').setDefaultResultOrder('ipv4first') // workaround for yt-dl on nod
  ********/
 const nwVersion = pkJson.nwjs.version
 const flavor = pkJson.nwjs.flavor
-const availablePlatforms = ['linux64', 'win64', 'osx64']
 const releasesDir = 'build'
-
-/***********
- *  custom  *
- ***********/
-// returns an array of platforms that should be built
-const parsePlatforms = () => {
-  const requestedPlatforms = (yargs.argv.platforms || detectCurrentPlatform(process)).split(',')
-  const validPlatforms = []
-
-  for (const i in requestedPlatforms) {
-    if (availablePlatforms.indexOf(requestedPlatforms[i]) !== -1) {
-      validPlatforms.push(requestedPlatforms[i])
-    }
-  }
-
-  // for osx and win, 32-bits works on 64, if needed
-  if (availablePlatforms.indexOf('win64') === -1 && requestedPlatforms.indexOf('win64') !== -1) {
-    validPlatforms.push('win32')
-  }
-  if (availablePlatforms.indexOf('osx64') === -1 && requestedPlatforms.indexOf('osx64') !== -1) {
-    validPlatforms.push('osx32')
-  }
-
-  // remove duplicates
-  return [...new Set(requestedPlatforms[0] === 'all' ? availablePlatforms : validPlatforms)]
-}
 
 /** ***********
  * gulp tasks *
@@ -61,58 +34,38 @@ const parsePlatforms = () => {
 // download and compile nwjs
 gulp.task('nwjs', () => {
   const nwOptions = {
-    files: ['./app/**', './package.json', './README.md', './plugins/**', './mpv/**', './mpv-conf/**', './node_modules/**'],
-    buildDir: releasesDir,
-    appName: pkJson.releaseName,
-    appVersion: pkJson.version,
+    mode: 'build',
+    srcDir: ['./app/**', './package.json', './README.md', './plugins/**', './mpv/**', './mpv-conf/**', './node_modules/**'],
+    outDir: path.join(releasesDir, pkJson.version),
+    app: {
+      name: pkJson.releaseName,
+      version: pkJson.version,
+      comments: pkJson.description,
+      company: pkJson.homepage,
+      fileDescription: pkJson.releaseName,
+      fileVersion: pkJson.version,
+      internalName: pkJson.name,
+      originalFilename: `${pkJson.name}.exe`,
+      productName: pkJson.releaseName,
+      productVersion: pkJson.version,
+      icon: pkJson.icon
+    },
     zip: false,
     version: nwVersion,
     flavor: flavor,
-    macIcns: pkJson.macIcns,
-    platforms: parsePlatforms()
+    icon: pkJson.macIcns,
+    platform: 'win',
+    arch: 'x64'
   }
 
-  // windows-only (or wine): replace icon & VersionInfo1.res
-  if (detectCurrentPlatform(process).indexOf('win') !== -1) {
-    nwOptions.winVersionString = {
-      Comments: pkJson.description,
-      CompanyName: pkJson.homepage,
-      FileDescription: pkJson.releaseName,
-      FileVersion: pkJson.version,
-      InternalName: pkJson.name,
-      OriginalFilename: `${pkJson.name}.exe`,
-      ProductName: pkJson.releaseName,
-      ProductVersion: pkJson.version
-    }
-  }
-
-  const NwBuilder = require('nw-builder')
-  const nw = new NwBuilder(nwOptions).on('log', console.log)
-
-  return nw.build()
+  return nwbuild.default(nwOptions)
 })
 
 // start app in development
 gulp.task('run', () => {
   return new Promise((resolve, reject) => {
-    const platform = parsePlatforms()[0]
-    let bin = path.join('cache', `${nwVersion}-${flavor}`, platform)
-
-    switch (platform.slice(0, 3)) {
-      case 'osx':
-        bin += '/nwjs.app/Contents/MacOS/nwjs'
-        break
-      case 'lin':
-        bin += '/nw'
-        break
-      case 'win':
-        bin += '/nw.exe'
-        break
-      default:
-        return reject(new Error(`Unsupported ${platform} platform`))
-    }
-
-    console.log('Running %s from cache', platform)
+    let bin = path.join('cache', `nwjs-${flavor}-v${nwVersion}-win-x64/nw.exe`)
+    console.log('Running from cache')
 
     const dev = '--development'
     const bp = yargs.argv.bp ? '--bp' : ''
@@ -126,7 +79,7 @@ gulp.task('run', () => {
 
     child.on('error', (error) => {
       if (error.code === 'ENOENT') {
-        console.log('%s-%s is not available in cache. Try running `gulp build` beforehand', nwVersion, platform)
+        console.log('%s is not available in cache. Try running `gulp build` beforehand', nwVersion)
       }
       reject(error)
     })
@@ -144,9 +97,6 @@ gulp.task('default', () => {
     '\nAvailable options:',
     ' --development\t\t\tStart in dev mode',
     '\tExample:   `gulp run --development`',
-    ' --platforms=<platform>\t\tBuild for specific platform(s)',
-    '\tArguments: ' + availablePlatforms + ',all',
-    '\tExample:   `gulp build --platforms=all`',
     '\nUse `gulp --tasks` to show the task dependency tree of gulpfile.js\n'
   ].join('\n'))
   return Promise.resolve()
@@ -154,199 +104,80 @@ gulp.task('default', () => {
 
 // compile nsis installer
 gulp.task('build:nsis', () => {
-  return Promise.all(parsePlatforms().map((platform) => {
-    if (platform.match(/osx|linux/) !== null) {
-      console.log('No `nsis` task for', platform)
-      return null
-    }
+  return new Promise((resolve) => {
+    console.log('Packaging nsis')
 
-    return new Promise((resolve) => {
-      console.log('Packaging nsis for: %s', platform)
+    const makensis = process.platform === 'win32' ? 'makensis.exe' : 'makensis'
 
-      const makensis = process.platform === 'win32' ? 'makensis.exe' : 'makensis'
+    const child = spawn(makensis, [
+      '-DARCH=' + 'win64',
+      '-DOUTDIR=' + path.join(process.cwd(), releasesDir),
+      'dist/win-installer.nsi'
+    ])
 
-      const child = spawn(makensis, [
-        '-DARCH=' + platform,
-        '-DOUTDIR=' + path.join(process.cwd(), releasesDir),
-        'dist/win-installer.nsi'
-      ])
-
-      const nsisLogs = []
-      child.stdout.on('data', (buf) => {
-        nsisLogs.push(buf.toString())
-      })
-
-      child.on('close', (exitCode) => {
-        if (!exitCode) {
-          console.log('%s nsis packaged in', platform, path.join(process.cwd(), releasesDir))
-        } else {
-          if (nsisLogs.length) {
-            console.log(nsisLogs.join('\n'))
-          }
-          console.log('%s failed to package nsis', platform)
-        }
-        resolve()
-      })
-
-      child.on('error', (error) => {
-        console.log(error)
-        console.log(platform + ' failed to package nsis')
-        resolve()
-      })
+    const nsisLogs = []
+    child.stdout.on('data', (buf) => {
+      nsisLogs.push(buf.toString())
     })
-  })).catch(console.log)
-})
 
-// compile debian packages
-gulp.task('build:deb', () => {
-  return Promise.all(parsePlatforms().map((platform) => {
-    if (platform.match(/osx|win/) !== null) {
-      console.log('No `deb` task for:', platform)
-      return null
-    }
-    if (detectCurrentPlatform(process).indexOf('linux') === -1) {
-      console.log('Packaging deb is only possible on linux')
-      return null
-    }
-
-    return new Promise((resolve) => {
-      console.log('Packaging deb for: %s', platform)
-
-      const child = spawn('bash', [
-        'dist/deb-maker.sh',
-        platform,
-        pkJson.name,
-        pkJson.releaseName,
-        pkJson.version,
-        releasesDir
-      ])
-
-      const debLogs = []
-      child.stdout.on('data', (buf) => {
-        debLogs.push(buf.toString())
-      })
-      child.stderr.on('data', (buf) => {
-        debLogs.push(buf.toString())
-      })
-
-      child.on('close', (exitCode) => {
-        if (!exitCode) {
-          console.log('%s deb packaged in', platform, path.join(process.cwd(), releasesDir))
-        } else {
-          if (debLogs.length) {
-            console.log(debLogs.join('\n'))
-          }
-          console.log('%s failed to package deb', platform)
-        }
-        resolve()
-      })
-
-      child.on('error', (error) => {
-        console.log(error)
-        console.log('%s failed to package deb', platform)
-        resolve()
-      })
-    })
-  })).catch(console.log)
-})
-
-// package in tgz (win) or in xz (unix)
-gulp.task('build:compress', () => {
-  return Promise.all(parsePlatforms().map((platform) => {
-    if (platform.indexOf('win') !== -1) {
-      console.log('No `compress` task for:', platform)
-      return null
-    }
-
-    return new Promise((resolve) => {
-      console.log('Packaging tar for: %s', platform)
-
-      const sources = path.join(releasesDir, pkJson.releaseName, platform)
-
-      if (detectCurrentPlatform(process).indexOf('win') !== -1) {
-        return gulp.src(sources + '/**')
-          .pipe(glp.tar(`${pkJson.name}-${pkJson.version}_${platform}.tar`))
-          .pipe(glp.gzip())
-          .pipe(gulp.dest(releasesDir))
-          .on('end', () => {
-            console.log('%s tar packaged in %s', platform, path.join(process.cwd(), releasesDir))
-            resolve()
-          })
+    child.on('close', (exitCode) => {
+      if (!exitCode) {
+        console.log('Nsis packaged in', path.join(process.cwd(), releasesDir))
       } else {
-        const platformCwd = platform.indexOf('linux') !== -1 ? '.' : `${pkJson.name}.app`
-        const commands = [
-          `cd ${path.join(process.cwd(), sources)}`,
-          `tar --exclude-vcs -c ${platformCwd} | $(command -v pxz || command -v xz) -T8 -7 > "${path.join(process.cwd(), releasesDir, `${pkJson.name}-${pkJson.version}_${platform}.tar.xz`)}"`,
-          `echo "${platform} tar packaged in ${path.join(process.cwd(), releasesDir)}" || echo "${platform} failed to package tar"`
-        ].join(' && ')
-
-        exec(commands, (error, stdout, stderr) => {
-          if (error || stderr) {
-            console.log(error || stderr)
-            console.log('%s failed to package tar', platform)
-            resolve()
-          } else {
-            console.log(stdout.replace('\n', ''))
-            resolve()
-          }
-        })
+        if (nsisLogs.length) {
+          console.log(nsisLogs.join('\n'))
+        }
+        console.log('Failed to package nsis')
       }
+      resolve()
     })
-  })).catch(console.log)
+
+    child.on('error', (error) => {
+      console.log(error)
+      console.log('Failed to package nsis')
+      resolve()
+    })
+  }).catch(console.log)
 })
 
 // download mpv
 gulp.task('mpv', () => {
-  return Promise.all(parsePlatforms().map((platform) => {
-    if (platform.match(/osx|linux/) !== null) {
-      console.log('No `mpv` task for', platform)
-      return null
+  return new Promise((resolve) => {
+    if (fs.existsSync(location)) {
+      console.log('mpv already present in cache...')
+      resolve()
+    } else {
+      console.log('downloading mpv...')
+      const stream = got.stream(pkJson.mpv.url, {
+        ecdhCurve: 'auto'
+      }).pipe(fs.createWriteStream(location))
+      stream.on('downloadProgress', console.log)
+      stream.on('error', console.log)
+      stream.on('finish', resolve)
     }
-    const location = path.join('cache', `mpv-${pkJson.mpv.version}.7z`)
-
-    return new Promise((resolve) => {
-      if (fs.existsSync(location)) {
-        console.log('mpv already present in cache...')
-        resolve()
-      } else {
-        console.log('downloading mpv...')
-        const stream = got.stream(pkJson.mpv.url, {
-          ecdhCurve: 'auto'
-        }).pipe(fs.createWriteStream(location))
-        stream.on('downloadProgress', console.log)
-        stream.on('error', console.log)
-        stream.on('finish', resolve)
-      }
-    }).then(() => {
-      console.log('extracting mpv...')
-      return Z7.extractFull(location, 'mpv')
-    }).then(() => {
-      console.log('mpv extracted')
-    })
-  }))
+  }).then(() => {
+    console.log('extracting mpv...')
+    return Z7.extractFull(location, 'mpv')
+  }).then(() => {
+    console.log('mpv extracted')
+  })
 })
 
 // remove unused libraries
 gulp.task('build:nwjsclean', () => {
-  return Promise.all(parsePlatforms().map((platform) => {
-    if (platform.match(/osx|linux/) !== null) {
-      console.log('No `build:nwjsclean` task for', platform)
-      return null
-    }
-    const dirname = path.posix.join(releasesDir, pkJson.releaseName, platform)
-    const removeArray = [
-      `${dirname}/credits.html`,
-      `${dirname}/chromedriver.exe`,
-      `${dirname}/nwjc.exe`,
-      `${dirname}/notification_helper.exe`,
-      `${dirname}/nacl_irt_x86_64.nexe`,
-      `${dirname}/payload.exe`,
-      `${dirname}/pnacl`,
-      `${dirname}/debug.log`
-    ]
-    console.log('Removing unused %s nwjs files from %s...', platform, dirname)
-    return del(removeArray).then(console.log).catch(console.error)
-  }))
+  const dirname = path.posix.join(releasesDir, pkJson.version)
+  const removeArray = [
+    `${dirname}/credits.html`,
+    `${dirname}/chromedriver.exe`,
+    `${dirname}/nwjc.exe`,
+    `${dirname}/notification_helper.exe`,
+    `${dirname}/nacl_irt_x86_64.nexe`,
+    `${dirname}/payload.exe`,
+    `${dirname}/pnacl`,
+    `${dirname}/debug.log`
+  ]
+  console.log('Removing unused nwjs files from %s...', dirname)
+  return del(removeArray).then(console.log).catch(console.error)
 })
 
 // remove unused node_modules
@@ -359,35 +190,31 @@ gulp.task('npm:modclean', () => {
 
 // remove unused node_modules from Build
 gulp.task('build:modclean', () => {
-  return Promise.all(parsePlatforms().map((platform) => {
-    const mc = new ModClean({
-      cwd: path.join(releasesDir, pkJson.releaseName, platform, 'node_modules'),
-      patterns: ['default:safe']
-    })
-    return mc.clean().then(r => {
-      console.log('ModClean - Build: %s files/folders removed', r.deleted.length)
-    }).catch(console.log)
-  }))
+  const mc = new ModClean({
+    cwd: path.join(releasesDir, pkJson.version, 'package.nw', 'node_modules'),
+    patterns: ['default:safe']
+  })
+  return mc.clean().then(r => {
+    console.log('ModClean - Build: %s files/folders removed', r.deleted.length)
+  }).catch(console.log)
 })
 
 // npm prune the build/<platform>/ folder (to remove devDeps)
 gulp.task('build:prune', () => {
-  return Promise.all(parsePlatforms().map((platform) => {
-    const dirname = path.join(releasesDir, pkJson.releaseName, platform)
-    return new Promise((resolve) => {
-      exec(`cd "${dirname}" && npm prune --omit=dev`, (error, stdout, stderr) => {
-        if (error || stderr) {
-          console.log('`npm prune` failed for %s\n', platform)
-          console.log(stderr || error)
-          console.log('\n\ncontinuing anyway...\n')
-          resolve()
-        } else {
-          console.log(stdout)
-          resolve()
-        }
-      })
+  const dirname = path.join(releasesDir, pkJson.version, 'package.nw')
+  return new Promise((resolve) => {
+    exec(`cd "${dirname}" && npm prune --omit=dev`, (error, stdout, stderr) => {
+      if (error || stderr) {
+        console.log('`npm prune` failed\n')
+        console.log(stderr || error)
+        console.log('\n\ncontinuing anyway...\n')
+        resolve()
+      } else {
+        console.log(stdout)
+        resolve()
+      }
     })
-  }))
+  })
 })
 
 // standard function
@@ -510,4 +337,4 @@ gulp.task('standard:fix', () => {
 gulp.task('build', gulp.series('npm:modclean', 'mpv', 'nwjs', 'build:nwjsclean', 'build:prune', 'build:modclean'))
 
 // create redistribuable packages
-gulp.task('dist', gulp.series('build', 'build:compress', 'build:deb', 'build:nsis'))
+gulp.task('dist', gulp.series('build', 'build:nsis'))

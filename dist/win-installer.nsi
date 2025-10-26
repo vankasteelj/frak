@@ -22,26 +22,6 @@ ManifestDPIAware true
 !searchparse /file "..\package.json" '"name": "' DATA_FOLDER '",'
 
 ; ------------------- ;
-;    Architecture     ;
-; ------------------- ;
-;Default to detected platform build if not defined by -DARCH= argument
-!ifndef ARCH
-    !if /fileexists "..\build\${APP_REAL_NAME}\win64\*.*"
-        !define ARCH "win64"
-    !else
-        !define ARCH "win32"
-    !endif
-!endif
-
-; ------------------- ;
-;  OUTDIR (installer) ;
-; ------------------- ;
-;Default to ../build if not defined by -DOUTDIR= argument
-!ifndef OUTDIR
-    !define OUTDIR "../build"
-!endif
-
-; ------------------- ;
 ;      Settings       ;
 ; ------------------- ;
 ;General Settings
@@ -148,7 +128,7 @@ Section ; Main Files
     SetOutPath "$INSTDIR"
 
     ;Add the files
-    File /r "..\build\${APP_REAL_NAME}\${ARCH}\*"
+    File /r "..\build\${APP_VERSION}\*"
 
     ;Create uninstaller
     WriteUninstaller "$INSTDIR\Uninstall.exe"

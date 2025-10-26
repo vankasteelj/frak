@@ -17,7 +17,7 @@
   "dom_storage_quota": 50,
   "window": {
     "width": 1024,
-    "height": 650,
+    "height": 620,
     "title": "Frak",
     "icon": "app/images/frak-logo.png",
     "min_width": 885,
@@ -27,7 +27,7 @@
   "icons": {
     "256": "app/images/frak-logo.png"
   },
-  "chromium-args": "--disable-raf-throttling --in-process-gpu --no-sandbox",
+  "chromium-args": "--disable-raf-throttling --no-sandbox",
   "node-remote": "*://*",
   "repository": {
     "type": "git",
@@ -63,12 +63,12 @@
     "gulp-zip": "5.1.0",
     "modclean": "3.0.0-beta.1",
     "node-7z-forall": "2.1.5",
-    "nw-builder": "3.7.4",
+    "nw-builder": "4.16.0",
     "standard": "16.0.4",
     "yargs": "17.7.2"
   },
   "nwjs": {
-    "version": "0.93.0",
+    "version": "0.105.0",
     "flavor": "sdk"
   },
   "mpv": {
