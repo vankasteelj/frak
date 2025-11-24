@@ -142,6 +142,7 @@ gulp.task('build:nsis', () => {
 
 // download mpv
 gulp.task('mpv', () => {
+  const location = path.join('cache', `mpv-${pkJson.mpv.version}.7z`)
   return new Promise((resolve) => {
     if (fs.existsSync(location)) {
       console.log('mpv already present in cache...')
