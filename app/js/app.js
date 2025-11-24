@@ -12,13 +12,13 @@ try {
 
   // Set up everything
   Boot.preload()
-  Trakt.reconnect()
 
   if (NwjsApi.argv.indexOf('--bp') !== -1) {
     Interface.bigPicture(true)
   }
 
   requestIdleCallback(() => {
+    Trakt.reconnect()
     Boot.postload()
     console.timeEnd('Application ready')
     if (NwjsApi.argv.indexOf('--hidden') === -1) {

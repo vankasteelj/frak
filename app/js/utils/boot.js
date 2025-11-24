@@ -14,10 +14,10 @@ const Boot = {
     scheduler.postTask(Cache.create, { priority: 'background' }) // create tmp dir
     scheduler.postTask(IB.create, { priority: 'background' }) // create ImagesBank folder
     scheduler.postTask(Boot.setupSettings, { priority: 'background' }) // setup settings popup
-    scheduler.postTask(Interface.buildSwitch, { priority: 'background' }) // switch trakt account screen
     document.addEventListener('contextmenu', (e) => e.preventDefault()) // remove default right clicks
   },
   postload: () => {
+    scheduler.postTask(Interface.buildSwitch, { priority: 'background' }) // switch trakt account screen
     scheduler.postTask(Player.findMpv, { priority: 'background' }) // player
     scheduler.postTask(Keyboard.setupShortcuts, { priority: 'background' }) // keyboard shortcuts
     // Gamepad.init(); // gamepad support - needs work
@@ -426,12 +426,18 @@ const Boot = {
       title: PKJSON.releaseName,
       icon: './app/images/frak-tray.png',
       tooltip: PKJSON.releaseName,
-      action: NwjsApi.mainWindow.show,
+      action: () => {
+            NwjsApi.mainWindow.show()
+            Interface.focus(true)
+      },
       menu: [
         {
           type: 'normal',
           label: i18n.__('Restore'),
-          action: NwjsApi.mainWindow.show
+          action: () => {
+            NwjsApi.mainWindow.show()
+            Interface.focus(true)
+          }
         },
         {
           type: 'separator'
@@ -439,7 +445,7 @@ const Boot = {
         {
           type: 'normal',
           label: i18n.__('Refresh Trakt (F5)'),
-          action: Trakt.reload
+          action: () => Trakt.reload()
         },
         {
           type: 'normal',
@@ -449,7 +455,7 @@ const Boot = {
         {
           type: 'normal',
           label: i18n.__('DevTools (Ctrl+R)'),
-          action: NwjsApi.showDevTools
+          action: () => NwjsApi.showDevTools()
         },
         {
           type: 'separator'
@@ -457,7 +463,7 @@ const Boot = {
         {
           type: 'normal',
           label: i18n.__('Close'),
-          action: NwjsApi.mainWindow.close
+          action: () => NwjsApi.mainWindow.close()
         }
       ]
     })

@@ -364,7 +364,7 @@ const Trakt = {
             // display spinner on list
             $(`#collection #${Details.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>')
 
-            Misc.sleep(800).then(() => {
+            Misc.sleep(1500).then(() => {
               return Trakt.reload(true, type, Details.model.show.ids.slug)
             }).then(() => {
               Misc.events.on('loadNext', () => {
