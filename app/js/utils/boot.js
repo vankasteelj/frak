@@ -222,9 +222,6 @@ const Boot = {
       document.querySelector('#startminimized').checked = true
     }
 
-    // "Custom" feature
-    scheduler.postTask(Trakt.customs.setup, { priority: 'background' })
-
     // auto-launch on start up
     if (DB.sync.get('autolaunch')) {
       document.querySelector('#autolaunch').checked = true

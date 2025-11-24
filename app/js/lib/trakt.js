@@ -45,7 +45,7 @@ const Trakt = {
     // Notify.requestAttention()
 
     Interface.traktConnected(DB.sync.get('trakt_active_profile'))
-    Collection.load()
+    Trakt.customs.setup().then(() => Collection.load())
   },
 
   last_activities: (type) => {
@@ -403,7 +403,7 @@ const Trakt = {
     available: {},
     loaded: {},
     setup: () => {
-      Trakt.client.users.lists.get({username: 'me'}).then(lists => {
+      return Trakt.client.users.lists.get({username: 'me'}).then(lists => {
         for (const i in lists) {
           const list = lists[i]
           const item = '<div class="option">' +
