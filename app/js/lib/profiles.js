@@ -14,7 +14,9 @@ const Profiles = {
           profiles.push({ profile: profile, auth: Trakt.client.export_token() })
           DB.sync.store(profiles, 'trakt_profiles')
         } else {
-          console.info('Account "%s" already exists, ignoring', profile.username)
+          console.info('Account "%s" already exists, updating', profile.username)
+          profiles[index] = { profile: profile, auth: Trakt.client.export_token() }
+          DB.sync.store(profiles, 'trakt_profiles')
         }
         return resolve()
       })

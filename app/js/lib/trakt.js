@@ -17,7 +17,7 @@ const Trakt = {
       $('#init').show()
       if (Profiles.list().length !== 0) $('#traktinit .existingaccounts').css('display', 'inline-flex')
     } else {
-      Trakt.client.import_token(Profiles.get(auth).auth).then(Trakt.connected).catch((err) => {
+      Trakt.client.import_token(Profiles.get(auth).auth).then(Profiles.add).then(Trakt.connected).catch((err) => {
         console.debug('There was an error in Trakt authentication', err)
         Trakt.disconnect()
       })
