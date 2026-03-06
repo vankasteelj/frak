@@ -92,10 +92,12 @@ gulp.task('default', () => {
     '\nBasic usage:',
     ' gulp run\tStart the application',
     ' gulp standard\tCheck StandardJS linting',
-    ' gulp build\tBuild the application',
-    ' gulp dist\tCreate a redistribuable package',
+    ' gulp build\tBuild the application (tasks are npm:modclean, mpv, nwjs, build:nwjsclean, build:prune, build:modclean)',
+    ' gulp dist\tCreate a redistribuable package (tasks are build, build:nsis)',
     '\nAvailable options:',
     ' --development\t\t\tStart in dev mode',
+    ' --bp\t\t\t\tStart in Big Picture mode',
+    ' --hidden\t\t\tStart in tray only',
     '\tExample:   `gulp run --development`',
     '\nUse `gulp --tasks` to show the task dependency tree of gulpfile.js\n'
   ].join('\n'))
