@@ -1,6 +1,6 @@
 'use strict'
 
-console.info('Running app version', PKJSON.version)
+console.info('Running app version %s (nwjs %s, mpv %s)', PKJSON.version, NwjsApi.version, PKJSON.mpv.version)
 
 // setup window's content and start the app
 try {

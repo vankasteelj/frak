@@ -5,6 +5,7 @@ const win = gui.Window.get()
 
 const NwjsApi = {
   argv: gui.App.argv,
+  version: nw.process.versions.nw,
   splashScreen: {
     window: null,
     open: () => {
