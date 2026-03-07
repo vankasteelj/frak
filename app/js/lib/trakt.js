@@ -2,6 +2,7 @@
 
 const Trakt = {
   client: new (require('trakt.tv'))({
+    useragent: `${PKJSON.name} ${PKJSON.version}`,
     client_id: Settings.apikeys.trakt_id,
     client_secret: Settings.apikeys.trakt_secret,
     plugins: {
