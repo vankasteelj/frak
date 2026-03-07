@@ -287,19 +287,23 @@ const Interface = {
 
   // USER INTERACTION: click trailer item button
   playTrailer: (url) => {
+    Misc.openExternal(url)
+    /* LEGACY EMBED, not working
     const ytc = url.split('=')[1]
 
     const iframe = $('<iframe>')
-      .attr('src', `http://www.youtube.com/embed/${ytc}?autoplay=1&VQ=HD720`)
+      .attr('src', `https://www.youtube.com/embed/${ytc}`)
       .attr('frameborder', '0')
       .attr('allowfullscreen', '1')
+      .attr('referrerpolicy', 'strict-origin-when-cross-origin')
+      .attr('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share')
       .css({
         width: '100%',
         height: '100%'
       })
 
     $('#trailer .video').append(iframe)
-    $('#trailer').show()
+    $('#trailer').show()*/
   },
   // USER INTERACTION: click out of the trailer popup
   closeTrailer: () => {
