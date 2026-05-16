@@ -227,7 +227,7 @@ const Player = {
   },
   notify: (message) => {
     if (!message) return
-    Player.mpv.command('show-text', [message, '1200', '1'])
+    Player.mpv.command('show-text', [message, '1200', '0'])
   },
   onTop: () => {
     Player.mpv.setProperty('ontop', true)
