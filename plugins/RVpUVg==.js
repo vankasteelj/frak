@@ -22,7 +22,7 @@ const get = (cfg) => {
     if (!results.torrents) return list
 
     for (const r of results.torrents) {
-      if (r.seeds && parseInt(r.season) === parseInt(episode.season) && parseInt(r.episode) === parseInt(episode.episode)) {
+      if (parseInt(r.season) === parseInt(episode.season) && parseInt(r.episode) === parseInt(episode.episode)) {
         list.push({
           name: r.title,
           magnet: r.magnet_url,

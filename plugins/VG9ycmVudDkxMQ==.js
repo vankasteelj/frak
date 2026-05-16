@@ -1,6 +1,6 @@
 const got = require('got')
 const cheerio = require('cheerio')
-const defaultURL = atob('aHR0cHM6Ly93d3cubWVnYS10b3JyZW50Mi5jb20=')
+const defaultURL = atob('aHR0cHM6Ly93d3cudG9ycmVudDkxMS5hcHAv')
 const name = atob('VG9ycmVudDkxMQ==')
 
 const get = (keywords) => {
@@ -27,13 +27,13 @@ const get = (keywords) => {
 
     const torrentsTemp = []
 
-    $('.listing-torrent .table tbody tr').each((index, el) => {
+    $('.listing-torrent .banner-byx>li').each((index, el) => {
       try {
         const torrent = {
-          name: $(el).find('a').eq(0).attr('title'),
+          name: $(el).find('a').eq(1).attr('title'),
           seeds: 0,
           peers: 0,
-          magnet: $(el).find('a').eq(0).attr('href'),
+          magnet: $(el).find('a').eq(1).attr('href'),
           source: name
         }
 
@@ -46,7 +46,7 @@ const get = (keywords) => {
     return Promise.all(torrentsTemp.map(torrent => {
       return got(defaultURL + torrent.magnet, { timeout: 3500 }).then(response => {
         const $ = cheerio.load(response.body)
-        torrent.magnet = $('.btn-download').find('a').attr('href')
+        torrent.magnet = $('#collapseOne>.table').find('a').eq(1).attr('href')
 
         torrent.seeds = parseInt($('td:contains("Seeders:")').last().siblings().text())
         torrent.peers = parseInt($('td:contains("Leechers:")').last().siblings().text())
