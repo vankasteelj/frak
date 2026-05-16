@@ -46,7 +46,7 @@ const Player = {
     setTimeout(() => {
       Player.config.model = undefined
       Player.config.states = undefined
-    }, 300)
+    }, 500)
 
     Player.setMPV()
 
