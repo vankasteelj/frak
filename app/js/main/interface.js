@@ -287,12 +287,22 @@ const Interface = {
 
   // USER INTERACTION: click trailer item button
   playTrailer: (url) => {
-    Misc.openExternal(url)
-    /* LEGACY EMBED, not working
+    // fix for youtube's 153 embed error https://github.com/nwjs/nw.js/issues/2856#issuecomment-771945115
+    chrome.webRequest.onBeforeSendHeaders.addListener(function(details) {
+      for (let index in details.requestHeaders) {
+        if (details.requestHeaders[index].name === "Referer") {
+          details.requestHeaders[index].value = referer
+          return { requestHeaders: details.requestHeaders}
+        }
+      }
+      details.requestHeaders.push({ name: "Referer", value: 'https://example.com' })
+      return { requestHeaders: details.requestHeaders }
+    }, { urls: ["<all_urls>"] }, ["blocking", "requestHeaders", "extraHeaders"])
+
     const ytc = url.split('=')[1]
 
     const iframe = $('<iframe>')
-      .attr('src', `https://www.youtube.com/embed/${ytc}`)
+      .attr('src', `https://www.youtube.com/embed/${ytc}?autoplay=1`)
       .attr('frameborder', '0')
       .attr('allowfullscreen', '1')
       .attr('referrerpolicy', 'strict-origin-when-cross-origin')
@@ -303,7 +313,7 @@ const Interface = {
       })
 
     $('#trailer .video').append(iframe)
-    $('#trailer').show()*/
+    $('#trailer').show()
   },
   // USER INTERACTION: click out of the trailer popup
   closeTrailer: () => {
