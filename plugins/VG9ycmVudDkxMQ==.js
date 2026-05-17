@@ -41,8 +41,9 @@ const get = (keywords, req) => {
         if (torrent.name && torrent.magnet) {
           const s = keywords.toLowerCase()
           const r = torrent.name.toLowerCase()
-
+          
           const w = s.split(' ')
+          const toMatch = w.length >= 3 ? 3 : 2
           let match = 0
           try {
             r.indexOf(w[0]) >= 0 && match++ 
@@ -51,7 +52,14 @@ const get = (keywords, req) => {
             r.indexOf(w[3]) >= 0 && match++
           } catch(e) { }
             
-          match >= 2 && torrentsTemp.push(torrent)
+          if (match >= toMatch) {
+            const sxe = s.match(/s\d+e\d+/)
+            if (req.cat === 'series' && (sxe && sxe[0])) {
+              r.indexOf(sxe[0]) >= 0 && torrentsTemp.push(torrent)
+            } else {
+              torrentsTemp.push(torrent)
+            }
+          }
         }
       } catch (e) {}
     })
