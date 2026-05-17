@@ -267,7 +267,7 @@
 
 .grid-item:hover>.fanart {
   background-size: 101% !important;
-  filter: brightness(1.15) grayscale(0) opacity(1) !important;
+  filter: brightness(1.10) grayscale(0) opacity(1) !important;
   transition: all .5s;
 }
 
