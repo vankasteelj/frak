@@ -24,8 +24,8 @@ const get = (query, cat) => {
         }
 
         const data = {
-          magnet: 'magnet:?xt=urn:btih:' + n[0].attribs.href.split('/')[1],
           name: n.text(),
+          magnet: 'magnet:?xt=urn:btih:' + n[0].attribs.href.split('/')[1],
           peers: parseInt(p.text()) || 0,
           seeds: parseInt(s.text()) || 0,
           size: (() => {
