@@ -4,19 +4,19 @@ const Boot = {
 
   // STARTUP: load app: ui,settings,features
   preload: () => {
-    Boot.checkVisible() // main window
     Themes.setup() // set up theme
     Localization.setupLocalization() // localize
     Boot.online() // check if online
     Boot.startScreen() // what view to load first
     Misc.events = new (require('node:events'))() // set up events
-    scheduler.postTask(Boot.tray, { priority: 'background' }) // setup the tray
-    scheduler.postTask(Cache.create, { priority: 'background' }) // create tmp dir
-    scheduler.postTask(IB.create, { priority: 'background' }) // create ImagesBank folder
-    scheduler.postTask(Boot.setupSettings, { priority: 'background' }) // setup settings popup
-    document.addEventListener('contextmenu', (e) => e.preventDefault()) // remove default right clicks
+    scheduler.postTask(Cache.create, { priority: 'user-blocking' }) // create tmp dir
+    scheduler.postTask(IB.create, { priority: 'user-blocking' }) // create ImagesBank folder
+    scheduler.postTask(Boot.setupSettings, { priority: 'user-blocking' }) // setup settings popup
   },
   postload: () => {
+    Boot.checkVisible() // main window
+    document.addEventListener('contextmenu', (e) => e.preventDefault()) // remove default right clicks
+    scheduler.postTask(Boot.tray, { priority: 'user-visible' }) // setup the tray
     scheduler.postTask(Interface.buildSwitch, { priority: 'background' }) // switch trakt account screen
     scheduler.postTask(Player.findMpv, { priority: 'background' }) // player
     scheduler.postTask(Keyboard.setupShortcuts, { priority: 'background' }) // keyboard shortcuts

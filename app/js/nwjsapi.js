@@ -301,7 +301,7 @@ const NwjsApi = {
   }
 }
 
-if (NwjsApi.argv.indexOf('--hidden') === -1 && NwjsApi.argv.indexOf('--development') === -1) {
+if (NwjsApi.argv.indexOf('--hidden') === -1) {
   NwjsApi.splashScreen.open()
 }
 NwjsApi.handleEvents()

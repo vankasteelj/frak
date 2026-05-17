@@ -17,17 +17,22 @@ try {
     Interface.bigPicture(true)
   }
 
-  requestIdleCallback(() => {
-    Trakt.reconnect()
-    Boot.postload()
-    console.timeEnd('Application ready')
-    if (NwjsApi.argv.indexOf('--hidden') === -1) {
-      NwjsApi.mainWindow.show(true)
-      Interface.focus(true)
-    }
-    if (NwjsApi.splashScreen.window) {
-      NwjsApi.splashScreen.window.close()
-    }
+  Misc.sleep(1000).then(() => { 
+    requestIdleCallback(() => {
+      Trakt.reconnect()
+      Boot.postload()
+      console.timeEnd('Application ready')
+    }, { timeout: 6000 })
+  }).then(() => {
+    requestIdleCallback(() => {
+      if (NwjsApi.argv.indexOf('--hidden') === -1) {
+        NwjsApi.mainWindow.show(true)
+        Interface.focus(true)
+      }
+      if (NwjsApi.splashScreen.window) {
+        NwjsApi.splashScreen.window.close()
+      }
+    })
   })
 } catch (err) {
   // if things go south on startup, just display devtools and log error
