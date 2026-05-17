@@ -3,10 +3,11 @@ const cheerio = require('cheerio')
 const defaultURL = atob('aHR0cHM6Ly93d3cudG9ycmVudDkxMS5hcHAv')
 const name = atob('VG9ycmVudDkxMQ==')
 
-const get = (keywords) => {
+const get = (keywords, req) => {
   const reqURL = [
     defaultURL,
     'recherche',
+    req.cat,
     escape(keywords)
   ].join('/')
 
@@ -37,7 +38,21 @@ const get = (keywords) => {
           source: name
         }
 
-        torrent.name && torrent.magnet && torrentsTemp.push(torrent)
+        if (torrent.name && torrent.magnet) {
+          const s = keywords.toLowerCase()
+          const r = torrent.name.toLowerCase()
+
+          const w = s.split(' ')
+          let match = 0
+          try {
+            r.indexOf(w[0]) >= 0 && match++ 
+            r.indexOf(w[1]) >= 0 && match++
+            r.indexOf(w[2]) >= 0 && match++
+            r.indexOf(w[3]) >= 0 && match++
+          } catch(e) { }
+            
+          match >= 2 && torrentsTemp.push(torrent)
+        }
       } catch (e) {}
     })
 
