@@ -1,6 +1,7 @@
 'use strict'
 
 const Search = {
+  running: null,
   query: () => {
     const query = $('#query').val()
     if (!query) return
@@ -12,10 +13,12 @@ const Search = {
 
     $('#details-sources .query .search').addClass('fa-spin fa-circle-o-notch').removeClass('fa-search')
 
+    Search.running = query
     Search.online(query, imdbid, type).then(results => {
+      if (Search.running !== query) return
       if (!results) results = []
       console.info('Found %s results', results.length, results)
-
+      
       Search.addRemote(results)
 
       $('#details-sources .query .search').addClass('fa-search').removeClass('fa-spin fa-circle-o-notch')

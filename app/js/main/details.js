@@ -175,6 +175,7 @@ const Details = {
     window.scrollTo(0, (Details.fromScroll || 0))
     $('#details').hide()
     Cast.stop()
+    Search.running = null
   },
 
   local: {
