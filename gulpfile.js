@@ -150,6 +150,7 @@ gulp.task('mpv', () => {
       console.log('mpv already present in cache...')
       resolve()
     } else {
+      fs.mkdirSync('cache')
       console.log('downloading mpv...')
       const stream = got.stream(pkJson.mpv.url, {
         ecdhCurve: 'auto'
