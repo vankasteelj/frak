@@ -42,11 +42,11 @@ const Trakt = {
   connected: () => {
     console.info('Trakt is connected')
 
-    Interface.focus(true)
-    // Notify.requestAttention()
-
     Interface.traktConnected(DB.sync.get('trakt_active_profile'))
     Trakt.customs.setup().then(() => Collection.load())
+
+    Interface.focus(true)
+    NwjsApi.mainWindow.requestAttention()
   },
 
   last_activities: (type) => {

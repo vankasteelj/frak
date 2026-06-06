@@ -83,6 +83,9 @@ const NwjsApi = {
     },
     setProgressBar: (progress) => {
       win.setProgressBar(progress)
+    },
+    requestAttention: () => {
+      chrome.windows.update(win.cWindow.id, { drawAttention: true })
     }
   },
   tray: {
