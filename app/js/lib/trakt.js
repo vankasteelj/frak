@@ -18,10 +18,14 @@ const Trakt = {
       $('#init').show()
       if (Profiles.list().length !== 0) $('#traktinit .existingaccounts').css('display', 'inline-flex')
     } else {
-      Trakt.client.import_token(Profiles.get(auth).auth).then(Profiles.add).then(Trakt.connected).catch((err) => {
-        console.debug('There was an error in Trakt authentication', err)
-        Trakt.disconnect()
-      })
+      if (navigator.onLine) {
+        Trakt.client.import_token(Profiles.get(auth).auth).then(Profiles.add).then(Trakt.connected).catch((err) => {
+          console.debug('There was an error in Trakt authentication', err)
+          Trakt.disconnect()
+        })
+      } else {
+        Trakt.connected()
+      }
     }
   },
 
@@ -404,7 +408,14 @@ const Trakt = {
     available: {},
     loaded: {},
     setup: () => {
-      return Trakt.client.users.lists.get({username: 'me'}).then(lists => {
+      return new Promise((resolve) => {
+        if (navigator.onLine) {
+          resolve(Trakt.client.users.lists.get({username: 'me'}))
+        } else {
+          resolve(DB.sync.get('trakt_active_lists'))
+        }
+      }).then(lists => {
+        DB.sync.store(lists, 'trakt_active_lists')
         for (const i in lists) {
           const list = lists[i]
           const item = '<div class="option">' +

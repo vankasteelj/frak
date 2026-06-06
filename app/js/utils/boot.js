@@ -55,16 +55,15 @@ const Boot = {
     DB.sync.store(localip, 'localip')
     $('#localip input').val(localip)
 
-    /* TODO check if online or not
-        let online = window.navigator.onLine;
-        if (online) {
-            !DB.sync.get('online') && DB.sync.store(true, 'online') && console.info('App is online');
-        } else {
-            DB.sync.get('online') && DB.sync.store(false, 'online') && console.info('No internet connection');
-        }
-        setTimeout(() => {
-            Boot.online()
-        }, 5000); */
+    window.addEventListener("offline", (e) => {
+      console.info('No internet connection')
+      Notify.snack(i18n.__('The app is offline'))
+    })
+
+    window.addEventListener("online", (e) => {
+      console.info('App is online')
+      Notify.snack(i18n.__('The app is online'))
+    })
   },
 
   cleanup: () => {

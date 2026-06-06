@@ -17,17 +17,20 @@ try {
     Interface.bigPicture(true)
   }
 
-  Misc.sleep(1000).then(() => { 
+  Misc.sleep(500).then(() => {
     requestIdleCallback(() => {
       Trakt.reconnect()
       Boot.postload()
       console.timeEnd('Application ready')
-    }, { timeout: 6000 })
+    }, { timeout: 3000 })
   }).then(() => {
     requestIdleCallback(() => {
       if (NwjsApi.argv.indexOf('--hidden') === -1) {
         NwjsApi.mainWindow.show(true)
         Interface.focus(true)
+        if (!navigator.onLine) {
+          Notify.snack(i18n.__('The app is offline'), 15000)
+        }
       }
       if (NwjsApi.splashScreen.window) {
         NwjsApi.splashScreen.window.close()

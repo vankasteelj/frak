@@ -15,6 +15,7 @@ const Subtitles = {
   },
 
   search: (opts) => {
+    if (!navigator.onLine) return
     console.info('Looking for subtitles', opts)
     return Subtitles.client.subtitles(opts).then(subs => {
       const ordered = {}
@@ -131,6 +132,7 @@ const Subtitles = {
       Notify.snack('You need a username & password to log in to Opensubtitles.com')
       return
     }
+    if (!navigator.onLine) return
 
     Subtitles.client.login({
       username: username,
