@@ -26,7 +26,7 @@
 [Download the latest Frak release!](https://github.com/vankasteelj/frak/releases)
 
 ## Build it yourself from the sources
-- Download and install [NodeJS and npm](https://nodejs.org)
+- Download and install [NodeJS >= v22.14.0 and npm >= 11.14.1](https://nodejs.org)
 
 - Install dependencies, download binaries:
 
