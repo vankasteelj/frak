@@ -411,5 +411,6 @@
 	"high-contrast": "contraste élevé",
 	"Use these custom lists as an 'extended Watchlist' of sorts. Currently only working with movies, and doesn't do well with duplicates.": "Utiliser ces listes comme extension de watchlist. Ne fonctionne pour l'instant qu'avec des films et gère mal les doublons.",
 	"The app is offline": "L'application n'est pas connectée à Internet",
-  "The app is online": "Connectivité Internet retrouvée"
+	"The app is online": "Connectivité Internet retrouvée",
+	"legacy": "traditionnel"
 }

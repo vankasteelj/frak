@@ -222,6 +222,7 @@
   right: 0;
   top: 0;
   width: 0;
+  user-select: none;
 }
 
 #collection .fanart .exists-elsewhere {
@@ -306,6 +307,7 @@
   white-space: nowrap;
   background-color: var(--item-bg);
   color: var(--item-text);
+  user-select: none;
 }
 
 #details #fileSelector .selector,
@@ -405,7 +407,7 @@
 
 #collection .titles h4 .sxe {
   background-color: #ed1c24;
-  color: #fafafa;
+  color: #e5e5e5;
   padding: 3px 5px;
 }
 
@@ -416,6 +418,7 @@
   font-weight: 700;
   padding: 3px 5px;
   display: none;
+  user-select: none;
 }
 
 #collection .titles h4,
@@ -771,7 +774,7 @@
 #details-loading .player .control .fa:hover,
 #details-loading .dlnaplayer .control .fa:hover {
   background-color: #2b678f;
-  color: #fafafa;
+  color: #e5e5e5;
 }
 
 #details-loading .player .control .fa-font-small:before,
@@ -805,6 +808,7 @@
   height: 30px;
   padding-right: 10px;
   width: calc(100% - 166px);
+  user-select: none;
 }
 
 #details-metadata .md-buttons .watched.selected {
@@ -846,6 +850,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   width: calc(100% - 166px);
+  user-select: none;
 }
 
 #details-metadata .md-line span:before {
@@ -1020,6 +1025,7 @@
   text-align: right;
   width: 85px;
   font-family: var(--font-default);
+  user-select: none;
 }
 
 #details-sources .item .terrible {
@@ -1042,7 +1048,7 @@
 }
 
 #details-sources .query #query {
-  background-color: rgba(245, 245, 245, .85);
+  background-color: rgba(245, 245, 245, .7);
   color: #1d1d1d;
   font-family: var(--font);
   font-weight: 400;
@@ -1135,6 +1141,7 @@
   padding-left: 60px;
   text-align: center;
   width: calc(40% + 55px);
+  user-select: none;
 }
 
 #discover .disc-proposal .type {
@@ -1151,7 +1158,7 @@
   padding: 0 10px;
   transition: opacity .4s;
   width: 16.6%;
-  font-size: 0.88em;
+  font-size: 0.94em;
 }
 
 #discover .disc-proposal .type div.active {
@@ -1209,6 +1216,10 @@ a {
   padding: 5px;
   text-align: center;
   width: 70%;
+}
+
+#discover .disc-search .search {
+  padding: 0 10px;
 }
 
 #discover .grid-item > .watched {
@@ -1376,6 +1387,7 @@ a {
   cursor: pointer;
   opacity: .8;
   transition: all .5s;
+  user-select: none;
 }
 #stats #saccounts:hover {
   opacity: 1;
@@ -1473,6 +1485,7 @@ a {
 #stats #sloaded #stop .category h3 {
   text-align: center;
   padding-bottom: 5px;
+  user-select: none;
 }
 
 #stats #smostwatched {
@@ -1617,7 +1630,7 @@ a {
 .actions .watchlist.selected,
 .actions .watchlist:hover {
   background-color: #16a085;
-  color: #fafafa;
+  color: #e5e5e5;
 }
 
 #locals .categories {
@@ -1639,6 +1652,7 @@ a {
   margin: 0 auto;
   text-align: center;
   transition: all .5s;
+  user-select: none;
 }
 
 #locals .category .text {
@@ -1793,6 +1807,7 @@ a {
   transition: all .4s;
   width: 60px;
   z-index: 2;
+  user-select: none;
 }
 
 #navbar .fa-spin {
@@ -2243,6 +2258,7 @@ a {
   font-size: 14px;
   margin-bottom: 20%;
   text-align: center;
+  user-select: none;
 }
 
 #trakt #history #showMore .showMore_text,
@@ -2304,6 +2320,7 @@ a {
 #trakt #ratings .filters {
   padding-left: 10px;
   padding-top: 10px;
+  user-select: none;
 }
 
 #trakt .row {
@@ -2383,11 +2400,6 @@ a {
   margin: 15px 0;
 }
 
-#details-metadata .md-line,
-#details-metadata .md-buttons {
-  color: #ccc;
-}
-
 #settings .locals .option .pathbox .paths li,
 #settings .mpv input,
 #settings .subtitles input,
@@ -2435,7 +2447,7 @@ a {
 
 .actions .play:hover {
   background-color: #555;
-  color: #fafafa;
+  color: #e5e5e5;
 }
 
 .actions .trailer {
@@ -2452,7 +2464,7 @@ a {
 .actions .watched.selected,
 .actions .watched:hover {
   background-color: #8e44ad;
-  color: #fafafa;
+  color: #e5e5e5;
 }
 
 .actions .remove,
@@ -2464,7 +2476,7 @@ a {
 .actions .remove.selected,
 .actions .remove:hover {
   background-color: #16a085;
-  color: #fafafa;
+  color: #e5e5e5;
 }
 
 .actions .watchlist {
@@ -2474,7 +2486,7 @@ a {
 
 .actions .trailer:hover {
   background-color: #2b678f;
-  color: #fafafa;
+  color: #e5e5e5;
 }
 
 .button {
@@ -2871,6 +2883,7 @@ select.dropdown {
   color: var(--dropdown-text);
   height: 30px;
   font-family: var(--font-default);
+  user-select: none;
 }
 
 #autoRate .review {
