@@ -379,7 +379,8 @@
   display: inline-block;
   font-size: 18px;
   margin-top: 3px;
-  padding: 10px;
+  padding: 8px 15px;
+  border-radius: 25px;
   text-shadow: var(--item-title-shadow);
   color: var(--item-title);
 }
