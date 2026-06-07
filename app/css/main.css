@@ -1999,6 +1999,7 @@ a {
   font-weight: 400;
   line-height: 59px;
   margin-right: 2px;
+  user-select: none;
 }
 
 #settings .action button,
@@ -2876,6 +2877,7 @@ select.dropdown {
   padding-left: 10px;
   padding-right: 10px;
   width: 150px;
+  user-select: none;
 }
 
 #ratings select.dropdown {
