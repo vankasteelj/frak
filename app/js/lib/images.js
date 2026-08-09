@@ -6,10 +6,10 @@ const Images = {
     poster: null
   },
   client: new (require('mdata'))({
-    fanart: Settings.apikeys.fanart,
-    tmdb: Settings.apikeys.tmdb,
-    tvdb: Settings.apikeys.tvdb,
-    omdb: Settings.apikeys.omdb
+    fanart: process.env.FANART_APIKEY || Settings.apikeys.fanart,
+    tmdb: process.env.TMDB_APIKEY || Settings.apikeys.tmdb,
+    tvdb: process.env.TVDB_APIKEY || Settings.apikeys.tvdb,
+    omdb: process.env.OMDB_APIKEY || Settings.apikeys.omdb
   }),
 
   get: {
