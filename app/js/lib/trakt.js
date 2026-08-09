@@ -416,6 +416,7 @@ const Trakt = {
         }
       }).then(lists => {
         DB.sync.store(lists, 'trakt_active_lists')
+        const custom = $('#settings .custom')
         for (const i in lists) {
           const list = lists[i]
           const item = '<div class="option">' +
@@ -430,7 +431,7 @@ const Trakt = {
             '</div>' +
           '</div>'
         
-          $('#settings .custom').append(item)
+          custom.append(item)
           Trakt.customs.available[list.ids.slug] = list
 
           $(`#${list.ids.slug}`).off('click').on('click', (evt) => {

@@ -31,9 +31,11 @@ const Dragdrop = {
       if ($('#details').css('display') !== 'none' && !Streamer.client) {
         let showDrag = true
         let timeout = -1
+        const dropArea = $('#details-sources .drop-area')
+        const sources = $('#details-sources .sources')
         $(document).on('dragenter', (e) => {
-          $('#details-sources .drop-area').show()
-          $('#details-sources .sources').addClass('blur')
+          dropArea.show()
+          sources.addClass('blur')
         })
         $(document).on('dragover', (e) => {
           showDrag = true
@@ -43,8 +45,8 @@ const Dragdrop = {
           clearTimeout(timeout)
           timeout = setTimeout(() => {
             if (!showDrag) {
-              $('#details-sources .drop-area').hide()
-              $('#details-sources .sources').removeClass('blur')
+              dropArea.hide()
+              sources.removeClass('blur')
               $(document).off('dragenter')
               $(document).off('dragover')
               $(document).off('dragleave')

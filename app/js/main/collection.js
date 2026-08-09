@@ -36,7 +36,8 @@ const Collection = {
 
   get: {
     traktshows: (update, slug, cached) => {
-      $('#navbar .shows .fa-spin').css('opacity', update ? 0 : 1)
+      const elm = $('#navbar .shows .fa-spin')
+      elm.css('opacity', update ? 0 : 1)
 
       let ondeck
       return new Promise((resolve) => {
@@ -76,12 +77,13 @@ const Collection = {
           DB.trakt.store(results, 'traktshows')
         ]).then(() => Collection.format.traktshows(results.shows))
       }).catch(e => {
-        $('#navbar .shows .fa-spin').css('opacity', 0)
+        elm.css('opacity', 0)
         return e
       })
     },
     traktmovies: (update) => {
-      $('#navbar .movies .fa-spin').css('opacity', update ? 0 : 1)
+      const elm = $('#navbar .movies .fa-spin')
+      elm.css('opacity', update ? 0 : 1)
 
       let watchlist
       return Trakt.client.sync.watchlist.get({
@@ -112,7 +114,7 @@ const Collection = {
           DB.trakt.store(results, 'traktmovies')
         ]).then(() => Collection.format.traktmovies(results))
       }).catch(e => {
-        $('#navbar .movies .fa-spin').css('opacity', 0)
+        elm.css('opacity', 0)
         return e
       })
     },
@@ -408,6 +410,7 @@ const Collection = {
 
   show: {
     shows: (shows = []) => {
+      const elm = $('#collection #shows')
       Promise.all([
         DB.trakt.get('showsbank'),
         DB.trakt.get('hiddenitems')
@@ -418,18 +421,19 @@ const Collection = {
           if (hiddenitems && hiddenitems[show.show.ids.slug]) continue
           items.push(Items.constructShow(show))
         }
-        $('#collection #shows').html('').append(items)
+        elm.html('').append(items)
 
         Misc.sleep(800).then(() => {
           Misc.events.emit('loadNext')
         })
 
         if (!$('#collection #shows .grid-item').length) {
-          return $('#collection #shows').append(Items.constructMessage('No episode to display. Start watching a TV show or add one to your watchlist, and check back here.'))
+          return elm.append(Items.constructMessage('No episode to display. Start watching a TV show or add one to your watchlist, and check back here.'))
         }
       })
     },
     movies: (movies = []) => {
+      const elm = $('#collection #movies')
       Promise.all([
         DB.trakt.get('moviesbank'),
         DB.trakt.get('hiddenmovies'),
@@ -446,10 +450,10 @@ const Collection = {
           }
           items.push(Items.constructMovie(movie))
         }
-        $('#collection #movies').html('').append(items)
+        elm.html('').append(items)
 
         if (!$('#collection #movies .grid-item').length) {
-          return $('#collection #movies').append(Items.constructMessage('No movie to display, add one to your watchlist and check back here.'))
+          return elm.append(Items.constructMessage('No movie to display, add one to your watchlist and check back here.'))
         }
 
         untrack.length && console.info('Some movies are hidden or not released yet, not showing:', untrack.join(', '))

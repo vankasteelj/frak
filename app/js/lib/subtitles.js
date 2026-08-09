@@ -45,18 +45,20 @@ const Subtitles = {
 
     $('#subtitles .subs').append(language)
 
+    const subLangs = $(`#sub-${lang}`)
     for (const n in subs) {
       const id = subs[n].id
-      if ($(`#${id}`)[0]) continue
+      const elm = $(`#${id}`)
+      if (elm[0]) continue
 
       const subtitle = `<div class="sub i18n" title="${i18n.__('Load this subtitle')}" id="${id}" onClick="Subtitles.select(this)">` +
                     `<div class="data">${JSON.stringify(subs[n])}</div>` +
                     `<div class="subname">${subs[n].filename}</div>` +
                 '</div>'
-      $(`#sub-${lang}`).append(subtitle)
+      subLangs.append(subtitle)
 
       if (document.getElementById(id).offsetWidth < document.getElementById(id).scrollWidth) {
-        $(`#${id}`).addClass('scrolltext')
+        elm.addClass('scrolltext')
       }
     }
 
@@ -97,26 +99,27 @@ const Subtitles = {
     const available = langs.all()
     const defaultsublocale = DB.sync.get('defaultsublocale')
 
+    const elm = $('#sub-language')
     for (const i in available) {
       // insert element in dropdown
       const native = available[i].local
       const lang2B = available[i]['2B']
-      $('#sub-language').append('<option value="' + lang2B + '">' + native + '</option>')
+      elm.append('<option value="' + lang2B + '">' + native + '</option>')
 
       // select if active
       if (defaultsublocale === lang2B) {
-        $('#sub-language').val(lang2B)
+        elm.val(lang2B)
       }
     }
 
     if (!defaultsublocale) {
       const lang2B = langs.where('1', i18n.getLocale())['2B']
-      $('#sub-language').val(lang2B)
+      elm.val(lang2B)
       DB.sync.store(lang2B, 'defaultsublocale')
     }
 
     // on dropdown click, change lang
-    $('#sub-language').on('change', (e) => {
+    elm.on('change', (e) => {
       // store new lang
       DB.sync.store(e.target.value, 'defaultsublocale')
       // reload to use new lang

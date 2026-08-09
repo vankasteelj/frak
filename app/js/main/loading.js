@@ -6,8 +6,9 @@ const Loading = {
     $('#streaminfo .source span').text(path.dirname(file.path))
     $('#streaminfo .connection').hide()
 
+    const epTitle = $('#details-metadata .ep-title').text()
     Player.play(file.path, {
-      title: $('#details-metadata .title').text() + ($('#details-metadata .ep-title').text() ? ' - ' + $('#details-metadata .ep-title').text() : '')
+      title: $('#details-metadata .title').text() + (epTitle ? ' - ' + epTitle : '')
     }, Details.model)
 
     Loading.subfails = 0
@@ -20,8 +21,10 @@ const Loading = {
       $('#streaminfo .filename span').text(file.filename)
       $('#streaminfo .source span').text(url)
       $('#streaminfo .connection').hide()
+
+      const epTitle = $('#details-metadata .ep-title').text()
       Player.play(url, {
-        title: $('#details-metadata .title').text() + ($('#details-metadata .ep-title').text() ? ' - ' + $('#details-metadata .ep-title').text() : '')
+        title: $('#details-metadata .title').text() + (epTitle ? ' - ' + epTitle : '')
       }, Details.model)
       setTimeout(() => Network.getSubtitlesFromPeer(file, url), 1500)
     })
@@ -34,10 +37,18 @@ const Loading = {
   },
   remote: (url) => {
     const localUrl = DB.sync.get('localip') ? url.replace('127.0.0.1', DB.sync.get('localip')) : url
+    const connection = $('#streaminfo .connection')
+    const filename = $('#streaminfo .filename span')
+    const source = $('#streaminfo .source span')
+    const status = $('#streaminfo .status span')
+    const remaining = $('#streaminfo .remaining span')
+    const peers = $('#streaminfo .peers span')
+    const download = $('#streaminfo .download span')
+    const upload = $('#streaminfo .upload span')
 
-    $('#streaminfo .filename span').text(Streamer.streaminfo.file_name)
-    $('#streaminfo .source span').text(localUrl)
-    $('#streaminfo .connection').show()
+    filename.text(Streamer.streaminfo.file_name)
+    source.text(localUrl)
+    connection.show()
 
     const calcRemainingTime = (timeLeft) => {
       if (timeLeft === undefined) {
@@ -56,7 +67,7 @@ const Loading = {
 
       if (downloaded === 100) {
         NwjsApi.mainWindow.setProgressBar(0)
-        $('#streaminfo .connection').hide()
+        connection.hide()
         return
       }
 
@@ -66,18 +77,19 @@ const Loading = {
       const size = Misc.fileSize(Streamer.streaminfo.file_size)
 
       NwjsApi.mainWindow.setProgressBar(downloaded / 100)
-      $('#streaminfo .status span').text(i18n.__('%s%% of %s', downloaded, size))
-      $('#streaminfo .remaining span').text(time)
-      $('#streaminfo .peers span').text(Streamer.streaminfo.stats.total_peers)
-      $('#streaminfo .download span').text(dspeed + '/s')
-      $('#streaminfo .upload span').text(uspeed + '/s')
+      status.text(i18n.__('%s%% of %s', downloaded, size))
+      remaining.text(time)
+      peers.text(Streamer.streaminfo.stats.total_peers)
+      download.text(dspeed + '/s')
+      upload.text(uspeed + '/s')
     }, 1000)
 
     const startPlayer = () => {
       if (!Streamer.streaminfo.torrent.metadata) return setTimeout(startPlayer, 200)
 
+      const epTitle = $('#details-metadata .ep-title').text()
       Player.play(url, {
-        title: $('#details-metadata .title').text() + ($('#details-metadata .ep-title').text() ? ' - ' + $('#details-metadata .ep-title').text() : '')
+        title: $('#details-metadata .title').text() + (epTitle ? ' - ' + epTitle : '')
       }, Details.model)
     }
 

@@ -34,11 +34,13 @@ const Details = {
     Details.from = from
     Details.fromScroll = window.scrollY
 
+    const details = $('#details')
+    const playing = $('#playing')
     if ((d.id === Details.previous.id) && Player.mpv.isRunning()) {
       console.info('Returning to previous details window')
-      $('#details').html(Details.previous.html).show()
+      details.html(Details.previous.html).show()
       $(`#${Details.from}`).hide()
-      $('#playing').hide()
+      playing.hide()
 
       if (Player.mpv.isRunning() || Streamer.client) {
         $('#details-sources').hide()
@@ -54,14 +56,14 @@ const Details = {
           html: undefined
         }
       }
-      $('#details').html(Details.default)
+      details.html(Details.default)
       Boot.setupRightClicks('#query')
       Details.model = d.data
-      $('#playing').hide()
+      playing.hide()
     }
 
-    $('#details').find('.id').text(d.id)
-    $('#details').find('.data').text(JSON.stringify(d.data))
+    details.find('.id').text(d.id)
+    details.find('.data').text(JSON.stringify(d.data))
 
     try {
       const img = $(`#${d.id} .fanart`).css('background-image')
@@ -143,15 +145,16 @@ const Details = {
         .replace(/\s+/g, ' ')
         .toLowerCase()
 
-      $('#query').val(keywords)
-      $('#query').on('keypress', (e) => {
+      const query = $('#query')
+      query.val(keywords)
+      query.on('keypress', (e) => {
         if (e.which === 13) $('#details-sources .query .search').click()
       })
       $('#details-sources .query .search').click()
       $('#details-sources .query').show()
     }
 
-    $('#details').show()
+    details.show()
     $(`#${Details.from}`).hide()
   },
 
@@ -366,22 +369,25 @@ const Details = {
   },
 
   loadRemote: (magnet) => {
-    $('#details-spinner').show()
-    $('#details-sources').hide()
+    const spinner = $('#details-spinner')
+    const sources = $('#details-sources')
+    const loading = $('#details-loading')
+    spinner.show()
+    sources.hide()
 
     Details.closeRemote().then(() => {
       return Streamer.start(magnet).then(url => {
         Loading.remote(url)
-        $('#details-loading').show()
-        $('#details-sources').hide()
-        $('#details-spinner').hide()
+        loading.show()
+        sources.hide()
+        spinner.hide()
         Details.handleCast()
       })
     }).catch((err) => {
       console.error(err)
       Notify.snack(err.message)
-      $('#details-spinner').hide()
-      $('#details-sources').show()
+      spinner.hide()
+      sources.show()
     })
   },
 
@@ -411,13 +417,16 @@ const Details = {
 
   loadNext: (fromDetails) => {
     const $nextEpisode = $(`#collection #${Details.model.show.ids.slug}`)
+    const sources = $('#details-sources')
+    const loading = $('#details-loading')
+    const spinner = $('#details-spinner')
 
     if (!$nextEpisode.length) {
       if (fromDetails) {
         requestIdleCallback(() => {
-          $('#details-sources').show()
-          $('#details-loading').hide()
-          $('#details-spinner').hide()
+          sources.show()
+          loading.hide()
+          spinner.hide()
         })
       } else {
         Details.closeDetails()
@@ -428,9 +437,9 @@ const Details = {
     const data = JSON.parse($nextEpisode.find('.data').text())
     console.info('Next episode is ready', data)
 
-    $('#details-sources').hide()
-    $('#details-loading').hide()
-    $('#details-spinner').hide()
+    sources.hide()
+    loading.hide()
+    spinner.hide()
     $('#details-next').show()
 
     $('#details-next .content .next-title span').text(`S${Misc.pad(data.next_episode.season)}E${Misc.pad(data.next_episode.number)}` + (data.next_episode.title ? ` - ${data.next_episode.title}` : ''))
@@ -459,13 +468,16 @@ const Details = {
 
       if (next) {
         const $nextEpisode = $(`#locals #${Misc.slugify(next)}`)
+        const sources = $('#details-sources')
+        const loading = $('#details-loading')
+        const spinner = $('#details-spinner')
 
         if (!$nextEpisode.length) {
           if (fromDetails) {
             requestIdleCallback(() => {
-              $('#details-sources').show()
-              $('#details-loading').hide()
-              $('#details-spinner').hide()
+              sources.show()
+              loading.hide()
+              spinner.hide()
             })
           } else {
             Details.closeDetails()
@@ -478,9 +490,9 @@ const Details = {
 
         $('#details-next .content .next-title span').text(`S${Misc.pad(data.metadata.episode.season)}E${Misc.pad(data.metadata.episode.number)}` + (data.metadata.episode.title ? ` - ${data.metadata.episode.title}` : ''))
         requestIdleCallback(() => {
-          $('#details-sources').hide()
-          $('#details-loading').hide()
-          $('#details-spinner').hide()
+          sources.hide()
+          loading.hide()
+          spinner.hide()
           $('#details-next').show()
         })
 
@@ -494,7 +506,9 @@ const Details = {
 
   rate: (slug) => {
     const $this = $('#details .rating')
-    $('.popover').remove()
+    const popover = $('.popover')
+    const popoverTitle = $('.popover-title')
+    popover.remove()
 
     if (!$this.attr('initialized')) {
       const isRated = $('#details .corner-rating span').eq(0).text()
@@ -518,12 +532,12 @@ const Details = {
         requestIdleCallback(() => {
           document.getElementsByClassName('popover-content')[0].innerHTML = '<div class="rating-hearts">' + content + '</div>'
 
-          $('.popover').find('label').off('mouseover').on('mouseover', function () {
+          popover.find('label').off('mouseover').on('mouseover', function () {
             const t = $('#' + $(this).attr('for'))
             const e = t.val()
-            $('.popover-title').html(isRated === e ? i18n.__('Unrate this') : `<b>${e}</b> &mdash; ${i18n.__(ratings[e - 1])}`)
+            popoverTitle.html(isRated === e ? i18n.__('Unrate this') : `<b>${e}</b> &mdash; ${i18n.__(ratings[e - 1])}`)
           }).off('mouseleave').on('mouseleave', () => {
-            $('.popover-title').text($this.data('original-title'))
+            popoverTitle.text($this.data('original-title'))
           }).off('click').on('click', function (e) {
             e.preventDefault()
 
@@ -647,18 +661,24 @@ const Details = {
   },
 
   keepWatchingOn: (peer) => {
+    const message = $('#keepWatching .message')
+    const logo = $('#keepWatching .casting .logo')
+    const casting = $('#keepWatching .casting')
+    const selector = $('#keepWatching .selector')
+    const ip = $('#keepWatching .ip')
+
     if (!peer.cast_allowed) {
-      $('#keepWatching .message').text(i18n.__('%s has disabled %s', peer.name, i18n.__('Direct playback sharing'))).css('color', '#933')
-      $('#keepWatching .casting .logo').removeClass('fa-feed').addClass('fa-warning')
-      $('#keepWatching .casting').show()
-      $('#keepWatching .selector').hide()
+      message.text(i18n.__('%s has disabled %s', peer.name, i18n.__('Direct playback sharing'))).css('color', '#933')
+      logo.removeClass('fa-feed').addClass('fa-warning')
+      casting.show()
+      selector.hide()
       return
     }
 
-    $('#keepWatching .message').text(i18n.__('Currently casting to %s', peer.name))
-    $('#keepWatching .ip').text(peer.ip)
-    $('#keepWatching .casting').show()
-    $('#keepWatching .selector').hide()
+    message.text(i18n.__('Currently casting to %s', peer.name))
+    ip.text(peer.ip)
+    casting.show()
+    selector.hide()
 
     Player.mpv.getProperty('percent-pos').then(position => {
       const data = {
@@ -685,18 +705,24 @@ const Details = {
   },
 
   keepWatchingDlna: (player) => {
+    const message = $('#keepWatching .message')
+    const logo = $('#keepWatching .casting .logo')
+    const casting = $('#keepWatching .casting')
+    const selector = $('#keepWatching .selector')
+    const ip = $('#keepWatching .ip')
+
     if (Details.from === 'locals') {
-      $('#keepWatching .message').text(i18n.__('DLNA casting is not allowed on local files')).css('color', '#933')
-      $('#keepWatching .casting .logo').removeClass('fa-feed').addClass('fa-warning')
-      $('#keepWatching .casting').show()
-      $('#keepWatching .selector').hide()
+      message.text(i18n.__('DLNA casting is not allowed on local files')).css('color', '#933')
+      logo.removeClass('fa-feed').addClass('fa-warning')
+      casting.show()
+      selector.hide()
       return
     }
 
-    $('#keepWatching .message').text(i18n.__('Currently casting to %s', player.name))
-    $('#keepWatching .ip').text(player.ip)
-    $('#keepWatching .casting').show()
-    $('#keepWatching .selector').hide()
+    message.text(i18n.__('Currently casting to %s', player.name))
+    ip.text(player.ip)
+    casting.show()
+    selector.hide()
 
     const title = $('#details-metadata .titles').text().replace(/\W+/g, ' ')
     const url = Streamer.streaminfo.url.replace('127.0.0.1', DB.sync.get('localip'))
@@ -715,7 +741,8 @@ const Details = {
     Player.mpv.pause()
 
     // clear popup
-    $('#keepWatching .selector .list').html('')
+    const list = $('#keepWatching .selector .list')
+    list.html('')
     $('#keepWatching .casting .logo').removeClass('fa-warning').addClass('fa-feed')
     $('#keepWatching .casting').hide()
     $('#keepWatching .selector').show()
@@ -727,7 +754,7 @@ const Details = {
                 `<span class="ip">${Network.peers[i].ip}</span>` +
                 `${Network.peers[i].cast_allowed ? '' : '<span class="castingdisallowed">(' + i18n.__('casting disabled') + ')</span>'}` +
             '</div>'
-      $('#keepWatching .selector .list').append(item)
+      list.append(item)
     }
 
     // add dlna
@@ -736,7 +763,7 @@ const Details = {
                 `<span class="name">${Cast.players[i].name}</span>` +
                 `<span class="ip">${Cast.players[i].url}</span>` +
               '</div>'
-      $('#keepWatching .selector .list').append(item)
+      list.append(item)
     }
     $('#keepWatching').show()
   },
@@ -759,19 +786,21 @@ const Details = {
 
   openFileSelector: (files) => {
     return new Promise((resolve, reject) => {
-      $('#fileSelector .selector .list').html('')
+      const list = $('#fileSelector .selector .list')
+      const fileSelector = $('#fileSelector')
+      list.html('')
 
       for (const i in files) {
         const item = `<div class="item" id="${files[i].index}">` +
                     `<span class="name">${files[i].name}</span>` +
                 '</div>'
-        $('#fileSelector .selector .list').append(item)
+        list.append(item)
         $(`#${files[i].index}`).on('click', () => {
           resolve(files[i].index)
-          $('#fileSelector').hide()
+          fileSelector.hide()
         })
       }
-      $('#fileSelector').show()
+      fileSelector.show()
     })
   },
   closeFileSelector: () => {
@@ -820,6 +849,7 @@ const Details = {
     const item = Details.from === 'locals' ? Details.model.metadata : JSON.parse($(`#${model.ids.slug}`).find('.data').text())
 
     const ratings = ['Weak Sauce :(', 'Terrible', 'Bad', 'Poor', 'Meh', 'Fair', 'Good', 'Great', 'Superb', 'Totally Ninja!']
+    const rate = $('#autoRate .rate')
     for (let i = 0; i < ratings.length; i++) {
       const label = ratings[i]
       const rating = i + 1
@@ -828,7 +858,7 @@ const Details = {
           `<div class="rateLabel">${rating} - ${i18n.__(label)}</div>` +
         '</div>' +
       '</div>'
-      $('#autoRate .rate').append(html)
+      rate.append(html)
     }
 
     Details.autoRateCache = {
@@ -839,13 +869,15 @@ const Details = {
     $('#details #autoRate').show()
   },
   autoRateSet: (num) => {
-    if ($('#autoRate .rating .s' + num).parent().hasClass('fixed')) {
-      $('#autoRate .rating').removeClass('fixed')
+    const sNum = $('#autoRate .rating .s' + num)
+    const rating = $('#autoRate .rating')
+    if (sNum.parent().hasClass('fixed')) {
+      rating.removeClass('fixed')
       Details.autoRateReset()
     } else {
-      $('#autoRate .rating').removeClass('fixed')
+      rating.removeClass('fixed')
       Details.autoRateHover(num)
-      $('#autoRate .rating .s' + num).parent().addClass('fixed')
+      sNum.parent().addClass('fixed')
     }
   },
   autoRateHover: (num) => {

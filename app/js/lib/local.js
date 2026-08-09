@@ -80,13 +80,14 @@ const Local = {
   },
 
   setSettingsPaths: (paths = []) => {
-    $('#settings .locals .option .paths').html('')
+    const elm = $('#settings .locals .option .paths')
+    elm.html('')
 
     let items = String()
     for (const p of paths) {
       items += `<li onClick="Local.setSettingsActive(this)">${p}</li>`
     }
-    $('#settings .locals .option .paths').append(items)
+    elm.append(items)
   },
 
   setSettingsActive: (item) => {

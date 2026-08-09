@@ -84,20 +84,21 @@ const Localization = {
   // STARTUP: build dropdown menu for changing app localization
   setupDropdown: () => {
     // build dropdown
+    const appLanguage = $('#app-language')
     for (const i in Localization.availableLocales) {
       // insert element in dropdown
       const lang = Localization.availableLocales[i]
       const native = Localization.nativeNames[lang]
-      $('#app-language').append('<option value="' + lang + '">' + native + '</option>')
+      appLanguage.append('<option value="' + lang + '">' + native + '</option>')
 
       // select if active
       if (lang === i18n.getLocale()) {
-        $('#app-language').val(lang)
+        appLanguage.val(lang)
       }
     }
 
     // on dropdown click, change lang
-    $('#app-language').on('change', (e) => {
+    appLanguage.on('change', (e) => {
       // store new lang
       DB.sync.store(e.target.value, 'locale')
       // reload to use new lang

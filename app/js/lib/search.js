@@ -11,7 +11,8 @@ const Search = {
     const type = (data.show && 'show') || (data.movie && 'movie')
     const imdbid = data[type].ids.imdb
 
-    $('#details-sources .query .search').addClass('fa-spin fa-circle-o-notch').removeClass('fa-search')
+    const elm = $('#details-sources .query .search')
+    elm.addClass('fa-spin fa-circle-o-notch').removeClass('fa-search')
 
     Search.running = query
     Search.online(query, imdbid, type).then(results => {
@@ -21,7 +22,7 @@ const Search = {
       
       Search.addRemote(results)
 
-      $('#details-sources .query .search').addClass('fa-search').removeClass('fa-spin fa-circle-o-notch')
+      elm.addClass('fa-search').removeClass('fa-spin fa-circle-o-notch')
 
       // if there are no results
       if (!document.querySelectorAll('.sources > div').length) {
@@ -29,7 +30,7 @@ const Search = {
         $('#details-sources .sources .noresult').show()
       }
     }).catch(err => {
-      $('#details-sources .query .search').addClass('fa-search').removeClass('fa-spin fa-circle-o-notch')
+      elm.addClass('fa-search').removeClass('fa-spin fa-circle-o-notch')
       console.error('Search.query', err)
     })
   },
@@ -276,6 +277,7 @@ const Search = {
   addRemote: (results = []) => {
     $('#details-sources .sources .item.remote').not('.pinned').remove()
 
+    const sources = $('#details-sources .sources')
     for (const data of results) {
       try {
         const id = data.magnet.match(/\b([A-F\d]+)\b/i)[0]
@@ -288,7 +290,7 @@ const Search = {
                     `<div class="fa fa-bolt ${Search.matchScore(data.score)}" title="${i18n.__('Seeds: %s', data.seeds)}, ${i18n.__('Peers: %s', data.peers)}"></div>` +
                   '</div>'
 
-        $('#details-sources .sources').append(item)
+        sources.append(item)
         $(`#${id} .fa-magnet`).on('click', (e) => {
           e && e.stopPropagation()
           Misc.openExternal(data.magnet)
@@ -313,6 +315,7 @@ const Search = {
     }
   },
   addPinned: (results) => {
+    const sources = $('#details-sources .sources')
     for (const item of results) {
       const data = item.data
       try {
@@ -326,7 +329,7 @@ const Search = {
                       `<div class="fa fa-bolt ${Search.matchScore(data.score)}" title="${i18n.__('Seeds: %s', data.seeds)}, ${i18n.__('Peers: %s', data.peers)}"></div>` +
                   '</div>'
 
-        $('#details-sources .sources').append(item)
+        sources.append(item)
         $(`#${id} .fa-magnet`).on('click', (e) => {
           e && e.stopPropagation()
           Misc.openExternal(data.magnet)

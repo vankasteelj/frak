@@ -216,8 +216,9 @@ const NwjsApi = {
           label: copyLabel,
           click: () => {
             // on readonly fields, execCommand doesn't work
-            if ($('#' + field).attr('readonly') && getSelection($('#' + field)[0]) === null) {
-              NwjsApi.clipboard.set($('#' + field).val())
+            const elm = $('#' + field)
+            if (elm.attr('readonly') && getSelection(elm[0]) === null) {
+              NwjsApi.clipboard.set(elm.val())
             } else {
               document.execCommand('copy')
             }
