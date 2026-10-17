@@ -286,103 +286,13 @@ const Trakt = {
 
     let progress = (Player.config.states && Player.config.states['percent-pos']) || 0
     progress = parseFloat(progress.toFixed(2))
-
-    let model, type, local
-
-    if (Player.config.model.metadata) {
-      // local
-      local = true
-      if (Player.config.model.metadata.movie) {
-        // local movie
-        model = Player.config.model.metadata.movie
-        type = 'movie'
-      } else {
-        // local episode
-        model = Player.config.model.metadata.episode
-        type = 'episode'
-      }
-    } else {
-      // collection
-      if (Player.config.model.movie) {
-        // collection movie
-        model = Player.config.model.movie
-        type = 'movie'
-      } else {
-        // collection episode
-        model = Player.config.model.next_episode
-        type = 'episode'
-      }
-    }
-
-    new Promise(resolve => {
-      if (type === 'episode' && !model.ids) { // this is s01e01 from Discover
-        console.log('Trakt - scrobble needs episode.ids: fetching')
-        return Trakt.client.episodes.summary({ id: Player.config.model.show.ids.slug, season: Player.config.model.next_episode.season, episode: Player.config.model.next_episode.number }).then(res => {
-          Player.config.model.next_episode = res
-          model = res
-          return resolve()
-        })
-      } else {
-        return resolve()
-      }
-    }).then(() => {
-      const post = {
-        progress: progress
-      }
-      const item = {
-        ids: model.ids
-      }
-
-      post[type] = item
-
-      console.info('Trakt - scrobble %s (%s%)', action, progress)
-      Trakt.client.scrobble[action](post).catch(console.error)
    
-      // it's from a custom list and needs to be removed
-      if (progress > 80 && action === 'stop') {
-        Details.buttonAsWatched()
-        Details.autoRate()
-        if (Player.config.model.origin && Player.config.model.origin !== 'watchlist') {
-          let item = Player.config.model
-          return Misc.sleep(1000).then(() => {
-            Trakt.removeFromWatchlist(item)
-            return
-          })
-        }
-      }
-    }).then(() => {
-      if (progress > 80 && action === 'stop') {
-        if (local) {
-          // local item
-          if (type === 'episode') {
-            Details.loadLocalNext()
-          }
-        } else {
-          // trakt list
-          if (type === 'episode') {
-            requestIdleCallback(() => {
-              $('#details-sources').hide()
-              $('#details-loading').hide()
-              $('#details-spinner').show()
-            })
-
-            // display spinner on list
-            $(`#collection #${Details.model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>')
-
-            Misc.sleep(1500).then(() => {
-              return Trakt.reload(true, type, Details.model.show.ids.slug)
-            }).then(() => {
-              Misc.events.on('loadNext', () => {
-                Details.loadNext(true)
-                Misc.events.removeAllListeners()
-              })
-            })
-          } else {
-            $(`#collection #${Details.model.movie.ids.slug}`).hide()
-          }
-        }
-      }
-    })
+    if (progress > 80 && action === 'stop') {
+      Details.markAsWatched()
+      $('#details-sources').hide()
+      $('#details-loading').hide()
+      $('#details-spinner').show()
+    }
   },
   getGenres: () => {
     const cached = DB.sync.get('traktgenres')

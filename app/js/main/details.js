@@ -575,6 +575,15 @@ const Details = {
       type = 'episodes'
       model = base.episode || base.next_episode
     }
+  
+    // trakt list
+    if (type === 'episodes') {
+      requestIdleCallback(() => {
+        $('#details-sources').hide()
+        $('#details-loading').hide()
+        $('#details-spinner').show()
+      })
+    }
 
     const post = {}
     const item = {
@@ -610,12 +619,6 @@ const Details = {
       return Misc.sleep(sleep ? 0 : 1000).then(() => Trakt.client.sync.history.add(post))
     }).finally(() => {
       if (type === 'episodes') {
-        requestIdleCallback(() => {
-          $('#details-sources').hide()
-          $('#details-loading').hide()
-          $('#details-spinner').show()
-        })
-
         // display spinner on list
         model.show && $(`#collection #${model.show.ids.slug}`).append('<div class="item-spinner"><div class="fa fa-spin fa-refresh"></div>')
 

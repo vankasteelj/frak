@@ -27,7 +27,6 @@ const Player = {
 
       // trakt
       Player.config.model = model
-      Trakt.scrobble('start')
     }).catch(error => {
       console.error('MPV error', error)
       Notify.snack('MPV error: ' + error.verbose || error.message)
@@ -70,16 +69,11 @@ const Player = {
 
       if (states.property === 'pause') {
         if (states.value) {
-          Trakt.scrobble('pause')
           $('#streaminfo .control .play').addClass('fa-play').removeClass('fa-pause')
         } else {
-          Trakt.scrobble('start')
           $('#streaminfo .control .play').addClass('fa-pause').removeClass('fa-play')
         }
       }
-    })
-    Player.mpv.on('seek', timepositions => {
-      if (!Player.config.states.pause) Trakt.scrobble('start')
     })
     Player.mpv.on('stopped', () => {
       if (!Player.config.model) return
