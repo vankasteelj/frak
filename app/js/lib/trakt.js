@@ -142,8 +142,8 @@ const Trakt = {
     }
 
     const data = {
-      rating: score,
-      ids: model.ids
+      rating: parseInt(score),
+      item: model
     }
     const post = {}
     post[type + 's'] = [data]
