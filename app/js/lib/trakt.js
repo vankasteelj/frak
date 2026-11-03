@@ -141,20 +141,18 @@ const Trakt = {
       }
     }
 
-    const data = {
-      rating: parseInt(score),
-      item: model
-    }
+    model.rating = parseInt(score)
     const post = {}
-    post[type + 's'] = [data]
+    post[type + 's'] = [model]
 
-    console.info('Trakt - %s rating for %s', method, model.ids.slug)
+    console.info('Trakt - %s rating for %s', method, model.ids.slug, post)
 
     return Promise.all([
       DB.trakt.get('traktratings'),
       Trakt.client.sync.ratings[method](post)
     ]).then(([ratings, response]) => {
       // remove
+      console.log(response)
       ratings = ratings.filter(i => {
         if (!i[type]) {
           return true
