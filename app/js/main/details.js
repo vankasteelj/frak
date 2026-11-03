@@ -532,10 +532,10 @@ const Details = {
         requestIdleCallback(() => {
           document.getElementsByClassName('popover-content')[0].innerHTML = '<div class="rating-hearts">' + content + '</div>'
 
-          popover.find('label').off('mouseover').on('mouseover', function () {
+          $('.popover').find('label').off('mouseover').on('mouseover', function () {
             const t = $('#' + $(this).attr('for'))
             const e = t.val()
-            popoverTitle.html(isRated === e ? i18n.__('Unrate this') : `<b>${e}</b> &mdash; ${i18n.__(ratings[e - 1])}`)
+            $('.popover-title').html(isRated === e ? i18n.__('Unrate this') : `<b>${e}</b> &mdash; ${i18n.__(ratings[e - 1])}`)
           }).off('mouseleave').on('mouseleave', () => {
             popoverTitle.text($this.data('original-title'))
           }).off('click').on('click', function (e) {
